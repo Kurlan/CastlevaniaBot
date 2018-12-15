@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 
+import castlevaniabot.level.*;
 import castlevaniabot.substage.*;
 import nintaco.api.*;
 import static java.lang.Math.*;
@@ -263,10 +264,10 @@ public class CastlevaniaBot {
   public int objsCount;
   
   final MovingPlatform[] movingPlatforms = new MovingPlatform[16];
-  int movingPlatformsCount;
+  public int movingPlatformsCount;
   
   final BoneTowerSegment[] boneTowerSegments = new BoneTowerSegment[16];
-  int boneTowerSegmentsCount;
+  public int boneTowerSegmentsCount;
   
   Bone[] bones0 = new Bone[64];
   Bone[] bones1 = new Bone[64];
@@ -317,7 +318,7 @@ public class CastlevaniaBot {
   public boolean weaponing;
   public boolean canJump;
   int mode;
-  int stageNumber;
+  public int stageNumber;
   int substageNumber;
   public int playerX;
   public int playerY;
@@ -595,7 +596,7 @@ public class CastlevaniaBot {
     _substage.readGameObjects();
   }
   
-  void addBoneTowerSegment(final int x, final int y) {
+  public void addBoneTowerSegment(final int x, final int y) {
     for(int i = boneTowerSegmentsCount - 1; i >= 0; --i) {
       final BoneTowerSegment s = boneTowerSegments[i];
       if (x == s.x) {
@@ -612,21 +613,21 @@ public class CastlevaniaBot {
     s.y = y;
   }
   
-  void buildBoneTowers() {
+  public void buildBoneTowers() {
     for(int i = boneTowerSegmentsCount - 1; i >= 0; --i) {
       final BoneTowerSegment s = boneTowerSegments[i];
       addGameObject(GameObjectType.BONE_TOWER, s.x, s.y, false, true);
     }
   }
   
-  void addSickle(final int x, final int y) {    
+  public void addSickle(final int x, final int y) {
     final Sickle sickle = sickles1[sickleCount1++];
     sickle.x = x;
     sickle.y = y;
     sickle.time = 4;
   }
   
-  void buildSickles() {
+  public void buildSickles() {
     
     for(int i = sickleCount1 - 1; i >= 0; --i) {
       final Sickle s1 = sickles1[i];
@@ -744,7 +745,7 @@ public class CastlevaniaBot {
     return null;
   }  
   
-  void addRedBat(final int x, final int y) {
+  public void addRedBat(final int x, final int y) {
     
     final RedBat bat = redBats1[redBatsCount1++];
     
@@ -755,7 +756,7 @@ public class CastlevaniaBot {
     bat.left = true;
   }  
   
-  void buildRedBats() {
+  public void buildRedBats() {
     
     for(int i = redBatsCount1 - 1; i >= 0; --i) {
       final RedBat b1 = redBats1[i];
@@ -828,7 +829,7 @@ public class CastlevaniaBot {
     return null;
   }
   
-  void addRedBones(final int x, final int y) {
+  public void addRedBones(final int x, final int y) {
     
     final RedBones bones = redBones1[redBonesCount1++];
     
@@ -837,7 +838,7 @@ public class CastlevaniaBot {
     bones.time = abs(playerX - bones.x) > 96 ? RED_BONES_THRESHOLD : 0;
   }
   
-  void buildRedBones() {
+  public void buildRedBones() {
     
     for(int i = redBonesCount1 - 1; i >= 0; --i) {
       final RedBones b1 = redBones1[i];
@@ -860,7 +861,7 @@ public class CastlevaniaBot {
     redBonesCount1 = 0;
   }
   
-  void addBone(final GameObjectType type, int x, int y) {
+  public void addBone(final GameObjectType type, int x, int y) {
     
     final Bone bone = bones1[boneCount1++];
     
@@ -876,7 +877,7 @@ public class CastlevaniaBot {
     bone.y = y;
   }
   
-  void buildBones() {
+  public void buildBones() {
     for(int i = boneCount1 - 1; i >= 0; --i) {
       final Bone b1 = bones1[i];
       b1.vx = b1.vy = 0;
@@ -912,7 +913,7 @@ public class CastlevaniaBot {
     return null;
   }
   
-  void addMovingPlatformSegment(final int x, final int y) {
+  public void addMovingPlatformSegment(final int x, final int y) {
     for(int i = movingPlatformsCount - 1; i >= 0; --i) {
       final MovingPlatform m = movingPlatforms[i];
       if (m.y == y && abs(m.x1 - x) <= 24) {
@@ -927,7 +928,7 @@ public class CastlevaniaBot {
     m.x2 = x;
   }
   
-  void buildMovingPlatforms() {
+  public void buildMovingPlatforms() {
     for(int i = movingPlatformsCount - 1; i >= 0; --i) {
       final MovingPlatform m = movingPlatforms[i];
       m.x2 += 7;
@@ -954,14 +955,14 @@ public class CastlevaniaBot {
     return null;
   }
 
-  void addDraculaHead(final int x, final int y, final boolean left) {
+  public void addDraculaHead(final int x, final int y, final boolean left) {
     draculaHeadX = x;
     draculaHeadY = y;
     draculaHeadLeft = left;
     draculaHeadTime = 3;    
   }  
   
-  void buildDraculaHead() {
+  public void buildDraculaHead() {
     if (draculaHeadTime > 0) {
       --draculaHeadTime;
       addGameObject(GameObjectType.DRACULA_HEAD, draculaHeadX, draculaHeadY, 
@@ -969,13 +970,13 @@ public class CastlevaniaBot {
     }
   }
   
-  void addCrystalBall(final int x, final int y) {
+  public void addCrystalBall(final int x, final int y) {
     crystalBallX = x;
     crystalBallY = y;
     crystalBallTime = 3;    
   }  
   
-  void buildCrystalBall() {
+  public void buildCrystalBall() {
     if (crystalBallTime > 0) {
       --crystalBallTime;
       addGameObject(GameObjectType.CRYSTAL_BALL, crystalBallX, crystalBallY, 
@@ -1086,8 +1087,8 @@ public class CastlevaniaBot {
     ++objsCount;    
   }
   
-  void addGameObject(final GameObjectType type, int x, int y, 
-      final boolean left, final boolean active) {
+  public void addGameObject(final GameObjectType type, int x, int y,
+                            final boolean left, final boolean active) {
     
     final MapRoutes mapRoutes = substage.getMapRoutes();
     final MapElement[][] map = mapRoutes.map;
