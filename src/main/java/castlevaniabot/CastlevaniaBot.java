@@ -1,30 +1,168 @@
 package castlevaniabot;
 
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.*;
+import castlevaniabot.level.Level;
+import castlevaniabot.level.Level1;
+import castlevaniabot.level.Level2;
+import castlevaniabot.level.Level3;
+import castlevaniabot.level.Level4;
+import castlevaniabot.level.Level5;
+import castlevaniabot.level.Level6;
+import castlevaniabot.strategy.AxeKnightStrategy;
+import castlevaniabot.strategy.AxeStrategy;
+import castlevaniabot.strategy.BatDualPlatformsStrategy;
+import castlevaniabot.strategy.BatMovingPlatformStrategy;
+import castlevaniabot.strategy.BlackBatStrategy;
+import castlevaniabot.strategy.BlockStrategy;
+import castlevaniabot.strategy.BoneDragonStrategy;
+import castlevaniabot.strategy.BoneStrategy;
+import castlevaniabot.strategy.BoneTowerStrategy;
+import castlevaniabot.strategy.BoomerangDeathStrategy;
+import castlevaniabot.strategy.CandlesStrategy;
+import castlevaniabot.strategy.CookieMonsterStrategy;
+import castlevaniabot.strategy.CrusherStrategy;
+import castlevaniabot.strategy.DeathHallHolyWaterStrategy;
+import castlevaniabot.strategy.DraculaStrategy;
+import castlevaniabot.strategy.EagleStrategy;
+import castlevaniabot.strategy.FireColumnStrategy;
+import castlevaniabot.strategy.FireballStrategy;
+import castlevaniabot.strategy.FishmanStrategy;
+import castlevaniabot.strategy.FleamanStrategy;
+import castlevaniabot.strategy.FrankensteinStrategy;
+import castlevaniabot.strategy.GetCrystalBallStrategy;
+import castlevaniabot.strategy.GetItemStrategy;
+import castlevaniabot.strategy.GhostStrategy;
+import castlevaniabot.strategy.GhoulStrategy;
+import castlevaniabot.strategy.GiantBatStrategy;
+import castlevaniabot.strategy.GotCrystalBallStrategy;
+import castlevaniabot.strategy.HolyWaterDeathStrategy;
+import castlevaniabot.strategy.JumpMovingPlatformStrategy;
+import castlevaniabot.strategy.MedusaHeadStrategy;
+import castlevaniabot.strategy.MedusaHeadsPitsStrategy;
+import castlevaniabot.strategy.MedusaHeadsWalkStrategy;
+import castlevaniabot.strategy.MedusaStrategy;
+import castlevaniabot.strategy.MummiesStrategy;
+import castlevaniabot.strategy.NoJumpMovingPlatformStrategy;
+import castlevaniabot.strategy.PantherStrategy;
+import castlevaniabot.strategy.PhantomBatStrategy;
+import castlevaniabot.strategy.RavenStrategy;
+import castlevaniabot.strategy.RedBatDamageBoostStrategy;
+import castlevaniabot.strategy.RedBatStrategy;
+import castlevaniabot.strategy.RedBonesStrategy;
+import castlevaniabot.strategy.RedSkeletonStrategy;
+import castlevaniabot.strategy.SickleStrategy;
+import castlevaniabot.strategy.SkeletonWallStrategy;
+import castlevaniabot.strategy.SnakeStrategy;
+import castlevaniabot.strategy.SpearKnightStrategy;
+import castlevaniabot.strategy.Strategy;
+import castlevaniabot.strategy.UseWeaponStrategy;
+import castlevaniabot.strategy.WaitStrategy;
+import castlevaniabot.strategy.WhipStrategy;
+import castlevaniabot.strategy.WhiteSkeletonStrategy;
+import castlevaniabot.substage.Substage;
+import castlevaniabot.substage.Substage0000;
+import castlevaniabot.substage.Substage0100;
+import castlevaniabot.substage.Substage0200;
+import castlevaniabot.substage.Substage0201;
+import castlevaniabot.substage.Substage0300;
+import castlevaniabot.substage.Substage0400;
+import castlevaniabot.substage.Substage0401;
+import castlevaniabot.substage.Substage0500;
+import castlevaniabot.substage.Substage0501;
+import castlevaniabot.substage.Substage0600;
+import castlevaniabot.substage.Substage0601;
+import castlevaniabot.substage.Substage0700;
+import castlevaniabot.substage.Substage0701;
+import castlevaniabot.substage.Substage0800;
+import castlevaniabot.substage.Substage0801;
+import castlevaniabot.substage.Substage0900;
+import castlevaniabot.substage.Substage1000;
+import castlevaniabot.substage.Substage1100;
+import castlevaniabot.substage.Substage1200;
+import castlevaniabot.substage.Substage1300;
+import castlevaniabot.substage.Substage1301;
+import castlevaniabot.substage.Substage1400;
+import castlevaniabot.substage.Substage1401;
+import castlevaniabot.substage.Substage1500;
+import castlevaniabot.substage.Substage1501;
+import castlevaniabot.substage.Substage1600;
+import castlevaniabot.substage.Substage1700;
+import castlevaniabot.substage.Substage1701;
+import castlevaniabot.substage.Substage1800;
+import castlevaniabot.substage.Substage1801;
+import nintaco.api.API;
+import nintaco.api.ApiSource;
+import nintaco.api.Colors;
 
-import castlevaniabot.level.*;
-import castlevaniabot.substage.*;
-import nintaco.api.*;
-import static java.lang.Math.*;
-import static nintaco.api.GamepadButtons.*;
-import static castlevaniabot.Addresses.*;
-import static castlevaniabot.GameObjectType.*;
-import static castlevaniabot.Operations.*;
-import static castlevaniabot.TileType.*;
-import static castlevaniabot.Weapon.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static castlevaniabot.Addresses.CAMERA_X;
+import static castlevaniabot.Addresses.HEARTS;
+import static castlevaniabot.Addresses.KNEELING;
+import static castlevaniabot.Addresses.MODE;
+import static castlevaniabot.Addresses.ON_STAIRS;
+import static castlevaniabot.Addresses.PAUSED;
+import static castlevaniabot.Addresses.PLAYER_FACING;
+import static castlevaniabot.Addresses.PLAYER_IMAGE;
+import static castlevaniabot.Addresses.PLAYER_X;
+import static castlevaniabot.Addresses.PLAYER_Y;
+import static castlevaniabot.Addresses.PLAYING;
+import static castlevaniabot.Addresses.SHOT;
+import static castlevaniabot.Addresses.STAGE;
+import static castlevaniabot.Addresses.SUBSTAGE;
+import static castlevaniabot.Addresses.WEAPON;
+import static castlevaniabot.Addresses.WEAPONING;
+import static castlevaniabot.Addresses.WHIP_LENGTH;
+import static castlevaniabot.GameObjectType.DESTINATION;
+import static castlevaniabot.Operations.GO_DOWN_STAIRS;
+import static castlevaniabot.Operations.GO_UP_STAIRS;
+import static castlevaniabot.Operations.WALK_CENTER_LEFT_JUMP;
+import static castlevaniabot.Operations.WALK_CENTER_RIGHT_JUMP;
+import static castlevaniabot.Operations.WALK_LEFT;
+import static castlevaniabot.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
+import static castlevaniabot.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.Operations.WALK_RIGHT;
+import static castlevaniabot.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
+import static castlevaniabot.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.TileType.BACK_PLATFORM;
+import static castlevaniabot.TileType.BACK_STAIRS;
+import static castlevaniabot.TileType.FORWARD_PLATFORM;
+import static castlevaniabot.TileType.FORWARD_STAIRS;
+import static castlevaniabot.TileType.isBack;
+import static castlevaniabot.TileType.isForward;
+import static castlevaniabot.TileType.isStairsPlatform;
+import static castlevaniabot.Weapon.HOLY_WATER;
+import static castlevaniabot.Weapon.NONE;
+import static java.lang.Math.abs;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static nintaco.api.GamepadButtons.A;
+import static nintaco.api.GamepadButtons.B;
+import static nintaco.api.GamepadButtons.Down;
+import static nintaco.api.GamepadButtons.Left;
+import static nintaco.api.GamepadButtons.Right;
+import static nintaco.api.GamepadButtons.Start;
+import static nintaco.api.GamepadButtons.Up;
 
 public class CastlevaniaBot {
   
   // Parabolic jump path
-  static final int[] ABSOLUTE_JUMP_YS = {
+  public static final int[] ABSOLUTE_JUMP_YS = {
       0,  5, 10, 13, 16, 19, 22, 25, 27, 29, 31, 32, 33, 34, 35, 35, 
                      36, 36, 36, 36, 36, 36, 36, 36, 36, 
      35, 35, 34, 33, 32, 31, 29, 27, 25, 22, 19, 16, 13, 10,  5,  0, };
   
   // Parabolic jump velocities 
-  static final int[] DELTA_JUMP_YS = new int[ABSOLUTE_JUMP_YS.length - 1];
+  public static final int[] DELTA_JUMP_YS = new int[ABSOLUTE_JUMP_YS.length - 1];
   static {
     for(int i = DELTA_JUMP_YS.length - 1; i >= 0; --i) {
       DELTA_JUMP_YS[i] = ABSOLUTE_JUMP_YS[i + 1] - ABSOLUTE_JUMP_YS[i];
@@ -49,7 +187,7 @@ public class CastlevaniaBot {
   }
   
   // For a given height, this is how long to delay whipping after a jump.
-  static final int[] JUMP_WHIP_DELAYS = new int[37];
+  public static final int[] JUMP_WHIP_DELAYS = new int[37];
   static {
     for(int i = 0; i <= 36; ++i) {
       int index = -1;
@@ -129,7 +267,7 @@ public class CastlevaniaBot {
   };
   
   private static final Whip[][] whips = {
-    { new Whip(24, -2, 16, 6), new Whip(24, 7, 16, 6) }, 
+    { new Whip(24, -2, 16, 6), new Whip(24, 7, 16, 6) },
     { new Whip(26, -2, 18, 8), new Whip(26, 7, 18, 8) },
     { new Whip(34, -2, 26, 8), new Whip(34, 7, 26, 8) },
   };
@@ -152,7 +290,7 @@ public class CastlevaniaBot {
   final Substage0000 SUBSTAGE_0000 = new Substage0000(this);
   final Substage0100 SUBSTAGE_0100 = new Substage0100(this);
   final Substage0200 SUBSTAGE_0200 = new Substage0200(this);
-  final Substage0201 SUBSTAGE_0201 = new Substage0201(this);
+  public final Substage0201 SUBSTAGE_0201 = new Substage0201(this);
   final Substage0300 SUBSTAGE_0300 = new Substage0300(this);
   final Substage0400 SUBSTAGE_0400 = new Substage0400(this);
   final Substage0401 SUBSTAGE_0401 = new Substage0401(this);
@@ -164,7 +302,7 @@ public class CastlevaniaBot {
   final Substage0701 SUBSTAGE_0701 = new Substage0701(this);
   final Substage0800 SUBSTAGE_0800 = new Substage0800(this);
   final Substage0801 SUBSTAGE_0801 = new Substage0801(this);
-  final Substage0900 SUBSTAGE_0900 = new Substage0900(this);
+  public final Substage0900 SUBSTAGE_0900 = new Substage0900(this);
   final Substage1000 SUBSTAGE_1000 = new Substage1000(this);
   final Substage1100 SUBSTAGE_1100 = new Substage1100(this);
   final Substage1200 SUBSTAGE_1200 = new Substage1200(this);
@@ -173,87 +311,87 @@ public class CastlevaniaBot {
   final Substage1400 SUBSTAGE_1400 = new Substage1400(this);
   final Substage1401 SUBSTAGE_1401 = new Substage1401(this);
   final Substage1500 SUBSTAGE_1500 = new Substage1500(this);
-  final Substage1501 SUBSTAGE_1501 = new Substage1501(this);
+  public final Substage1501 SUBSTAGE_1501 = new Substage1501(this);
   final Substage1600 SUBSTAGE_1600 = new Substage1600(this);
   final Substage1700 SUBSTAGE_1700 = new Substage1700(this);
   final Substage1701 SUBSTAGE_1701 = new Substage1701(this);
   final Substage1800 SUBSTAGE_1800 = new Substage1800(this);
   final Substage1801 SUBSTAGE_1801 = new Substage1801(this);
 
-  public final AxeStrategy                  AXE = new AxeStrategy(this);
-  public final AxeKnightStrategy            AXE_KNIGHT = new AxeKnightStrategy(this);
-  public final BatMovingPlatformStrategy    BAT_MOVING_PLATFORM
+  public final AxeStrategy AXE = new AxeStrategy(this);
+  public final AxeKnightStrategy AXE_KNIGHT = new AxeKnightStrategy(this);
+  public final BatMovingPlatformStrategy BAT_MOVING_PLATFORM
       = new BatMovingPlatformStrategy(this);
-  public final BatDualPlatformsStrategy     BAT_DUAL_PLATFORMS
+  public final BatDualPlatformsStrategy BAT_DUAL_PLATFORMS
       = new BatDualPlatformsStrategy(this);
-  public final BoneDragonStrategy           BONE_DRAGON = new BoneDragonStrategy(this);
-  public final BlackBatStrategy             BLACK_BAT = new BlackBatStrategy(this);
-  public final BlockStrategy                BLOCK = new BlockStrategy(this);
-  public final BoomerangDeathStrategy       BOOMERANG_DEATH
+  public final BoneDragonStrategy BONE_DRAGON = new BoneDragonStrategy(this);
+  public final BlackBatStrategy BLACK_BAT = new BlackBatStrategy(this);
+  public final BlockStrategy BLOCK = new BlockStrategy(this);
+  public final BoomerangDeathStrategy BOOMERANG_DEATH
       = new BoomerangDeathStrategy(this);
-  public final BoneStrategy                 BONE = new BoneStrategy(this);
-  public final BoneTowerStrategy            BONE_TOWER = new BoneTowerStrategy(this);
-  public final CandlesStrategy              CANDLES = new CandlesStrategy(this);
-  public final CookieMonsterStrategy        COOKIE_MONSTER
+  public final BoneStrategy BONE = new BoneStrategy(this);
+  public final BoneTowerStrategy BONE_TOWER = new BoneTowerStrategy(this);
+  public final CandlesStrategy CANDLES = new CandlesStrategy(this);
+  public final CookieMonsterStrategy COOKIE_MONSTER
       = new CookieMonsterStrategy(this);
-  public final CrusherStrategy              CRUSHER
+  public final CrusherStrategy CRUSHER
       = new CrusherStrategy(this);
-  public final DeathHallHolyWaterStrategy   DEATH_HALL_HOLY_WATER
+  public final DeathHallHolyWaterStrategy DEATH_HALL_HOLY_WATER
       = new DeathHallHolyWaterStrategy(this);
-  public final DraculaStrategy              DRACULA = new DraculaStrategy(this);
-  public final EagleStrategy                EAGLE = new EagleStrategy(this);
-  public final FireballStrategy             FIREBALL = new FireballStrategy(this);
-  public final FireColumnStrategy           FIRE_COLUMN = new FireColumnStrategy(this);
-  public final FishmanStrategy              FISHMAN = new FishmanStrategy(this);
-  public final FleamanStrategy              FLEAMAN = new FleamanStrategy(this);
-  public final FrankensteinStrategy         FRANKENSTEIN
+  public final DraculaStrategy DRACULA = new DraculaStrategy(this);
+  public final EagleStrategy EAGLE = new EagleStrategy(this);
+  public final FireballStrategy FIREBALL = new FireballStrategy(this);
+  public final FireColumnStrategy FIRE_COLUMN = new FireColumnStrategy(this);
+  public final FishmanStrategy FISHMAN = new FishmanStrategy(this);
+  public final FleamanStrategy FLEAMAN = new FleamanStrategy(this);
+  public final FrankensteinStrategy FRANKENSTEIN
       = new FrankensteinStrategy(this);
-  public final GetCrystalBallStrategy       GET_CRYSTAL_BALL
+  public final GetCrystalBallStrategy GET_CRYSTAL_BALL
       = new GetCrystalBallStrategy(this);
-  public final GetItemStrategy              GET_ITEM = new GetItemStrategy(this);
-  public final GhostStrategy                GHOST = new GhostStrategy(this);
-  public final GhoulStrategy                GHOUL = new GhoulStrategy(this);
-  public final GiantBatStrategy             GIANT_BAT = new GiantBatStrategy(this);
-  public final GotCrystalBallStrategy       GOT_CRYSTAL_BALL
+  public final GetItemStrategy GET_ITEM = new GetItemStrategy(this);
+  public final GhostStrategy GHOST = new GhostStrategy(this);
+  public final GhoulStrategy GHOUL = new GhoulStrategy(this);
+  public final GiantBatStrategy GIANT_BAT = new GiantBatStrategy(this);
+  public final GotCrystalBallStrategy GOT_CRYSTAL_BALL
       = new GotCrystalBallStrategy(this);
-  public final HolyWaterDeathStrategy       HOLY_WATER_DEATH
+  public final HolyWaterDeathStrategy HOLY_WATER_DEATH
       = new HolyWaterDeathStrategy(this);
-  public final JumpMovingPlatformStrategy   JUMP_MOVING_PLATFORM
+  public final JumpMovingPlatformStrategy JUMP_MOVING_PLATFORM
       = new JumpMovingPlatformStrategy(this);
-  public final MedusaStrategy               MEDUSA = new MedusaStrategy(this);
-  public final MedusaHeadStrategy           MEDUSA_HEAD = new MedusaHeadStrategy(this);
-  public final MedusaHeadsPitsStrategy      MEDUSA_HEADS_PITS
+  public final MedusaStrategy MEDUSA = new MedusaStrategy(this);
+  public final MedusaHeadStrategy MEDUSA_HEAD = new MedusaHeadStrategy(this);
+  public final MedusaHeadsPitsStrategy MEDUSA_HEADS_PITS
       = new MedusaHeadsPitsStrategy(this);
-  public final MedusaHeadsWalkStrategy      MEDUSA_HEADS_WALK
+  public final MedusaHeadsWalkStrategy MEDUSA_HEADS_WALK
       = new MedusaHeadsWalkStrategy(this);
-  public final MummiesStrategy              MUMMIES = new MummiesStrategy(this);
+  public final MummiesStrategy MUMMIES = new MummiesStrategy(this);
   public final NoJumpMovingPlatformStrategy NO_JUMP_MOVING_PLATFORM
       = new NoJumpMovingPlatformStrategy(this);
-  public final PantherStrategy              PANTHER = new PantherStrategy(this);
-  public final PhantomBatStrategy           PHANTOM_BAT = new PhantomBatStrategy(this);
-  public final RavenStrategy                RAVEN = new RavenStrategy(this);
-  public final RedBatDamageBoostStrategy    RED_BAT_DAMAGE_BOOST
+  public final PantherStrategy PANTHER = new PantherStrategy(this);
+  public final PhantomBatStrategy PHANTOM_BAT = new PhantomBatStrategy(this);
+  public final RavenStrategy RAVEN = new RavenStrategy(this);
+  public final RedBatDamageBoostStrategy RED_BAT_DAMAGE_BOOST
       = new RedBatDamageBoostStrategy(this);
-  public final RedBatStrategy               RED_BAT = new RedBatStrategy(this);
-  public final RedBonesStrategy             RED_BONES = new RedBonesStrategy(this);
-  public final RedSkeletonStrategy          RED_SKELETON
+  public final RedBatStrategy RED_BAT = new RedBatStrategy(this);
+  public final RedBonesStrategy RED_BONES = new RedBonesStrategy(this);
+  public final RedSkeletonStrategy RED_SKELETON
       = new RedSkeletonStrategy(this);
-  public final SickleStrategy               SICKLE = new SickleStrategy(this);
-  public final SkeletonWallStrategy         SKELETON_WALL
+  public final SickleStrategy SICKLE = new SickleStrategy(this);
+  public final SkeletonWallStrategy SKELETON_WALL
       = new SkeletonWallStrategy(this);
-  public final SnakeStrategy                SNAKE = new SnakeStrategy(this);
-  public final SpearKnightStrategy          SPEAR_KNIGHT
+  public final SnakeStrategy SNAKE = new SnakeStrategy(this);
+  public final SpearKnightStrategy SPEAR_KNIGHT
       = new SpearKnightStrategy(this);
-  public final UseWeaponStrategy            USE_WEAPON = new UseWeaponStrategy(this);
-  public final WaitStrategy                 WAIT = new WaitStrategy(this);
-  public final WhiteSkeletonStrategy        WHITE_SKELETON
+  public final UseWeaponStrategy USE_WEAPON = new UseWeaponStrategy(this);
+  public final WaitStrategy WAIT = new WaitStrategy(this);
+  public final WhiteSkeletonStrategy WHITE_SKELETON
       = new WhiteSkeletonStrategy(this);
-  public final WhipStrategy                 WHIP = new WhipStrategy(this);
+  public final WhipStrategy WHIP = new WhipStrategy(this);
   
   private final API api = ApiSource.getAPI();
-  
+
   Level level;
-  Substage substage;
+  public Substage substage;
   public Strategy strategy;
   public GameObject target;
   public GameObjectType targetType;
@@ -263,7 +401,7 @@ public class CastlevaniaBot {
   public final GameObject[] gameObjects = new GameObject[128];
   public int objsCount;
   
-  final MovingPlatform[] movingPlatforms = new MovingPlatform[16];
+  public final MovingPlatform[] movingPlatforms = new MovingPlatform[16];
   public int movingPlatformsCount;
   
   final BoneTowerSegment[] boneTowerSegments = new BoneTowerSegment[16];
@@ -274,7 +412,7 @@ public class CastlevaniaBot {
   public int boneCount0;
   public int boneCount1;
   
-  RedBones[] redBones0 = new RedBones[64];
+  public RedBones[] redBones0 = new RedBones[64];
   RedBones[] redBones1 = new RedBones[64];
   public int redBonesCount0;
   public int redBonesCount1;
@@ -307,11 +445,11 @@ public class CastlevaniaBot {
   
   boolean playing;
   public boolean onStairs;
-  boolean onPlatform;
+  public boolean onPlatform;
   boolean overHangingLeft;
   boolean overHangingRight;
   boolean atBottomOfStairs;
-  boolean atTopOfStairs;
+  public boolean atTopOfStairs;
   public boolean playerLeft;
   public boolean kneeling;
   boolean paused;
@@ -327,7 +465,7 @@ public class CastlevaniaBot {
   int cameraX;
   public int whipLength;
   public int hearts;
-  int shot;    
+  public int shot;
   int jumpDelay;
   int weaponDelay;
   int entryDelay;
@@ -728,7 +866,7 @@ public class CastlevaniaBot {
     medusaHeadsCount1 = 0;
   } 
   
-  MedusaHead getMedusaHead(final GameObject head) {
+  public MedusaHead getMedusaHead(final GameObject head) {
     switch(medusaHeadsCount0) {
       case 0:
         return null;
@@ -812,7 +950,7 @@ public class CastlevaniaBot {
     redBatsCount1 = 0;
   }  
   
-  RedBat getRedBat(final GameObject bat) {
+  public RedBat getRedBat(final GameObject bat) {
     switch(redBatsCount0) {
       case 0:
         return null;
@@ -945,7 +1083,7 @@ public class CastlevaniaBot {
     }
   }
   
-  MovingPlatform getMovingPlatform(final int minX, final int maxX) {
+  public MovingPlatform getMovingPlatform(final int minX, final int maxX) {
     for(int i = movingPlatformsCount - 1; i >= 0; --i) {
       final MovingPlatform platform = movingPlatforms[i];
       if (platform.x1 >= minX && platform.x2 <= maxX) {
@@ -1298,13 +1436,13 @@ public class CastlevaniaBot {
     return -1;
   }
 
-  boolean isInStandingWhipRange(final GameObject obj, final int xOffset, 
-      final int yOffset) {
+  public boolean isInStandingWhipRange(final GameObject obj, final int xOffset,
+                                       final int yOffset) {
     return whips[whipLength][0].inRange(this, obj, xOffset, yOffset);     
   } 
   
-  boolean isInKneelingWhipRange(final GameObject obj, final int xOffset, 
-      final int yOffset) {    
+  public boolean isInKneelingWhipRange(final GameObject obj, final int xOffset,
+                                       final int yOffset) {
     return whips[whipLength][1].inRange(this, obj, xOffset, yOffset);
   }  
   
@@ -1339,16 +1477,16 @@ public class CastlevaniaBot {
     return -1;
   }
   
-  boolean isTargetInStandingWhipRange() {
+  public boolean isTargetInStandingWhipRange() {
     return whips[whipLength][0].inRange(this, target);     
   } 
   
-  boolean isTargetInKneelingWhipRange() {    
+  public boolean isTargetInKneelingWhipRange() {
     return whips[whipLength][1].inRange(this, target);
   } 
   
   // Returns the whip delay after jumping or -1 if not in range.
-  int isTargetInJumpingWhipRange(final int xOffset, final int yOffset) {
+  public int isTargetInJumpingWhipRange(final int xOffset, final int yOffset) {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
       if (whips[whipLength][0].inRange(this, target, xOffset, 
           yOffset + WHIP_HEIGHT_AND_DELAY[i][0])) {
@@ -1358,11 +1496,11 @@ public class CastlevaniaBot {
     return -1;
   }  
   
-  boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset) {
+  public boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset) {
     return whips[whipLength][0].inRange(this, target, xOffset, yOffset);     
   } 
   
-  boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {    
+  public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
     return whips[whipLength][1].inRange(this, target, xOffset, yOffset);
   }
   
@@ -1387,7 +1525,7 @@ public class CastlevaniaBot {
     return null;
   }
   
-  boolean isUnderLedge() {
+  public boolean isUnderLedge() {
     
     if (tileY < 4) {
       return false;
@@ -1648,7 +1786,7 @@ public class CastlevaniaBot {
     api.writeGamepad(0, Down, true);
   }
   
-  void whip() {
+  public void whip() {
     if (!weaponing) {
       weaponDelay = WEAPON_DELAY;
       api.writeGamepad(0, B, true);
@@ -1660,7 +1798,7 @@ public class CastlevaniaBot {
   }
   
   // Can player axe target when standing on specified tile?
-  boolean canHitTargetWithAxe(final int platformX, final int platformY) {
+  public boolean canHitTargetWithAxe(final int platformX, final int platformY) {
     return canHitWithAxe(platformX, platformY, target);
   }
   
@@ -1690,8 +1828,8 @@ public class CastlevaniaBot {
   }
   
   // Can player axe specified GameObject when standing on specified tile?
-  boolean canHitWithAxe(final int platformX, final int platformY, 
-      final int offsetX, final int offsetY, final GameObject obj) {
+  public boolean canHitWithAxe(final int platformX, final int platformY,
+                               final int offsetX, final int offsetY, final GameObject obj) {
     
     final int ty = platformY << 4;
     final int dx = playerX < (obj.x + offsetX) ? 2 : -2;
@@ -1716,7 +1854,7 @@ public class CastlevaniaBot {
   }  
   
   // Use holy water if possible to grind for double and triple shots, else whip.
-  boolean grind() {
+  public boolean grind() {
     if (!weaponing) {
       weaponDelay = WEAPON_DELAY;
       if (!atBottomOfStairs && weapon == HOLY_WATER && hearts > 5 && shot < 3) {
@@ -1732,7 +1870,7 @@ public class CastlevaniaBot {
     }
   }
   
-  void whipOrWeapon() {
+  public void whipOrWeapon() {
     if (!weaponing) {
       weaponDelay = WEAPON_DELAY;
       if (!atBottomOfStairs) {
@@ -1750,7 +1888,7 @@ public class CastlevaniaBot {
     }
   }
   
-  boolean face(final GameObject obj) {
+  public boolean face(final GameObject obj) {
     if (obj.playerFacing) {
       return true;
     } else if (onStairs && playerY >= 56 && playerY <= 200) {
@@ -1774,7 +1912,7 @@ public class CastlevaniaBot {
     return false;
   }  
   
-  boolean faceTarget() {
+  public boolean faceTarget() {
     if (target.playerFacing) {
       return true;
     } else if (onStairs && playerY >= 56 && playerY <= 200) {
@@ -1785,7 +1923,7 @@ public class CastlevaniaBot {
     return false;
   }
   
-  boolean faceFlyingTarget() {
+  public boolean faceFlyingTarget() {
     if (target.playerFacing) {
       return true;
     } else if (onStairs && playerY >= 56 && playerY <= 200) {
@@ -1798,7 +1936,7 @@ public class CastlevaniaBot {
     return false;
   }
   
-  int getWhipRadius() {
+  public int getWhipRadius() {
     return whips[whipLength][0].getRadius();
   }
   

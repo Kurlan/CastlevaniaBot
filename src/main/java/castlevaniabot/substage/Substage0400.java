@@ -2,7 +2,6 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.substage.Substage;
 
 import java.util.concurrent.*;
 import static castlevaniabot.Addresses.*;
@@ -125,7 +124,8 @@ public class Substage0400 extends Substage {
     }
   }
 
-  @Override void blockWhipped() {
+  @Override
+  public void blockWhipped() {
     ++blocksWhipped;
   }
 }

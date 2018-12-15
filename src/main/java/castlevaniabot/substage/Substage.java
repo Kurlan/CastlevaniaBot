@@ -1,6 +1,8 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.*;
+import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.strategy.Strategy;
 import nintaco.api.*;
 import static java.lang.Math.*;
 import static castlevaniabot.MapRoutes.*;
@@ -37,15 +39,15 @@ public abstract class Substage {
     return mapRoutes;
   }  
   
-  void routeAndFace(final int targetX, final int targetY, final boolean left) {
+  public void routeAndFace(final int targetX, final int targetY, final boolean left) {
     routeAndFace(targetX, targetY, left, true);
   }
   
   // Must provide at least a 1 pixel cushion to potentially turn around.
   // In other words, do not route to the edge of a block or the middle of a 
   // box against a wall.
-  void routeAndFace(final int targetX, final int targetY, final boolean left,
-      final boolean checkForEnemies) {
+  public void routeAndFace(final int targetX, final int targetY, final boolean left,
+                           final boolean checkForEnemies) {
     
     if (b.playerX == targetX && b.playerY == targetY) {
       if (b.playerLeft != left) {
@@ -64,8 +66,8 @@ public abstract class Substage {
     route(targetX, targetY, true);
   }
   
-  void route(final int targetX, final int targetY, 
-      final boolean checkForEnemies) {
+  public void route(final int targetX, final int targetY,
+                    final boolean checkForEnemies) {
     
     if (targetX < 0 || targetY < 0) {
       return;
@@ -89,25 +91,25 @@ public abstract class Substage {
     }
   } 
   
-  void crystalBallAlmostAquired() {    
+  public void crystalBallAlmostAquired() {
   }
   
-  void candlesWhipped(final GameObject candle) {
+  public void candlesWhipped(final GameObject candle) {
   }
 
-  void blockWhipped() {    
+  public void blockWhipped() {
   }
   
   public void treasureTriggered() {
   }
   
-  void weaponUsed() {    
+  public void weaponUsed() {
   }
   
-  void whipUsed() {    
+  public void whipUsed() {
   }
   
-  void bossDefeated() {    
+  public void bossDefeated() {
   }
   
   public void moveToward(final GameObject obj) {
@@ -134,7 +136,7 @@ public abstract class Substage {
     }
   } 
   
-  void moveAwayFromTarget(final int targetX) {
+  public void moveAwayFromTarget(final int targetX) {
     if (b.playerX < targetX) {
       routeLeft();
     } else {
@@ -142,7 +144,7 @@ public abstract class Substage {
     }
   }  
   
-  void moveAwayFromTarget() {
+  public void moveAwayFromTarget() {
     if (b.playerX < b.target.x) {
       routeLeft();
     } else {

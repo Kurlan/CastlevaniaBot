@@ -3,7 +3,6 @@ package castlevaniabot.substage;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
 import castlevaniabot.GameObjectType;
-import castlevaniabot.substage.Substage;
 
 import static castlevaniabot.Addresses.*;
 import static castlevaniabot.GameObjectType.*;
@@ -195,8 +194,9 @@ public class Substage1401 extends Substage {
     }   
   }  
 
-  @Override void route(final int targetX, final int targetY, 
-      final boolean checkForEnemies) {
+  @Override
+  public void route(final int targetX, final int targetY,
+                    final boolean checkForEnemies) {
     if (b.onStairs && b.playerY >= 156 && b.playerX < 256) {
       if (!b.isEnemyInBounds(120, 156, 184, 208)) {
         super.route(targetX, targetY, checkForEnemies);
@@ -249,7 +249,8 @@ public class Substage1401 extends Substage {
     }
   }
   
-  @Override void blockWhipped() {
+  @Override
+  public void blockWhipped() {
     if (blockWhipped1) {
       blockWhipped2 = true;
     } else {

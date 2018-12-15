@@ -2,8 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.WaitStrategy;
-import castlevaniabot.substage.Substage;
+import castlevaniabot.strategy.WaitStrategy;
 
 import static castlevaniabot.GameObjectType.*;
 import static castlevaniabot.Weapon.*;

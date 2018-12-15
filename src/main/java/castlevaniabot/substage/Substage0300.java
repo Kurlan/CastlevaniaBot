@@ -2,8 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.Strategy;
-import castlevaniabot.substage.Substage;
+import castlevaniabot.strategy.Strategy;
 
 import static castlevaniabot.Addresses.*;
 import static castlevaniabot.GameObjectType.*;
@@ -124,11 +123,13 @@ public class Substage0300 extends Substage {
     }
   }  
   
-  @Override void blockWhipped() {
+  @Override
+  public void blockWhipped() {
     blockWhipped = true;
   }  
   
-  @Override void crystalBallAlmostAquired() {    
+  @Override
+  public void crystalBallAlmostAquired() {
     aboutToGetCrystalBall = true;
   }
 }

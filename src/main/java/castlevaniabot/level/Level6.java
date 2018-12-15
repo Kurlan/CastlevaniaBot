@@ -2,7 +2,6 @@ package castlevaniabot.level;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObjectType;
-import castlevaniabot.level.Level;
 import nintaco.api.*;
 import static castlevaniabot.Addresses.*;
 import static castlevaniabot.GameObjectType.*;

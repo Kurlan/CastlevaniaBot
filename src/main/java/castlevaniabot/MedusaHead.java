@@ -23,14 +23,14 @@ public class MedusaHead {
     { 124, -34 }, { 125, -34 },    
   };
   
-  int x;
-  int y;
-  int t;
-  int s;
-  int sameYs;
-  int y_16;
-  int y_32;
-  int x0;
-  int y0;
-  boolean left;  
+  public int x;
+  public int y;
+  public int t;
+  public int s;
+  public int sameYs;
+  public int y_16;
+  public int y_32;
+  public int x0;
+  public int y0;
+  public boolean left;
 }

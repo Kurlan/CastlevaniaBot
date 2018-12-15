@@ -2,7 +2,6 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.substage.Substage;
 
 import static castlevaniabot.GameObjectType.*;
 import static castlevaniabot.Weapon.*;
@@ -189,7 +188,8 @@ public class Substage1000 extends Substage {
     }
   }
 
-  @Override void whipUsed() {
+  @Override
+  public void whipUsed() {
     whippedHolyWaterCandle = true;
   }
 }

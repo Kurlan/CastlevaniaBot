@@ -2,8 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.Strategy;
-import castlevaniabot.substage.Substage;
+import castlevaniabot.strategy.Strategy;
 
 import static castlevaniabot.GameObjectType.*;
 import static castlevaniabot.Weapon.*;
@@ -143,8 +142,9 @@ public class Substage1501 extends Substage {
     }    
   }
   
-  @Override void route(final int targetX, final int targetY, 
-      final boolean checkForEnemies) {
+  @Override
+  public void route(final int targetX, final int targetY,
+                    final boolean checkForEnemies) {
 
     if (bossDefeated) {
       // crystal ball X +/- 20
@@ -253,11 +253,13 @@ public class Substage1501 extends Substage {
     route(1006, 192);
   }
   
-  @Override void crystalBallAlmostAquired() {    
+  @Override
+  public void crystalBallAlmostAquired() {
     aboutToGetCrystalBall = true;
   }  
 
-  @Override void whipUsed() {
+  @Override
+  public void whipUsed() {
     whippedCandles = true;
   }
 }

@@ -2,7 +2,6 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.substage.Substage;
 
 import static castlevaniabot.Addresses.*;
 import static castlevaniabot.GameObjectType.*;
@@ -190,7 +189,8 @@ public class Substage1500 extends Substage {
     }
   }
   
-  @Override void blockWhipped() {
+  @Override
+  public void blockWhipped() {
     if (blockWhipped1) {
       blockWhipped2 = true;
     } else {

@@ -2,9 +2,8 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.Strategy;
-import castlevaniabot.WaitStrategy;
-import castlevaniabot.substage.Substage;
+import castlevaniabot.strategy.Strategy;
+import castlevaniabot.strategy.WaitStrategy;
 
 import static castlevaniabot.Addresses.*;
 import static castlevaniabot.GameObjectType.*;
@@ -19,7 +18,7 @@ public class Substage0900 extends Substage {
   private boolean bossDefeated;
   private boolean aboutToGetCrystalBall;
   
-  boolean blockBroken;
+  public boolean blockBroken;
   
   public Substage0900(final CastlevaniaBot b) {
     super(b);
@@ -129,8 +128,9 @@ public class Substage0900 extends Substage {
     }    
   }
 
-  @Override void route(final int targetX, final int targetY, 
-      final boolean checkForEnemies) {
+  @Override
+  public void route(final int targetX, final int targetY,
+                    final boolean checkForEnemies) {
     
     if (bossDefeated) {
       if (b.playerX == 1388 && targetX >= 1424 && !b.playerLeft) {
@@ -232,22 +232,26 @@ public class Substage0900 extends Substage {
     treasureTriggered = true;
   }  
 
-  @Override void candlesWhipped(final GameObject candle) {
+  @Override
+  public void candlesWhipped(final GameObject candle) {
     if (b.weapon != NONE && b.weapon != STOPWATCH 
         && roundTile(candle.x) == 82) { // dagger
       delayPlayer();
     }
   }
   
-  @Override void bossDefeated() {
+  @Override
+  public void bossDefeated() {
     bossTriggered = enteredTomb = treasureTriggered = bossDefeated = true;
   }
   
-  @Override void blockWhipped() {
+  @Override
+  public void blockWhipped() {
     blockWhipped = true;
   }  
   
-  @Override void crystalBallAlmostAquired() {    
+  @Override
+  public void crystalBallAlmostAquired() {
     aboutToGetCrystalBall = true;
   }  
 }

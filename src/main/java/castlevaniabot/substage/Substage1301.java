@@ -2,8 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.WaitStrategy;
-import castlevaniabot.substage.Substage;
+import castlevaniabot.strategy.WaitStrategy;
 
 import static castlevaniabot.Addresses.*;
 import static castlevaniabot.GameObjectType.*;
@@ -181,7 +180,8 @@ public class Substage1301 extends Substage {
     }
   }
   
-  @Override void blockWhipped() {
+  @Override
+  public void blockWhipped() {
     if (b.playerX > 448) {
       blockWhipped2 = true;
     } else {

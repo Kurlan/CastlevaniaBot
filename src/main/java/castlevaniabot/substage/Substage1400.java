@@ -3,7 +3,6 @@ package castlevaniabot.substage;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
 import castlevaniabot.GameObjectType;
-import castlevaniabot.substage.Substage;
 
 import static castlevaniabot.GameObjectType.*;
 import static castlevaniabot.Weapon.*;

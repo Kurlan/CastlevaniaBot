@@ -1,15 +1,15 @@
 package castlevaniabot;
 
 public class Bone {
-  int x;
-  int y;
-  int x1;
-  int y1;
-  int x2;
-  int y2;
-  int vx;
-  int vy;
-  boolean left;
+  public int x;
+  public int y;
+  public int x1;
+  public int y1;
+  public int x2;
+  public int y2;
+  public int vx;
+  public int vy;
+  public boolean left;
   
   @Override public String toString() {
     return String.format("< BONE %d %d %d %d %b >%n", x, y, vx, vy, left);

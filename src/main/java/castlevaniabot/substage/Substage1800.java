@@ -2,7 +2,6 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.substage.Substage;
 
 public class Substage1800 extends Substage {
   

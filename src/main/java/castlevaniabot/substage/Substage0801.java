@@ -2,8 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameObject;
-import castlevaniabot.WaitStrategy;
-import castlevaniabot.substage.Substage;
+import castlevaniabot.strategy.WaitStrategy;
 
 import static castlevaniabot.GameObjectType.*;
 import static castlevaniabot.Weapon.*;
@@ -131,7 +130,8 @@ public class Substage0801 extends Substage {
     treasureTriggered = true;
   }  
 
-  @Override void candlesWhipped(final GameObject candle) {
+  @Override
+  public void candlesWhipped(final GameObject candle) {
     if (b.weapon != NONE && roundTile(candle.x) == 42) { // stopwatch
       delayPlayer();
     }

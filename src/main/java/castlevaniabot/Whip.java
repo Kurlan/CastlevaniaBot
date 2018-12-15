@@ -9,7 +9,7 @@ public class Whip {
   private final int top;
   private final int bottom;
   
-  Whip(final int cx, int cy, final int rx, final int ry) {    
+  public Whip(final int cx, int cy, final int rx, final int ry) {
     cy -= 16;
     left = cx - rx;
     right = cx + rx;
@@ -17,12 +17,12 @@ public class Whip {
     bottom = cy + ry;
   }
   
-  boolean inRange(final CastlevaniaBot b, final GameObject obj) {
+  public boolean inRange(final CastlevaniaBot b, final GameObject obj) {
     return inRange(b.playerX, b.playerY, obj.x1, obj.x2, obj.y1, obj.y2);
   }
   
-  boolean inRange(final CastlevaniaBot b, final GameObject obj, 
-      final int offsetX, final int offsetY) {
+  public boolean inRange(final CastlevaniaBot b, final GameObject obj,
+                         final int offsetX, final int offsetY) {
     return inRange(b.playerX, b.playerY, obj.x1 + offsetX, obj.x2 + offsetX, 
         obj.y1 + offsetY, obj.y2 + offsetY);
   }
@@ -43,7 +43,7 @@ public class Whip {
         || (left < (playerX - this.left) && right > (playerX - this.right));
   }
   
-  int getRadius() {
+  public int getRadius() {
     return right;
   }
 }
