@@ -19,13 +19,15 @@ public class MedusaHeadsPitsStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     state = State.WALK_TO_EDGE;
     damageBoost = ThreadLocalRandom.current().nextBoolean();
     delay = 48;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     switch(state) {
       case WALK_TO_EDGE:
         if (b.tileX != 7 || b.tileY != 12) {

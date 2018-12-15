@@ -7,7 +7,8 @@ public class MedusaHeadStrategy extends Strategy {
     super(b);
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject head = b.target;
     final MedusaHead medusaHead = b.getMedusaHead(head);

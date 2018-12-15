@@ -9,25 +9,27 @@ public class HolyWaterDeathStrategy extends Strategy {
   private int jumpCounter;
   private int jumpDelay;
   
-  boolean done;
+  public boolean done;
 
   public HolyWaterDeathStrategy(final CastlevaniaBot b) {
     super(b);
   }
 
-  @Override void init() {
+  @Override
+  public void init() {
     jumpDelay = jumpCounter = 0;
     done = deathSpawned = false;
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     
     if (done) {
       return;
     }
     
     GameObject death = null;    
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (obj.type == DEATH) {

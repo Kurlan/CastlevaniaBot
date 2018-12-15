@@ -12,11 +12,13 @@ public class GhostStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     moveAwayCounter = 0;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject ghost = b.target;
     final int offsetX = (b.target.x - lastX) << 4;

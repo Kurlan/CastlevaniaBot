@@ -9,7 +9,8 @@ public class AxeStrategy extends Strategy {
     super(b);
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject axe = b.target;
     final int offsetX = (axe.x - lastX) << 4;

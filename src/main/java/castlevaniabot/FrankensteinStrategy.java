@@ -26,19 +26,21 @@ public class FrankensteinStrategy extends Strategy {
   private int fireballVy;
   private int fireballDist;
   
-  boolean done;
+  public boolean done;
   
   public FrankensteinStrategy(final CastlevaniaBot b) {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     frank = igor = fireball = null;
     avoidIgor = avoidFrank = 0;
     done = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     updateObjects();
     
@@ -269,7 +271,7 @@ public class FrankensteinStrategy extends Strategy {
     
     frank = igor = fireball = null;
     fireballDist = Integer.MAX_VALUE;
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       switch(obj.type) {

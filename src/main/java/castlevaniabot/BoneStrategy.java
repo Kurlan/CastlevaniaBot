@@ -8,11 +8,12 @@ public class BoneStrategy extends Strategy {
     super(b);
   }
   
-  void init(final Bone bone) {
+  public void init(final Bone bone) {
     this.bone = bone;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     if (!b.onStairs) {      
       if (bone.left) {
         b.substage.routeLeft();        

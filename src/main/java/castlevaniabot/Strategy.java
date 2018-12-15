@@ -8,8 +8,8 @@ public abstract class Strategy {
     this.b = b;
   }
   
-  void init() {    
+  public void init() {
   }
   
-  abstract void step();
+  public abstract void step();
 }

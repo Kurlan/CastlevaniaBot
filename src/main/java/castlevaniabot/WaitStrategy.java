@@ -24,17 +24,17 @@ public class WaitStrategy extends Strategy {
     super(b);
   }
   
-  void init(final int playerX, final int playerY) {
+  public void init(final int playerX, final int playerY) {
     init(playerX, playerY, STAND);
   }
   
-  void init(final int playerX, final int playerY, final WaitType waitType) {
+  public void init(final int playerX, final int playerY, final WaitType waitType) {
     init(playerX, playerY, waitType, (waitType == KNEEL ? 1 : WAIT_DELAY) 
         + ThreadLocalRandom.current().nextInt(11));
   }
   
-  void init(final int playerX, final int playerY, final WaitType waitType, 
-      final int delay) {
+  public void init(final int playerX, final int playerY, final WaitType waitType,
+                   final int delay) {
     this.playerX = playerX;
     this.playerY = playerY;
     this.waitType = waitType;
@@ -42,7 +42,8 @@ public class WaitStrategy extends Strategy {
     inPosition = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     if (b.playerX == playerX && b.playerY == playerY) {
       inPosition = true;
     }

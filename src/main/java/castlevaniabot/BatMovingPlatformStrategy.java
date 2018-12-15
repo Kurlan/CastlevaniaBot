@@ -6,7 +6,7 @@ public class BatMovingPlatformStrategy extends Strategy {
   
   private static final int BAT_TIMER_THRESHOLD = 120;
   
-  boolean done;
+  public boolean done;
   
   private int lastY0;
   private int lastY1;
@@ -24,13 +24,15 @@ public class BatMovingPlatformStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     left = jumpRequested = done = false;
     batTimer = BAT_TIMER_THRESHOLD;
     lastBat = null;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     if (done) {
       return;
@@ -157,7 +159,7 @@ public class BatMovingPlatformStrategy extends Strategy {
   }
   
   private GameObject getRedBat() {
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       if (objs[i].type == RED_BAT) {
         return objs[i];
@@ -167,7 +169,7 @@ public class BatMovingPlatformStrategy extends Strategy {
   }
   
   private GameObject getFishman() {
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       if (objs[i].type == FISHMAN) {
         return objs[i];

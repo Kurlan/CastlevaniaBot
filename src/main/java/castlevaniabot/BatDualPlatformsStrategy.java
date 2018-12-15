@@ -4,7 +4,7 @@ import static castlevaniabot.GameObjectType.*;
 
 public class BatDualPlatformsStrategy extends Strategy {
 
-  boolean done;
+  public boolean done;
   
   private GameObject bat;
   private int lastY0;           
@@ -28,12 +28,14 @@ public class BatDualPlatformsStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     justWhipped = 0;
     hangRequested = walkRequested = left = done = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     if (done) {
       return;
@@ -132,7 +134,7 @@ public class BatDualPlatformsStrategy extends Strategy {
   private void updateObjects() {
     
     bat = fishman = null;
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (obj.type == RED_BAT) {

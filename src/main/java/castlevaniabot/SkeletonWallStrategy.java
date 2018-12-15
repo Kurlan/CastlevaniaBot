@@ -14,17 +14,17 @@ public class SkeletonWallStrategy extends Strategy {
   private int minY;
   
   boolean skeletonSpawned;
-  boolean done;
+  public boolean done;
 
   public SkeletonWallStrategy(final CastlevaniaBot b) {
     super(b);
   }
   
-  void init(final int playerX, final int playerY) {
+  public void init(final int playerX, final int playerY) {
     init(playerX, playerY, 0);
   }
   
-  void init(final int playerX, final int playerY, final int minY) {
+  public void init(final int playerX, final int playerY, final int minY) {
     this.playerX = playerX;
     this.playerY = playerY;
     this.minY = minY;
@@ -32,7 +32,8 @@ public class SkeletonWallStrategy extends Strategy {
     timeout = 60;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     if (done) {
       return;
@@ -81,7 +82,7 @@ public class SkeletonWallStrategy extends Strategy {
   // Returns the white skeleton with the largest y-coordinate
   private GameObject findSkeleton() {
     GameObject skeleton = null;
-    final GameObject[] objs = b.objs;    
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (obj.type == WHITE_SKELETON && obj.y >= minY) {

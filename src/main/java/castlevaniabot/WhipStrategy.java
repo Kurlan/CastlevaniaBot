@@ -25,14 +25,14 @@ public class WhipStrategy extends Strategy {
     init(playerX, playerY, playerLeft, 0, false, false, 0);
   }
   
-  void init(final int playerX, final int playerY, final boolean playerLeft, 
-      final int delayAfterUse) {
+  public void init(final int playerX, final int playerY, final boolean playerLeft,
+                   final int delayAfterUse) {
     init(playerX, playerY, playerLeft, delayAfterUse, false, false, 0);
   }  
   
-  void init(final int playerX, final int playerY, final boolean playerLeft, 
-      final int delayAfterUse, final boolean jump, 
-          final boolean jumpToward, final int targetHeight) {
+  public void init(final int playerX, final int playerY, final boolean playerLeft,
+                   final int delayAfterUse, final boolean jump,
+                   final boolean jumpToward, final int targetHeight) {
     
     jumpCounter = done = 0;
     delayJump = ThreadLocalRandom.current().nextInt(3);
@@ -47,7 +47,8 @@ public class WhipStrategy extends Strategy {
         + ThreadLocalRandom.current().nextInt(11);
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     if (done > 0) {
       if (--done == 0) {
         b.substage.weaponUsed();

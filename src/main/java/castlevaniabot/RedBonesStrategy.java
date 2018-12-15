@@ -11,12 +11,14 @@ public class RedBonesStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     targetX = b.target.x;
     playerLeft = b.playerLeft;
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     final int distanceX = abs(targetX - b.playerX);
     if (distanceX <= 16) {
       // When standing on red bones, continue walking in direction facing.

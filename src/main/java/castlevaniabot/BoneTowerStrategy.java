@@ -12,11 +12,13 @@ public class BoneTowerStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     usedHolyWater = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject tower = b.target;
     

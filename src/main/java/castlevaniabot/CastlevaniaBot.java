@@ -3,6 +3,8 @@ package castlevaniabot;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
+
+import castlevaniabot.substage.*;
 import nintaco.api.*;
 import static java.lang.Math.*;
 import static nintaco.api.GamepadButtons.*;
@@ -13,14 +15,6 @@ import static castlevaniabot.TileType.*;
 import static castlevaniabot.Weapon.*;
 
 public class CastlevaniaBot {
-  
-  // Parabolic axe path (reversed order, negated)
-  // Increase x by 2 for each y.
-  static final int[] AXE_YS = { 
-    -2,  4, 10, 16, 22, 27, 32, 37, 42, 46, 50, 54, 
-    58, 61, 64, 67, 70, 72, 74, 76, 78, 79, 80, 81, 
-    81, 82, 82, 82, 81, 80, 79, 78, 77, 75, 73, 71, 
-    68, 66, 63, 59, 56, 52, 48, 44, 39, 35, 30, 24, };
   
   // Parabolic jump path
   static final int[] ABSOLUTE_JUMP_YS = {
@@ -133,8 +127,6 @@ public class CastlevaniaBot {
     {  6,  8 }, // 30 (added for Dracula head)
   };
   
-  private static final int[][] WHIP_DISTANCES = { { 16, 32 }, { 16, 48, 32 } };
-  
   private static final Whip[][] whips = {
     { new Whip(24, -2, 16, 6), new Whip(24, 7, 16, 6) }, 
     { new Whip(26, -2, 18, 8), new Whip(26, 7, 18, 8) },
@@ -187,88 +179,88 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800 = new Substage1800(this);
   final Substage1801 SUBSTAGE_1801 = new Substage1801(this);
 
-  final AxeStrategy                  AXE = new AxeStrategy(this);
-  final AxeKnightStrategy            AXE_KNIGHT = new AxeKnightStrategy(this);
-  final BatMovingPlatformStrategy    BAT_MOVING_PLATFORM 
+  public final AxeStrategy                  AXE = new AxeStrategy(this);
+  public final AxeKnightStrategy            AXE_KNIGHT = new AxeKnightStrategy(this);
+  public final BatMovingPlatformStrategy    BAT_MOVING_PLATFORM
       = new BatMovingPlatformStrategy(this);
-  final BatDualPlatformsStrategy     BAT_DUAL_PLATFORMS
+  public final BatDualPlatformsStrategy     BAT_DUAL_PLATFORMS
       = new BatDualPlatformsStrategy(this);
-  final BoneDragonStrategy           BONE_DRAGON = new BoneDragonStrategy(this);
-  final BlackBatStrategy             BLACK_BAT = new BlackBatStrategy(this);
-  final BlockStrategy                BLOCK = new BlockStrategy(this);
-  final BoomerangDeathStrategy       BOOMERANG_DEATH 
+  public final BoneDragonStrategy           BONE_DRAGON = new BoneDragonStrategy(this);
+  public final BlackBatStrategy             BLACK_BAT = new BlackBatStrategy(this);
+  public final BlockStrategy                BLOCK = new BlockStrategy(this);
+  public final BoomerangDeathStrategy       BOOMERANG_DEATH
       = new BoomerangDeathStrategy(this);
-  final BoneStrategy                 BONE = new BoneStrategy(this);
-  final BoneTowerStrategy            BONE_TOWER = new BoneTowerStrategy(this);
-  final CandlesStrategy              CANDLES = new CandlesStrategy(this);
-  final CookieMonsterStrategy        COOKIE_MONSTER 
+  public final BoneStrategy                 BONE = new BoneStrategy(this);
+  public final BoneTowerStrategy            BONE_TOWER = new BoneTowerStrategy(this);
+  public final CandlesStrategy              CANDLES = new CandlesStrategy(this);
+  public final CookieMonsterStrategy        COOKIE_MONSTER
       = new CookieMonsterStrategy(this);
-  final CrusherStrategy              CRUSHER 
+  public final CrusherStrategy              CRUSHER
       = new CrusherStrategy(this);
-  final DeathHallHolyWaterStrategy   DEATH_HALL_HOLY_WATER
+  public final DeathHallHolyWaterStrategy   DEATH_HALL_HOLY_WATER
       = new DeathHallHolyWaterStrategy(this);
-  final DraculaStrategy              DRACULA = new DraculaStrategy(this);
-  final EagleStrategy                EAGLE = new EagleStrategy(this);
-  final FireballStrategy             FIREBALL = new FireballStrategy(this);
-  final FireColumnStrategy           FIRE_COLUMN = new FireColumnStrategy(this);  
-  final FishmanStrategy              FISHMAN = new FishmanStrategy(this);
-  final FleamanStrategy              FLEAMAN = new FleamanStrategy(this);
-  final FrankensteinStrategy         FRANKENSTEIN 
+  public final DraculaStrategy              DRACULA = new DraculaStrategy(this);
+  public final EagleStrategy                EAGLE = new EagleStrategy(this);
+  public final FireballStrategy             FIREBALL = new FireballStrategy(this);
+  public final FireColumnStrategy           FIRE_COLUMN = new FireColumnStrategy(this);
+  public final FishmanStrategy              FISHMAN = new FishmanStrategy(this);
+  public final FleamanStrategy              FLEAMAN = new FleamanStrategy(this);
+  public final FrankensteinStrategy         FRANKENSTEIN
       = new FrankensteinStrategy(this);
-  final GetCrystalBallStrategy       GET_CRYSTAL_BALL 
+  public final GetCrystalBallStrategy       GET_CRYSTAL_BALL
       = new GetCrystalBallStrategy(this);
-  final GetItemStrategy              GET_ITEM = new GetItemStrategy(this);
-  final GhostStrategy                GHOST = new GhostStrategy(this);
-  final GhoulStrategy                GHOUL = new GhoulStrategy(this); 
-  final GiantBatStrategy             GIANT_BAT = new GiantBatStrategy(this);
-  final GotCrystalBallStrategy       GOT_CRYSTAL_BALL 
+  public final GetItemStrategy              GET_ITEM = new GetItemStrategy(this);
+  public final GhostStrategy                GHOST = new GhostStrategy(this);
+  public final GhoulStrategy                GHOUL = new GhoulStrategy(this);
+  public final GiantBatStrategy             GIANT_BAT = new GiantBatStrategy(this);
+  public final GotCrystalBallStrategy       GOT_CRYSTAL_BALL
       = new GotCrystalBallStrategy(this);
-  final HolyWaterDeathStrategy       HOLY_WATER_DEATH 
-      = new HolyWaterDeathStrategy(this);  
-  final JumpMovingPlatformStrategy   JUMP_MOVING_PLATFORM
+  public final HolyWaterDeathStrategy       HOLY_WATER_DEATH
+      = new HolyWaterDeathStrategy(this);
+  public final JumpMovingPlatformStrategy   JUMP_MOVING_PLATFORM
       = new JumpMovingPlatformStrategy(this);
-  final MedusaStrategy               MEDUSA = new MedusaStrategy(this);
-  final MedusaHeadStrategy           MEDUSA_HEAD = new MedusaHeadStrategy(this);
-  final MedusaHeadsPitsStrategy      MEDUSA_HEADS_PITS
+  public final MedusaStrategy               MEDUSA = new MedusaStrategy(this);
+  public final MedusaHeadStrategy           MEDUSA_HEAD = new MedusaHeadStrategy(this);
+  public final MedusaHeadsPitsStrategy      MEDUSA_HEADS_PITS
       = new MedusaHeadsPitsStrategy(this);
-  final MedusaHeadsWalkStrategy      MEDUSA_HEADS_WALK 
+  public final MedusaHeadsWalkStrategy      MEDUSA_HEADS_WALK
       = new MedusaHeadsWalkStrategy(this);
-  final MummiesStrategy              MUMMIES = new MummiesStrategy(this);
-  final NoJumpMovingPlatformStrategy NO_JUMP_MOVING_PLATFORM
+  public final MummiesStrategy              MUMMIES = new MummiesStrategy(this);
+  public final NoJumpMovingPlatformStrategy NO_JUMP_MOVING_PLATFORM
       = new NoJumpMovingPlatformStrategy(this);
-  final PantherStrategy              PANTHER = new PantherStrategy(this);
-  final PhantomBatStrategy           PHANTOM_BAT = new PhantomBatStrategy(this);
-  final RavenStrategy                RAVEN = new RavenStrategy(this);
-  final RedBatDamageBoostStrategy    RED_BAT_DAMAGE_BOOST 
+  public final PantherStrategy              PANTHER = new PantherStrategy(this);
+  public final PhantomBatStrategy           PHANTOM_BAT = new PhantomBatStrategy(this);
+  public final RavenStrategy                RAVEN = new RavenStrategy(this);
+  public final RedBatDamageBoostStrategy    RED_BAT_DAMAGE_BOOST
       = new RedBatDamageBoostStrategy(this);
-  final RedBatStrategy               RED_BAT = new RedBatStrategy(this);
-  final RedBonesStrategy             RED_BONES = new RedBonesStrategy(this);
-  final RedSkeletonStrategy          RED_SKELETON 
+  public final RedBatStrategy               RED_BAT = new RedBatStrategy(this);
+  public final RedBonesStrategy             RED_BONES = new RedBonesStrategy(this);
+  public final RedSkeletonStrategy          RED_SKELETON
       = new RedSkeletonStrategy(this);
-  final SickleStrategy               SICKLE = new SickleStrategy(this);
-  final SkeletonWallStrategy         SKELETON_WALL 
+  public final SickleStrategy               SICKLE = new SickleStrategy(this);
+  public final SkeletonWallStrategy         SKELETON_WALL
       = new SkeletonWallStrategy(this);
-  final SnakeStrategy                SNAKE = new SnakeStrategy(this);
-  final SpearKnightStrategy          SPEAR_KNIGHT 
+  public final SnakeStrategy                SNAKE = new SnakeStrategy(this);
+  public final SpearKnightStrategy          SPEAR_KNIGHT
       = new SpearKnightStrategy(this);
-  final UseWeaponStrategy            USE_WEAPON = new UseWeaponStrategy(this); 
-  final WaitStrategy                 WAIT = new WaitStrategy(this);
-  final WhiteSkeletonStrategy        WHITE_SKELETON 
+  public final UseWeaponStrategy            USE_WEAPON = new UseWeaponStrategy(this);
+  public final WaitStrategy                 WAIT = new WaitStrategy(this);
+  public final WhiteSkeletonStrategy        WHITE_SKELETON
       = new WhiteSkeletonStrategy(this);
-  final WhipStrategy                 WHIP = new WhipStrategy(this);
+  public final WhipStrategy                 WHIP = new WhipStrategy(this);
   
   private final API api = ApiSource.getAPI();
   
   Level level;
   Substage substage;
-  Strategy strategy;  
-  GameObject target;
-  GameObjectType targetType;
-  int targetX = -512;
-  int targetY = -512; 
+  public Strategy strategy;
+  public GameObject target;
+  public GameObjectType targetType;
+  public int targetX = -512;
+  public int targetY = -512;
   
-  final GameObject[] objs = new GameObject[128];
-  int objsCount; 
+  public final GameObject[] gameObjects = new GameObject[128];
+  public int objsCount;
   
   final MovingPlatform[] movingPlatforms = new MovingPlatform[16];
   int movingPlatformsCount;
@@ -278,75 +270,75 @@ public class CastlevaniaBot {
   
   Bone[] bones0 = new Bone[64];
   Bone[] bones1 = new Bone[64];
-  int boneCount0;
-  int boneCount1;
+  public int boneCount0;
+  public int boneCount1;
   
   RedBones[] redBones0 = new RedBones[64];
   RedBones[] redBones1 = new RedBones[64];
-  int redBonesCount0;
-  int redBonesCount1;
+  public int redBonesCount0;
+  public int redBonesCount1;
   
   RedBat[] redBats0 = new RedBat[64];
   RedBat[] redBats1 = new RedBat[64];
-  int redBatsCount0;
-  int redBatsCount1;
+  public int redBatsCount0;
+  public int redBatsCount1;
   
   MedusaHead[] medusaHeads0 = new MedusaHead[64];
   MedusaHead[] medusaHeads1 = new MedusaHead[64];
-  int medusaHeadsCount0;
-  int medusaHeadsCount1;  
+  public int medusaHeadsCount0;
+  public int medusaHeadsCount1;
 
   Sickle[] sickles0 = new Sickle[64];
   Sickle[] sickles1 = new Sickle[64];
-  int sickleCount0;
-  int sickleCount1;
+  public int sickleCount0;
+  public int sickleCount1;
   
   int draculaHeadX;
   int draculaHeadY;
-  int draculaHeadTime;
+  public int draculaHeadTime;
   boolean draculaHeadLeft;
   
   int crystalBallX;
   int crystalBallY;
   int crystalBallTime;
   
-  final Map<String, MapRoutes> allMapRoutes = new HashMap<>();
+  public final Map<String, MapRoutes> allMapRoutes = new HashMap<>();
   
   boolean playing;
-  boolean onStairs;
+  public boolean onStairs;
   boolean onPlatform;
   boolean overHangingLeft;
   boolean overHangingRight;
   boolean atBottomOfStairs;
   boolean atTopOfStairs;
-  boolean playerLeft;
-  boolean kneeling;
+  public boolean playerLeft;
+  public boolean kneeling;
   boolean paused;
-  boolean weaponing;
-  boolean canJump;
+  public boolean weaponing;
+  public boolean canJump;
   int mode;
   int stageNumber;
   int substageNumber;
-  int playerX;
-  int playerY;
-  int tileX;
-  int tileY;
+  public int playerX;
+  public int playerY;
+  public int tileX;
+  public int tileY;
   int cameraX;
-  int whipLength;
-  int hearts;
+  public int whipLength;
+  public int hearts;
   int shot;    
   int jumpDelay;
   int weaponDelay;
   int entryDelay;
   int pauseDelay;
-  int weapon = NONE;  
+  public int weapon = NONE;
   
   private int avoidX;
   
   public CastlevaniaBot() {
     try {
-      for(int i = objs.length - 1; i >= 0; --i) {
-        objs[i] = new GameObject();
+      for(int i = gameObjects.length - 1; i >= 0; --i) {
+        gameObjects[i] = new GameObject();
       }
       for(int i = movingPlatforms.length - 1; i >= 0; --i) {
         movingPlatforms[i] = new MovingPlatform();
@@ -378,6 +370,13 @@ public class CastlevaniaBot {
     } catch(final Throwable t) {
       t.printStackTrace(); // Display construction errors to console
     }
+
+    api.addFrameListener(this::renderFinished);
+    api.addStatusListener(this::statusChanged);
+    api.addActivateListener(this::apiEnabled);
+    api.addDeactivateListener(this::apiDisabled);
+    api.addStopListener(this::dispose);
+    api.run();
   }
   
   private void loadMaps() throws Throwable {    
@@ -433,16 +432,7 @@ public class CastlevaniaBot {
     }
     allMapRoutes.put(name, new MapRoutes(this, name, WIDTH, HEIGHT, map, 
         routes));
-  }  
-  
-  public void launch() {
-    api.addFrameListener(this::renderFinished);
-    api.addStatusListener(this::statusChanged);
-    api.addActivateListener(this::apiEnabled);
-    api.addDeactivateListener(this::apiDisabled);
-    api.addStopListener(this::dispose);
-    api.run();
-  }  
+  }
   
   private void apiEnabled() {
     System.out.println("API enabled");
@@ -911,7 +901,7 @@ public class CastlevaniaBot {
     boneCount1 = 0;
   }
   
-  Bone getHarmfulBone() {
+  public Bone getHarmfulBone() {
     for(int i = boneCount0 - 1; i >= 0; --i) {
       final Bone bone = bones0[i];
       if (bone.vy > 0 && bone.y1 <= playerY && bone.x2 >= playerX - 32 
@@ -993,7 +983,7 @@ public class CastlevaniaBot {
     }
   }  
   
-  void addDestination(int x, int y) {
+  public void addDestination(int x, int y) {
     final MapRoutes mapRoutes = substage.getMapRoutes();
     
     if (x < 0 || y < 0 || x >= mapRoutes.pixelsWidth 
@@ -1001,7 +991,7 @@ public class CastlevaniaBot {
       return;
     }
     
-    final GameObject obj = objs[objsCount];
+    final GameObject obj = gameObjects[objsCount];
     obj.type = DESTINATION;
     obj.supportX = obj.x = x;
     obj.y = y;  
@@ -1023,7 +1013,7 @@ public class CastlevaniaBot {
     ++objsCount;
   }
   
-  void addBlock(int x, int y) {
+  public void addBlock(int x, int y) {
     final MapRoutes mapRoutes = substage.getMapRoutes();
     final MapElement[][] map = mapRoutes.map;
     
@@ -1035,7 +1025,7 @@ public class CastlevaniaBot {
       return;
     }
     
-    final GameObject obj = objs[objsCount];
+    final GameObject obj = gameObjects[objsCount];
     obj.type = GameObjectType.BLOCK;
     obj.supportX = obj.x = x;
     obj.y = y;  
@@ -1117,7 +1107,7 @@ public class CastlevaniaBot {
       return;
     }
     
-    final GameObject obj = objs[objsCount];
+    final GameObject obj = gameObjects[objsCount];
     obj.type = type;
     obj.x = x;
     obj.y = y;
@@ -1136,7 +1126,7 @@ public class CastlevaniaBot {
       obj.onPlatform = false;
       obj.distance = MAX_DISTANCE;      
       final int cy = (y >> 4) - 1;
-      final int[] whipDistances = WHIP_DISTANCES[whipLength == 2 ? 1 : 0];
+      final int[] whipDistances = Whip.WHIP_DISTANCES[whipLength == 2 ? 1 : 0];
       
       for(int i = whipDistances.length - 1; i >= 0; --i) {        
         final int sx = obj.x - whipDistances[i];
@@ -1329,11 +1319,11 @@ public class CastlevaniaBot {
     return -1;
   }
 
-  boolean isInStandingWhipRange(final GameObject obj) {
+  public boolean isInStandingWhipRange(final GameObject obj) {
     return whips[whipLength][0].inRange(this, obj);     
   } 
   
-  boolean isInKneelingWhipRange(final GameObject obj) {    
+  public boolean isInKneelingWhipRange(final GameObject obj) {
     return whips[whipLength][1].inRange(this, obj);
   }  
   
@@ -1375,10 +1365,10 @@ public class CastlevaniaBot {
     return whips[whipLength][1].inRange(this, target, xOffset, yOffset);
   }
   
-  int countObjects(final GameObjectType type) {
+  public int countObjects(final GameObjectType type) {
     int count = 0;
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type) {
         ++count;
       }
@@ -1386,9 +1376,9 @@ public class CastlevaniaBot {
     return count;
   }
   
-  GameObject getType(final GameObjectType type) {    
+  public GameObject getType(final GameObjectType type) {
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type) {
         return obj;
       }
@@ -1417,10 +1407,10 @@ public class CastlevaniaBot {
     }
   }  
   
-  boolean isTypePresent(final GameObjectType type) {
+  public boolean isTypePresent(final GameObjectType type) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type) {
         return true;
       }
@@ -1429,10 +1419,10 @@ public class CastlevaniaBot {
     return false;
   }
   
-  boolean isObjectBelow(final int y) {
+  public boolean isObjectBelow(final int y) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.y2 >= y) {
         return true;
       }
@@ -1444,7 +1434,7 @@ public class CastlevaniaBot {
   boolean isObjectAbove(final int y) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.y1 <= y) {
         return true;
       }
@@ -1456,7 +1446,7 @@ public class CastlevaniaBot {
   boolean isEnemyBelow(final int y) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type.enemy && obj.y2 >= y) {
         return true;
       }
@@ -1468,7 +1458,7 @@ public class CastlevaniaBot {
   boolean isEnemyAbove(final int y) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type.enemy && obj.y1 <= y) {
         return true;
       }
@@ -1480,7 +1470,7 @@ public class CastlevaniaBot {
   boolean isTypeAbove(final GameObjectType type, final int y) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.y1 <= y) {
         return true;
       }
@@ -1492,7 +1482,7 @@ public class CastlevaniaBot {
   boolean isTypeBelow(final GameObjectType type, final int y) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.y2 >= y) {
         return true;
       }
@@ -1504,7 +1494,7 @@ public class CastlevaniaBot {
   boolean isTypeLeft(final GameObjectType type, final int x) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.x1 <= x) {
         return true;
       }
@@ -1513,10 +1503,10 @@ public class CastlevaniaBot {
     return false;
   }  
   
-  boolean isTypeRight(final GameObjectType type, final int x) {
+  public boolean isTypeRight(final GameObjectType type, final int x) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.x2 >= x) {
         return true;
       }
@@ -1528,7 +1518,7 @@ public class CastlevaniaBot {
   boolean isTypeInRange(final GameObjectType type, final int x1, final int x2) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1) {
         return true;
       }
@@ -1542,7 +1532,7 @@ public class CastlevaniaBot {
     
     int count = 0;
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 
           && obj.y1 <= y2) {
         ++count;
@@ -1551,11 +1541,11 @@ public class CastlevaniaBot {
     return count;
   }  
   
-  boolean isTypeInBounds(final GameObjectType type, final int x1, final int y1, 
-      final int x2, final int y2) {
+  public boolean isTypeInBounds(final GameObjectType type, final int x1, final int y1,
+                                final int x2, final int y2) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 
           && obj.y1 <= y2) {
         return true;
@@ -1570,11 +1560,11 @@ public class CastlevaniaBot {
     return obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 && obj.y1 <= y2;
   }  
   
-  boolean isEnemyInBounds(final int x1, final int y1, final int x2, 
-      final int y2) {
+  public boolean isEnemyInBounds(final int x1, final int y1, final int x2,
+                                 final int y2) {
     
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];
+      final GameObject obj = gameObjects[i];
       final GameObjectType type = obj.type;
       if (type.enemy && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 
           && obj.y1 <= y2) {
@@ -1585,9 +1575,9 @@ public class CastlevaniaBot {
     return false;
   }
   
-  void executeOperation(final MapElement[][] map, final int width, 
-      final int operation, final int stepX, final int stepY, 
-          final boolean checkForEnemies) {
+  public void executeOperation(final MapElement[][] map, final int width,
+                               final int operation, final int stepX, final int stepY,
+                               final boolean checkForEnemies) {
     
     switch(operation) {
       
@@ -1639,21 +1629,21 @@ public class CastlevaniaBot {
     }    
   }
   
-  void avoid(final GameObject obj) {
+  public void avoid(final GameObject obj) {
     if ((!obj.onPlatform || obj.y >= playerY - 48) 
         && (avoidX < 0 || obj.distanceX < abs(playerX - avoidX))) {
       avoidX = obj.x;
     }
   } 
   
-  void jump() {
+  public void jump() {
     if (jumpDelay == 0) {
       jumpDelay = JUMP_WHIP_OFFSETS.length - 1;
       api.writeGamepad(0, A, true);
     }
   }
   
-  void kneel() {
+  public void kneel() {
     api.writeGamepad(0, Down, true);
   }
   
@@ -1680,8 +1670,8 @@ public class CastlevaniaBot {
     final int ty = platformY << 4;
     final int dx = playerX < obj.x ? 2 : -2;
     int x = (platformX << 4) + 8;
-    for(int i = AXE_YS.length - 1; i >= 0; --i, x += dx) {
-      final int y = ty - AXE_YS[i];
+    for(int i = Axe.YS.length - 1; i >= 0; --i, x += dx) {
+      final int y = ty - Axe.YS[i];
       if (x >= obj.x1 && x <= obj.x2 && y >= obj.y1 && y <= obj.y2) {
         return true;
       } else if (dx > 0) {
@@ -1705,8 +1695,8 @@ public class CastlevaniaBot {
     final int ty = platformY << 4;
     final int dx = playerX < (obj.x + offsetX) ? 2 : -2;
     int x = (platformX << 4) + 8;
-    for(int i = AXE_YS.length - 1; i >= 0; --i, x += dx) {
-      final int y = ty - AXE_YS[i];
+    for(int i = Axe.YS.length - 1; i >= 0; --i, x += dx) {
+      final int y = ty - Axe.YS[i];
       if (x >= obj.x1 + offsetX && x <= obj.x2 + offsetX 
           && y >= obj.y1 + offsetY && y <= obj.y2 + offsetY) {
         return true;
@@ -1751,7 +1741,7 @@ public class CastlevaniaBot {
     }
   }
   
-  void useWeapon() {
+  public void useWeapon() {
     if (!weaponing) {
       weaponDelay = WEAPON_DELAY;
       api.writeGamepad(0, Up, true);
@@ -1894,23 +1884,23 @@ public class CastlevaniaBot {
     api.writeGamepad(0, Up, true);
   }
   
-  void pressDown() {
+  public void pressDown() {
     api.writeGamepad(0, Down, true);
   }
   
-  void pressLeft() {
+  public void pressLeft() {
     if (playerX < avoidX || playerX >= avoidX + 16) {
       api.writeGamepad(0, Left, true);
     }
   }
   
-  void pressRight() {
+  public void pressRight() {
     if (playerX <= avoidX - 16 || playerX > avoidX) {
       api.writeGamepad(0, Right, true);
     }
   }
   
-  void pressLeftAndJump() {
+  public void pressLeftAndJump() {
     if (jumpDelay == 0 && (playerX < avoidX || playerX >= avoidX + 58)) {
       jumpDelay = 2; // Low number enables jumps against walls.
       api.writeGamepad(0, Left, true);
@@ -1918,7 +1908,7 @@ public class CastlevaniaBot {
     }
   }
   
-  void pressRightAndJump() {
+  public void pressRightAndJump() {
     if (jumpDelay == 0 && (playerX <= avoidX - 58 || playerX > avoidX)) {
       jumpDelay = 2; // Low number enables jumps against walls.
       api.writeGamepad(0, Right, true);
@@ -2062,12 +2052,12 @@ public class CastlevaniaBot {
   private void paintGameObjects() {
     api.setColor(Colors.YELLOW);
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];       
+      final GameObject obj = gameObjects[i];
       api.drawRect(obj.x1 - cameraX, obj.y1, obj.x2 - obj.x1 + 1, 
           obj.y2 - obj.y1 + 1);
     }    
     for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = objs[i];       
+      final GameObject obj = gameObjects[i];
       api.drawRect(obj.x1 - cameraX, obj.y1, obj.x2 - obj.x1 + 1, 
           obj.y2 - obj.y1 + 1);
     }
@@ -2090,8 +2080,8 @@ public class CastlevaniaBot {
   
   private void printGameObject(final GameObjectType type) {
     for(int i = 0; i < objsCount; ++i) {
-      if (objs[i].type == type) {
-        System.out.print(objs[i] + " ");
+      if (gameObjects[i].type == type) {
+        System.out.print(gameObjects[i] + " ");
       }
     }
     System.out.println();
@@ -2102,7 +2092,7 @@ public class CastlevaniaBot {
       System.out.print(redBones0[i] + " ");
     }
     for(int i = 0; i < objsCount; ++i) {
-      System.out.print(objs[i] + " ");
+      System.out.print(gameObjects[i] + " ");
     }
     if (target != null) {
       System.out.format("* %s", target);
@@ -2170,8 +2160,8 @@ public class CastlevaniaBot {
 //    printGameObjects();
   }
   
-  public static void main(final String... args) throws Throwable {
+  public static void main(final String... args) {
     ApiSource.initRemoteAPI("localhost", 9999);
-    new CastlevaniaBot().launch();
+    new CastlevaniaBot();
   }
 }

@@ -13,12 +13,14 @@ public class GiantBatStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     jumpCounter = 0;
     whipped = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject bat = b.target;
     final int offsetX = (bat.x - lastX) << 4;

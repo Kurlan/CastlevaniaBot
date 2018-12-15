@@ -16,11 +16,12 @@ public class MedusaHeadsWalkStrategy extends Strategy {
     super(b);
   }
   
-  void init(final boolean left) {
+  public void init(final boolean left) {
     this.left = left;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject head = getNearestMedusaHead();
     
@@ -84,7 +85,7 @@ public class MedusaHeadsWalkStrategy extends Strategy {
   } 
   
   private GameObject getNearestMedusaHead() {
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (obj.type == MEDUSA_HEAD && obj.left != left) {

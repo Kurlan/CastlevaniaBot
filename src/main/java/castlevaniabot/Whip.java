@@ -2,6 +2,8 @@ package castlevaniabot;
 
 public class Whip {
 
+  public static final int[][] WHIP_DISTANCES = { { 16, 32 }, { 16, 48, 32 } };
+
   private final int left;
   private final int right;
   private final int top;

@@ -1,5 +1,8 @@
 package castlevaniabot;
 
+import lombok.Builder;
+import lombok.Data;
+
 public class GameObject {
   
   public GameObjectType type;

@@ -13,11 +13,13 @@ public class RavenStrategy extends Strategy {
     super(b);
   }
 
-  @Override void init() {
+  @Override
+  public void init() {
     moveAway = jumpCounter = 0;
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject raven = b.target;
     final int offsetX = (raven.x - lastX) << 4;

@@ -13,11 +13,13 @@ public class FleamanStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     lastX = lastY = move = 0;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject fleaman = b.target;
     final int vx;

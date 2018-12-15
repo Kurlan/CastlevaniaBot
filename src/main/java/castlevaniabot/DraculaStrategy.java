@@ -15,13 +15,15 @@ public class DraculaStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     lastHead = head = fireball = null;
     jumpCounter = playerX = 0;
     playerLeft = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     updateObjects();
     
@@ -68,7 +70,7 @@ public class DraculaStrategy extends Strategy {
   
   private void updateObjects() {
     head = fireball = null;
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       switch(obj.type) {

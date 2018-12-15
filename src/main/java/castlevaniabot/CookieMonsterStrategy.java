@@ -10,19 +10,21 @@ public class CookieMonsterStrategy extends Strategy {
   private int playerX;
   private boolean playerLeft;
   
-  boolean done;
+  public boolean done;
   
   public CookieMonsterStrategy(final CastlevaniaBot b) {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     item = head = null;
     jumpCounter = playerX = 0;
     done = playerLeft = false;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     if (done) {
       return;
@@ -79,7 +81,7 @@ public class CookieMonsterStrategy extends Strategy {
   
   private void updateObjects() {
     item = head = null;
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       switch(obj.type) {

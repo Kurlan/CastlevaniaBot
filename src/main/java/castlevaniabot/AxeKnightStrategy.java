@@ -16,11 +16,13 @@ public class AxeKnightStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     jumpCounter = weaponDelay = 0;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject knight = b.target;
     final int offsetX = (knight.x - lastX) << 4;

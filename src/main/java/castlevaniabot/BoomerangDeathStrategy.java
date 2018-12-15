@@ -6,7 +6,8 @@ public class BoomerangDeathStrategy extends Strategy {
     super(b);
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject death = b.target;
 

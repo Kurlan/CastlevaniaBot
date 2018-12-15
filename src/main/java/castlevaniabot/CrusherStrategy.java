@@ -32,12 +32,14 @@ public class CrusherStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     state = State.INACTIVE;
     delay = 20;
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     
     readCrushers();
     
@@ -125,11 +127,11 @@ public class CrusherStrategy extends Strategy {
     }
   }
   
-  boolean isActive() {
+  public boolean isActive() {
     
     if (state == State.INACTIVE && b.playerX >= 512 && b.playerX <= 671
         && b.playerY >= 96) {
-      final GameObject[] objs = b.objs;
+      final GameObject[] objs = b.gameObjects;
       outer: {
         for(int i = b.objsCount - 1; i >= 0; --i) {
           final GameObject obj = objs[i];

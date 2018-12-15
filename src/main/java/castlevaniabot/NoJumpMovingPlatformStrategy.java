@@ -27,7 +27,7 @@ public class NoJumpMovingPlatformStrategy extends Strategy {
   }
   
   // playerX1 and playerX2 are the tips of the chasam edge blocks
-  void init(final int playerX1, final int playerX2, final int playerY) {
+  public void init(final int playerX1, final int playerX2, final int playerY) {
     this.playerX1 = playerX1;
     this.playerX2 = playerX2;
     this.playerY = playerY;
@@ -43,7 +43,8 @@ public class NoJumpMovingPlatformStrategy extends Strategy {
     lastX = -512;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final MovingPlatform platform = b.getMovingPlatform(minX, maxX);
     if (platform == null) {

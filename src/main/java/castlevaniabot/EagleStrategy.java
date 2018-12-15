@@ -9,7 +9,8 @@ public class EagleStrategy extends Strategy {
     super(b);
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject eagle = b.target;
     final int offsetX = (eagle.x - lastX) << 4;

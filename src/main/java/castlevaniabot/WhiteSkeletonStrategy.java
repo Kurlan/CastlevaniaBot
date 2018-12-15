@@ -17,12 +17,14 @@ public class WhiteSkeletonStrategy extends Strategy {
     super(b);
   }
   
-  @Override void init() {
+  @Override
+  public void init() {
     jumpCounter = holyWaterDelay = 0;
     drawingTowardHolyWater = false;
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject skeleton = b.target;
     final int offsetX = (skeleton.x - lastX) << 4;

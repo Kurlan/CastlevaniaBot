@@ -16,8 +16,8 @@ public class UseWeaponStrategy extends Strategy {
     super(b);
   }
   
-  void init(final int playerX, final int playerY, final boolean jump, 
-      final boolean faceLeft) {
+  public void init(final int playerX, final int playerY, final boolean jump,
+                   final boolean faceLeft) {
     init(playerX, playerY, jump, faceLeft, 170);
   }
   
@@ -32,7 +32,8 @@ public class UseWeaponStrategy extends Strategy {
         + ThreadLocalRandom.current().nextInt(11);;
   }
 
-  @Override void step() {
+  @Override
+  public void step() {
     if (done > 0) {
       if (--done == 0) {
         b.substage.weaponUsed();

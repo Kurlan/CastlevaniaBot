@@ -17,7 +17,8 @@ public class MedusaStrategy extends Strategy {
     super(b);
   }
 
-  @Override void init() {
+  @Override
+  public void init() {
     moveAway = 0;
     weaponDelay = 16;
     routeX = 40;
@@ -25,11 +26,12 @@ public class MedusaStrategy extends Strategy {
     axeScanCounter = ThreadLocalRandom.current().nextInt(61);
   }
   
-  boolean isTimeFrozen() {
+  public boolean isTimeFrozen() {
     return b.weapon == STOPWATCH && weaponDelay > 0;
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     
     final GameObject medusa = b.target;
     final int offsetX = (medusa.x - lastX) << 4;

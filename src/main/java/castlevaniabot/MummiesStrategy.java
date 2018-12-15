@@ -23,18 +23,20 @@ public class MummiesStrategy extends Strategy {
     super(b);
   }
 
-  @Override void init() {
+  @Override
+  public void init() {
     mummy1 = mummy2 = null;
     moveAway = moveAwayFromX = routeX = routeY = weaponDelay = mummyOffsetX1 
         = mummyOffsetX2 = 0;
     weaponedMummy1 = ThreadLocalRandom.current().nextBoolean();
   }
   
-  @Override void step() {
+  @Override
+  public void step() {
     
     mummy1 = null;
     mummy2 = null;
-    final GameObject[] objs = b.objs;
+    final GameObject[] objs = b.gameObjects;
     for(int i = b.objsCount - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (obj.type == GameObjectType.MUMMY) {
