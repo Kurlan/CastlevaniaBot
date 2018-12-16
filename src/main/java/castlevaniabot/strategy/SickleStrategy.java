@@ -28,7 +28,7 @@ public class SickleStrategy implements Strategy {
     public void step() {
 
         final GameObject death = b.getType(DEATH);
-        if (death != null && !b.weaponing) {
+        if (death != null && !gameState.isWeaponing()) {
             if (b.hearts > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
                     && death.distanceX < 128) {
                 if (b.face(death)) {
@@ -49,17 +49,17 @@ public class SickleStrategy implements Strategy {
                 && (sickle.y2 <= botState.getPlayerY() - 32 || sickle.y1 >= botState.getPlayerY())) {
             moveAwayFrom(sickle);
         } else if (b.isTargetInStandingWhipRange()) {
-            if (b.faceTarget() && !b.weaponing) {
+            if (b.faceTarget() && !gameState.isWeaponing()) {
                 b.whip();
             }
         } else if (b.isTargetInKneelingWhipRange()) {
             if (b.faceTarget()) {
                 b.kneel();
-                if (b.kneeling && !b.weaponing) {
+                if (b.kneeling && !gameState.isWeaponing()) {
                     b.whip();
                 }
             }
-        } else if (!b.weaponing && b.hearts > 0 && sickle.y2 >= botState.getPlayerY() - 32
+        } else if (!gameState.isWeaponing() && b.hearts > 0 && sickle.y2 >= botState.getPlayerY() - 32
                 && sickle.y1 <= botState.getPlayerY()) {
             if (b.faceTarget()) {
                 b.useWeapon();

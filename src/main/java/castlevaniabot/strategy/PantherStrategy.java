@@ -34,7 +34,7 @@ public class PantherStrategy implements Strategy {
         lastX = panther.x;
         lastY = panther.y;
 
-        if (!b.weaponing && b.faceTarget()
+        if (!gameState.isWeaponing() && b.faceTarget()
                 && b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             b.whip();
         }

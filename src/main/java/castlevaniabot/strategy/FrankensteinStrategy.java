@@ -106,15 +106,15 @@ public class FrankensteinStrategy implements Strategy {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
-                if (!b.weaponing && b.face(frank)) {
+                if (!gameState.isWeaponing() && b.face(frank)) {
                     b.whip();
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 b.kneel();
-                if (!b.weaponing && b.kneeling && b.face(frank)) {
+                if (!gameState.isWeaponing() && b.kneeling && b.face(frank)) {
                     b.whip();
                 }
-            } else if (!b.weaponing && b.canHitWithAxe(botState.getPlayerX() >> 4, botState.getPlayerY() >> 4,
+            } else if (!gameState.isWeaponing() && b.canHitWithAxe(botState.getPlayerX() >> 4, botState.getPlayerY() >> 4,
                     offsetX, 0, frank) && b.face(frank)) {
                 b.useWeapon();
             } else if (canWalkTowardFrank) {
@@ -142,7 +142,7 @@ public class FrankensteinStrategy implements Strategy {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
-                if (!b.weaponing && b.face(frank)) {
+                if (!gameState.isWeaponing() && b.face(frank)) {
                     if (botState.getPlayerY() == frank.y) {
                         b.whipOrWeapon();
                     } else {
@@ -151,11 +151,11 @@ public class FrankensteinStrategy implements Strategy {
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 b.kneel();
-                if (!b.weaponing && b.kneeling && b.face(frank)) {
+                if (!gameState.isWeaponing() && b.kneeling && b.face(frank)) {
                     b.whip();
                 }
             } else {
-                if (frank.x < 992 && !b.weaponing && b.face(frank)
+                if (frank.x < 992 && !gameState.isWeaponing() && b.face(frank)
                         && botState.getPlayerY() == frank.y) {
                     b.whipOrWeapon();
                 } else {
@@ -188,12 +188,12 @@ public class FrankensteinStrategy implements Strategy {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
-                if (!b.weaponing && b.face(frank)) {
+                if (!gameState.isWeaponing() && b.face(frank)) {
                     b.whipOrWeapon();
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 b.kneel();
-                if (!b.weaponing && b.kneeling && b.face(frank)) {
+                if (!gameState.isWeaponing() && b.kneeling && b.face(frank)) {
                     b.whip();
                 }
             } else if (canWalkTowardFrank) {
@@ -220,13 +220,13 @@ public class FrankensteinStrategy implements Strategy {
             }
             return true;
         } else if (b.isInStandingWhipRange(igor, vx, vy)) {
-            if (!b.weaponing && b.face(igor)) {
+            if (!gameState.isWeaponing() && b.face(igor)) {
                 b.whip();
             }
             return true;
         } else if (b.isInKneelingWhipRange(igor, vx, vy)) {
             b.kneel();
-            if (b.kneeling && !b.weaponing && b.face(igor)) {
+            if (b.kneeling && !gameState.isWeaponing() && b.face(igor)) {
                 b.whip();
             }
             return true;
@@ -272,14 +272,14 @@ public class FrankensteinStrategy implements Strategy {
                     return true;
                 }
             } else if (b.isInStandingWhipRange(fireball, offsetX, offsetY)) {
-                if (b.face(fireball) && !b.weaponing) {
+                if (b.face(fireball) && !gameState.isWeaponing()) {
                     b.whip();
                     return true;
                 }
             } else if (b.isInKneelingWhipRange(fireball, offsetX, offsetY)) {
                 if (b.face(fireball)) {
                     b.kneel();
-                    if (b.kneeling && !b.weaponing) {
+                    if (b.kneeling && !gameState.isWeaponing()) {
                         b.whip();
                         return true;
                     }

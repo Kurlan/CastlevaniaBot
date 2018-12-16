@@ -31,7 +31,7 @@ public class BlockStrategy implements Strategy {
 
     @Override
     public void step() {
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
 

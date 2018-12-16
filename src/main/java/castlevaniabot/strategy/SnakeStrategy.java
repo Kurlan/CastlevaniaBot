@@ -37,7 +37,7 @@ public class SnakeStrategy implements Strategy {
         if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
                 b.kneel();
-                if (b.kneeling && !b.weaponing) {
+                if (b.kneeling && !gameState.isWeaponing()) {
                     b.whip();
                 }
             }

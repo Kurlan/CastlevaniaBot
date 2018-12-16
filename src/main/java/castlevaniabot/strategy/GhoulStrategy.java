@@ -35,7 +35,7 @@ public class GhoulStrategy implements Strategy {
         lastX = ghoul.x;
         lastY = ghoul.y;
 
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
 

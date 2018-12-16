@@ -71,7 +71,7 @@ public class WhipStrategy implements Strategy {
             }
             return;
         }
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
         if (jumpCounter > 0) {

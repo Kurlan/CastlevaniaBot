@@ -79,7 +79,7 @@ public class SkeletonWallStrategy implements Strategy {
         lastY = skeleton.y;
 
         if (b.isInStandingWhipRange(skeleton, offsetX, offsetY)) {
-            if (!b.weaponing && b.face(skeleton)) {
+            if (!gameState.isWeaponing() && b.face(skeleton)) {
                 b.whip();
             }
         } else if (skeleton.y < botState.getPlayerY()

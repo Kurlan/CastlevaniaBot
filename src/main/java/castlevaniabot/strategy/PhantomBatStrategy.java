@@ -78,7 +78,7 @@ public class PhantomBatStrategy implements Strategy {
     private void stepDaggerStrategy(final GameObject bat, final int offsetX,
                                     final int offsetY) {
 
-        if (b.weaponing || weaponDelay > 0) {
+        if (gameState.isWeaponing() || weaponDelay > 0) {
             return;
         }
 
@@ -127,7 +127,7 @@ public class PhantomBatStrategy implements Strategy {
         if (botState.getPlayerX() >= 664) {
             stepNoWeaponsStrategy(bat, offsetX, offsetY);
             return;
-        } else if (b.weaponing) {
+        } else if (gameState.isWeaponing()) {
             return;
         }
 
@@ -175,7 +175,7 @@ public class PhantomBatStrategy implements Strategy {
         if (botState.getPlayerX() >= 664) {
             stepNoWeaponsStrategy(bat, offsetX, offsetY);
             return;
-        } else if (b.weaponing) {
+        } else if (gameState.isWeaponing()) {
             return;
         }
 
@@ -229,7 +229,7 @@ public class PhantomBatStrategy implements Strategy {
     private void stepNoWeaponsStrategy(final GameObject bat, final int offsetX,
                                        final int offsetY) {
 
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
 

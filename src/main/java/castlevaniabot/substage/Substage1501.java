@@ -170,7 +170,7 @@ public class Substage1501 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     
     if (botState.getPlayerX() == 800 && b.weapon == BOOMERANG && b.hearts > 0
-        && !b.weaponing) {
+        && !b.getGameState().isWeaponing()) {
       b.useWeapon(); // hit candles with boomerang
     } 
     

@@ -140,7 +140,7 @@ public class MummiesStrategy implements Strategy {
         } else {
             targetMummy = null;
         }
-        if (targetMummy != null && b.face(targetMummy) && !b.weaponing) {
+        if (targetMummy != null && b.face(targetMummy) && !gameState.isWeaponing()) {
             weaponedMummy1 = !weaponedMummy1;
             b.whipOrWeapon();
         }
@@ -150,7 +150,7 @@ public class MummiesStrategy implements Strategy {
 
         if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !b.playerLeft) {
             gameState.getCurrentSubstage().routeAndFace(1512, 208, true, false);
-        } else if (!b.weaponing) {
+        } else if (!gameState.isWeaponing()) {
             b.whipOrWeapon();
         }
     }
@@ -171,7 +171,7 @@ public class MummiesStrategy implements Strategy {
             gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false);
         } else {
             b.kneel();
-            if (b.kneeling && !b.weaponing) {
+            if (b.kneeling && !gameState.isWeaponing()) {
                 b.whip();
             }
         }
@@ -183,7 +183,7 @@ public class MummiesStrategy implements Strategy {
             gameState.getCurrentSubstage().routeAndFace(1290, 144, false);
         } else if (weaponDelay > 0) {
             --weaponDelay;
-        } else if (!b.weaponing && ((mummy1 != null && abs(mummy1.x - 1360) < 16)
+        } else if (!gameState.isWeaponing() && ((mummy1 != null && abs(mummy1.x - 1360) < 16)
                 || (mummy2 != null && abs(mummy2.x - 1360) < 16))) {
             weaponDelay = 60;
             b.useWeapon();

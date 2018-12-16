@@ -40,7 +40,7 @@ public class CandlesStrategy implements Strategy {
             --done;
             return;
         }
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
         if (jumpCounter > 0) {

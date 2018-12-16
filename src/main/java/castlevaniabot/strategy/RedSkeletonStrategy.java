@@ -44,7 +44,7 @@ public class RedSkeletonStrategy implements Strategy {
 
         if (isNotCloseToRedBones()) {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-                if (!b.weaponing && b.faceTarget()) {
+                if (!gameState.isWeaponing() && b.faceTarget()) {
                     if (usedHolyWater) {
                         b.whip();
                     } else {

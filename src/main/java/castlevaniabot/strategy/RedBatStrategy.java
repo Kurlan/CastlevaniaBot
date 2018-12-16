@@ -52,13 +52,13 @@ public class RedBatStrategy implements Strategy {
                 b.jump();                            // jump over bat
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (b.faceTarget() && !b.weaponing) {
+            if (b.faceTarget() && !gameState.isWeaponing()) {
                 b.whip();                            // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
                 b.kneel();
-                if (b.kneeling && !b.weaponing) {
+                if (b.kneeling && !gameState.isWeaponing()) {
                     b.whip();                          // kneel whip bat
                 }
             }

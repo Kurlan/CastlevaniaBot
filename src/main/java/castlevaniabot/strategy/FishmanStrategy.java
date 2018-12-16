@@ -36,7 +36,7 @@ public class FishmanStrategy implements Strategy {
         lastY = fishman.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!b.weaponing && b.faceTarget()) {
+            if (!gameState.isWeaponing() && b.faceTarget()) {
                 if (usedHolyWater) {
                     b.whip();
                 } else {

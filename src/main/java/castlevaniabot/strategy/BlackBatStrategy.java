@@ -43,13 +43,13 @@ public class BlackBatStrategy implements Strategy {
         } else if (b.atTopOfStairs) {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (b.faceTarget() && !b.weaponing) {
+            if (b.faceTarget() && !gameState.isWeaponing()) {
                 b.whip();                         // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
                 b.kneel();
-                if (b.kneeling && !b.weaponing) {
+                if (b.kneeling && !gameState.isWeaponing()) {
                     b.whip();                         // kneel whip bat
                 }
             }

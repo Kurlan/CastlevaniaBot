@@ -30,7 +30,7 @@ public class FireColumnStrategy implements Strategy {
             --done;
             return;
         }
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
 

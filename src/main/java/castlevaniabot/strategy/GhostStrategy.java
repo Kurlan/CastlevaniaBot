@@ -37,7 +37,7 @@ public class GhostStrategy implements Strategy {
         lastX = b.getTargetedObject().getTarget().x;
         lastY = b.getTargetedObject().getTarget().y;
 
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
 

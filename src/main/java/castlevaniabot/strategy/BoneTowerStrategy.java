@@ -34,7 +34,7 @@ public class BoneTowerStrategy implements Strategy {
 
         final GameObject tower = b.getTargetedObject().getTarget();
 
-        if (b.weaponing) {
+        if (gameState.isWeaponing()) {
             return;
         }
 

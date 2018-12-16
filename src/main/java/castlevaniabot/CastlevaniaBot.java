@@ -257,7 +257,6 @@ public class CastlevaniaBot {
   public boolean playerLeft;
   public boolean kneeling;
   boolean paused;
-  public boolean weaponing;
   public boolean canJump;
   int mode;
 
@@ -427,9 +426,9 @@ public class CastlevaniaBot {
 
     if (weaponDelay == 0) {
       final int _weaponing = api.readCPU(WEAPONING);
-      weaponing = _weaponing != 0xFC && _weaponing != 0x00;
+      gameState.setWeaponing(_weaponing != 0xFC && _weaponing != 0x00);
     } else {
-      weaponing = true;
+      gameState.setWeaponing(true);
     }
 
    switch(gameState.getStageNumber()) {
@@ -533,7 +532,7 @@ public class CastlevaniaBot {
 
     atBottomOfStairs = isAtBottomOfStairs();
     atTopOfStairs = isAtTopOfStairs();
-    canJump = !weaponing && !onStairs && !kneeling && onPlatform
+    canJump = !gameState.isWeaponing() && !onStairs && !kneeling && onPlatform
         && jumpDelay == 0;
 
     gameState.getCurrentLevel().readGameObjects(this);
@@ -1551,7 +1550,7 @@ public class CastlevaniaBot {
   }
   
   public void whip() {
-    if (!weaponing) {
+    if (!gameState.isWeaponing()) {
       weaponDelay = WEAPON_DELAY;
       api.writeGamepad(0, B, true);
     }
@@ -1619,7 +1618,7 @@ public class CastlevaniaBot {
   
   // Use holy water if possible to grind for double and triple shots, else whip.
   public boolean grind() {
-    if (!weaponing) {
+    if (!gameState.isWeaponing()) {
       weaponDelay = WEAPON_DELAY;
       if (!atBottomOfStairs && weapon == HOLY_WATER && hearts > 5 && shot < 3) {
         api.writeGamepad(0, Up, true);
@@ -1635,7 +1634,7 @@ public class CastlevaniaBot {
   }
   
   public void whipOrWeapon() {
-    if (!weaponing) {
+    if (!gameState.isWeaponing()) {
       weaponDelay = WEAPON_DELAY;
       if (!atBottomOfStairs) {
         api.writeGamepad(0, Up, true);
@@ -1645,7 +1644,7 @@ public class CastlevaniaBot {
   }
   
   public void useWeapon() {
-    if (!weaponing) {
+    if (!gameState.isWeaponing()) {
       weaponDelay = WEAPON_DELAY;
       api.writeGamepad(0, Up, true);
       api.writeGamepad(0, B, true);

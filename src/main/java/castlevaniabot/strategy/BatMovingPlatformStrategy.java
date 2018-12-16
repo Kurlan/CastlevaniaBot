@@ -71,13 +71,13 @@ public class BatMovingPlatformStrategy implements Strategy {
             batTimer = BAT_TIMER_THRESHOLD;
 
             if (b.isInStandingWhipRange(bat, offsetX, offsetY)) {
-                if (b.face(bat) && !b.weaponing) {
+                if (b.face(bat) && !gameState.isWeaponing()) {
                     b.whip();
                 }
             } else if (b.isInKneelingWhipRange(bat, offsetX, offsetY)) {
                 if (b.face(bat)) {
                     b.kneel();
-                    if (b.kneeling && !b.weaponing) {
+                    if (b.kneeling && !gameState.isWeaponing()) {
                         b.whip();
                     }
                 }
@@ -106,7 +106,7 @@ public class BatMovingPlatformStrategy implements Strategy {
             lastFishmanY = fishman.y;
 
             if (b.isInStandingWhipRange(fishman, offsetX, offsetY)) {
-                if (b.face(fishman) && !b.weaponing) {
+                if (b.face(fishman) && !gameState.isWeaponing()) {
                     b.whip();
                 }
             }

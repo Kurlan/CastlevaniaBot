@@ -59,7 +59,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 b.useWeapon();
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!b.weaponing && b.faceTarget()) {
+            if (!gameState.isWeaponing() && b.faceTarget()) {
                 if (holyWaterDelay > 0) {
                     b.whip();
                 } else if (b.grind()) {
@@ -75,7 +75,7 @@ public class WhiteSkeletonStrategy implements Strategy {
         } else if (!b.onStairs && holyWaterDelay == 0 && b.weapon == HOLY_WATER
                 && b.hearts > 0 && skeleton.distanceX < 96
                 && skeleton.distanceY <= 36) {
-            if (!b.weaponing && b.faceTarget() && b.canJump) {
+            if (!gameState.isWeaponing() && b.faceTarget() && b.canJump) {
                 if (b.isUnderLedge()) {
                     holyWaterDelay = HOLY_WATER_RESET;
                     drawingTowardHolyWater = true;

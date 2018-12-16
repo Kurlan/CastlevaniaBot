@@ -16,6 +16,7 @@ public class GameState {
     private int stageNumber;
     private int substageNumber;
     private Substage currentSubstage;
+    private boolean weaponing;
 
     private MovingPlatform[] movingPlatforms;
     private int movingPlatformsCount;
