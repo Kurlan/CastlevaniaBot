@@ -83,7 +83,7 @@ public class Substage0300 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.GOT_CRYSTAL_BALL;
+      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target);
     }

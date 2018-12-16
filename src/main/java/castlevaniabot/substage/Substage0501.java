@@ -76,28 +76,28 @@ public class Substage0501 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerY > 144 && b.playerX < 287 && b.playerY > 32) {  
-      if (b.strategy != b.MEDUSA_HEADS_PITS) {
+      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_PITS()) {
         clearTarget(targetedObject);
-        b.MEDUSA_HEADS_PITS.init();
-        b.strategy = b.MEDUSA_HEADS_PITS; 
+        b.getAllStrategies().getMEDUSA_HEADS_PITS().init();
+        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_PITS();
       }
     } else if (b.playerY <= 144 && b.playerX <= 255 && b.playerY > 32) {
-      if (b.strategy != b.MEDUSA_HEADS_WALK) {
+      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.MEDUSA_HEADS_WALK.init(true);
-        b.strategy = b.MEDUSA_HEADS_WALK;  
+        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
+        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
       }
     } else if (b.playerY <= 112 && b.playerX >= 240 && b.playerX <= 387) {
-      if (b.strategy != b.NO_JUMP_MOVING_PLATFORM) {
+      if (b.strategy != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
-        b.NO_JUMP_MOVING_PLATFORM.init(352, 255, 112);
-        b.strategy = b.NO_JUMP_MOVING_PLATFORM;
+        b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(352, 255, 112);
+        b.strategy = b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM();
       }
     } else if (b.playerY <= 112 && b.playerX >= 384 && b.playerX <= 496) {
-      if (b.strategy != b.JUMP_MOVING_PLATFORM) {
+      if (b.strategy != b.getAllStrategies().getJUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
-        b.JUMP_MOVING_PLATFORM.init(496, 368, 112);
-        b.strategy = b.JUMP_MOVING_PLATFORM;
+        b.getAllStrategies().getJUMP_MOVING_PLATFORM().init(496, 368, 112);
+        b.strategy = b.getAllStrategies().getJUMP_MOVING_PLATFORM();
       }
     } else {
       super.pickStrategy(targetedObject);

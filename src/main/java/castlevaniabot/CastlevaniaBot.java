@@ -19,62 +19,13 @@ import castlevaniabot.model.creativeelements.Whip;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
-import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.MapElement;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.Modes;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.TileType;
-import castlevaniabot.strategy.AxeKnightStrategy;
-import castlevaniabot.strategy.AxeStrategy;
-import castlevaniabot.strategy.BatDualPlatformsStrategy;
-import castlevaniabot.strategy.BatMovingPlatformStrategy;
-import castlevaniabot.strategy.BlackBatStrategy;
-import castlevaniabot.strategy.BlockStrategy;
-import castlevaniabot.strategy.BoneDragonStrategy;
-import castlevaniabot.strategy.BoneStrategy;
-import castlevaniabot.strategy.BoneTowerStrategy;
-import castlevaniabot.strategy.BoomerangDeathStrategy;
-import castlevaniabot.strategy.CandlesStrategy;
-import castlevaniabot.strategy.CookieMonsterStrategy;
-import castlevaniabot.strategy.CrusherStrategy;
-import castlevaniabot.strategy.DeathHallHolyWaterStrategy;
-import castlevaniabot.strategy.DraculaStrategy;
-import castlevaniabot.strategy.EagleStrategy;
-import castlevaniabot.strategy.FireColumnStrategy;
-import castlevaniabot.strategy.FireballStrategy;
-import castlevaniabot.strategy.FishmanStrategy;
-import castlevaniabot.strategy.FleamanStrategy;
-import castlevaniabot.strategy.FrankensteinStrategy;
-import castlevaniabot.strategy.GetCrystalBallStrategy;
-import castlevaniabot.strategy.GetItemStrategy;
-import castlevaniabot.strategy.GhostStrategy;
-import castlevaniabot.strategy.GhoulStrategy;
-import castlevaniabot.strategy.GiantBatStrategy;
-import castlevaniabot.strategy.GotCrystalBallStrategy;
-import castlevaniabot.strategy.HolyWaterDeathStrategy;
-import castlevaniabot.strategy.JumpMovingPlatformStrategy;
-import castlevaniabot.strategy.MedusaHeadStrategy;
-import castlevaniabot.strategy.MedusaHeadsPitsStrategy;
-import castlevaniabot.strategy.MedusaHeadsWalkStrategy;
-import castlevaniabot.strategy.MedusaStrategy;
-import castlevaniabot.strategy.MummiesStrategy;
-import castlevaniabot.strategy.NoJumpMovingPlatformStrategy;
-import castlevaniabot.strategy.PantherStrategy;
-import castlevaniabot.strategy.PhantomBatStrategy;
-import castlevaniabot.strategy.RavenStrategy;
-import castlevaniabot.strategy.RedBatDamageBoostStrategy;
-import castlevaniabot.strategy.RedBatStrategy;
-import castlevaniabot.strategy.RedBonesStrategy;
-import castlevaniabot.strategy.RedSkeletonStrategy;
-import castlevaniabot.strategy.SickleStrategy;
-import castlevaniabot.strategy.SkeletonWallStrategy;
-import castlevaniabot.strategy.SnakeStrategy;
-import castlevaniabot.strategy.SpearKnightStrategy;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
-import castlevaniabot.strategy.UseWeaponStrategy;
-import castlevaniabot.strategy.WaitStrategy;
-import castlevaniabot.strategy.WhipStrategy;
-import castlevaniabot.strategy.WhiteSkeletonStrategy;
 import castlevaniabot.substage.Substage;
 import castlevaniabot.substage.Substage0000;
 import castlevaniabot.substage.Substage0100;
@@ -329,76 +280,6 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800 = new Substage1800(this);
   final Substage1801 SUBSTAGE_1801 = new Substage1801(this);
 
-  public final AxeStrategy AXE = new AxeStrategy(this);
-  public final AxeKnightStrategy AXE_KNIGHT = new AxeKnightStrategy(this);
-  public final BatMovingPlatformStrategy BAT_MOVING_PLATFORM
-      = new BatMovingPlatformStrategy(this);
-  public final BatDualPlatformsStrategy BAT_DUAL_PLATFORMS
-      = new BatDualPlatformsStrategy(this);
-  public final BoneDragonStrategy BONE_DRAGON = new BoneDragonStrategy(this);
-  public final BlackBatStrategy BLACK_BAT = new BlackBatStrategy(this);
-  public final BlockStrategy BLOCK = new BlockStrategy(this);
-  public final BoomerangDeathStrategy BOOMERANG_DEATH
-      = new BoomerangDeathStrategy(this);
-  public final BoneStrategy BONE = new BoneStrategy(this);
-  public final BoneTowerStrategy BONE_TOWER = new BoneTowerStrategy(this);
-  public final CandlesStrategy CANDLES = new CandlesStrategy(this);
-  public final CookieMonsterStrategy COOKIE_MONSTER
-      = new CookieMonsterStrategy(this);
-  public final CrusherStrategy CRUSHER
-      = new CrusherStrategy(this);
-  public final DeathHallHolyWaterStrategy DEATH_HALL_HOLY_WATER
-      = new DeathHallHolyWaterStrategy(this);
-  public final DraculaStrategy DRACULA = new DraculaStrategy(this);
-  public final EagleStrategy EAGLE = new EagleStrategy(this);
-  public final FireballStrategy FIREBALL = new FireballStrategy(this);
-  public final FireColumnStrategy FIRE_COLUMN = new FireColumnStrategy(this);
-  public final FishmanStrategy FISHMAN = new FishmanStrategy(this);
-  public final FleamanStrategy FLEAMAN = new FleamanStrategy(this);
-  public final FrankensteinStrategy FRANKENSTEIN
-      = new FrankensteinStrategy(this);
-  public final GetCrystalBallStrategy GET_CRYSTAL_BALL
-      = new GetCrystalBallStrategy(this);
-  public final GetItemStrategy GET_ITEM = new GetItemStrategy(this);
-  public final GhostStrategy GHOST = new GhostStrategy(this);
-  public final GhoulStrategy GHOUL = new GhoulStrategy(this);
-  public final GiantBatStrategy GIANT_BAT = new GiantBatStrategy(this);
-  public final GotCrystalBallStrategy GOT_CRYSTAL_BALL
-      = new GotCrystalBallStrategy(this);
-  public final HolyWaterDeathStrategy HOLY_WATER_DEATH
-      = new HolyWaterDeathStrategy(this);
-  public final JumpMovingPlatformStrategy JUMP_MOVING_PLATFORM
-      = new JumpMovingPlatformStrategy(this);
-  public final MedusaStrategy MEDUSA = new MedusaStrategy(this);
-  public final MedusaHeadStrategy MEDUSA_HEAD = new MedusaHeadStrategy(this);
-  public final MedusaHeadsPitsStrategy MEDUSA_HEADS_PITS
-      = new MedusaHeadsPitsStrategy(this);
-  public final MedusaHeadsWalkStrategy MEDUSA_HEADS_WALK
-      = new MedusaHeadsWalkStrategy(this);
-  public final MummiesStrategy MUMMIES = new MummiesStrategy(this);
-  public final NoJumpMovingPlatformStrategy NO_JUMP_MOVING_PLATFORM
-      = new NoJumpMovingPlatformStrategy(this);
-  public final PantherStrategy PANTHER = new PantherStrategy(this);
-  public final PhantomBatStrategy PHANTOM_BAT = new PhantomBatStrategy(this);
-  public final RavenStrategy RAVEN = new RavenStrategy(this);
-  public final RedBatDamageBoostStrategy RED_BAT_DAMAGE_BOOST
-      = new RedBatDamageBoostStrategy(this);
-  public final RedBatStrategy RED_BAT = new RedBatStrategy(this);
-  public final RedBonesStrategy RED_BONES = new RedBonesStrategy(this);
-  public final RedSkeletonStrategy RED_SKELETON
-      = new RedSkeletonStrategy(this);
-  public final SickleStrategy SICKLE = new SickleStrategy(this);
-  public final SkeletonWallStrategy SKELETON_WALL
-      = new SkeletonWallStrategy(this);
-  public final SnakeStrategy SNAKE = new SnakeStrategy(this);
-  public final SpearKnightStrategy SPEAR_KNIGHT
-      = new SpearKnightStrategy(this);
-  public final UseWeaponStrategy USE_WEAPON = new UseWeaponStrategy(this);
-  public final WaitStrategy WAIT = new WaitStrategy(this);
-  public final WhiteSkeletonStrategy WHITE_SKELETON
-      = new WhiteSkeletonStrategy(this);
-  public final WhipStrategy WHIP = new WhipStrategy(this);
-
   Level level;
   public Substage substage;
   public Strategy strategy;
@@ -463,7 +344,6 @@ public class CastlevaniaBot {
   public int playerX;
   public int playerY;
 
-
   int cameraX;
   public int whipLength;
   public int hearts;
@@ -482,6 +362,7 @@ public class CastlevaniaBot {
   public final Map<String, MapRoutes> allMapRoutes;
   public final GameObject[] gameObjects;
   private TargetedObject targetedObject;
+  public final AllStrategies allStrategies;
 
   public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects) {
       this.currentTile = Coordinates.builder().x(0).y(0).build();
@@ -496,6 +377,7 @@ public class CastlevaniaBot {
                     .y(-512)
                     .build())
             .build();
+      this.allStrategies = new AllStrategies(this);
     try {
       for(int i = movingPlatforms.length - 1; i >= 0; --i) {
         movingPlatforms[i] = new MovingPlatform();
@@ -533,6 +415,10 @@ public class CastlevaniaBot {
 
   public TargetedObject getTargetedObject() {
     return this.targetedObject;
+  }
+
+  public AllStrategies getAllStrategies() {
+    return this.allStrategies;
   }
   
   public void apiEnabled() {

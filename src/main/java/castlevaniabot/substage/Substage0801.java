@@ -101,10 +101,10 @@ public class Substage0801 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerX >= 627 && b.playerX < 659) {
-      if (b.strategy != b.WAIT) {
+      if (b.strategy != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
-        b.WAIT.init(643, 160, WaitStrategy.WaitType.KNEEL);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(643, 160, WaitStrategy.WaitType.KNEEL);
+        b.strategy = b.getAllStrategies().getWAIT();
       }
     } else {
       super.pickStrategy(targetedObject);

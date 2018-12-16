@@ -84,12 +84,12 @@ public class DraculaStrategy extends Strategy {
           fireball = obj;
           break;
         case COOKIE_MONSTER_HEAD:          
-          b.COOKIE_MONSTER.init();
-          b.strategy = b.COOKIE_MONSTER;
+          b.getAllStrategies().getCOOKIE_MONSTER().init();
+          b.strategy = b.getAllStrategies().getCOOKIE_MONSTER();
           break;
         case CRYSTAL_BALL:
-          b.COOKIE_MONSTER.done = true;
-          b.strategy = b.COOKIE_MONSTER;
+          b.getAllStrategies().getCOOKIE_MONSTER().done = true;
+          b.strategy = b.getAllStrategies().getCOOKIE_MONSTER();
           break;
       }
     }

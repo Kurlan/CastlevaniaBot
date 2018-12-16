@@ -169,26 +169,26 @@ public class Substage1501 extends Substage {
       b.useWeapon(); // hit candles with boomerang
     } 
     
-    if (b.strategy == b.WHIP) {
+    if (b.strategy == b.getAllStrategies().getWHIP()) {
       if (whippedCandles) {
         super.pickStrategy(targetedObject);
       }
     } else if (bossDefeated) {
       if (!whippedCandles && b.playerX >= 224) {
-        if (b.strategy != b.WHIP) {
+        if (b.strategy != b.getAllStrategies().getWHIP()) {
           clearTarget(targetedObject);
-          b.WHIP.init(238, 128, true, 0, true, false, 36);
-          b.strategy = b.WHIP;
+          b.getAllStrategies().getWHIP().init(238, 128, true, 0, true, false, 36);
+          b.strategy = b.getAllStrategies().getWHIP();
         }
       } else {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.strategy == b.HOLY_WATER_DEATH && b.HOLY_WATER_DEATH.done) {
+    } else if (b.strategy == b.getAllStrategies().getHOLY_WATER_DEATH() && b.getAllStrategies().getHOLY_WATER_DEATH().done) {
       bossDefeated = true;
       super.pickStrategy(targetedObject);
     } else if (bossTriggered) {
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
-        b.HOLY_WATER_DEATH.step();
+        b.getAllStrategies().getHOLY_WATER_DEATH().step();
       } else {
         super.pickStrategy(targetedObject);
       }
@@ -196,20 +196,20 @@ public class Substage1501 extends Substage {
       bossTriggered = true;
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
         clearTarget(targetedObject);
-        b.HOLY_WATER_DEATH.init();
-        b.strategy = b.HOLY_WATER_DEATH;
+        b.getAllStrategies().getHOLY_WATER_DEATH().init();
+        b.strategy = b.getAllStrategies().getHOLY_WATER_DEATH();
       }
-    } else if (b.strategy == b.DEATH_HALL_HOLY_WATER) {
+    } else if (b.strategy == b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
         b.strategy.step();
       } else {
         super.pickStrategy(targetedObject);
       }      
     } else if (b.weapon == HOLY_WATER && b.hearts > 0) {
-      if (b.strategy != b.DEATH_HALL_HOLY_WATER) {
+      if (b.strategy != b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
         clearTarget(targetedObject);
-        b.DEATH_HALL_HOLY_WATER.init();
-        b.strategy = b.DEATH_HALL_HOLY_WATER;
+        b.getAllStrategies().getDEATH_HALL_HOLY_WATER().init();
+        b.strategy = b.getAllStrategies().getDEATH_HALL_HOLY_WATER();
       } else {
         super.pickStrategy(targetedObject);
       }
@@ -222,12 +222,12 @@ public class Substage1501 extends Substage {
   Strategy selectStrategy(final GameObject target) {
     if (target == null) {
       if (aboutToGetCrystalBall) {
-        return b.GOT_CRYSTAL_BALL;
+        return b.getAllStrategies().getGOT_CRYSTAL_BALL();
       } else {
         return super.selectStrategy(target);
       }
     } else if (target.type == MEDUSA_HEAD) {
-      return b.MEDUSA_HEAD;
+      return b.getAllStrategies().getMEDUSA_HEAD();
     } else {
       return super.selectStrategy(target);
     }    
@@ -236,7 +236,7 @@ public class Substage1501 extends Substage {
   @Override
   public void readGameObjects() {
     if (!bossDefeated) {
-      if (bossTriggered && b.strategy != b.HOLY_WATER_DEATH) {
+      if (bossTriggered && b.strategy != b.getAllStrategies().getHOLY_WATER_DEATH()) {
         b.addDestination(80, 160);
       } else {
         b.addDestination(9, 128);

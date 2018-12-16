@@ -125,26 +125,26 @@ public class Substage1701 extends Substage {
       b.useWeapon();
       usedStopwatch = true;
     } else if (!killedLowerSkeleton && b.playerX >= 496 && b.playerY > 128) {
-      if (b.strategy == b.SKELETON_WALL) {
-        if (b.SKELETON_WALL.done) {
+      if (b.strategy == b.getAllStrategies().getSKELETON_WALL()) {
+        if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedLowerSkeleton = true;
           super.pickStrategy(targetedObject);
         }
       } else {
         clearTarget(targetedObject);
-        b.SKELETON_WALL.init(726, 192, 136);
-        b.strategy = b.SKELETON_WALL;
+        b.getAllStrategies().getSKELETON_WALL().init(726, 192, 136);
+        b.strategy = b.getAllStrategies().getSKELETON_WALL();
       }
     } else if (!killedUpperSkeleton && b.playerX >= 496 && b.playerY <= 128) {
-      if (b.strategy == b.SKELETON_WALL) {
-        if (b.SKELETON_WALL.done) {
+      if (b.strategy == b.getAllStrategies().getSKELETON_WALL()) {
+        if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedUpperSkeleton = true;
           super.pickStrategy(targetedObject);
         }
       } else {
         clearTarget(targetedObject);
-        b.SKELETON_WALL.init(704, 128);
-        b.strategy = b.SKELETON_WALL;
+        b.getAllStrategies().getSKELETON_WALL().init(704, 128);
+        b.strategy = b.getAllStrategies().getSKELETON_WALL();
       } 
     } else {
       super.pickStrategy(targetedObject);

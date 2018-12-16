@@ -110,7 +110,7 @@ public class Substage1300 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     
-    if (b.strategy == b.WAIT) {
+    if (b.strategy == b.getAllStrategies().getWAIT()) {
       final GameObject skeleton = b.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < b.playerX - 48 
           || skeleton.y > 132))) {
@@ -121,8 +121,8 @@ public class Substage1300 extends Substage {
       if (skeleton != null && skeleton.y <= 132 
           && b.playerX < skeleton.x) {
         clearTarget(targetedObject);
-        b.WAIT.init(493, 192);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(493, 192);
+        b.strategy = b.getAllStrategies().getWAIT();
         waited = false;
       } else {
         super.pickStrategy(targetedObject);

@@ -150,23 +150,23 @@ public class Substage0900 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     
     if (bossTriggered && !bossDefeated) {
-      if (b.strategy != b.MUMMIES) {
+      if (b.strategy != b.getAllStrategies().getMUMMIES()) {
         clearTarget(targetedObject);
-        b.MUMMIES.init();
-        b.strategy = b.MUMMIES;
+        b.getAllStrategies().getMUMMIES().init();
+        b.strategy = b.getAllStrategies().getMUMMIES();
       }
     } else if (enteredTomb && !treasureTriggered) {
-      if (b.strategy != b.WAIT) {
+      if (b.strategy != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
-        b.WAIT.init(1320, 160, WaitStrategy.WaitType.WALK_LEFT, 200);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(1320, 160, WaitStrategy.WaitType.WALK_LEFT, 200);
+        b.strategy = b.getAllStrategies().getWAIT();
       }
     } else if (!enteredTomb && b.playerX >= 992 && b.playerX < 1327 
         && areFireballsOrBoneTowersNotPresent()) {
-      if (b.strategy != b.MEDUSA_HEADS_WALK) {
+      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.MEDUSA_HEADS_WALK.init(false);
-        b.strategy = b.MEDUSA_HEADS_WALK;
+        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(false);
+        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
       }
     } else {
       super.pickStrategy(targetedObject);
@@ -187,7 +187,7 @@ public class Substage0900 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.GOT_CRYSTAL_BALL;
+      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target);
     }

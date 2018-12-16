@@ -131,20 +131,20 @@ public class Substage1200 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.strategy == b.FRANKENSTEIN) {
-      if (b.FRANKENSTEIN.done) {
+    if (b.strategy == b.getAllStrategies().getFRANKENSTEIN()) {
+      if (b.getAllStrategies().getFRANKENSTEIN().done) {
         bossDefeated = true;
         super.pickStrategy(targetedObject);
       }
     } else if (!bossDefeated && b.playerX > 896) {
       clearTarget(targetedObject);
-      b.FRANKENSTEIN.init();
-      b.strategy = b.FRANKENSTEIN;
+      b.getAllStrategies().getFRANKENSTEIN().init();
+      b.strategy = b.getAllStrategies().getFRANKENSTEIN();
     } else if (bossDefeated && !gotHighCandle && b.countObjects(CANDLES) == 1) {
-      if (b.strategy != b.WHIP) {
+      if (b.strategy != b.getAllStrategies().getWHIP()) {
         clearTarget(targetedObject);
-        b.WHIP.init(992, 144, true, 0, true, true, 24);
-        b.strategy = b.WHIP;
+        b.getAllStrategies().getWHIP().init(992, 144, true, 0, true, true, 24);
+        b.strategy = b.getAllStrategies().getWHIP();
       }
     } else {
       super.pickStrategy(targetedObject);
@@ -154,7 +154,7 @@ public class Substage1200 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.GOT_CRYSTAL_BALL;
+      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target);
     }
@@ -180,7 +180,7 @@ public class Substage1200 extends Substage {
       }
     }
     
-    if (b.strategy != b.FRANKENSTEIN && !bossDefeated) {
+    if (b.strategy != b.getAllStrategies().getFRANKENSTEIN() && !bossDefeated) {
       b.addDestination(944, 176);
     }
   }  

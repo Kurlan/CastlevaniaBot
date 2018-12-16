@@ -31,7 +31,7 @@ public class RedBatDamageBoostStrategy extends Strategy {
       if (b.playerX != 195 || b.playerY != 144 || b.playerLeft) {
         if (bat != null) {
           b.getTargetedObject().setTarget(bat);
-          b.RED_BAT.step();
+          b.getAllStrategies().getRED_BAT().step();
         } else if (b.playerY != 144 || b.playerX < 191) {
           b.substage.route(191, 144);
         } else if (b.playerX < 195) {
@@ -45,7 +45,7 @@ public class RedBatDamageBoostStrategy extends Strategy {
           }
         } else {
           b.getTargetedObject().setTarget(bat);
-          b.RED_BAT.step();
+          b.getAllStrategies().getRED_BAT().step();
         }
       }
     }

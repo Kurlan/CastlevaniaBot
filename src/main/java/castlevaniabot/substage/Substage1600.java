@@ -90,7 +90,7 @@ public class Substage1600 extends Substage {
     if (target == null || target.type != PHANTOM_BAT) {
       return super.selectStrategy(target);
     } else {
-      return b.GIANT_BAT;
+      return b.getAllStrategies().getGIANT_BAT();
     }
   }
 

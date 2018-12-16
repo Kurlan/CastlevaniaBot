@@ -73,16 +73,16 @@ public class Substage0500 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerX >= 544) {
-      if (b.strategy != b.MEDUSA_HEADS_WALK) {
+      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.MEDUSA_HEADS_WALK.init(true);
-        b.strategy = b.MEDUSA_HEADS_WALK;
+        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
+        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
       }
     } else if (!treasureTriggered && b.playerX >= 288 && b.playerX < 320) {
-      if (b.strategy != b.WAIT) {
+      if (b.strategy != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
-        b.WAIT.init(304, 80);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(304, 80);
+        b.strategy = b.getAllStrategies().getWAIT();
       }
     } else {
       super.pickStrategy(targetedObject);

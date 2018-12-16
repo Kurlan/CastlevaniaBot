@@ -125,15 +125,15 @@ public class Substage1700 extends Substage {
         route(104, 48, false);
       }
     } else if (!killedSkeleton) {
-      if (b.strategy == b.SKELETON_WALL) {
-        if (b.SKELETON_WALL.done) {
+      if (b.strategy == b.getAllStrategies().getSKELETON_WALL()) {
+        if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedSkeleton = true;
           super.pickStrategy(targetedObject);
         }
       } else {
         clearTarget(targetedObject);
-        b.SKELETON_WALL.init(736, 128);
-        b.strategy = b.SKELETON_WALL;
+        b.getAllStrategies().getSKELETON_WALL().init(736, 128);
+        b.strategy = b.getAllStrategies().getSKELETON_WALL();
       }
     } else {
       super.pickStrategy(targetedObject);

@@ -135,10 +135,10 @@ public class Substage1301 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerY <= 96 && b.playerX >= 336 
         && b.playerX < 416) {
-      if (b.strategy != b.WAIT) {
+      if (b.strategy != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
-        b.WAIT.init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
+        b.strategy = b.getAllStrategies().getWAIT();
       }
     } else {
       super.pickStrategy(targetedObject);

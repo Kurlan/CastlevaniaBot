@@ -94,10 +94,10 @@ public class Substage1801 extends Substage {
         case DRACULA_HEAD:
           if (holyWaterTimeOut == 0 || b.weapon == HOLY_WATER) {
             bossTriggered = true;
-            if (b.strategy != b.DRACULA) {
+            if (b.strategy != b.getAllStrategies().getDRACULA()) {
               clearTarget(b.getTargetedObject());
-              b.DRACULA.init();
-              b.strategy = b.DRACULA;
+              b.getAllStrategies().getDRACULA().init();
+              b.strategy = b.getAllStrategies().getDRACULA();
             }
           } else if (holyWaterTimeOut > 0) {
             --holyWaterTimeOut;
@@ -106,10 +106,10 @@ public class Substage1801 extends Substage {
         case COOKIE_MONSTER_HEAD:
           if (holyWaterTimeOut == 0 || b.weapon == HOLY_WATER) {
             bossTriggered = true;
-            if (b.strategy != b.COOKIE_MONSTER) {
+            if (b.strategy != b.getAllStrategies().getCOOKIE_MONSTER()) {
               clearTarget(b.getTargetedObject());
-              b.COOKIE_MONSTER.init();
-              b.strategy = b.COOKIE_MONSTER;
+              b.getAllStrategies().getCOOKIE_MONSTER().init();
+              b.strategy = b.getAllStrategies().getCOOKIE_MONSTER();
             }
           } else if (holyWaterTimeOut > 0) {
             --holyWaterTimeOut;
@@ -127,20 +127,20 @@ public class Substage1801 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     if (bossDefeated) {
       super.pickStrategy(targetedObject);
-    } else if (b.strategy == b.COOKIE_MONSTER) {
-      if (b.COOKIE_MONSTER.done) {
+    } else if (b.strategy == b.getAllStrategies().getCOOKIE_MONSTER()) {
+      if (b.getAllStrategies().getCOOKIE_MONSTER().done) {
         bossTriggered = bossDefeated = true;
         super.pickStrategy(targetedObject);
       } else {
-        b.COOKIE_MONSTER.step();
+        b.getAllStrategies().getCOOKIE_MONSTER().step();
       }
-    } else if (b.strategy == b.DRACULA) {
-      b.DRACULA.step();
+    } else if (b.strategy == b.getAllStrategies().getDRACULA()) {
+      b.getAllStrategies().getDRACULA().step();
     } else if (b.weapon == HOLY_WATER) {
       bossTriggered = true;
       clearTarget(targetedObject);
-      b.DRACULA.init();
-      b.strategy = b.DRACULA;
+      b.getAllStrategies().getDRACULA().init();
+      b.strategy = b.getAllStrategies().getDRACULA();
     } else if (walkDownStairs) {
       route(607, 223);
     } else if (b.playerX <= 144 && (b.hearts < 20 || b.whipLength != 2)) {
@@ -159,7 +159,7 @@ public class Substage1801 extends Substage {
   Strategy selectStrategy(final GameObject target) {
     if (target == null) {
       if (aboutToGetCrystalBall) {
-        return b.GOT_CRYSTAL_BALL;
+        return b.getAllStrategies().getGOT_CRYSTAL_BALL();
       } else {
         return super.selectStrategy(target);
       }

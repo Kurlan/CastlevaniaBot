@@ -34,7 +34,7 @@ public class Substage0601 extends Substage {
     }
       
     if (obj.type == SNAKE) {
-      if (!b.MEDUSA.isTimeFrozen()) {
+      if (!b.getAllStrategies().getMEDUSA().isTimeFrozen()) {
         if (obj.distanceX < 64) {
           if (obj.left) {
             if (obj.x2 > b.playerX - 16) {
@@ -105,10 +105,10 @@ public class Substage0601 extends Substage {
       b.strategy = null;
       walkDelay = 150 + ThreadLocalRandom.current().nextInt(11);
     } else if (b.playerX >= 256 && b.playerX < 608) {
-      if (b.strategy != b.MEDUSA_HEADS_WALK) {
+      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.MEDUSA_HEADS_WALK.init(true);
-        b.strategy = b.MEDUSA_HEADS_WALK;
+        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
+        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
       }
     } else {
       super.pickStrategy(targetedObject);
@@ -118,7 +118,7 @@ public class Substage0601 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.GOT_CRYSTAL_BALL;
+      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target);
     }

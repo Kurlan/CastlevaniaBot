@@ -172,35 +172,35 @@ public abstract class Substage {
       return null;
     }
     switch(target.type) {
-      case AXE:                 return b.AXE;
-      case AXE_KNIGHT:          return b.AXE_KNIGHT;
-      case BLACK_BAT:           return b.BLACK_BAT;
-      case BLOCK:               return b.BLOCK;
-      case BONE_DRAGON_HEAD:    return b.BONE_DRAGON;
-      case BONE_TOWER:          return b.BONE_TOWER;
-      case CANDLES:             return b.CANDLES;
-      case CRYSTAL_BALL:        return b.GET_CRYSTAL_BALL;
-      case DEATH:               return b.BOOMERANG_DEATH;
-      case EAGLE:               return b.EAGLE;
-      case FIREBALL:            return b.FIREBALL;
-      case FIRE_COLUMN:         return b.FIRE_COLUMN;
-      case FISHMAN:             return b.FISHMAN;
-      case FLEAMAN:             return b.FLEAMAN;
-      case GHOST:               return b.GHOST;
-      case GHOUL:               return b.GHOUL;
-      case MEDUSA:              return b.MEDUSA;
-      case PANTHER:             return b.PANTHER;
-      case PHANTOM_BAT:         return b.PHANTOM_BAT;
-      case RAVEN:               return b.RAVEN;
-      case RED_BAT:             return b.RED_BAT;
-      case RED_BONES:           return b.RED_BONES;
-      case RED_SKELETON:        return b.RED_SKELETON;
-      case RED_SKELETON_RISING: return b.RED_BONES;
-      case SICKLE:              return b.SICKLE;
-      case SNAKE:               return b.SNAKE;
-      case SPEAR_KNIGHT:        return b.SPEAR_KNIGHT;
-      case WHITE_SKELETON:      return b.WHITE_SKELETON;
-      default:                  return b.GET_ITEM;
+      case AXE:                 return b.getAllStrategies().getAXE();
+      case AXE_KNIGHT:          return b.getAllStrategies().getAXE_KNIGHT();
+      case BLACK_BAT:           return b.getAllStrategies().getBLACK_BAT();
+      case BLOCK:               return b.getAllStrategies().getBLOCK();
+      case BONE_DRAGON_HEAD:    return b.getAllStrategies().getBONE_DRAGON();
+      case BONE_TOWER:          return b.getAllStrategies().getBONE_TOWER();
+      case CANDLES:             return b.getAllStrategies().getCANDLES();
+      case CRYSTAL_BALL:        return b.getAllStrategies().getGET_CRYSTAL_BALL();
+      case DEATH:               return b.getAllStrategies().getBOOMERANG_DEATH();
+      case EAGLE:               return b.getAllStrategies().getEAGLE();
+      case FIREBALL:            return b.getAllStrategies().getFIREBALL();
+      case FIRE_COLUMN:         return b.getAllStrategies().getFIRE_COLUMN();
+      case FISHMAN:             return b.getAllStrategies().getFISHMAN();
+      case FLEAMAN:             return b.getAllStrategies().getFLEAMAN();
+      case GHOST:               return b.getAllStrategies().getGHOST();
+      case GHOUL:               return b.getAllStrategies().getGHOUL();
+      case MEDUSA:              return b.getAllStrategies().getMEDUSA();
+      case PANTHER:             return b.getAllStrategies().getPANTHER();
+      case PHANTOM_BAT:         return b.getAllStrategies().getPHANTOM_BAT();
+      case RAVEN:               return b.getAllStrategies().getRAVEN();
+      case RED_BAT:             return b.getAllStrategies().getRED_BAT();
+      case RED_BONES:           return b.getAllStrategies().getRED_BONES();
+      case RED_SKELETON:        return b.getAllStrategies().getRED_SKELETON();
+      case RED_SKELETON_RISING: return b.getAllStrategies().getRED_BONES();
+      case SICKLE:              return b.getAllStrategies().getSICKLE();
+      case SNAKE:               return b.getAllStrategies().getSNAKE();
+      case SPEAR_KNIGHT:        return b.getAllStrategies().getSPEAR_KNIGHT();
+      case WHITE_SKELETON:      return b.getAllStrategies().getWHITE_SKELETON();
+      default:                  return b.getAllStrategies().getGET_ITEM();
     }
   }
 
@@ -211,10 +211,10 @@ public abstract class Substage {
       return false;
     }
     
-    if (b.strategy != b.BONE) {
+    if (b.strategy != b.getAllStrategies().getBONE()) {
       clearTarget(targetedObject);
-      b.BONE.init(bone);
-      b.strategy = b.BONE;
+      b.getAllStrategies().getBONE().init(bone);
+      b.strategy = b.getAllStrategies().getBONE();
     }
     
     return true;

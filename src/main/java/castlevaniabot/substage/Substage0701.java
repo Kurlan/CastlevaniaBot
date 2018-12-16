@@ -94,25 +94,25 @@ public class Substage0701 extends Substage {
     if (!treasureTriggered && b.playerX >= 480 && b.playerX < 544 
         && !b.isTypeInBounds(CANDLES, 528, 176, 560, 208)
             && !b.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
-      if (b.strategy != b.WAIT) {
+      if (b.strategy != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
-        b.WAIT.init(528, 208, WaitStrategy.WaitType.KNEEL);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(528, 208, WaitStrategy.WaitType.KNEEL);
+        b.strategy = b.getAllStrategies().getWAIT();
       }
     } else if (b.weapon == HOLY_WATER && b.hearts > 0
         && b.playerY == 128 && b.playerX >= 544 && b.playerX < 576
             && b.isTypeRight(WHITE_SKELETON, 576)) {      
-      if (b.strategy != b.USE_WEAPON) {
+      if (b.strategy != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
-        b.USE_WEAPON.init(560, 128, false, false);
-        b.strategy = b.USE_WEAPON;
+        b.getAllStrategies().getUSE_WEAPON().init(560, 128, false, false);
+        b.strategy = b.getAllStrategies().getUSE_WEAPON();
       }
     } else if (b.playerY == 128 && b.playerX >= 544 && b.playerX < 576 
         && b.boneCount0 > 0) {
-      if (b.strategy != b.WAIT) {
+      if (b.strategy != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
-        b.WAIT.init(560, 128, WaitStrategy.WaitType.STAND, 30);
-        b.strategy = b.WAIT;
+        b.getAllStrategies().getWAIT().init(560, 128, WaitStrategy.WaitType.STAND, 30);
+        b.strategy = b.getAllStrategies().getWAIT();
       }
     } else {
       super.pickStrategy(targetedObject);

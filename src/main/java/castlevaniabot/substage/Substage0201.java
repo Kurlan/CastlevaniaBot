@@ -83,9 +83,9 @@ public class Substage0201 extends Substage {
     
     if (useRedBatDamageBoost && b.playerY == 144 && b.playerX >= 128 
         && b.playerX < 208 && b.playerY < 200) {
-      if (b.strategy != b.RED_BAT_DAMAGE_BOOST) {
+      if (b.strategy != b.getAllStrategies().getRED_BAT_DAMAGE_BOOST()) {
         clearTarget(targetedObject);
-        b.strategy = b.RED_BAT_DAMAGE_BOOST;
+        b.strategy = b.getAllStrategies().getRED_BAT_DAMAGE_BOOST();
         b.strategy.init();
       }
       return;

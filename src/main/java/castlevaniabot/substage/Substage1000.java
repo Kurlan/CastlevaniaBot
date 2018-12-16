@@ -120,30 +120,30 @@ public class Substage1000 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.strategy == b.BAT_MOVING_PLATFORM && b.playerY > 112) {
-      if (b.BAT_MOVING_PLATFORM.done) {
+    if (b.strategy == b.getAllStrategies().getBAT_MOVING_PLATFORM() && b.playerY > 112) {
+      if (b.getAllStrategies().getBAT_MOVING_PLATFORM().done) {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.strategy == b.BAT_DUAL_PLATFORMS) {
-      if (b.BAT_DUAL_PLATFORMS.done) {
+    } else if (b.strategy == b.getAllStrategies().getBAT_DUAL_PLATFORMS()) {
+      if (b.getAllStrategies().getBAT_DUAL_PLATFORMS().done) {
         super.pickStrategy(targetedObject);
       }
     } else if (b.playerX == 991 && b.playerY == 160 
         && !b.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
-      b.BAT_DUAL_PLATFORMS.init();
-      b.strategy = b.BAT_DUAL_PLATFORMS;
+      b.getAllStrategies().getBAT_DUAL_PLATFORMS().init();
+      b.strategy = b.getAllStrategies().getBAT_DUAL_PLATFORMS();
     } else if ((b.playerX == 223 || b.playerX == 767) && b.playerY == 160 
         && !b.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
-      b.BAT_MOVING_PLATFORM.init();
-      b.strategy = b.BAT_MOVING_PLATFORM;
+      b.getAllStrategies().getBAT_MOVING_PLATFORM().init();
+      b.strategy = b.getAllStrategies().getBAT_MOVING_PLATFORM();
     } else if (!whippedHolyWaterCandle && b.weapon != HOLY_WATER 
         && b.playerY <= 96 && b.playerX >= 720 && b.playerX <= 740) {
-      if (b.strategy != b.WHIP) {
+      if (b.strategy != b.getAllStrategies().getWHIP()) {
         clearTarget(targetedObject);
-        b.WHIP.init(732, 96, false, 40);
-        b.strategy = b.WHIP;
+        b.getAllStrategies().getWHIP().init(732, 96, false, 40);
+        b.strategy = b.getAllStrategies().getWHIP();
       }
     } else {
       super.pickStrategy(targetedObject);

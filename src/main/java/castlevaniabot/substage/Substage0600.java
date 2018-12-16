@@ -22,7 +22,7 @@ public class Substage0600 extends Substage {
   @Override
   public void init() {
     super.init();
-    b.CRUSHER.init();
+    b.getAllStrategies().getCRUSHER().init();
     blockWhipped1 = blockBroken1 = blockWhipped0 = blockBroken0 = false;
     mapRoutes = b.allMapRoutes.get("06-00-00");
   }
@@ -86,10 +86,10 @@ public class Substage0600 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.CRUSHER.isActive()) {
-      if (b.strategy != b.CRUSHER) {
+    if (b.getAllStrategies().getCRUSHER().isActive()) {
+      if (b.strategy != b.getAllStrategies().getCRUSHER()) {
         clearTarget(targetedObject);
-        b.strategy = b.CRUSHER;
+        b.strategy = b.getAllStrategies().getCRUSHER();
       }
     } else {
       super.pickStrategy(targetedObject);

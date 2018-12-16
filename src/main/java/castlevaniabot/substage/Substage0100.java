@@ -77,10 +77,10 @@ public class Substage0100 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 52 && b.currentTile.getX() <= 56 && isPantherResting()) {
-      if (b.strategy != b.USE_WEAPON) {
+      if (b.strategy != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
-        b.USE_WEAPON.init(879, 112, true, false);
-        b.strategy = b.USE_WEAPON;
+        b.getAllStrategies().getUSE_WEAPON().init(879, 112, true, false);
+        b.strategy = b.getAllStrategies().getUSE_WEAPON();
       }
     } else {
       super.pickStrategy(targetedObject);
