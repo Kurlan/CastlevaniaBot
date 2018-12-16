@@ -54,7 +54,7 @@ public class SickleStrategy extends Strategy {
   }
   
   private void moveAwayFrom(final GameObject sickle) {
-    switch(b.tileX) {
+    switch(b.tile.getX()) {
       case 0:
       case 1: 
       case 12:

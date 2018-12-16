@@ -53,7 +53,7 @@ public class HolyWaterDeathStrategy extends Strategy {
       if (--jumpCounter == 0) {
         b.whip();
       }
-    } else if (b.tileX != 11) {
+    } else if (b.tile.getX() != 11) {
       b.substage.route(191, 160, false);
     } else if (b.playerX != 195) {
       b.pressRight(); 

@@ -45,7 +45,7 @@ public class GiantBatStrategy extends Strategy {
       
       final int landX = b.playerX - 37;
       if (landX >= 0 
-          && b.substage.mapRoutes.map[b.tileY][landX >> 4].height == 0) {
+          && b.substage.mapRoutes.map[b.tile.getY()][landX >> 4].height == 0) {
         b.pressLeftAndJump();
         return;
       }
@@ -57,7 +57,7 @@ public class GiantBatStrategy extends Strategy {
       
       final int landX = b.playerX - 37;
       if (landX >= 0 
-          && b.substage.mapRoutes.map[b.tileY][landX >> 4].height == 0) {
+          && b.substage.mapRoutes.map[b.tile.getY()][landX >> 4].height == 0) {
         b.pressLeftAndJump();
         jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);        
         return;

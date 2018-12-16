@@ -78,14 +78,14 @@ public abstract class Substage {
       return;
     }
     
-    if (b.tileX == tx && b.tileY == ty) {
+    if (b.tile.getX() == tx && b.tile.getY() == ty) {
       if (b.playerX < targetX) {
         b.pressRight();
       } else if (b.playerX > targetX) {
         b.pressLeft();
       }      
     } else {  
-      final int route = mapRoutes.routes[b.tileY][b.tileX][ty][tx];
+      final int route = mapRoutes.routes[b.tile.getY()][b.tile.getX()][ty][tx];
       b.executeOperation(mapRoutes.map, mapRoutes.width, getOperation(route), 
           getStepX(route), getStepY(route), checkForEnemies);
     }

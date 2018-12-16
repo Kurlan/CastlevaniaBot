@@ -25,13 +25,10 @@ public class MapRoutes {
   public final int pixelsHeight;
   public final MapElement[][] map;
   public final int[][][][] routes;
-  
-  private final CastlevaniaBot b;
 
-  public MapRoutes(final CastlevaniaBot b, final String name, final int width, 
+  public MapRoutes( final String name, final int width,
       final int height, final MapElement[][] map, final int[][][][] routes) {
-    
-    this.b = b;
+
     this.name = name;
     this.width = width;
     this.height = height;
@@ -42,12 +39,12 @@ public class MapRoutes {
     pixelsHeight = height << 4;
   }
    
-  public int getDistance(final int platformX, final int platformY) {
-    return (routes[b.tileY][b.tileX][platformY][platformX] >> 16) & 0xFFFF;
+  public int getDistance(final int platformX, final int platformY, final Tile tile) {
+    return (routes[tile.getY()][tile.getX()][platformY][platformX] >> 16) & 0xFFFF;
   }  
   
-  public int getDistance(final GameObject obj) {
-    return (routes[b.tileY][b.tileX][obj.platformY][obj.platformX] >> 16) 
+  public int getDistance(final GameObject obj, final Tile tile) {
+    return (routes[tile.getY()][tile.getX()][obj.platformY][obj.platformX] >> 16)
         & 0xFFFF;
   }  
   

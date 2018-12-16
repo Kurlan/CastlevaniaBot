@@ -92,11 +92,6 @@ import castlevaniabot.substage.Substage1801;
 import nintaco.api.API;
 import nintaco.api.Colors;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -438,7 +433,7 @@ public class CastlevaniaBot {
   int crystalBallY;
   int crystalBallTime;
   
-  public final Map<String, MapRoutes> allMapRoutes = new HashMap<>();
+
   
   boolean playing;
   public boolean onStairs;
@@ -457,8 +452,8 @@ public class CastlevaniaBot {
   int substageNumber;
   public int playerX;
   public int playerY;
-  public int tileX;
-  public int tileY;
+
+  public Tile tile;
   int cameraX;
   public int whipLength;
   public int hearts;
@@ -472,8 +467,10 @@ public class CastlevaniaBot {
   private int avoidX;
 
   private final API api;
-  
-  public CastlevaniaBot(API api) {
+  public final Map<String, MapRoutes> allMapRoutes;
+
+  public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes) {
+      this.tile = new Tile();
     try {
       for(int i = gameObjects.length - 1; i >= 0; --i) {
         gameObjects[i] = new GameObject();
@@ -504,67 +501,12 @@ public class CastlevaniaBot {
         sickles0[i] = new Sickle();
         sickles1[i] = new Sickle();
       }
-      loadMaps();
     } catch(final Throwable t) {
       t.printStackTrace(); // Display construction errors to console
     }
 
     this.api = api;
-  }
-
-  public void loadMaps() throws Throwable {
-    try(final BufferedReader br = new BufferedReader(new InputStreamReader(
-            CastlevaniaBot.class.getClassLoader().getResourceAsStream("maps/files.txt")))) {
-      String name = null;
-      while((name = br.readLine()) != null) {
-        name = name.trim();
-        if (name.length() > 0) {
-          try(final DataInputStream in = new DataInputStream(
-                  new BufferedInputStream(CastlevaniaBot.class.getClassLoader().getResourceAsStream("maps/" + name)))) {
-            loadMap(name, in);
-          }
-        }
-      }
-    }
-  }
-
-  private void loadMap(final String name, final DataInputStream in)
-          throws Throwable {
-
-    final int WIDTH = in.readInt();
-    final int HEIGHT = in.readInt();
-
-    final MapElement[][] map = new MapElement[HEIGHT][WIDTH];
-    for(int y = HEIGHT - 1; y >= 0; --y) {
-      for(int x = WIDTH - 1; x >= 0; --x) {
-        map[y][x] = new MapElement(in.read());
-      }
-    }
-
-    final int ROUTES = in.readInt();
-    final int[][][][] routes = new int[HEIGHT][WIDTH][HEIGHT][WIDTH];
-    for(int startY = HEIGHT - 1; startY >= 0; --startY) {
-      for(int startX = WIDTH - 1; startX >= 0; --startX) {
-        for(int endY = HEIGHT - 1; endY >= 0; --endY) {
-          for(int endX = WIDTH - 1; endX >= 0; --endX) {
-            routes[startY][startX][endY][endX] = (endX << 8) | (endY << 4);
-            if (startX != endX || startY != endY) {
-              routes[startY][startX][endY][endX] |= 0xFFFF0000;
-            }
-          }
-        }
-      }
-    }
-    for(int i = ROUTES - 1; i >= 0; --i) {
-      final int startX = in.read();
-      final int endX = in.read();
-      final int endYstartY = in.read();
-      final int startY = endYstartY & 0x0F;
-      final int endY = (endYstartY >> 4) & 0x0F;
-      routes[startY][startX][endY][endX] = in.readInt();
-    }
-    allMapRoutes.put(name, new MapRoutes(this, name, WIDTH, HEIGHT, map,
-            routes));
+    this.allMapRoutes = allMapRoutes;
   }
 
   
@@ -688,34 +630,34 @@ public class CastlevaniaBot {
 
     if (onStairs) {
       overHangingLeft = overHangingRight = onPlatform = false;
-      tileX = playerX >> 4;
-      tileY = playerY >> 4;
+      tile.setX(playerX >> 4);
+      tile.setY(playerY >> 4);
       final MapRoutes mapRoutes = substage.getMapRoutes();
       final MapElement[][] map = mapRoutes.map;
-      if (!TileType.isStairs(map[tileY][tileX].tileType)) {
-        if (tileX < mapRoutes.width - 1
-            && TileType.isStairs(map[tileY][tileX + 1].tileType)) {
-          ++tileX;
-        } else if (tileX > 0
-            && TileType.isStairs(map[tileY][tileX - 1].tileType)) {
-          --tileX;
+      if (!TileType.isStairs(map[tile.getY()][tile.getX()].tileType)) {
+        if (tile.getX() < mapRoutes.width - 1
+            && TileType.isStairs(map[tile.getY()][tile.getX() + 1].tileType)) {
+          tile.setX(tile.getX() + 1);
+        } else if (tile.getX() > 0
+            && TileType.isStairs(map[tile.getY()][tile.getX() - 1].tileType)) {
+          tile.setX(tile.getX() - 1);
         }
       }
     } else if (isOnPlatform(playerX, playerY)) {
       onPlatform = true;
       overHangingLeft = overHangingRight = false;
-      tileX = playerX >> 4;
-      tileY = playerY >> 4;
+      tile.setX(playerX >> 4);
+      tile.setY(playerY >> 4);
     } else if (isOnPlatform(playerX - 4, playerY)) {
       overHangingRight = onPlatform = true;
       overHangingLeft = false;
-      tileX = (playerX - 4) >> 4;
-      tileY = playerY >> 4;
+      tile.setX((playerX - 4) >> 4);
+      tile.setY(playerY >> 4);
     } else if (isOnPlatform(playerX + 4, playerY)) {
       overHangingLeft = onPlatform = true;
       overHangingRight = false;
-      tileX = (playerX + 4) >> 4;
-      tileY = playerY >> 4;
+      tile.setX((playerX + 4) >> 4);
+      tile.setY(playerY >> 4);
     } else {
       overHangingLeft = overHangingRight = onPlatform = false;
     }
@@ -1137,7 +1079,7 @@ public class CastlevaniaBot {
     obj.left = false;
     obj.active = false;
     obj.playerFacing = playerLeft ^ (playerX < x);
-    obj.distance = mapRoutes.getDistance(obj);
+    obj.distance = mapRoutes.getDistance(obj, tile);
     obj.x1 = x - 8;
     obj.x2 = x + 8;
     obj.y1 = obj.y2 = y;
@@ -1183,7 +1125,7 @@ public class CastlevaniaBot {
         final int height = map[cy][px].height;          
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
-          final int dist = mapRoutes.getDistance(px, py);
+          final int dist = mapRoutes.getDistance(px, py, tile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
@@ -1201,7 +1143,7 @@ public class CastlevaniaBot {
         final int height = map[cy][px].height;          
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
-          final int dist = mapRoutes.getDistance(px, py);
+          final int dist = mapRoutes.getDistance(px, py, tile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
@@ -1280,7 +1222,7 @@ public class CastlevaniaBot {
         final int hRight = map[cy][pxRight].height;
         if (hLeft <= hRight && hLeft >= 1 && hLeft <= 4) {
           final int py = cy + hLeft;
-          final int dist = mapRoutes.getDistance(pxLeft, py);
+          final int dist = mapRoutes.getDistance(pxLeft, py, tile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {
               obj.distance = dist;
@@ -1310,7 +1252,7 @@ public class CastlevaniaBot {
         final int hRight = map[cy][pxRight].height;
         if (hRight <= hLeft && hRight >= 1 && hRight <= 4) {
           final int py = cy + hRight;
-          final int dist = mapRoutes.getDistance(pxRight, py);
+          final int dist = mapRoutes.getDistance(pxRight, py, tile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {
               obj.distance = dist;
@@ -1342,7 +1284,7 @@ public class CastlevaniaBot {
           final int hRight = map[dy][pxRight].height;
           if (hLeft <= hRight && hLeft >= 1 && hLeft <= 3) {
             final int py = dy + hLeft;
-            final int dist = mapRoutes.getDistance(pxLeft, py);
+            final int dist = mapRoutes.getDistance(pxLeft, py, tile);
             if (dist < MAX_DISTANCE) {
               if (dist < obj.distance) {
                 obj.distance = dist;
@@ -1372,7 +1314,7 @@ public class CastlevaniaBot {
           final int hRight = map[dy][pxRight].height;
           if (hRight <= hLeft && hRight >= 1 && hRight <= 3) {
             final int py = dy + hRight;
-            final int dist = mapRoutes.getDistance(pxRight, py);
+            final int dist = mapRoutes.getDistance(pxRight, py, tile);
             if (dist < MAX_DISTANCE) {
               if (dist < obj.distance) {
                 obj.distance = dist;
@@ -1402,14 +1344,14 @@ public class CastlevaniaBot {
         } 
       }
       if (obj.onPlatform) {
-        obj.distance = mapRoutes.getDistance(obj);
+        obj.distance = mapRoutes.getDistance(obj, tile);
       } else {
         final int height = map[obj.platformY][obj.platformX].height;
         if (height == MAX_HEIGHT) {
           obj.distance = MAX_DISTANCE;        
         } else {
           obj.platformY += height;
-          obj.distance = mapRoutes.getDistance(obj);
+          obj.distance = mapRoutes.getDistance(obj, tile);
         }
       }
     }
@@ -1522,22 +1464,22 @@ public class CastlevaniaBot {
   
   public boolean isUnderLedge() {
     
-    if (tileY < 4) {
+    if (tile.getY() < 4) {
       return false;
     }
     
     final MapElement[][] map = substage.mapRoutes.map;
-    if (map[tileY - 4][tileX].height == 0 || map[tileY - 3][tileX].height == 0){
+    if (map[tile.getY() - 4][tile.getX()].height == 0 || map[tile.getY() - 3][tile.getX()].height == 0){
       return true;
     }
     
     if (playerLeft) {
-      return (tileX > 0) && (map[tileY - 4][tileX - 1].height == 0 
-              || map[tileY - 3][tileX - 1].height == 0);
+      return (tile.getX() > 0) && (map[tile.getY() - 4][tile.getX() - 1].height == 0
+              || map[tile.getY() - 3][tile.getX() - 1].height == 0);
     } else {
-      return (tileX < substage.mapRoutes.width - 1) 
-          && (map[tileY - 4][tileX + 1].height == 0 
-              || map[tileY - 3][tileX + 1].height == 0);
+      return (tile.getX() < substage.mapRoutes.width - 1)
+          && (map[tile.getY() - 4][tile.getX() + 1].height == 0
+              || map[tile.getY() - 3][tile.getX() + 1].height == 0);
     }
   }  
   
@@ -1942,11 +1884,11 @@ public class CastlevaniaBot {
     }
     
     final MapElement[][] map = substage.mapRoutes.map;
-    final int tileType = map[tileY - 1][tileX].tileType;
-    return (tileType == BACK_STAIRS || (tileX < substage.mapRoutes.width - 1 
-        && map[tileY - 1][tileX + 1].tileType == FORWARD_STAIRS)) 
-            || (tileType == FORWARD_STAIRS || (tileX > 0 
-                && map[tileY - 1][tileX - 1].tileType == BACK_STAIRS));
+    final int tileType = map[tile.getY() - 1][tile.getX()].tileType;
+    return (tileType == BACK_STAIRS || (tile.getX() < substage.mapRoutes.width - 1
+        && map[tile.getY() - 1][tile.getX() + 1].tileType == FORWARD_STAIRS))
+            || (tileType == FORWARD_STAIRS || (tile.getX() > 0
+                && map[tile.getY() - 1][tile.getX() - 1].tileType == BACK_STAIRS));
   }  
   
   private void goUpStairs(final MapElement[][] map, final int width) {
@@ -1958,16 +1900,16 @@ public class CastlevaniaBot {
       pressLeft();
     } else if (onPlatform) {      
       final int x = playerX & 0x0F;
-      final int tileType = map[tileY - 1][tileX].tileType;
-      if (tileType == BACK_STAIRS || (tileX < width - 1 
-          && map[tileY - 1][tileX + 1].tileType == FORWARD_STAIRS)) {
+      final int tileType = map[tile.getY() - 1][tile.getX()].tileType;
+      if (tileType == BACK_STAIRS || (tile.getX() < width - 1
+          && map[tile.getY() - 1][tile.getX() + 1].tileType == FORWARD_STAIRS)) {
         if (x < 15) {
           pressRight();
         } else {
           api.writeGamepad(0, Up, true);
         }
-      } else if (tileType == FORWARD_STAIRS || (tileX > 0 
-          && map[tileY - 1][tileX - 1].tileType == BACK_STAIRS)) {
+      } else if (tileType == FORWARD_STAIRS || (tile.getX() > 0
+          && map[tile.getY() - 1][tile.getX() - 1].tileType == BACK_STAIRS)) {
         if (x > 0) {
           pressLeft();
         } else {
@@ -1984,10 +1926,10 @@ public class CastlevaniaBot {
     }
     
     final MapElement[][] map = substage.mapRoutes.map;
-    final int tileType = map[tileY][tileX].tileType;
-    return isStairsPlatform(tileType) || (tileX < substage.mapRoutes.width - 1 
-            && isBack(map[tileY][tileX + 1].tileType)) 
-        || (tileX > 0 && isForward(map[tileY][tileX - 1].tileType));
+    final int tileType = map[tile.getY()][tile.getX()].tileType;
+    return isStairsPlatform(tileType) || (tile.getX() < substage.mapRoutes.width - 1
+            && isBack(map[tile.getY()][tile.getX() + 1].tileType))
+        || (tile.getX() > 0 && isForward(map[tile.getY()][tile.getX() - 1].tileType));
   }
   
   private void goDownStairs(final MapElement[][] map, final int width) {
@@ -1995,16 +1937,16 @@ public class CastlevaniaBot {
       api.writeGamepad(0, Down, true);
     } else if (onPlatform) {
       final int x = playerX & 0x0F;
-      final int tileType = map[tileY][tileX].tileType;
-      if (tileType == FORWARD_PLATFORM || (tileX < width - 1 
-          && isBack(map[tileY][tileX + 1].tileType))) {
+      final int tileType = map[tile.getY()][tile.getX()].tileType;
+      if (tileType == FORWARD_PLATFORM || (tile.getX() < width - 1
+          && isBack(map[tile.getY()][tile.getX() + 1].tileType))) {
         if (x < 15) {
           pressRight();
         } else {
           api.writeGamepad(0, Down, true);
         }
-      } else if (tileType == BACK_PLATFORM || (tileX > 0 
-          && isForward(map[tileY][tileX - 1].tileType))) {
+      } else if (tileType == BACK_PLATFORM || (tile.getX() > 0
+          && isForward(map[tile.getY()][tile.getX() - 1].tileType))) {
         if (x > 0) {
           pressLeft();
         } else {
@@ -2070,7 +2012,7 @@ public class CastlevaniaBot {
       final boolean checkForEnemies) {
     if (onStairs) {
       api.writeGamepad(0, Up, true);
-    } else if (checkForEnemies && stepY > tileY) {
+    } else if (checkForEnemies && stepY > tile.getY()) {
       final int x = playerX & 0xF;
       if (overHangingLeft && direction == Left && x < 13) {
         if (!isEnemyInBounds((stepX << 4) - 24, playerY - 32, playerX + 24, 
@@ -2096,11 +2038,11 @@ public class CastlevaniaBot {
     
     switch (offsetX) {
       case 8:
-        if (tileX == 0 || map[tileY - 1][tileX - 1].height == 0
-            || map[tileY - 2][tileX - 1].height == 0) {
+        if (tile.getX() == 0 || map[tile.getY() - 1][tile.getX() - 1].height == 0
+            || map[tile.getY() - 2][tile.getX() - 1].height == 0) {
           offsetX = 10;
-        } else if (tileX == width - 1 || map[tileY - 1][tileX + 1].height == 0
-            || map[tileY - 2][tileX + 1].height == 0) {
+        } else if (tile.getX() == width - 1 || map[tile.getY() - 1][tile.getX() + 1].height == 0
+            || map[tile.getY() - 2][tile.getX() + 1].height == 0) {
           offsetX = 6;
         } break;
       case 19:
@@ -2115,7 +2057,7 @@ public class CastlevaniaBot {
         break;
     }
     
-    final int x = playerX - (tileX << 4);
+    final int x = playerX - (tile.getX() << 4);
     if (x == offsetX) {
       if (playerLeft ^ (direction == Right)) {
         if (jumpDelay == 0) {
@@ -2163,7 +2105,7 @@ public class CastlevaniaBot {
     if (x >= mapRoutes.width) {
       return false;
     }
-    return mapRoutes.getDistance(x, y) < 32;
+    return mapRoutes.getDistance(x, y, tile) < 32;
   }
   
   // (x, y) are absolute coordinates, not tile coordinates

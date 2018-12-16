@@ -29,7 +29,7 @@ public class BoomerangDeathStrategy extends Strategy {
   } 
   
   private void moveAwayFrom(final GameObject death) {
-    switch(b.tileX) {
+    switch(b.tile.getX()) {
       case 0:
       case 1: 
       case 12:

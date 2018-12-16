@@ -72,8 +72,8 @@ public class Substage0100 extends Substage {
 
   @Override
   public void pickStrategy() {
-    if (b.weapon == HOLY_WATER && b.hearts > 0 && b.tileY == 7 
-        && b.tileX >= 52 && b.tileX <= 56 && isPantherResting()) {
+    if (b.weapon == HOLY_WATER && b.hearts > 0 && b.tile.getY() == 7
+        && b.tile.getX() >= 52 && b.tile.getX() <= 56 && isPantherResting()) {
       if (b.strategy != b.USE_WEAPON) {
         clearTarget();
         b.USE_WEAPON.init(879, 112, true, false);

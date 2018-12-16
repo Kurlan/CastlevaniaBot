@@ -104,7 +104,7 @@ public class BatMovingPlatformStrategy extends Strategy {
     }
     
     if (bat == null && fishman == null && (b.playerLeft || (b.playerX > 400 
-        && (b.playerX - (b.tileX << 4)) < 19))) {
+        && (b.playerX - (b.tile.getX() << 4)) < 19))) {
       b.pressRight();
     }
     
