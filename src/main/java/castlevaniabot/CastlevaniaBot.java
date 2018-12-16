@@ -100,7 +100,6 @@ import static castlevaniabot.model.gameelements.TileType.isBack;
 import static castlevaniabot.model.gameelements.TileType.isForward;
 import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
 import static java.lang.Math.abs;
-import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static nintaco.api.GamepadButtons.A;
 import static nintaco.api.GamepadButtons.B;
@@ -223,9 +222,6 @@ public class CastlevaniaBot {
 
   public int objsCount;
   
-  public final MovingPlatform[] movingPlatforms = new MovingPlatform[16];
-  public int movingPlatformsCount;
-  
   final BoneTowerSegment[] boneTowerSegments = new BoneTowerSegment[16];
   public int boneTowerSegmentsCount;
   
@@ -276,12 +272,10 @@ public class CastlevaniaBot {
   public boolean weaponing;
   public boolean canJump;
   int mode;
-  public int stageNumber;
-  int substageNumber;
+
   public int playerX;
   public int playerY;
 
-  int cameraX;
   public int whipLength;
   public int hearts;
   public int shot;
@@ -326,9 +320,6 @@ public class CastlevaniaBot {
       this.gameState = new GameState();
       this.botState = new BotState();
     try {
-      for(int i = movingPlatforms.length - 1; i >= 0; --i) {
-        movingPlatforms[i] = new MovingPlatform();
-      }
       for(int i = boneTowerSegments.length - 1; i >= 0; --i) {
         boneTowerSegments[i] = new BoneTowerSegment();
       }
@@ -367,11 +358,11 @@ public class CastlevaniaBot {
   public AllStrategies getAllStrategies() {
     return this.allStrategies;
   }
-  
-  public void apiEnabled() {
-    System.out.println("API enabled");
+
+  public GameState getGameState() {
+    return this.gameState;
   }
-  
+
   public void apiDisabled() {
     System.out.println("API disabled");
     gameState.setCurrentLevel(null);
@@ -389,14 +380,6 @@ public class CastlevaniaBot {
             .build();
   }
 
-  public void dispose() {
-    System.out.println("API stopped");
-  }
-  
-  public void statusChanged(final String message) {
-    System.out.format("Status message: %s%n", message);
-  }
-  
   private void readState() {
 
     mode = api.readCPU(MODE);
@@ -407,13 +390,13 @@ public class CastlevaniaBot {
     if (!playing) {
       return;
     }
-    stageNumber = api.readCPU(STAGE);
-    substageNumber = api.readCPU(SUBSTAGE);
+    gameState.setStageNumber(api.readCPU(STAGE));
+    gameState.setSubstageNumber(api.readCPU(SUBSTAGE));
     kneeling = api.readCPU(KNEELING) == 0x0A;
     playerY = api.readCPU(PLAYER_Y) + (kneeling ? 12 : 16);
     playerX = api.readCPU16(PLAYER_X);
     playerLeft = api.readCPU(PLAYER_FACING) == 0x01;
-    cameraX = api.readCPU16(CAMERA_X);
+    gameState.setCameraX(api.readCPU16(CAMERA_X));
     weapon = api.readCPU(WEAPON);
     whipLength = api.readCPU(WHIP_LENGTH);
     hearts = api.readCPU(HEARTS);
@@ -428,7 +411,7 @@ public class CastlevaniaBot {
       weaponing = true;
     }
 
-   switch(stageNumber) {
+   switch(gameState.getStageNumber()) {
       case  0:
       case  1:
       case  2:
@@ -451,7 +434,7 @@ public class CastlevaniaBot {
     }
 
     Substage _substage = null;
-    switch((stageNumber << 8) | substageNumber) {
+    switch((gameState.getStageNumber() << 8) | gameState.getSubstageNumber()) {
       case 0x0000: _substage = SUBSTAGE_0000; break;
       case 0x0100: _substage = SUBSTAGE_0100; break;
       case 0x0200: _substage = SUBSTAGE_0200; break;
@@ -605,7 +588,7 @@ public class CastlevaniaBot {
     
     final MedusaHead head = medusaHeads1[medusaHeadsCount1++];
     
-    head.x = x + 8 + cameraX;
+    head.x = x + 8 + gameState.getCameraX();
     head.y_32 = head.y_16 = head.y0 = head.y = y + 16;
     head.s = head.t = 0;
     head.sameYs = 1;
@@ -689,7 +672,7 @@ public class CastlevaniaBot {
     
     final RedBat bat = redBats1[redBatsCount1++];
     
-    bat.x = x + 8 + cameraX;
+    bat.x = x + 8 + gameState.getCameraX();
     bat.y_32 = bat.y_16 = bat.y0 = bat.y = y + 16;
     bat.s = bat.t = 0;
     bat.sameYs = 1;
@@ -773,7 +756,7 @@ public class CastlevaniaBot {
     
     final RedBones bones = redBones1[redBonesCount1++];
     
-    bones.x = x + 8 + cameraX;
+    bones.x = x + 8 + gameState.getCameraX();
     bones.y = y + 16;
     bones.time = abs(playerX - bones.x) > 96 ? RED_BONES_THRESHOLD : 0;
   }
@@ -787,7 +770,7 @@ public class CastlevaniaBot {
         if (abs(b1.x - b0.x) <= 4 && abs(b1.y - b0.y) <= 4) {
           b1.time = b0.time + 1;
           if (b1.time >= RED_BONES_THRESHOLD) {
-            addGameObject(GameObjectType.RED_BONES, b1.x - 8 - cameraX, 
+            addGameObject(GameObjectType.RED_BONES, b1.x - 8 - gameState.getCameraX(),
                 b1.y - 16, false, true);
           }
           break;
@@ -805,7 +788,7 @@ public class CastlevaniaBot {
     
     final Bone bone = bones1[boneCount1++];
     
-    x += type.xOffset + cameraX;    
+    x += type.xOffset + gameState.getCameraX();
     y += type.yOffset;
         
     bone.x1 = x - type.xRadius;
@@ -848,48 +831,6 @@ public class CastlevaniaBot {
       if (bone.vy > 0 && bone.y1 <= playerY && bone.x2 >= playerX - 32 
           && bone.x1 <= playerX + 32) {
         return bone;
-      }
-    }
-    return null;
-  }
-  
-  public void addMovingPlatformSegment(final int x, final int y) {
-    for(int i = movingPlatformsCount - 1; i >= 0; --i) {
-      final MovingPlatform m = movingPlatforms[i];
-      if (m.y == y && abs(m.x1 - x) <= 24) {
-        m.x1 = min(m.x1, x);
-        m.x2 = max(m.x2, x);
-        return;
-      } 
-    }
-    final MovingPlatform m = movingPlatforms[movingPlatformsCount++];
-    m.y = y;
-    m.x1 = x;
-    m.x2 = x;
-  }
-  
-  public void buildMovingPlatforms() {
-    for(int i = movingPlatformsCount - 1; i >= 0; --i) {
-      final MovingPlatform m = movingPlatforms[i];
-      m.x2 += 7;
-      final int width = m.x2 - m.x1 + 1;
-      if (width < 32) {
-        if (m.x2 < 128) {
-          m.x1 = m.x2 - 31;
-        } else {
-          m.x2 = m.x1 + 31;
-        }
-      }
-      m.x1 += cameraX;
-      m.x2 += cameraX;
-    }
-  }
-  
-  public MovingPlatform getMovingPlatform(final int minX, final int maxX) {
-    for(int i = movingPlatformsCount - 1; i >= 0; --i) {
-      final MovingPlatform platform = movingPlatforms[i];
-      if (platform.x1 >= minX && platform.x2 <= maxX) {
-        return platform;
       }
     }
     return null;
@@ -1033,7 +974,7 @@ public class CastlevaniaBot {
     final MapRoutes mapRoutes = substage.getMapRoutes();
     final MapElement[][] map = mapRoutes.map;
     
-    x += type.xOffset + cameraX;
+    x += type.xOffset + gameState.getCameraX();
     if (x < 0) {
       return;
     } else if (x >= mapRoutes.pixelsWidth) {
@@ -1994,28 +1935,29 @@ public class CastlevaniaBot {
     api.setColor(Colors.YELLOW);
     for(int i = objsCount - 1; i >= 0; --i) {
       final GameObject obj = gameObjects[i];
-      api.drawRect(obj.x1 - cameraX, obj.y1, obj.x2 - obj.x1 + 1, 
+      api.drawRect(obj.x1 - gameState.getCameraX(), obj.y1, obj.x2 - obj.x1 + 1,
           obj.y2 - obj.y1 + 1);
     }    
     for(int i = objsCount - 1; i >= 0; --i) {
       final GameObject obj = gameObjects[i];
-      api.drawRect(obj.x1 - cameraX, obj.y1, obj.x2 - obj.x1 + 1, 
+      api.drawRect(obj.x1 - gameState.getCameraX(), obj.y1, obj.x2 - obj.x1 + 1,
           obj.y2 - obj.y1 + 1);
     }
     api.setColor(Colors.CYAN);
     for(int i = redBonesCount0 - 1; i >= 0; --i) {
       final RedBones bones = redBones0[i]; 
-      api.drawRect(bones.x - 8 - cameraX, bones.y - 16, 16, 16);
+      api.drawRect(bones.x - 8 - gameState.getCameraX(), bones.y - 16, 16, 16);
     }
     if (targetedObject.getTarget() != null) {
       api.setColor(Colors.RED);
-      api.drawRect(targetedObject.getTarget().x1 - cameraX, targetedObject.getTarget().y1, targetedObject.getTarget().x2 - targetedObject.getTarget().x1 + 1,
+      api.drawRect(targetedObject.getTarget().x1 - gameState.getCameraX(), targetedObject.getTarget().y1, targetedObject.getTarget().x2 - targetedObject.getTarget().x1 + 1,
               targetedObject.getTarget().y2 - targetedObject.getTarget().y1 + 1);
     }
     api.setColor(Colors.GREEN);
-    for(int i = movingPlatformsCount - 1; i >= 0; --i) {
-      final MovingPlatform p = movingPlatforms[i];
-      api.drawRect(p.x1 - cameraX, p.y, p.x2 - p.x1 + 1, 8);
+
+    for(int i = getGameState().getMovingPlatformsCount() - 1; i >= 0; --i) {
+      final MovingPlatform p = getGameState().getMovingPlatforms()[i];
+      api.drawRect(p.x1 - gameState.getCameraX(), p.y, p.x2 - p.x1 + 1, 8);
     }
   }
   

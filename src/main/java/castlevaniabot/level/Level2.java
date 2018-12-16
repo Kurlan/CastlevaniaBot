@@ -19,7 +19,8 @@ public class Level2 implements Level {
   }
   
   @Override public void readGameObjects(CastlevaniaBot b) {
-    b.boneTowerSegmentsCount = b.movingPlatformsCount = b.objsCount = 0;
+    b.boneTowerSegmentsCount = b.objsCount = 0;
+    b.getGameState().setMovingPlatformsCount(0);
     for(int i = 63; i >= 0; --i) {
       final int sprite = api.readCPU32(SPRITES | (i << 2));      
       final int y = sprite & 0xFF;
@@ -91,7 +92,7 @@ public class Level2 implements Level {
         
         case 0x0072:
         case 0x4072:
-          b.addMovingPlatformSegment(x, y);
+          b.getGameState().addMovingPlatformSegment(x, y);
           continue;
           
         case 0x01E0:
@@ -112,7 +113,7 @@ public class Level2 implements Level {
         b.addGameObject(type, x, y, left, active);
       }
     }
-    b.buildMovingPlatforms();
+    b.getGameState().buildMovingPlatforms();
     b.buildBoneTowers();
     b.buildCrystalBall();
   }

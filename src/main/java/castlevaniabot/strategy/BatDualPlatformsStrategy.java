@@ -149,8 +149,8 @@ public class BatDualPlatformsStrategy extends Strategy {
     }
     
     platform = null;
-    final MovingPlatform[] movingPlatforms = b.movingPlatforms;
-    for(int i = b.movingPlatformsCount - 1; i >= 0; --i) {
+    final MovingPlatform[] movingPlatforms = b.getGameState().getMovingPlatforms();
+    for(int i = b.getGameState().getMovingPlatformsCount() - 1; i >= 0; --i) {
       final MovingPlatform p = movingPlatforms[i];
       if (p.x2 >= b.playerX && (platform == null 
           || (p.x2 - b.playerX < platform.x2 - b.playerX))) {

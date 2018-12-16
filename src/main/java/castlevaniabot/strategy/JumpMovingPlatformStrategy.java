@@ -50,7 +50,7 @@ public class JumpMovingPlatformStrategy extends Strategy {
   @Override
   public void step() {
     
-    final MovingPlatform platform = b.getMovingPlatform(minX, maxX);
+    final MovingPlatform platform = b.getGameState().getMovingPlatform(minX, maxX);
     if (platform == null) {
       approaching = false;
       lastX = -512;

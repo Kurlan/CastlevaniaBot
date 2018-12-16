@@ -1,5 +1,6 @@
 package castlevaniabot;
 
+import castlevaniabot.listener.Listener;
 import castlevaniabot.module.CastlevaniaBotModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -13,15 +14,15 @@ public class CastlevaniaBotRunner {
 
         Injector injector = Guice.createInjector(new CastlevaniaBotModule());
 
-
         CastlevaniaBot castlevaniaBot = injector.getInstance(CastlevaniaBot.class);
         API api = injector.getInstance(API.class);
+        Listener listener = injector.getInstance(Listener.class);
 
         api.addFrameListener(castlevaniaBot::renderFinished);
-        api.addStatusListener(castlevaniaBot::statusChanged);
-        api.addActivateListener(castlevaniaBot::apiEnabled);
+        api.addStatusListener(listener::statusChanged);
+        api.addActivateListener(listener::apiEnabled);
         api.addDeactivateListener(castlevaniaBot::apiDisabled);
-        api.addStopListener(castlevaniaBot::dispose);
+        api.addStopListener(listener::stop);
         api.run();
     }
 }

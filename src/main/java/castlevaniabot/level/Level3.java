@@ -17,7 +17,8 @@ public class Level3 implements Level {
     this.api = api;
   }
   @Override public void readGameObjects(CastlevaniaBot b) {
-    b.boneTowerSegmentsCount = b.movingPlatformsCount = b.objsCount = 0;
+    b.boneTowerSegmentsCount = b.objsCount = 0;
+    b.getGameState().setMovingPlatformsCount(0);
     for(int i = 63; i >= 0; --i) {
       final int sprite = api.readCPU32(SPRITES | (i << 2));      
       final int y = sprite & 0xFF;

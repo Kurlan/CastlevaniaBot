@@ -159,7 +159,7 @@ public class BatMovingPlatformStrategy extends Strategy {
   }
   
   private MovingPlatform getMovingPlatform() {
-    return (b.movingPlatformsCount > 0) ? b.movingPlatforms[0] : null;
+    return (b.getGameState().getMovingPlatformsCount() > 0) ? b.getGameState().getMovingPlatforms()[0] : null;
   }
   
   private GameObject getRedBat() {

@@ -18,7 +18,8 @@ public class Level5 implements Level {
     this.api = api;
   }
   @Override public void readGameObjects(CastlevaniaBot b) {
-    b.boneTowerSegmentsCount = b.movingPlatformsCount = b.objsCount = 0;
+    b.boneTowerSegmentsCount = b.objsCount = 0;
+    b.getGameState().setMovingPlatformsCount(0);
     for(int i = 63; i >= 0; --i) {
       final int sprite = api.readCPU32(SPRITES | (i << 2));      
       final int y = sprite & 0xFF;
@@ -81,7 +82,7 @@ public class Level5 implements Level {
 //          break;        
                      
         case 0x01B7: 
-          if (b.stageNumber >= 14) {
+          if (b.getGameState().getStageNumber() >= 14) {
             type = AXE;
           } else {
             type = AXE_WEAPON;
