@@ -114,7 +114,7 @@ public class BatMovingPlatformStrategy implements Strategy {
 
         if (bat == null && fishman == null && (b.playerLeft || (botState.getPlayerX() > 400
                 && (botState.getPlayerX() - (b.currentTile.getX() << 4)) < 19))) {
-            b.pressRight();
+            b.goRight();
         }
 
         if (platform != null) {
@@ -122,12 +122,12 @@ public class BatMovingPlatformStrategy implements Strategy {
                 final int cx = platform.x1 + 24;
                 if (botState.getPlayerX() == cx) {
                     if (b.playerLeft) {
-                        b.pressLeft();
+                        b.goLeft();
                     }
                 } else if (botState.getPlayerX() < cx) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
-                    b.pressLeft();
+                    b.goLeft();
                 }
 
                 if (botState.getPlayerX() >= 856 && botState.getPlayerX() < 936) {
@@ -155,9 +155,9 @@ public class BatMovingPlatformStrategy implements Strategy {
 
         if (jumpRequested) {
             if (b.playerLeft) {
-                b.pressRight();
+                b.goRight();
             } else {
-                b.pressRightAndJump();
+                b.goRightAndJump();
                 jumpRequested = false;
                 if ((botState.getPlayerX() >= 380 && botState.getPlayerX() < 388)
                         || (botState.getPlayerX() >= 956 && botState.getPlayerX() < 964)) {

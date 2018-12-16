@@ -43,9 +43,9 @@ public class MedusaHeadsPitsStrategy implements Strategy {
                 if (b.currentTile.getX() != 7 || b.currentTile.getY() != 12) {
                     gameState.getCurrentSubstage().route(127, 192);
                 } else if (botState.getPlayerX() < 131) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
-                    b.pressRightAndJump();
+                    b.goRightAndJump();
                     state = State.RUN_FOR_IT;
                 }
                 break;

@@ -62,9 +62,9 @@ public abstract class Substage {
     if (botState.getPlayerX() == targetX && botState.getPlayerY() == targetY) {
       if (b.playerLeft != left) {
         if (left) {
-          b.pressRight();  // walk past and turn around
+          b.goRight();  // walk past and turn around
         } else {
-          b.pressLeft();   // walk past and turn around
+          b.goLeft();   // walk past and turn around
         }
       }
     } else {
@@ -90,9 +90,9 @@ public abstract class Substage {
     
     if (b.currentTile.getX() == tx && b.currentTile.getY() == ty) {
       if (botState.getPlayerX() < targetX) {
-        b.pressRight();
+        b.goRight();
       } else if (botState.getPlayerX() > targetX) {
-        b.pressLeft();
+        b.goLeft();
       }      
     } else {  
       final int route = mapRoutes.routes[b.currentTile.getY()][b.currentTile.getX()][ty][tx];

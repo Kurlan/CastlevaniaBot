@@ -67,7 +67,7 @@ public class SkeletonWallStrategy implements Strategy {
             lastY = skeleton.y;
         }
 
-        if ((b.onStairs || b.onPlatform)
+        if ((botState.isOnStairs() || b.onPlatform)
                 && (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY || !b.playerLeft)) {
             gameState.getCurrentSubstage().routeAndFace(playerX, playerY, true);
             return;
@@ -90,7 +90,7 @@ public class SkeletonWallStrategy implements Strategy {
         } else if (skeleton.y < botState.getPlayerY()
                 && b.isInStandingWhipRange(skeleton, offsetX + 16, offsetY + 32)) {
             if (b.canJump) {
-                b.pressLeftAndJump();
+                b.goLeftAndJump();
             }
         }
     }

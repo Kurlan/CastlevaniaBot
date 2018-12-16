@@ -28,7 +28,7 @@ public class Substage0800 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == WHITE_SKELETON) {
-      if (!b.onStairs && botState.getPlayerY() >= 112 && obj.y >= 112) {
+      if (!botState.isOnStairs() && botState.getPlayerY() >= 112 && obj.y >= 112) {
         obj.tier = 6;
       }
     } else if (obj.type == DESTINATION) {

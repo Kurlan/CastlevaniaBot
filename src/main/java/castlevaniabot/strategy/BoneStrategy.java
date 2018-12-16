@@ -30,7 +30,7 @@ public class BoneStrategy implements Strategy {
 
     @Override
     public void step() {
-        if (!b.onStairs) {
+        if (!botState.isOnStairs()) {
             if (bone.left) {
                 gameState.getCurrentSubstage().routeLeft();
             } else {

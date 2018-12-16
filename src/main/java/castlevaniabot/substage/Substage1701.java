@@ -52,7 +52,7 @@ public class Substage1701 extends Substage {
         }
         break;
       case FLEAMAN:
-        if (!b.onStairs && obj.distanceX < 48 && obj.y1 <= botState.getPlayerY()
+        if (!botState.isOnStairs() && obj.distanceX < 48 && obj.y1 <= botState.getPlayerY()
             && obj.y2 >= botState.getPlayerY() - 48) {
           obj.tier = 7;
         }
@@ -189,7 +189,7 @@ public class Substage1701 extends Substage {
   @Override
   public void routeLeft() {
     if (botState.getPlayerX() >= 496) {
-      if (botState.getPlayerY() <= 128 || (b.onStairs && botState.getPlayerY() < 192)) {
+      if (botState.getPlayerY() <= 128 || (botState.isOnStairs() && botState.getPlayerY() < 192)) {
         route(448, 96);
       } else {
         route(521, 192);
@@ -212,7 +212,7 @@ public class Substage1701 extends Substage {
   @Override
   public void routeRight() {
     if (botState.getPlayerX() >= 496) {
-      if (botState.getPlayerY() <= 128 || (b.onStairs && botState.getPlayerY() < 192)) {
+      if (botState.getPlayerY() <= 128 || (botState.isOnStairs() && botState.getPlayerY() < 192)) {
         route(727, 128);
       } else {
         route(727, 192);

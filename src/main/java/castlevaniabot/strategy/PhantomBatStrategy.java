@@ -104,7 +104,7 @@ public class PhantomBatStrategy implements Strategy {
                     final int yJump = y - 32;
                     if ((yJump >= bat.y1 && yJump <= bat.y2)
                             || b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-                        jumpCounter = (b.whipLength == 0) ? 16 : 10;
+                        jumpCounter = (botState.getWhipLength() == 0) ? 16 : 10;
                         b.jump();
                     } else if (y >= bat.y1 && y <= bat.y2) {
                         weaponDelay = 17;
@@ -188,7 +188,7 @@ public class PhantomBatStrategy implements Strategy {
                 if (bat.playerFacing) {
                     if (b.canJump) {
                         if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-                            jumpCounter = (b.whipLength == 0) ? 16 : 10;
+                            jumpCounter = (botState.getWhipLength() == 0) ? 16 : 10;
                             b.jump();
                         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                             b.whip();
@@ -248,7 +248,7 @@ public class PhantomBatStrategy implements Strategy {
                 gameState.getCurrentSubstage().route(521, 208);
             } else if (b.canJump) {
                 if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-                    jumpCounter = (b.whipLength == 0) ? 16 : 10;
+                    jumpCounter = (botState.getWhipLength() == 0) ? 16 : 10;
                     b.jump();
                 } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                     b.whip();

@@ -37,7 +37,7 @@ public class BoneDragonStrategy implements Strategy {
         final int playerX;
         final int playerY;
         if (botState.getPlayerX() > 448) {
-            switch (b.whipLength) {
+            switch (botState.getWhipLength()) {
                 case 0:
                     playerX = 652;
                     break;
@@ -50,7 +50,7 @@ public class BoneDragonStrategy implements Strategy {
             }
             playerY = 160;
         } else {
-            switch (b.whipLength) {
+            switch (botState.getWhipLength()) {
                 case 0:
                     playerX = 220;
                     break;

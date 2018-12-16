@@ -65,7 +65,7 @@ public class CrusherStrategy implements Strategy {
                 break;
             case WAIT_FOR_CRUSHER_2:
                 if (ascendings[2] && ys[2] == 4) {
-                    b.pressLeftAndJump();
+                    b.goLeftAndJump();
                     state = State.WALK_BETWEEN_CRUSHERS_1_AND_2;
                 }
                 break;
@@ -82,7 +82,7 @@ public class CrusherStrategy implements Strategy {
                         state = State.WAIT_FOR_CRUSHER_1;
                     }
                 } else if (b.playerLeft) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
                     b.whip();
                     delay = 48;
@@ -106,7 +106,7 @@ public class CrusherStrategy implements Strategy {
                         state = State.WAIT_FOR_CRUSHER_0;
                     }
                 } else if (b.playerLeft) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
                     b.whip();
                     delay = 48;
@@ -130,7 +130,7 @@ public class CrusherStrategy implements Strategy {
                         init();
                     }
                 } else if (b.playerLeft) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
                     b.whip();
                     delay = 48;

@@ -72,10 +72,10 @@ public class WaitStrategy implements Strategy {
                     b.kneel();
                     break;
                 case WALK_LEFT:
-                    b.pressLeft();
+                    b.goLeft();
                     break; // walk against wall
                 case WALK_RIGHT:
-                    b.pressRight();
+                    b.goRight();
                     break; // walk against wall
             }
             if (--delay == 0) {

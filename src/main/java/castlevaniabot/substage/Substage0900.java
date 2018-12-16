@@ -146,9 +146,9 @@ public class Substage0900 extends Substage {
     
     if (bossDefeated) {
       if (botState.getPlayerX() == 1388 && targetX >= 1424 && !b.playerLeft) {
-        b.pressRightAndJump();
+        b.goRightAndJump();
       } else if (botState.getPlayerX() == 1428 && targetX <= 1376 && b.playerLeft) {
-        b.pressLeftAndJump();
+        b.goLeftAndJump();
       } else {
         super.route(targetX, targetY, checkForEnemies);
       }

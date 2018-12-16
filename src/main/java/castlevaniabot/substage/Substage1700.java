@@ -41,7 +41,7 @@ public class Substage1700 extends Substage {
         obj.tier = 8;
       }
     } else if (obj.type == FLEAMAN) {
-      if (!b.onStairs && obj.distanceX < 48 && obj.y1 <= botState.getPlayerY()
+      if (!botState.isOnStairs() && obj.distanceX < 48 && obj.y1 <= botState.getPlayerY()
           && obj.y2 >= botState.getPlayerY() - 48) {
         obj.tier = 7;
       }
@@ -170,7 +170,7 @@ public class Substage1700 extends Substage {
       route(521, 160);
     } else if (botState.getPlayerX() >= 248 && botState.getPlayerY() < 168) {
       route(256, 96);
-    } else if (!b.onStairs && botState.getPlayerX() > 152 && botState.getPlayerX() < 208) {
+    } else if (!botState.isOnStairs() && botState.getPlayerX() > 152 && botState.getPlayerX() < 208) {
       route(160, 192);
     } else {
       route(41, 96);
@@ -180,16 +180,16 @@ public class Substage1700 extends Substage {
   @Override
   public void routeRight() {
     if (botState.getPlayerX() >= 496) {
-      if (b.onStairs || (botState.getPlayerY() <= 96 && botState.getPlayerX() < 648)) {
+      if (botState.isOnStairs() || (botState.getPlayerY() <= 96 && botState.getPlayerX() < 648)) {
         route(680, 48);
       } else {
         route(750, 128);
       }
     } else if (botState.getPlayerX() >= 248 && botState.getPlayerY() < 168) {
       route(471, 160);
-    } else if (!b.onStairs && botState.getPlayerX() > 152 && botState.getPlayerX() < 208) {
+    } else if (!botState.isOnStairs() && botState.getPlayerX() > 152 && botState.getPlayerX() < 208) {
       route(287, 192);
-    } else if (b.onStairs && botState.getPlayerX() < 120) {
+    } else if (botState.isOnStairs() && botState.getPlayerX() < 120) {
       route(104, 48);
     } else {
       route(287, 192);

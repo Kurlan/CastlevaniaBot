@@ -61,9 +61,9 @@ public class AxeKnightStrategy implements Strategy {
                 } else {
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                     if (b.getTargetedObject().getTarget().x < botState.getPlayerX()) {
-                        b.pressLeftAndJump();
+                        b.goLeftAndJump();
                     } else {
-                        b.pressRightAndJump();
+                        b.goRightAndJump();
                     }
                 }
             }

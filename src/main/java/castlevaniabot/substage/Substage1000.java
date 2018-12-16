@@ -72,7 +72,7 @@ public class Substage1000 extends Substage {
               }
               break;
             default:
-              if (obj.x < 168 || (b.whipLength != 2 
+              if (obj.x < 168 || (botState.getWhipLength() != 2
                   && (obj.x < 232 || obj.x > 576) 
                       && (obj.x < 1088 || obj.x > 1280))) {
                 obj.tier = 1;

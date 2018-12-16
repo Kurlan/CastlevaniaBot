@@ -8,4 +8,10 @@ public class BotState {
     private int playerX;
     private int playerY;
     private Strategy currentStrategy;
+
+    private int avoidX;
+    private int whipLength;
+    private boolean onStairs;
+
+    private int jumpDelay;
 }

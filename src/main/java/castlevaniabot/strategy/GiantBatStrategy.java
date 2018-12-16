@@ -54,7 +54,7 @@ public class GiantBatStrategy implements Strategy {
             final int landX = botState.getPlayerX() - 37;
             if (landX >= 0
                     && gameState.getCurrentSubstage().mapRoutes.map[b.currentTile.getY()][landX >> 4].height == 0) {
-                b.pressLeftAndJump();
+                b.goLeftAndJump();
                 return;
             }
         } else if (!whipped
@@ -66,7 +66,7 @@ public class GiantBatStrategy implements Strategy {
             final int landX = botState.getPlayerX() - 37;
             if (landX >= 0
                     && gameState.getCurrentSubstage().mapRoutes.map[b.currentTile.getY()][landX >> 4].height == 0) {
-                b.pressLeftAndJump();
+                b.goLeftAndJump();
                 jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                 return;
             }

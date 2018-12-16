@@ -88,12 +88,12 @@ public class JumpMovingPlatformStrategy implements Strategy {
                 if (approaching) {
                     if (playerX1 > playerX2) {
                         if (abs(platform.x2 - playerX1) < JUMP_DISTANCE) {
-                            b.pressLeftAndJump();
+                            b.goLeftAndJump();
                             state = State.WALK_TO_PLATFORM_CENTER;
                         }
                     } else {
                         if (abs(platform.x1 - playerX1) < JUMP_DISTANCE) {
-                            b.pressRightAndJump();
+                            b.goRightAndJump();
                             state = State.WALK_TO_PLATFORM_CENTER;
                         }
                     }
@@ -104,25 +104,25 @@ public class JumpMovingPlatformStrategy implements Strategy {
                     if (b.playerLeft == (playerX1 > playerX2)) {
                         state = State.WAIT_FOR_PLATFORM_TO_MOVE;
                     } else if (b.playerLeft) {
-                        b.pressLeft();                // walk past and turn around
+                        b.goLeft();                // walk past and turn around
                     } else {
-                        b.pressRight();               // walk past and turn around
+                        b.goRight();               // walk past and turn around
                     }
                 } else if (botState.getPlayerX() < platform.x1 + 16) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
-                    b.pressLeft();
+                    b.goLeft();
                 }
                 break;
             case WAIT_FOR_PLATFORM_TO_MOVE:
                 if (playerX1 > playerX2) {
                     if (abs(platform.x1 - playerX2) < JUMP_DISTANCE) {
-                        b.pressLeftAndJump();
+                        b.goLeftAndJump();
                         state = State.DONE;
                     }
                 } else {
                     if (abs(platform.x2 - playerX2) < JUMP_DISTANCE) {
-                        b.pressLeftAndJump();
+                        b.goLeftAndJump();
                         state = State.DONE;
                     }
                 }

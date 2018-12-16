@@ -65,7 +65,7 @@ public class Substage1500 extends Substage {
       obj.tier = 0;
     } else if (obj.distance < HORIZON) {
       
-      if (botState.getPlayerY() <= 96 && (b.onStairs || obj.y > 96)) {
+      if (botState.getPlayerY() <= 96 && (botState.isOnStairs() || obj.y > 96)) {
         return;
       }
       
@@ -137,14 +137,14 @@ public class Substage1500 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.onStairs && botState.getPlayerY() <= 160 && botState.getPlayerX() < 672
+    if (botState.isOnStairs() && botState.getPlayerY() <= 160 && botState.getPlayerX() < 672
         && b.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
       if (botState.getCurrentStrategy() != null) {
         clearTarget(targetedObject);
         setStrategy(null);
       }
       if (botState.getPlayerY() < 128) {
-        b.pressDown();
+        b.getGamepad().pressDown();
       }
     } else {
       super.pickStrategy(targetedObject);
@@ -191,7 +191,7 @@ public class Substage1500 extends Substage {
   @Override
   public void routeRight() {
     if (botState.getPlayerY() >= 128) {
-      if (b.onStairs) {
+      if (botState.isOnStairs()) {
         route(992, 80);
       } else {
         route(1006, 192);

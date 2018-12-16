@@ -101,9 +101,9 @@ public class NoJumpMovingPlatformStrategy implements Strategy {
                     state = State.WAIT_FOR_PLATFORM_TO_MOVE;
                 }
                 if (playerX1 > playerX2) {
-                    b.pressLeft();
+                    b.goLeft();
                 } else {
-                    b.pressRight();
+                    b.goRight();
                 }
                 break;
             case WAIT_FOR_PLATFORM_TO_MOVE:
@@ -121,9 +121,9 @@ public class NoJumpMovingPlatformStrategy implements Strategy {
                 if (botState.getPlayerX() == playerX2 && botState.getPlayerY() == playerY) {
                     state = State.DONE;
                 } else if (playerX1 > playerX2) {
-                    b.pressLeft();
+                    b.goLeft();
                 } else {
-                    b.pressRight();
+                    b.goRight();
                 }
                 break;
         }

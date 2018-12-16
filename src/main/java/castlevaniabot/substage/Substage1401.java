@@ -71,7 +71,7 @@ public class Substage1401 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 18:
-              if (b.weapon == HOLY_WATER && b.hearts > 0 && !b.onStairs 
+              if (b.weapon == HOLY_WATER && b.hearts > 0 && !botState.isOnStairs()
                   && botState.getPlayerY() >= 128 && botState.getPlayerX() >= 288 && botState.getPlayerX() < 400) {
                 obj.tier = 1;
               }
@@ -146,7 +146,7 @@ public class Substage1401 extends Substage {
           super.pickStrategy(targetedObject);
         }
       }
-    } else if (!treasureTriggered3 && !b.onStairs && botState.getPlayerX() >= 288
+    } else if (!treasureTriggered3 && !botState.isOnStairs()&& botState.getPlayerX() >= 288
         && botState.getPlayerX() < 480 && botState.getPlayerY() > 128
             && !b.isEnemyInBounds(288, 128, 480, 208)) {
       clearTarget(targetedObject);
@@ -158,7 +158,7 @@ public class Substage1401 extends Substage {
       b.getAllStrategies().getWAIT().init(984, 192);
       botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
     } else if (botState.getPlayerY() == 192 && botState.getPlayerX() <= 33) {
-      b.pressLeft();
+      b.goLeft();
     } else {
       super.pickStrategy(targetedObject);
     }
@@ -207,7 +207,7 @@ public class Substage1401 extends Substage {
   @Override
   public void route(final int targetX, final int targetY,
                     final boolean checkForEnemies) {
-    if (b.onStairs && botState.getPlayerY() >= 156 && botState.getPlayerX() < 256) {
+    if (botState.isOnStairs() && botState.getPlayerY() >= 156 && botState.getPlayerX() < 256) {
       if (!b.isEnemyInBounds(120, 156, 184, 208)) {
         super.route(targetX, targetY, checkForEnemies);
       }

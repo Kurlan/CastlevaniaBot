@@ -20,7 +20,11 @@ public class GameState {
 
     private MovingPlatform[] movingPlatforms;
     private int movingPlatformsCount;
-    int cameraX;
+    private int cameraX;
+    private int mode;
+
+    private boolean playing;
+    private boolean paused;
 
     public GameState() {
         movingPlatforms = new MovingPlatform[16];

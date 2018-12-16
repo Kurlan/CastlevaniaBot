@@ -86,14 +86,14 @@ public class WhipStrategy implements Strategy {
                 --delayJump;
             } else {
                 jumpCounter = JUMP_WHIP_DELAYS[clamp(targetHeight, 0, 36)];
-                if (b.whipLength == 0) {
+                if (botState.getWhipLength() == 0) {
                     jumpCounter -= 6;
                 }
                 if (jumpToward) {
                     if (playerLeft) {
-                        b.pressLeftAndJump();
+                        b.goLeftAndJump();
                     } else {
-                        b.pressRightAndJump();
+                        b.goRightAndJump();
                     }
                 } else {
                     b.jump();

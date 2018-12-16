@@ -72,7 +72,7 @@ public class SickleStrategy implements Strategy {
             case 0:
             case 1:
             case 12:
-                b.pressRight();
+                b.goRight();
                 break;
             case 2:
             case 13:
@@ -87,13 +87,13 @@ public class SickleStrategy implements Strategy {
             case 3:
             case 14:
             case 15:
-                b.pressLeft();
+                b.goLeft();
                 break;
             default:
                 if (sickle.x < botState.getPlayerX()) {
-                    b.pressRight();
+                    b.goRight();
                 } else {
-                    b.pressLeft();
+                    b.goLeft();
                 }
                 break;
         }

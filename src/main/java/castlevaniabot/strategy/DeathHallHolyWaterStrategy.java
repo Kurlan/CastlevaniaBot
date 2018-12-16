@@ -48,7 +48,7 @@ public class DeathHallHolyWaterStrategy implements Strategy {
                 final GameObject obj = objs[i];
                 if (obj.type == AXE_KNIGHT && obj.x < botState.getPlayerX() && obj.distanceX < 64) {
                     jumpCounter = 9;
-                    b.pressLeftAndJump();
+                    b.goLeftAndJump();
                     return;
                 }
             }

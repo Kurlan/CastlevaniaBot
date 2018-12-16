@@ -100,12 +100,12 @@ public class Substage0601 extends Substage {
 
     if (!reachedBoss && botState.getPlayerX() <= 40) {
       reachedBoss = true;
-      b.pressRight();
+      b.goRight();
     }
 
     if (walkDelay > 0) {
       if (--walkDelay == 0) {
-        b.pressLeft();
+        b.goLeft();
       }
     } else if (botState.getPlayerX() == 493) {
       botState.setCurrentStrategy(null);

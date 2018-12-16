@@ -1,6 +1,7 @@
 package castlevaniabot.module;
 
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GamePad;
 import castlevaniabot.level.Level;
 import castlevaniabot.level.Level1;
 import castlevaniabot.level.Level2;
@@ -42,8 +43,9 @@ public class CastlevaniaBotModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes, GameObject[] gameObjects, List<Level> levels) {
-        return new CastlevaniaBot(api, allRoutes, gameObjects, levels);
+    public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes, GameObject[] gameObjects, List<Level> levels,
+                                            GamePad gamePad) {
+        return new CastlevaniaBot(api, allRoutes, gameObjects, levels, gamePad);
     }
 
     @Provides

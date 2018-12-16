@@ -69,7 +69,7 @@ public class Substage1501 extends Substage {
         }        
         break;
       case AXE_KNIGHT:
-        if (!b.onStairs && obj.distanceX < 128 && obj.y1 <= botState.getPlayerY() + 16
+        if (!botState.isOnStairs() && obj.distanceX < 128 && obj.y1 <= botState.getPlayerY() + 16
             && obj.y2 >= botState.getPlayerY() - 64) {
           obj.tier = 6;
         }        
@@ -155,9 +155,9 @@ public class Substage1501 extends Substage {
     if (bossDefeated) {
       // crystal ball X +/- 20
       if (botState.getPlayerX() == 108 && targetX >= 144 && !b.playerLeft) {
-        b.pressRightAndJump();
+        b.goRightAndJump();
       } else if (botState.getPlayerX() == 148 && targetX <= 112 && b.playerLeft) {
-        b.pressLeftAndJump();
+        b.goLeftAndJump();
       } else {
         super.route(targetX, targetY, checkForEnemies);
       }

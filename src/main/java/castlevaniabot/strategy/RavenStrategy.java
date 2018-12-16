@@ -45,7 +45,7 @@ public class RavenStrategy implements Strategy {
         } else if (moveAway > 0) {
             --moveAway;
             gameState.getCurrentSubstage().routeLeft();
-        } else if (!b.onStairs && b.onPlatform && raven.active
+        } else if (!botState.isOnStairs() && b.onPlatform && raven.active
                 && raven.y1 > botState.getPlayerY()) {
             moveAway = 64 + ThreadLocalRandom.current().nextInt(11);
             gameState.getCurrentSubstage().routeLeft();

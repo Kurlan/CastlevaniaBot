@@ -47,7 +47,7 @@ public class Substage1600 extends Substage {
               break;
             case 50:
               obj.tier = 2;
-              obj.platformX = (b.whipLength == 2) ? 53 : 52;
+              obj.platformX = (botState.getWhipLength() == 2) ? 53 : 52;
               break;
             case 6:            
             case 86:

@@ -67,7 +67,7 @@ public class CandlesStrategy implements Strategy {
                             --delayJump;
                         } else {
                             jumpCounter = JUMP_WHIP_DELAYS[clamp(height - 12, 0, 36)];
-                            if (b.whipLength == 0) {
+                            if (botState.getWhipLength() == 0) {
                                 jumpCounter -= 6;
                             }
                             b.jump();

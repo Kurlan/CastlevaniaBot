@@ -158,7 +158,7 @@ public class Substage1400 extends Substage {
         break;
       case WHIP_LOWER_AXE:
         if ((lastLowerAxeExists && lowerAxe == null && botState.getPlayerX() >= 1072
-            && botState.getPlayerX() < 1168) || (lowerAxe == null && b.onStairs)) {
+            && botState.getPlayerX() < 1168) || (lowerAxe == null && botState.isOnStairs())) {
           setState(State.DESPAWN_LOWER_KNIGHT, targetedObject);
         } else {
           super.pickStrategy(targetedObject);

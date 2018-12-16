@@ -33,9 +33,9 @@ public class RedBonesStrategy implements Strategy {
         if (distanceX <= 16) {
             // When standing on red bones, continue walking in direction facing.
             if (playerLeft) {
-                b.pressLeft();
+                b.goLeft();
             } else {
-                b.pressRight();
+                b.goRight();
             }
         } else if (distanceX < 32) {
             gameState.getCurrentSubstage().moveAwayFromTarget(targetX);

@@ -127,9 +127,9 @@ public class Substage1200 extends Substage {
     if (bossDefeated) {
       // crystal ball X +/- 20
       if (botState.getPlayerX() == 876 && targetX >= 912 && !b.playerLeft) {
-        b.pressRightAndJump();
+        b.goRightAndJump();
       } else if (botState.getPlayerX() == 916 && targetX <= 880 && b.playerLeft) {
-        b.pressLeftAndJump();
+        b.goLeftAndJump();
       } else {
         super.route(targetX, targetY, checkForEnemies);
       }

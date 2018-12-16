@@ -104,7 +104,7 @@ public class BatDualPlatformsStrategy implements Strategy {
 
         if (hangRequested) {
             if (botState.getPlayerX() < 995) {
-                b.pressRight();
+                b.goRight();
             } else {
                 hangRequested = false;
                 walkRequested = true;
@@ -116,7 +116,7 @@ public class BatDualPlatformsStrategy implements Strategy {
                     || (botState.getPlayerX() + 4 >= platform.x1 && botState.getPlayerX() - 4 <= platform.x2)) {
                 walkRequested = false;
             } else if (platform.x1 < 1000) {
-                b.pressRight();
+                b.goRight();
             }
         } else if (justWhipped > 0 && --justWhipped == 0 && bat == null) {
             hangRequested = true;
@@ -127,19 +127,19 @@ public class BatDualPlatformsStrategy implements Strategy {
             final int cx = platform.x1 + 24;
             if (botState.getPlayerX() == cx) {
                 if (b.playerLeft) {
-                    b.pressLeft();
+                    b.goLeft();
                 }
             } else if (botState.getPlayerX() < cx) {
-                b.pressRight();
+                b.goRight();
             } else {
-                b.pressLeft();
+                b.goLeft();
             }
 
             if (botState.getPlayerX() >= 1016 && botState.getPlayerX() < 1064) {
                 b.kneel();
             } else if ((platform.x1 >= 1087 && platform.x1 <= 1089)
                     || (platform.x1 >= 1231 && platform.x1 <= 1233)) {
-                b.pressRightAndJump();
+                b.goRightAndJump();
             }
         }
     }

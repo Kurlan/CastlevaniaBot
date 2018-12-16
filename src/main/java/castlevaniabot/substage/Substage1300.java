@@ -46,7 +46,7 @@ public class Substage1300 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case CANDLES:
-          if (obj.y > 132 && b.whipLength != 2) {
+          if (obj.y > 132 && botState.getWhipLength() != 2) {
             obj.tier = 6;
           } else if (roundTile(obj.x) != 30 || botState.getPlayerX() < 480) {
             obj.tier = 1; 
@@ -59,7 +59,7 @@ public class Substage1300 extends Substage {
         case LARGE_HEART:        
         case INVISIBLE_POTION:
         case WHIP_UPGRADE:
-          if (obj.y > 132 && b.whipLength != 2) {
+          if (obj.y > 132 && botState.getWhipLength() != 2) {
             obj.tier = 7;
           } else {
             obj.tier = 3; 
@@ -99,7 +99,7 @@ public class Substage1300 extends Substage {
           break;          
         case HOLY_WATER_WEAPON:
         case PORK_CHOP:
-          if (obj.y > 132 && b.whipLength != 2) {
+          if (obj.y > 132 && botState.getWhipLength() != 2) {
             obj.tier = 8;
           } else {
             obj.tier = 5; 
