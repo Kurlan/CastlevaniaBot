@@ -1,5 +1,7 @@
 package castlevaniabot.level;
 
+import castlevaniabot.CastlevaniaBot;
+
 public interface Level {
-  void readGameObjects();
+  void readGameObjects(CastlevaniaBot b);
 }

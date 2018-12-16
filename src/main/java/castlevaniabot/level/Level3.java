@@ -3,19 +3,20 @@ package castlevaniabot.level;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObjectType;
 import nintaco.api.*;
+
+import javax.inject.Inject;
+
 import static castlevaniabot.model.gameelements.Addresses.*;
 import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class Level3 implements Level {
-  
-  private final API api = ApiSource.getAPI();
-  private final CastlevaniaBot b;
-  
-  public Level3(final CastlevaniaBot b) {
-    this.b = b;
+  private final API api;
+
+  @Inject
+  public Level3(API api) {
+    this.api = api;
   }
-  
-  @Override public void readGameObjects() {
+  @Override public void readGameObjects(CastlevaniaBot b) {
     b.boneTowerSegmentsCount = b.movingPlatformsCount = b.objsCount = 0;
     for(int i = 63; i >= 0; --i) {
       final int sprite = api.readCPU32(SPRITES | (i << 2));      

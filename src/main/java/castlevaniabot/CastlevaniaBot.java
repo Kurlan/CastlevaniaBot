@@ -1,12 +1,6 @@
 package castlevaniabot;
 
 import castlevaniabot.level.Level;
-import castlevaniabot.level.Level1;
-import castlevaniabot.level.Level2;
-import castlevaniabot.level.Level3;
-import castlevaniabot.level.Level4;
-import castlevaniabot.level.Level5;
-import castlevaniabot.level.Level6;
 import castlevaniabot.model.creativeelements.Axe;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.creativeelements.BoneTowerSegment;
@@ -60,6 +54,7 @@ import castlevaniabot.substage.Substage1801;
 import nintaco.api.API;
 import nintaco.api.Colors;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -175,58 +170,7 @@ public class CastlevaniaBot {
     { 13, 21 }, { 19, 19 }, { 25, 17 }, { 31, 14 }, { 36, 4 },
   }; 
 
-  public static final int[][] HITBOX_RADII = {
-    {  0,  0 }, // 00
-    {  6, 14 }, // 01
-    {  6,  6 }, // 02
-    {  6, 14 }, // 03
-    {  8,  8 }, // 04
-    {  6,  6 }, // 05
-    {  6,  6 }, // 06
-    {  6,  6 }, // 07
-    {  6, 14 }, // 08
-    {  6,  3 }, // 09
-    {  6, 14 }, // 0A
-    {  6,  6 }, // 0B
-    {  6,  6 }, // 0C
-    {  6,  6 }, // 0D
-    {  6, 14 }, // 0E
-    {  6,  6 }, // 0F
-    {  6, 14 }, // 10
-    { 10,  6 }, // 11
-    { 14, 14 }, // 12
-    {  6, 14 }, // 13
-    {  6,  6 }, // 14
-    {  1,  2 }, // 15
-    {  1,  2 }, // 16
-    {  6,  6 }, // 17
-    { 12, 22 }, // 18
-    { 20, 10 }, // 19
-    {  8, 22 }, // 1A
-    { 14, 14 }, // 1B
-    {  8, 22 }, // 1C
-    { 16, 24 }, // 1D
-    { 20, 10 }, // 1E
-    {  6,  6 }, // 1F
-    {  2,  2 }, // 20
-    {  2,  2 }, // 21
-    {  2,  4 }, // 22
-    {  2,  2 }, // 23
-    {  4,  4 }, // 24
-    {  0,  0 }, // 25
-    {  2,  2 }, // 26
-    {  4,  4 }, // 27
-    {  6,  6 }, // 28
-    {  6,  6 }, // 29
-    {  6,  6 }, // 2A
-    {  6,  6 }, // 2B
-    {  6,  6 }, // 2C
-    {  6,  6 }, // 2D
-    {  6,  6 }, // 2E
-    {  6,  6 }, // 2F 
-    
-    {  6,  8 }, // 30 (added for Dracula head)
-  };
+
   
   private static final Whip[][] whips = {
     { new Whip(24, -2, 16, 6), new Whip(24, 7, 16, 6) },
@@ -241,13 +185,6 @@ public class CastlevaniaBot {
   
   private static final int AVOID_X_RESET = -512;
   private static final int RED_BONES_THRESHOLD = 120;
-  
-  final Level LEVEL_1 = new Level1(this);
-  final Level LEVEL_2 = new Level2(this);
-  final Level LEVEL_3 = new Level3(this);
-  final Level LEVEL_4 = new Level4(this);
-  final Level LEVEL_5 = new Level5(this);
-  final Level LEVEL_6 = new Level6(this);
   
   final Substage0000 SUBSTAGE_0000 = new Substage0000(this);
   final Substage0100 SUBSTAGE_0100 = new Substage0100(this);
@@ -280,7 +217,7 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800 = new Substage1800(this);
   final Substage1801 SUBSTAGE_1801 = new Substage1801(this);
 
-  Level level;
+
   public Substage substage;
   public Strategy strategy;
 
@@ -361,10 +298,17 @@ public class CastlevaniaBot {
   private final API api;
   public final Map<String, MapRoutes> allMapRoutes;
   public final GameObject[] gameObjects;
+
+  private BotState botState;
+  private GameState gameState;
+
   private TargetedObject targetedObject;
+
   public final AllStrategies allStrategies;
 
-  public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects) {
+  private final List<Level> levels;
+
+  public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects, List<Level> levels) {
       this.currentTile = Coordinates.builder().x(0).y(0).build();
       this.gameObjects = gameObjects;
       this.targetedObject = TargetedObject
@@ -378,6 +322,9 @@ public class CastlevaniaBot {
                     .build())
             .build();
       this.allStrategies = new AllStrategies(this);
+      this.levels = levels;
+      this.gameState = new GameState();
+      this.botState = new BotState();
     try {
       for(int i = movingPlatforms.length - 1; i >= 0; --i) {
         movingPlatforms[i] = new MovingPlatform();
@@ -427,7 +374,7 @@ public class CastlevaniaBot {
   
   public void apiDisabled() {
     System.out.println("API disabled");
-    level = null;
+    gameState.setCurrentLevel(null);
     substage = null;
     strategy = null;
     targetedObject = TargetedObject
@@ -485,22 +432,22 @@ public class CastlevaniaBot {
       case  0:
       case  1:
       case  2:
-      case  3: level = LEVEL_1; break;
+      case  3: gameState.setCurrentLevel(levels.get(0)); break;
       case  4:
       case  5:
-      case  6: level = LEVEL_2; break;
+      case  6: gameState.setCurrentLevel(levels.get(1)); break;
       case  7:
       case  8:
-      case  9: level = LEVEL_3; break;
+      case  9: gameState.setCurrentLevel(levels.get(2)); break;
       case 10:
       case 11:
-      case 12: level = LEVEL_4; break;
+      case 12: gameState.setCurrentLevel(levels.get(3)); break;
       case 13:
       case 14:
-      case 15: level = LEVEL_5; break;
+      case 15: gameState.setCurrentLevel(levels.get(4)); break;
       case 16:
       case 17:
-      case 18: level = LEVEL_6; break;
+      case 18: gameState.setCurrentLevel(levels.get(5)); break;
     }
 
     Substage _substage = null;
@@ -542,7 +489,7 @@ public class CastlevaniaBot {
     }
     substage = _substage;
 
-    if (level == null || _substage == null) {
+    if (gameState.getCurrentLevel() == null || _substage == null) {
       return;
     }
 
@@ -585,7 +532,7 @@ public class CastlevaniaBot {
     canJump = !weaponing && !onStairs && !kneeling && onPlatform
         && jumpDelay == 0;
 
-    level.readGameObjects();
+    gameState.getCurrentLevel().readGameObjects(this);
     _substage.readGameObjects();
   }
   
@@ -2124,7 +2071,7 @@ public class CastlevaniaBot {
       pauseDelay = 0;
     }
 
-    if (!playing || level == null || substage == null) {
+    if (!playing || gameState.getCurrentLevel() == null || substage == null) {
       strategy = null;
       targetedObject = TargetedObject
               .builder()

@@ -1,9 +1,17 @@
 package castlevaniabot.module;
 
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.level.Level;
+import castlevaniabot.level.Level1;
+import castlevaniabot.level.Level2;
+import castlevaniabot.level.Level3;
+import castlevaniabot.level.Level4;
+import castlevaniabot.level.Level5;
+import castlevaniabot.level.Level6;
 import castlevaniabot.maps.MapLoader;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -15,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CastlevaniaBotModule extends AbstractModule {
@@ -33,8 +42,8 @@ public class CastlevaniaBotModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes, GameObject[] gameObjects) {
-        return new CastlevaniaBot(api, allRoutes, gameObjects);
+    public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes, GameObject[] gameObjects, List<Level> levels) {
+        return new CastlevaniaBot(api, allRoutes, gameObjects, levels);
     }
 
     @Provides
@@ -70,4 +79,16 @@ public class CastlevaniaBotModule extends AbstractModule {
         return gameObjects;
     }
 
+    @Provides
+    @Singleton
+    public List<Level> getLevels(Level1 level1, Level2 level2, Level3 level3, Level4 level4, Level5 level5, Level6 level6) {
+        return ImmutableList.of(
+                level1,
+                level2,
+                level3,
+                level4,
+                level5,
+                level6
+        );
+    }
 }

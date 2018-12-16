@@ -1,6 +1,6 @@
 package castlevaniabot.model.gameelements;
 
-import static castlevaniabot.CastlevaniaBot.*;
+import static castlevaniabot.model.gameelements.Hitbox.HITBOX_RADII;
 
 public enum GameObjectType {
   
@@ -63,7 +63,7 @@ public enum GameObjectType {
   DESTINATION,
   BLOCK,
   FLAMES(0x2F, 8, 16); // appear when an enemy is destroyed
-  
+
   public final int width;
   public final int height;
   public final int xOffset;
