@@ -50,7 +50,7 @@ public class AxeKnightStrategy extends Strategy {
           b.useWeapon();
         } else {
           jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
-          if (b.getTargetedObject().getTarget().x < b.playerX) {
+          if (b.getTargetedObject().getTarget().x < botState.getPlayerX()) {
             b.pressLeftAndJump();
           } else {
             b.pressRightAndJump();

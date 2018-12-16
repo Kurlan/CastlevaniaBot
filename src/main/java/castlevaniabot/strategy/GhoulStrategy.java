@@ -29,7 +29,7 @@ public class GhoulStrategy extends Strategy {
       return;
     }    
     
-    if (ghoul.y < b.playerY - 16 && ghoul.y >= b.playerY - 56) {
+    if (ghoul.y < botState.getPlayerY() - 16 && ghoul.y >= botState.getPlayerY() - 56) {
       b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.canJump && ghoul.distanceX < 24 && ghoul.distanceY < 8) {
       b.jump();

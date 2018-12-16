@@ -36,14 +36,14 @@ public class Substage0801 extends Substage {
     if (obj.type == RAVEN) {
       obj.tier = 7;
     } else if (obj.type == BONE_TOWER) {
-      if (obj.distanceX < 80 && obj.y >= b.playerY - 16 && obj.y <= b.playerY) {
+      if (obj.distanceX < 80 && obj.y >= botState.getPlayerY() - 16 && obj.y <= botState.getPlayerY()) {
         obj.tier = 8;
       }
     } else if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 9;
       }
     } else if (obj.type == DESTINATION) {
@@ -51,7 +51,7 @@ public class Substage0801 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case CANDLES:
-          if (b.weapon != HOLY_WATER || b.playerX < 664 
+          if (b.weapon != HOLY_WATER || botState.getPlayerX() < 664
               || roundTile(obj.x) != 42) {
             // Hit stopwatch candle even if current weapon is holy water to
             // reduce risk of hitting it while attacking raven.
@@ -108,7 +108,7 @@ public class Substage0801 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (!treasureTriggered && b.playerX >= 627 && b.playerX < 659) {
+    if (!treasureTriggered && botState.getPlayerX() >= 627 && botState.getPlayerX() < 659) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(643, 160, WaitStrategy.WaitType.KNEEL);

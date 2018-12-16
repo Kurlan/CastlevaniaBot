@@ -40,7 +40,7 @@ public class Substage0600 extends Substage {
     }
     
     if (obj.type == BONE_TOWER) {
-      if (obj.distanceX < 80 && obj.y >= b.playerY - 16 && obj.y <= b.playerY) {
+      if (obj.distanceX < 80 && obj.y >= botState.getPlayerY() - 16 && obj.y <= botState.getPlayerY()) {
         obj.tier = 7;
       }
     } else if (obj.type == GHOST) {
@@ -49,9 +49,9 @@ public class Substage0600 extends Substage {
       }
     } else if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 9;
       }
     } else if (obj.type == DESTINATION) {
@@ -59,7 +59,7 @@ public class Substage0600 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case BLOCK:
-          obj.tier = (b.playerX >= 672 && b.playerY >= 96) ? 5 : 1; break;
+          obj.tier = (botState.getPlayerX() >= 672 && botState.getPlayerY() >= 96) ? 5 : 1; break;
         case CANDLES: 
           obj.tier = 2; break;
         case MONEY_BAG:
@@ -104,7 +104,7 @@ public class Substage0600 extends Substage {
   
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 512) {
+    if (botState.getPlayerX() >= 512) {
       if (!blockBroken0 && api.readPPU(BLOCK_060000) == 0x00) {
         blockWhipped0 = blockBroken0 = true;
         mapRoutes = b.allMapRoutes.get("06-00-01");
@@ -112,7 +112,7 @@ public class Substage0600 extends Substage {
       if (!blockWhipped0) {
         b.addBlock(704, 144);
       }
-    } else if (b.playerX < 256) {
+    } else if (botState.getPlayerX() < 256) {
       if (!blockBroken1 && api.readPPU(BLOCK_060001) == 0x00) {
         blockWhipped1 = blockBroken1 = true;
         mapRoutes = b.allMapRoutes.get("06-00-02");
@@ -122,7 +122,7 @@ public class Substage0600 extends Substage {
       }
     }
     
-    if (b.playerY >= 96 && b.playerX >= 512) {
+    if (botState.getPlayerY() >= 96 && botState.getPlayerX() >= 512) {
       b.addDestination(521, 208);
     } else {
       b.addDestination(680, 48);
@@ -136,9 +136,9 @@ public class Substage0600 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX >= 672 && b.playerY > 96) {
+    if (botState.getPlayerX() >= 672 && botState.getPlayerY() > 96) {
       route(759, 144);
-    } else if (b.playerY <= 128) {
+    } else if (botState.getPlayerY() <= 128) {
       route(727, 80);
     } else {
       route(663, 208);

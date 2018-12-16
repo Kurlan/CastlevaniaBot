@@ -31,16 +31,16 @@ public class Substage0200 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 7;
       }
     } else if (obj.type == FISHMAN) {
       if (obj.distance > 64) {
         obj.distance = obj.distanceX >> 4;
       }
-      if (obj.distanceX < 64 && obj.y <= b.playerY + 4) {
+      if (obj.distanceX < 64 && obj.y <= botState.getPlayerY() + 4) {
         obj.tier = 6;
       }
     } else if (obj.type == DESTINATION) {
@@ -80,7 +80,7 @@ public class Substage0200 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 384) {
+    if (botState.getPlayerX() >= 384) {
       if (!blockBroken && api.readPPU(BLOCK_020000) == 0x00) {
         blockWhipped = blockBroken = true;
         mapRoutes = b.allMapRoutes.get("02-00-01");
@@ -90,7 +90,7 @@ public class Substage0200 extends Substage {
       }
     }   
     if (blockBroken && !triggeredTreasure) {
-      if (b.playerX == 464 && b.playerY == 192) {
+      if (botState.getPlayerX() == 464 && botState.getPlayerY() == 192) {
         if (b.kneeling) {
           triggeredTreasure = true;
         } else {

@@ -57,14 +57,14 @@ public class Substage0900 extends Substage {
     } else if (obj.type == RAVEN) {
       obj.tier = 7;
     } else if (obj.type == BONE_TOWER) {
-      if (obj.distanceX < 80 && obj.y >= b.playerY - 16 && obj.y <= b.playerY) {
+      if (obj.distanceX < 80 && obj.y >= botState.getPlayerY() - 16 && obj.y <= botState.getPlayerY()) {
         obj.tier = 8;
       }
     } else if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 9;
       }
     } else if (obj.type == DESTINATION) {
@@ -81,7 +81,7 @@ public class Substage0900 extends Substage {
               obj.subTier = 1; 
               break;
             case 94:
-              if (b.playerX >= 1496) { // right wall inhibits routing
+              if (botState.getPlayerX() >= 1496) { // right wall inhibits routing
                 break outer;
               }
               break;
@@ -145,9 +145,9 @@ public class Substage0900 extends Substage {
                     final boolean checkForEnemies) {
     
     if (bossDefeated) {
-      if (b.playerX == 1388 && targetX >= 1424 && !b.playerLeft) {
+      if (botState.getPlayerX() == 1388 && targetX >= 1424 && !b.playerLeft) {
         b.pressRightAndJump();
-      } else if (b.playerX == 1428 && targetX <= 1376 && b.playerLeft) {
+      } else if (botState.getPlayerX() == 1428 && targetX <= 1376 && b.playerLeft) {
         b.pressLeftAndJump();
       } else {
         super.route(targetX, targetY, checkForEnemies);
@@ -172,7 +172,7 @@ public class Substage0900 extends Substage {
         b.getAllStrategies().getWAIT().init(1320, 160, WaitStrategy.WaitType.WALK_LEFT, 200);
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
-    } else if (!enteredTomb && b.playerX >= 992 && b.playerX < 1327 
+    } else if (!enteredTomb && botState.getPlayerX() >= 992 && botState.getPlayerX()< 1327
         && areFireballsOrBoneTowersNotPresent()) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
@@ -206,7 +206,7 @@ public class Substage0900 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 1280) {
+    if (botState.getPlayerX() >= 1280) {
       if (!blockBroken && api.readPPU(BLOCK_090000) == 0x00) {
         enteredTomb = treasureTriggered = blockWhipped = blockBroken = true;
         mapRoutes = b.allMapRoutes.get("09-00-01");
@@ -215,9 +215,9 @@ public class Substage0900 extends Substage {
         b.addBlock(1328, 176);
       }
     } 
-    if (b.playerX > 1408) {
+    if (botState.getPlayerX() > 1408) {
       bossTriggered = enteredTomb = treasureTriggered = true;
-    } else if (b.playerX >= 1320) {
+    } else if (botState.getPlayerX() >= 1320) {
       enteredTomb = true;
     }
     if (!bossTriggered) {
@@ -227,7 +227,7 @@ public class Substage0900 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerY > 164 && (blockBroken || b.playerX < 1336)) {
+    if (botState.getPlayerY() > 164 && (blockBroken || botState.getPlayerX() < 1336)) {
       route(1289, 208);
     } else {
       route(9, 128);

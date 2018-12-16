@@ -34,9 +34,9 @@ public class Substage0201 extends Substage {
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     if (obj.type == RED_BAT) {
-      if (obj.distanceX < 104 && obj.y + 88 >= b.playerY 
-          && obj.y - 40 <= b.playerY && ((obj.left && obj.x >= b.playerX - 40) 
-              || (!obj.left && obj.x <= b.playerX + 40))) {
+      if (obj.distanceX < 104 && obj.y + 88 >= botState.getPlayerY()
+          && obj.y - 40 <= botState.getPlayerY() && ((obj.left && obj.x >= botState.getPlayerX() - 40)
+              || (!obj.left && obj.x <= botState.getPlayerX() + 40))) {
         obj.tier = 6;
       }
     } else if (obj.type == DESTINATION) {
@@ -48,7 +48,7 @@ public class Substage0201 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 22:
-              if (b.playerY >= 160) {
+              if (botState.getPlayerY() >= 160) {
                 obj.tier = 2; 
                 obj.subTier = 3;
               }
@@ -86,8 +86,8 @@ public class Substage0201 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     
-    if (useRedBatDamageBoost && b.playerY == 144 && b.playerX >= 128 
-        && b.playerX < 208 && b.playerY < 200) {
+    if (useRedBatDamageBoost && botState.getPlayerY() == 144 && botState.getPlayerX() >= 128
+        && botState.getPlayerX() < 208 && botState.getPlayerY() < 200) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getRED_BAT_DAMAGE_BOOST()) {
         clearTarget(targetedObject);
         botState.setCurrentStrategy(b.getAllStrategies().getRED_BAT_DAMAGE_BOOST());
@@ -122,14 +122,14 @@ public class Substage0201 extends Substage {
   
   @Override
   public void routeLeft() {
-    if (b.playerX < 256) {
-      if (b.playerY < 160) {
+    if (botState.getPlayerX() < 256) {
+      if (botState.getPlayerY() < 160) {
         route(8, 112);
       } else {
         route(24, 208);
       }
     } else {
-      if (b.playerY < 160) {
+      if (botState.getPlayerY() < 160) {
         route(264, 128);
       } else {
         route(328, 208);
@@ -139,10 +139,10 @@ public class Substage0201 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX < 256) {
+    if (botState.getPlayerX() < 256) {
       route(248, 208);
     } else {
-      if (b.playerY < 160) {
+      if (botState.getPlayerY() < 160) {
         route(504, 112);
       } else {
         route(488, 208);

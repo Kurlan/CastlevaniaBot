@@ -103,29 +103,29 @@ public class BatMovingPlatformStrategy extends Strategy {
       }
     }
     
-    if (bat == null && fishman == null && (b.playerLeft || (b.playerX > 400 
-        && (b.playerX - (b.currentTile.getX() << 4)) < 19))) {
+    if (bat == null && fishman == null && (b.playerLeft || (botState.getPlayerX() > 400
+        && (botState.getPlayerX() - (b.currentTile.getX() << 4)) < 19))) {
       b.pressRight();
     }
     
     if (platform != null) {
-      if (b.playerX + 4 >= platform.x1 && b.playerX - 4 <= platform.x2) {
+      if (botState.getPlayerX() + 4 >= platform.x1 && botState.getPlayerX() - 4 <= platform.x2) {
         final int cx = platform.x1 + 24;
-        if (b.playerX == cx) {
+        if (botState.getPlayerX() == cx) {
           if (b.playerLeft) {
             b.pressLeft();
           }
-        } else if (b.playerX < cx) {
+        } else if (botState.getPlayerX() < cx) {
           b.pressRight();
         } else {
           b.pressLeft();
         }
 
-        if (b.playerX >= 856 && b.playerX < 936) {
+        if (botState.getPlayerX() >= 856 &&botState.getPlayerX() < 936) {
           b.kneel();
         }
       } else if (b.canJump && batTimer < BAT_TIMER_THRESHOLD) {
-        if (b.playerX > 400) {
+        if (botState.getPlayerX() > 400) {
           if (left && platform.x1 <= 812) {
             jumpRequested = true;
             batTimer = BAT_TIMER_THRESHOLD;
@@ -139,8 +139,8 @@ public class BatMovingPlatformStrategy extends Strategy {
       }
     }
     
-    if ((b.playerX >= 352 && b.playerX < 388) 
-        || (b.playerX >= 948 && b.playerX < 964)) {
+    if ((botState.getPlayerX() >= 352 && botState.getPlayerX() < 388)
+        || (botState.getPlayerX() >= 948 && botState.getPlayerX() < 964)) {
       jumpRequested = true;
     }
     
@@ -150,8 +150,8 @@ public class BatMovingPlatformStrategy extends Strategy {
       } else {
         b.pressRightAndJump();
         jumpRequested = false;
-        if ((b.playerX >= 380 && b.playerX < 388) 
-            || (b.playerX >= 956 && b.playerX < 964)) {
+        if ((botState.getPlayerX() >= 380 && botState.getPlayerX() < 388)
+            || (botState.getPlayerX() >= 956 && botState.getPlayerX() < 964)) {
           done = true;
         }
       }

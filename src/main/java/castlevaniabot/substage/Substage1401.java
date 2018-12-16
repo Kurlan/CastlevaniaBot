@@ -46,13 +46,13 @@ public class Substage1401 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == GameObjectType.AXE) {
-      if (obj.distanceX < 64 && obj.y1 <= b.playerY 
-          && obj.y2 >= b.playerY - 32) {
+      if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY()
+          && obj.y2 >= botState.getPlayerY() - 32) {
         obj.tier = 9;
       }
     } else if (obj.type == GameObjectType.AXE_KNIGHT) {
-      if (obj.distanceX < 64 && obj.y1 <= b.playerY + 16
-          && obj.y2 >= b.playerY - 64) {
+      if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY() + 16
+          && obj.y2 >= botState.getPlayerY() - 64) {
         obj.tier = 9;
       }
     } else if (obj.type == RED_SKELETON) {
@@ -72,7 +72,7 @@ public class Substage1401 extends Substage {
           switch(roundTile(obj.x)) {
             case 18:
               if (b.weapon == HOLY_WATER && b.hearts > 0 && !b.onStairs 
-                  && b.playerY >= 128 && b.playerX >= 288 && b.playerX < 400) {
+                  && botState.getPlayerY() >= 128 && botState.getPlayerX() >= 288 && botState.getPlayerX() < 400) {
                 obj.tier = 1;
               }
               break;
@@ -137,7 +137,7 @@ public class Substage1401 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
-      if (b.playerX >= 832) {
+      if (botState.getPlayerX() >= 832) {
         if (treasureTriggered1) {
           super.pickStrategy(targetedObject);
         }
@@ -146,18 +146,18 @@ public class Substage1401 extends Substage {
           super.pickStrategy(targetedObject);
         }
       }
-    } else if (!treasureTriggered3 && !b.onStairs && b.playerX >= 288 
-        && b.playerX < 480 && b.playerY > 128
+    } else if (!treasureTriggered3 && !b.onStairs && botState.getPlayerX() >= 288
+        && botState.getPlayerX() < 480 && botState.getPlayerY() > 128
             && !b.isEnemyInBounds(288, 128, 480, 208)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getWAIT().init(297, 192);
       botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
-    } else if (!treasureTriggered1 && b.playerX >= 928 && b.playerX < 1024 
-        && b.playerY > 112 && !b.isEnemyInBounds(816, 112, 1024, 208)) {
+    } else if (!treasureTriggered1 && botState.getPlayerX() >= 928 && botState.getPlayerX() < 1024
+        && botState.getPlayerY() > 112 && !b.isEnemyInBounds(816, 112, 1024, 208)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getWAIT().init(984, 192);
       botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
-    } else if (b.playerY == 192 && b.playerX <= 33) {
+    } else if (botState.getPlayerY() == 192 && botState.getPlayerX() <= 33) {
       b.pressLeft();
     } else {
       super.pickStrategy(targetedObject);
@@ -166,7 +166,7 @@ public class Substage1401 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 672 && b.playerX < 784 && b.playerY <= 128) {
+    if (botState.getPlayerX() >= 672 && botState.getPlayerX() < 784 && botState.getPlayerY() <= 128) {
       final boolean block1 = api.readPPU(BLOCK_140100) == 0x00;
       final boolean block2 = api.readPPU(BLOCK_140101) == 0x00;
       if (!blockBroken1 && block1) {
@@ -192,9 +192,9 @@ public class Substage1401 extends Substage {
       b.addDestination(32, 192);
     } else {
       b.addDestination(560, 128);
-      if (b.playerX < 208) {
+      if (botState.getPlayerX() < 208) {
         treasureTriggered2 = true;
-      } else if (b.playerX == 560 && b.playerY == 128) {
+      } else if (botState.getPlayerX() == 560 && botState.getPlayerY() == 128) {
         if (b.kneeling) {
           treasureTriggered2 = true;
         } else {
@@ -207,11 +207,11 @@ public class Substage1401 extends Substage {
   @Override
   public void route(final int targetX, final int targetY,
                     final boolean checkForEnemies) {
-    if (b.onStairs && b.playerY >= 156 && b.playerX < 256) {
+    if (b.onStairs && botState.getPlayerY() >= 156 && botState.getPlayerX() < 256) {
       if (!b.isEnemyInBounds(120, 156, 184, 208)) {
         super.route(targetX, targetY, checkForEnemies);
       }
-    } else if (b.playerX >= 1200 && b.playerY > 96 && b.playerY < 144) {
+    } else if (botState.getPlayerX() >= 1200 && botState.getPlayerY() > 96 && botState.getPlayerY() < 144) {
       if (!b.isEnemyInBounds(1192, 0, 1279, 104)) {
         super.route(targetX, targetY, checkForEnemies);
       }
@@ -222,13 +222,13 @@ public class Substage1401 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerX >= 1056 && b.playerY >= 144) {
+    if (botState.getPlayerX() >= 1056 && botState.getPlayerY() >= 144) {
       route(1065, 192);
-    } else if (b.playerX >= 800 && b.playerY <= 96) {
+    } else if (botState.getPlayerX() >= 800 && botState.getPlayerY() <= 96) {
       route(809, 96);
-    } else if (b.playerX >= 288 && b.playerX < 1024 && b.playerY >= 112) {
+    } else if (botState.getPlayerX() >= 288 && botState.getPlayerX() < 1024 && botState.getPlayerY() >= 112) {
       route(297, 192);
-    } else if (b.playerY <= 96 && b.playerX < 768) {
+    } else if (botState.getPlayerY() <= 96 && botState.getPlayerX() < 768) {
       route(41, 96);
     } else {
       route(32, 192);
@@ -237,13 +237,13 @@ public class Substage1401 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX >= 1056 && b.playerY >= 144) {
+    if (botState.getPlayerX() >= 1056 && botState.getPlayerY() >= 144) {
       route(1262, 192);
-    } else if (b.playerX >= 800 && b.playerY <= 96) {
+    } else if (botState.getPlayerX() >= 800 && botState.getPlayerY() <= 96) {
       route(1262, 96);
-    } else if (b.playerX >= 288 && b.playerX < 1024 && b.playerY >= 112) {
+    } else if (botState.getPlayerX() >= 288 && botState.getPlayerX() < 1024 && botState.getPlayerY() >= 112) {
       route(1015, 192);
-    } else if (b.playerY <= 96 && b.playerX < 768) {
+    } else if (botState.getPlayerY() <= 96 && botState.getPlayerX() < 768) {
       route(759, 96);
     } else {
       route(247, 192);
@@ -252,7 +252,7 @@ public class Substage1401 extends Substage {
 
   @Override
   public void treasureTriggered() {
-    if (b.playerX >= 832) {
+    if (botState.getPlayerX() >= 832) {
       treasureTriggered1 = true;
     } else {
       treasureTriggered3 = true;

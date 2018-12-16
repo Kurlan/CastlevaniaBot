@@ -55,7 +55,7 @@ public class SkeletonWallStrategy extends Strategy {
     }
     
     if ((b.onStairs || b.onPlatform)
-        && (b.playerX != playerX || b.playerY != playerY || !b.playerLeft)) {
+        && (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY || !b.playerLeft)) {
       b.substage.routeAndFace(playerX, playerY, true);
       return;
     }    
@@ -69,12 +69,12 @@ public class SkeletonWallStrategy extends Strategy {
       if (!b.weaponing && b.face(skeleton)) {
         b.whip();
       }
-    } else if (skeleton.y < b.playerY 
+    } else if (skeleton.y < botState.getPlayerY()
         && b.isInStandingWhipRange(skeleton, offsetX, offsetY + 32)) {
       if (b.face(skeleton) && b.canJump) {
         b.jump();
       }
-    } else if (skeleton.y < b.playerY 
+    } else if (skeleton.y < botState.getPlayerY()
         && b.isInStandingWhipRange(skeleton, offsetX + 16, offsetY + 32)) {
       if (b.canJump) {
         b.pressLeftAndJump();

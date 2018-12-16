@@ -24,7 +24,7 @@ public class BlackBatStrategy extends Strategy {
     lastY = bat.y;
     
     if (bat.distanceX < 24) {
-      final boolean flyingHigh = bat.y + offsetY < b.playerY - 16;
+      final boolean flyingHigh = bat.y + offsetY < botState.getPlayerY() - 16;
       if (!b.atTopOfStairs && flyingHigh) {
         b.kneel();                          // duck under bat        
       } else if (!flyingHigh && b.canJump) {

@@ -33,7 +33,7 @@ public class Substage0100 extends Substage {
       obj.tier = 0;
     } else if (obj.type == GHOUL) {
       if (obj.distanceX < 80 && obj.distanceY < 16 
-          && (obj.left ^ (b.playerX > obj.x))) {
+          && (obj.left ^ (botState.getPlayerX() > obj.x))) {
         obj.tier = 6;
       }
     } else if (obj.type == PANTHER) {
@@ -102,7 +102,7 @@ public class Substage0100 extends Substage {
   
   @Override
   public void readGameObjects() {
-    if (b.playerY >= 160 && b.playerX >= 944 && b.playerX < 1136) {
+    if (botState.getPlayerY() >= 160 && botState.getPlayerX() >= 944 && botState.getPlayerX()< 1136) {
       if (!blockBroken && api.readPPU(BLOCK_010000) == 0x00) {
         blockWhipped = blockBroken = true;
         mapRoutes = b.allMapRoutes.get("01-00-01");
@@ -111,7 +111,7 @@ public class Substage0100 extends Substage {
         b.addBlock(1008, 144);
       }
     }
-    if (b.playerX < 768) {
+    if (botState.getPlayerX() < 768) {
       b.addDestination(992, 144);  // central platform
     } else {
       b.addDestination(1520, 112); // exit door
@@ -125,7 +125,7 @@ public class Substage0100 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX >= 1392 && b.playerY <= 112) {
+    if (botState.getPlayerX() >= 1392 && botState.getPlayerY() <= 112) {
       route(1511, 112);
     } else {
       route(1511, 208);

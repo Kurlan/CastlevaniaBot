@@ -64,7 +64,7 @@ public class WhipStrategy extends Strategy {
       if (--jumpCounter == 0) {
         useWhip();
       }
-    } else if (b.playerX != playerX || b.playerY != playerY 
+    } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY
         || b.playerLeft != playerLeft) {
       b.substage.routeAndFace(playerX, playerY, playerLeft);
     } else if (jump && b.canJump) { 

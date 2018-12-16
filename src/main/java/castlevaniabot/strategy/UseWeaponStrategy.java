@@ -49,7 +49,7 @@ public class UseWeaponStrategy extends Strategy {
       if (--jumpCounter == 0) {
         useWeapon();
       }
-    } else if (b.playerX != playerX || b.playerY != playerY) {
+    } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY) {
       b.substage.route(playerX, playerY);
     } else if (faceLeft != b.playerLeft) { 
       // walk past and turn around

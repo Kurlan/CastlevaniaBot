@@ -32,8 +32,8 @@ public class Substage0500 extends Substage {
     }
     
     if (obj.type == SPEAR_KNIGHT) {
-      if (obj.distanceX < 64 && obj.y >= b.playerY - 32 
-          && obj.y - 32 <= b.playerY) {
+      if (obj.distanceX < 64 && obj.y >= botState.getPlayerY() - 32
+          && obj.y - 32 <= botState.getPlayerY()) {
         obj.tier = 5;
       }
     } else if (obj.type == DESTINATION) {
@@ -75,13 +75,13 @@ public class Substage0500 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.playerX >= 544) {
+    if (botState.getPlayerX() >= 544) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
         botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
       }
-    } else if (!treasureTriggered && b.playerX >= 288 && b.playerX < 320) {
+    } else if (!treasureTriggered && botState.getPlayerX() >= 288 && botState.getPlayerX() < 320) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(304, 80);

@@ -43,11 +43,11 @@ public class Substage0601 extends Substage {
       if (!b.getAllStrategies().getMEDUSA().isTimeFrozen()) {
         if (obj.distanceX < 64) {
           if (obj.left) {
-            if (obj.x2 > b.playerX - 16) {
+            if (obj.x2 > botState.getPlayerX() - 16) {
               obj.tier = 7;
             }
           } else {
-            if (obj.x1 < b.playerX + 16) {
+            if (obj.x1 < botState.getPlayerX() + 16) {
               obj.tier = 7;
             }
           }
@@ -75,7 +75,7 @@ public class Substage0601 extends Substage {
         case BOOMERANG_WEAPON:
         case DAGGER_WEAPON:        
         case STOPWATCH_WEAPON:
-          if (b.playerX >= 256) {
+          if (botState.getPlayerX() >= 256) {
             if (b.weapon != HOLY_WATER) {
               obj.tier = 4;
             } else {
@@ -84,7 +84,7 @@ public class Substage0601 extends Substage {
           }
           break;          
         case HOLY_WATER_WEAPON:
-          if (b.playerX >= 256) {
+          if (botState.getPlayerX() >= 256) {
             obj.tier = 5;
           }
           break;
@@ -98,7 +98,7 @@ public class Substage0601 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
 
-    if (!reachedBoss && b.playerX <= 40) {
+    if (!reachedBoss && botState.getPlayerX() <= 40) {
       reachedBoss = true;
       b.pressRight();
     }
@@ -107,10 +107,10 @@ public class Substage0601 extends Substage {
       if (--walkDelay == 0) {
         b.pressLeft();
       }
-    } else if (b.playerX == 493) {
+    } else if (botState.getPlayerX() == 493) {
       botState.setCurrentStrategy(null);
       walkDelay = 150 + ThreadLocalRandom.current().nextInt(11);
-    } else if (b.playerX >= 256 && b.playerX < 608) {
+    } else if (botState.getPlayerX() >= 256 && botState.getPlayerX() < 608) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);

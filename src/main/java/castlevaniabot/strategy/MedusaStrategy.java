@@ -69,7 +69,7 @@ public class MedusaStrategy extends Strategy {
   private void stepNoWeaponsStrategy(final GameObject medusa, final int offsetX, 
       final int offsetY) {
     
-    if (medusa.distanceX > 64 || b.playerX <= 25 || b.playerX >= 727) {
+    if (medusa.distanceX > 64 || botState.getPlayerX() <= 25 || botState.getPlayerX() >= 727) {
       moveAway = 0;
     }
     
@@ -117,7 +117,7 @@ public class MedusaStrategy extends Strategy {
       }
     }    
 
-    if (b.playerX == routeX) {
+    if (botState.getPlayerX() == routeX) {
       if (medusa.playerFacing) {
         if (weaponDelay == 0) {
           b.useWeapon();
@@ -145,14 +145,14 @@ public class MedusaStrategy extends Strategy {
   private void stepBoomerangStrategy(final GameObject medusa, final int offsetX, 
       final int offsetY) {
     
-    if (medusa.distanceX > 64 || b.playerX <= 25 || b.playerX >= 727) {
+    if (medusa.distanceX > 64 || botState.getPlayerX() <= 25 || botState.getPlayerX() >= 727) {
       moveAway = 0;
     }
     
     if (moveAway > 0) {
       --moveAway;
       b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
-    } else if (b.playerY - 24 >= medusa.y1 && b.playerY - 24 <= medusa.y2) {
+    } else if (botState.getPlayerY() - 24 >= medusa.y1 && botState.getPlayerY() - 24 <= medusa.y2) {
       if (b.faceTarget() && !b.weaponing) {
         b.useWeapon();
       }
@@ -178,14 +178,14 @@ public class MedusaStrategy extends Strategy {
   private void stepDaggerStrategy(final GameObject medusa, final int offsetX, 
       final int offsetY) {
     
-    if (medusa.distanceX > 64 || b.playerX <= 25 || b.playerX >= 727) {
+    if (medusa.distanceX > 64 || botState.getPlayerX() <= 25 || botState.getPlayerX() >= 727) {
       moveAway = 0;
     }
     
     if (moveAway > 0) {
       --moveAway;
       b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
-    } else if (b.playerY - 24 >= medusa.y1 && b.playerY - 24 <= medusa.y2) {
+    } else if (botState.getPlayerY() - 24 >= medusa.y1 && botState.getPlayerY() - 24 <= medusa.y2) {
       if (b.faceTarget() && !b.weaponing) {
         b.useWeapon();
       }
@@ -211,7 +211,7 @@ public class MedusaStrategy extends Strategy {
   private void stepHolyWaterStrategy(final GameObject medusa, final int offsetX, 
       final int offsetY) {
     
-    if (medusa.distanceX > 64 || b.playerX <= 25 || b.playerX >= 727) {
+    if (medusa.distanceX > 64 || botState.getPlayerX() <= 25 || botState.getPlayerX() >= 727) {
       moveAway = 0;
     }
     
@@ -240,7 +240,7 @@ public class MedusaStrategy extends Strategy {
   private void stepStopwatchStrategy(final GameObject medusa, final int offsetX, 
       final int offsetY) {
     
-    if (medusa.distanceX > 64 || b.playerX <= 25 || b.playerX >= 727) {
+    if (medusa.distanceX > 64 || botState.getPlayerX() <= 25 || botState.getPlayerX() >= 727) {
       moveAway = 0;
     }
     

@@ -45,9 +45,9 @@ public class Substage1501 extends Substage {
             obj.subTier = 4;
           } else if (b.isInKneelingWhipRange(obj)) {
             obj.subTier = 3;
-          } else if (obj.y2 <= b.playerY && obj.y1 >= b.playerY - 32) {
+          } else if (obj.y2 <= botState.getPlayerY() && obj.y1 >= botState.getPlayerY() - 32) {
             obj.subTier = 2;
-          } else if (obj.y1 <= b.playerY && obj.y2 >= b.playerY - 32) {
+          } else if (obj.y1 <= botState.getPlayerY() && obj.y2 >= botState.getPlayerY() - 32) {
             obj.subTier = 1;
           }
         }
@@ -63,14 +63,14 @@ public class Substage1501 extends Substage {
 //        break;
         
       case AXE:
-        if (obj.distanceX < 128 && obj.y1 <= b.playerY 
-            && obj.y2 >= b.playerY - 32) {
+        if (obj.distanceX < 128 && obj.y1 <= botState.getPlayerY()
+            && obj.y2 >= botState.getPlayerY() - 32) {
           obj.tier = 7;
         }        
         break;
       case AXE_KNIGHT:
-        if (!b.onStairs && obj.distanceX < 128 && obj.y1 <= b.playerY + 16
-            && obj.y2 >= b.playerY - 64) {
+        if (!b.onStairs && obj.distanceX < 128 && obj.y1 <= botState.getPlayerY() + 16
+            && obj.y2 >= botState.getPlayerY() - 64) {
           obj.tier = 6;
         }        
         break;
@@ -84,7 +84,7 @@ public class Substage1501 extends Substage {
               if (bossDefeated) {
                 switch(roundTile(obj.x)) {
                   case 6:
-                    if (b.playerX < obj.x - 24) {
+                    if (botState.getPlayerX() < obj.x - 24) {
                       obj.tier = 1;
                     }
                     break;
@@ -97,7 +97,7 @@ public class Substage1501 extends Substage {
                     break;
                 }
               } else if (!bossTriggered 
-                  && (b.playerX < 256 || (obj.x < 480 && obj.x < b.playerX))) {
+                  && (botState.getPlayerX() < 256 || (obj.x < 480 && obj.x < botState.getPlayerX()))) {
                 obj.tier = 1; 
               }  
               break;
@@ -154,9 +154,9 @@ public class Substage1501 extends Substage {
 
     if (bossDefeated) {
       // crystal ball X +/- 20
-      if (b.playerX == 108 && targetX >= 144 && !b.playerLeft) {
+      if (botState.getPlayerX() == 108 && targetX >= 144 && !b.playerLeft) {
         b.pressRightAndJump();
-      } else if (b.playerX == 148 && targetX <= 112 && b.playerLeft) {
+      } else if (botState.getPlayerX() == 148 && targetX <= 112 && b.playerLeft) {
         b.pressLeftAndJump();
       } else {
         super.route(targetX, targetY, checkForEnemies);
@@ -169,7 +169,7 @@ public class Substage1501 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     
-    if (b.playerX == 800 && b.weapon == BOOMERANG && b.hearts > 0 
+    if (botState.getPlayerX() == 800 && b.weapon == BOOMERANG && b.hearts > 0
         && !b.weaponing) {
       b.useWeapon(); // hit candles with boomerang
     } 
@@ -179,7 +179,7 @@ public class Substage1501 extends Substage {
         super.pickStrategy(targetedObject);
       }
     } else if (bossDefeated) {
-      if (!whippedCandles && b.playerX >= 224) {
+      if (!whippedCandles && botState.getPlayerX() >= 224) {
         if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
           clearTarget(targetedObject);
           b.getAllStrategies().getWHIP().init(238, 128, true, 0, true, false, 36);
@@ -197,7 +197,7 @@ public class Substage1501 extends Substage {
       } else {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.playerX < 128) {
+    } else if (botState.getPlayerX() < 128) {
       bossTriggered = true;
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
         clearTarget(targetedObject);

@@ -5,5 +5,7 @@ import lombok.Data;
 
 @Data
 public class BotState {
-    public Strategy currentStrategy;
+    private int playerX;
+    private int playerY;
+    private Strategy currentStrategy;
 }

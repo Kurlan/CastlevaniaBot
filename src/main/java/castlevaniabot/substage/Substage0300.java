@@ -34,18 +34,18 @@ public class Substage0300 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 7;
       }
     } else if (obj.type == DESTINATION || obj.type == PHANTOM_BAT 
         || obj.type == CRYSTAL_BALL) {
       obj.tier = 0;
     } else if (obj.type == GHOUL) {
-      if (obj.distanceX < 80 && obj.y <= b.playerY + 8 
-          && obj.y >= b.playerY - 56
-              && (obj.left ^ (b.playerX > obj.x))) {
+      if (obj.distanceX < 80 && obj.y <= botState.getPlayerY() + 8
+          && obj.y >= botState.getPlayerY() - 56
+              && (obj.left ^ (botState.getPlayerX() > obj.x))) {
         obj.tier = 6;
       }
     } else if (obj.distance < HORIZON) {
@@ -53,7 +53,7 @@ public class Substage0300 extends Substage {
         case CANDLES:
           if (roundTile(obj.x) != 22 || b.weapon != HOLY_WATER) {
             obj.tier = 1;
-            if ((obj.y < 160) ^ (b.playerY >= 160)) {
+            if ((obj.y < 160) ^ (botState.getPlayerY() >= 160)) {
               obj.subTier = 1;
             }
           }
@@ -73,7 +73,7 @@ public class Substage0300 extends Substage {
         case DAGGER_WEAPON:
         case STOPWATCH_WEAPON:
         case AXE_WEAPON:
-          if (b.playerX < 512) {
+          if (botState.getPlayerX() < 512) {
             if (b.weapon != HOLY_WATER) {
               obj.tier = 5;
             } else {
@@ -97,7 +97,7 @@ public class Substage0300 extends Substage {
   
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 640) {
+    if (botState.getPlayerX() >= 640) {
       if (!blockBroken && api.readPPU(BLOCK_030000) == 0x00) {
         blockWhipped = blockBroken = true;
         mapRoutes = b.allMapRoutes.get("03-00-01");
@@ -113,7 +113,7 @@ public class Substage0300 extends Substage {
   
   @Override
   public void routeLeft() {
-    if (b.playerY <= 160 && b.playerX < 320) {
+    if (botState.getPlayerY() <= 160 && botState.getPlayerX() < 320) {
       route(9, 112);
     } else {
       route(9, 208);
@@ -122,7 +122,7 @@ public class Substage0300 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerY <= 160 && b.playerX > 704) {
+    if (botState.getPlayerY() <= 160 && botState.getPlayerX() > 704) {
       route(751, 144);
     } else {
       route(751, 208);

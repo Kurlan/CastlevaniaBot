@@ -31,7 +31,7 @@ public class RedBatStrategy extends Strategy {
     final int offsetY = batY - bat.y;
     
     if (bat.distanceX < 24) {
-      final boolean flyingHigh = batY < b.playerY - 16;
+      final boolean flyingHigh = batY < botState.getPlayerY() - 16;
       if (flyingHigh) {
         b.kneel();                           // duck under bat        
       } else if (!flyingHigh && b.canJump) {
@@ -48,8 +48,8 @@ public class RedBatStrategy extends Strategy {
           b.whip();                          // kneel whip bat
         }
       }      
-    } else if ((bat.left && bat.x1 > b.playerX + 24) 
-        || (!bat.left && bat.x2 < b.playerX - 24)) {
+    } else if ((bat.left && bat.x1 > botState.getPlayerX() + 24)
+        || (!bat.left && bat.x2 < botState.getPlayerX() - 24)) {
       b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }

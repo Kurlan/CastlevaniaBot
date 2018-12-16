@@ -36,14 +36,14 @@ public class Substage0400 extends Substage {
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     if (obj.type == BLACK_BAT) {
-      if (obj.active && obj.distanceX < 96 && obj.y + 88 >= b.playerY 
-          && obj.y - 40 <= b.playerY && ((obj.left && obj.x >= b.playerX - 40) 
-              || (!obj.left && obj.x <= b.playerX + 40))) {
+      if (obj.active && obj.distanceX < 96 && obj.y + 88 >= botState.getPlayerY()
+          && obj.y - 40 <= botState.getPlayerY() && ((obj.left && obj.x >= botState.getPlayerX() - 40)
+              || (!obj.left && obj.x <= botState.getPlayerX() + 40))) {
         obj.tier = 7;
       }
     } else if (obj.type == SPEAR_KNIGHT) {
-      if (obj.distanceX < 64 && obj.y >= b.playerY - 32 
-          && obj.y - 32 <= b.playerY) {
+      if (obj.distanceX < 64 && obj.y >= botState.getPlayerY() - 32
+          && obj.y - 32 <= botState.getPlayerY()) {
         obj.tier = 6;
       }
     } else if (obj.type == DESTINATION) {
@@ -102,7 +102,7 @@ public class Substage0400 extends Substage {
       b.addBlock(480, 128);      
     }
     
-    if (b.playerX >= 476) {
+    if (botState.getPlayerX() >= 476) {
       triggedTreasure = true;
     }
     if (blocksBroken && !triggedTreasure) {
@@ -114,7 +114,7 @@ public class Substage0400 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerY >= 176) {
+    if (botState.getPlayerY() >= 176) {
       route(281, 208);
     } else {
       route(281, 96);
@@ -123,7 +123,7 @@ public class Substage0400 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerY >= 176) {
+    if (botState.getPlayerY() >= 176) {
       route(471, 208);
     } else {
       route(471, 144);

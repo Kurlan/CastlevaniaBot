@@ -69,7 +69,7 @@ public class MummiesStrategy extends Strategy {
       mummyLastX2 = mummy2.x;
     }    
     
-    if (b.playerY > 164) {
+    if (botState.getPlayerY() > 164) {
       if (b.hearts > 0 && b.weapon == BOOMERANG) {
         stepBoomerangStrategy();
         return;
@@ -103,7 +103,7 @@ public class MummiesStrategy extends Strategy {
       return;
     } 
     
-    if (closestMummy.distanceX < 30 && b.playerX > 1312 && b.playerX < 1488) {
+    if (closestMummy.distanceX < 30 && botState.getPlayerX() > 1312 && botState.getPlayerX() < 1488) {
       moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
       moveAwayFromX = closestMummy.x;
       b.substage.moveAwayFromTarget(closestMummy.x);
@@ -132,7 +132,7 @@ public class MummiesStrategy extends Strategy {
   
   private void stepBoomerangStrategy() {
         
-    if (b.playerX != 1512 || b.playerY != 208 || !b.playerLeft) {
+    if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !b.playerLeft) {
       b.substage.routeAndFace(1512, 208, true, false);
     } else if (!b.weaponing) {
       b.whipOrWeapon();
@@ -151,7 +151,7 @@ public class MummiesStrategy extends Strategy {
       }
     }
     
-    if (b.playerX != routeX || b.playerY != routeY || b.playerLeft) {
+    if (botState.getPlayerX() != routeX || botState.getPlayerY() != routeY || b.playerLeft) {
       b.substage.routeAndFace(routeX, routeY, false);
     } else {
       b.kneel();
@@ -163,7 +163,7 @@ public class MummiesStrategy extends Strategy {
   
   private void stepHolyWaterStrategy() {
     
-    if (b.playerX != 1290 || b.playerY != 144 || b.playerLeft) {
+    if (botState.getPlayerX() != 1290 || botState.getPlayerY() != 144 || b.playerLeft) {
       b.substage.routeAndFace(1290, 144, false);
     } else if (weaponDelay > 0) {
       --weaponDelay;

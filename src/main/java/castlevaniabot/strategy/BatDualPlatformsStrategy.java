@@ -43,7 +43,7 @@ public class BatDualPlatformsStrategy extends Strategy {
     
     if (done) {
       return;
-    } else if (b.playerX >= 1280) {
+    } else if (botState.getPlayerX() >= 1280) {
       done = true;
     }
     
@@ -94,7 +94,7 @@ public class BatDualPlatformsStrategy extends Strategy {
     }
         
     if (hangRequested) {
-      if (b.playerX < 995) {
+      if (botState.getPlayerX() < 995) {
         b.pressRight();
       } else {
         hangRequested = false;
@@ -104,7 +104,7 @@ public class BatDualPlatformsStrategy extends Strategy {
     
     if (walkRequested) {
       if (platform == null || (!left && platform.x1 > 1008) 
-          || (b.playerX + 4 >= platform.x1 && b.playerX - 4 <= platform.x2)) {
+          || (botState.getPlayerX() + 4 >= platform.x1 && botState.getPlayerX() - 4 <= platform.x2)) {
         walkRequested = false;
       } else if (platform.x1 < 1000) {
         b.pressRight();
@@ -113,20 +113,20 @@ public class BatDualPlatformsStrategy extends Strategy {
       hangRequested = true;
     }
     
-    if (platform != null && b.playerX + 4 >= platform.x1 
-        && b.playerX - 4 <= platform.x2) {
+    if (platform != null && botState.getPlayerX() + 4 >= platform.x1
+        && botState.getPlayerX() - 4 <= platform.x2) {
       final int cx = platform.x1 + 24;
-      if (b.playerX == cx) {
+      if (botState.getPlayerX() == cx) {
         if (b.playerLeft) {
           b.pressLeft();
         }
-      } else if (b.playerX < cx) {
+      } else if (botState.getPlayerX() < cx) {
         b.pressRight();
       } else {
         b.pressLeft();
       }
       
-      if (b.playerX >= 1016 && b.playerX < 1064) {
+      if (botState.getPlayerX() >= 1016 && botState.getPlayerX() < 1064) {
         b.kneel();
       } else if ((platform.x1 >= 1087 && platform.x1 <= 1089) 
           || (platform.x1 >= 1231 && platform.x1 <= 1233)) {
@@ -152,8 +152,8 @@ public class BatDualPlatformsStrategy extends Strategy {
     final MovingPlatform[] movingPlatforms = b.getGameState().getMovingPlatforms();
     for(int i = b.getGameState().getMovingPlatformsCount() - 1; i >= 0; --i) {
       final MovingPlatform p = movingPlatforms[i];
-      if (p.x2 >= b.playerX && (platform == null 
-          || (p.x2 - b.playerX < platform.x2 - b.playerX))) {
+      if (p.x2 >= botState.getPlayerX() && (platform == null
+          || (p.x2 - botState.getPlayerX() < platform.x2 - botState.getPlayerX()))) {
         platform = p;
       }
     }

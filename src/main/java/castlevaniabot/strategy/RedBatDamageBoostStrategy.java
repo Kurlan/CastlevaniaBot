@@ -28,17 +28,17 @@ public class RedBatDamageBoostStrategy extends Strategy {
       }
     } else {
       final GameObject bat = b.getType(RED_BAT);
-      if (b.playerX != 195 || b.playerY != 144 || b.playerLeft) {
+      if (botState.getPlayerX() != 195 || botState.getPlayerY() != 144 || b.playerLeft) {
         if (bat != null) {
           b.getTargetedObject().setTarget(bat);
           b.getAllStrategies().getRED_BAT().step();
-        } else if (b.playerY != 144 || b.playerX < 191) {
+        } else if (botState.getPlayerY() != 144 || botState.getPlayerX() < 191) {
           b.substage.route(191, 144);
-        } else if (b.playerX < 195) {
+        } else if (botState.getPlayerX() < 195) {
           b.pressRight();
         }
       } else if (bat != null) {
-        if (bat.left && bat.x >= b.playerX - 16) {
+        if (bat.left && bat.x >= botState.getPlayerX() - 16) {
           if (bat.x < 272) {
             batSpawned = true;
             b.pressLeft();

@@ -30,14 +30,14 @@ public class Substage0401 extends Substage {
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     if (obj.type == BLACK_BAT) {
-      if (obj.active && obj.distanceX < 96 && obj.y + 88 >= b.playerY 
-          && obj.y - 40 <= b.playerY && ((obj.left && obj.x >= b.playerX - 40) 
-              || (!obj.left && obj.x <= b.playerX + 40))) {
+      if (obj.active && obj.distanceX < 96 && obj.y + 88 >= botState.getPlayerY()
+          && obj.y - 40 <= botState.getPlayerY() && ((obj.left && obj.x >= botState.getPlayerX() - 40)
+              || (!obj.left && obj.x <= botState.getPlayerX() + 40))) {
         obj.tier = 6;
       }
     } else if (obj.type == SPEAR_KNIGHT) {
-      if (obj.distanceX < 64 && obj.y >= b.playerY - 32 
-          && obj.y - 32 <= b.playerY && !isInKnightPit(obj)) {
+      if (obj.distanceX < 64 && obj.y >= botState.getPlayerY() - 32
+          && obj.y - 32 <= botState.getPlayerY() && !isInKnightPit(obj)) {
         obj.tier = 5;
       }
     } else if (obj.type == DESTINATION) {
@@ -46,7 +46,7 @@ public class Substage0401 extends Substage {
         && isKnightInPit()) || isInPlatformPit(obj))) {
       switch(obj.type) {
         case BLOCK: 
-          if (b.playerX >= 248 && !isKnightInPit()) {
+          if (botState.getPlayerX() >= 248 && !isKnightInPit()) {
             obj.tier = 1;
           }
           break;
@@ -82,7 +82,7 @@ public class Substage0401 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.playerX >= 32 && b.playerX <= 104) {
+    if (botState.getPlayerX() >= 32 && botState.getPlayerX() <= 104) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(96, 31, 112);
@@ -121,23 +121,23 @@ public class Substage0401 extends Substage {
   
   @Override
   public void readGameObjects() {
-    if (!blockBroken && b.playerX >= 256 && api.readPPU(BLOCK_040100) == 0x00) {
+    if (!blockBroken && botState.getPlayerX() >= 256 && api.readPPU(BLOCK_040100) == 0x00) {
       blockWhipped = blockBroken = true;
       mapRoutes = b.allMapRoutes.get("04-01-01");
     } 
     if (!blockWhipped) {      
       b.addBlock(352, 112);      
     }    
-    if (b.playerX < 32) {
+    if (botState.getPlayerX() < 32) {
       b.addDestination(25, 112);
-    } else if (b.playerX >= 104) {
+    } else if (botState.getPlayerX() >= 104) {
       b.addDestination(96, 112);      
     }
   }  
 
   @Override
   public void routeLeft() {
-    if (b.playerX < 32) {
+    if (botState.getPlayerX() < 32) {
       route(25, 112);
     } else {
       route(64, 144);

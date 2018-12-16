@@ -45,13 +45,13 @@ public class Substage1301 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == FLEAMAN) {
-      if (obj.distanceX < 64 && obj.y1 <= b.playerY 
-          && obj.y2 >= b.playerY - 48) {
+      if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY()
+          && obj.y2 >= botState.getPlayerY() - 48) {
         obj.tier = 9;
       }
     } else if (obj.type == WHITE_SKELETON) {
-      if (obj.distanceX < 128 && obj.y1 <= b.playerY + 16
-          && obj.y2 >= b.playerY - 64) {
+      if (obj.distanceX < 128 && obj.y1 <= botState.getPlayerY() + 16
+          && obj.y2 >= botState.getPlayerY() - 64) {
         obj.tier = 8;
       }
     } else if (obj.type == RED_SKELETON) {
@@ -135,8 +135,8 @@ public class Substage1301 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (!treasureTriggered && b.playerY <= 96 && b.playerX >= 336 
-        && b.playerX < 416) {
+    if (!treasureTriggered && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 336
+        && botState.getPlayerX() < 416) {
       if (botState.getCurrentStrategy()!= b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
@@ -149,7 +149,7 @@ public class Substage1301 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 416 && b.playerX < 480) {
+    if (botState.getPlayerX() >= 416 && botState.getPlayerX() < 480) {
       if (!blockBroken1 && api.readPPU(BLOCK_130100) == 0x00) {
         blockWhipped1 = blockBroken1 = true;
         mapRoutes = b.allMapRoutes.get("13-01-01");
@@ -157,7 +157,7 @@ public class Substage1301 extends Substage {
       if (!blockWhipped1) {
         b.addBlock(432, 96);
       }
-    } else if (b.playerX >= 1024) {
+    } else if (botState.getPlayerX() >= 1024) {
       if (!blockBroken2 && api.readPPU(BLOCK_130101) == 0x00) {
         blockWhipped2 = blockBroken2 = true;
         mapRoutes = b.allMapRoutes.get("13-01-02");
@@ -172,9 +172,9 @@ public class Substage1301 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerX < 320 && b.playerY > 104) {
+    if (botState.getPlayerX() < 320 && botState.getPlayerY() > 104) {
       route(9, 192);
-    } else if (b.playerX < 416 && b.playerY <= 104) {
+    } else if (botState.getPlayerX() < 416 && botState.getPlayerY() <= 104) {
       route(9, 96);
     } else {
       route(361, 192);
@@ -183,9 +183,9 @@ public class Substage1301 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX < 320 && b.playerY > 104) {
+    if (botState.getPlayerX() < 320 && botState.getPlayerY() > 104) {
       route(311, 192);
-    } else if (b.playerX < 416 && b.playerY <= 104) {
+    } else if (botState.getPlayerX() < 416 && botState.getPlayerY() <= 104) {
       route(407, 96);
     } else {
       route(1255, 192);
@@ -194,7 +194,7 @@ public class Substage1301 extends Substage {
   
   @Override
   public void blockWhipped() {
-    if (b.playerX > 448) {
+    if (botState.getPlayerX() > 448) {
       blockWhipped2 = true;
     } else {
       blockWhipped1 = true;

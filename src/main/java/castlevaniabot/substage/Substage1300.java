@@ -32,13 +32,13 @@ public class Substage1300 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == FLEAMAN) {
-      if (obj.distanceX < 128 && obj.y1 <= b.playerY 
-          && obj.y2 >= b.playerY - 48) {
+      if (obj.distanceX < 128 && obj.y1 <= botState.getPlayerY()
+          && obj.y2 >= botState.getPlayerY() - 48) {
         obj.tier = 7;
       }
     } else if (obj.type == WHITE_SKELETON) {
-      if (obj.distanceX < 128 && obj.y1 <= b.playerY + 16
-          && obj.y2 >= b.playerY - 64) {
+      if (obj.distanceX < 128 && obj.y1 <= botState.getPlayerY() + 16
+          && obj.y2 >= botState.getPlayerY() - 64) {
         obj.tier = 6;
       }
     } else if (obj.type == DESTINATION) {
@@ -48,7 +48,7 @@ public class Substage1300 extends Substage {
         case CANDLES:
           if (obj.y > 132 && b.whipLength != 2) {
             obj.tier = 6;
-          } else if (roundTile(obj.x) != 30 || b.playerX < 480) {            
+          } else if (roundTile(obj.x) != 30 || botState.getPlayerX() < 480) {
             obj.tier = 1; 
           }
           break;
@@ -114,14 +114,14 @@ public class Substage1300 extends Substage {
     
     if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
       final GameObject skeleton = b.getType(WHITE_SKELETON);
-      if (waited || (skeleton != null && (skeleton.x < b.playerX - 48 
+      if (waited || (skeleton != null && (skeleton.x < botState.getPlayerX() - 48
           || skeleton.y > 132))) {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.playerX >= 368 && b.playerY > 160 && !b.isObjectBelow(132)) {
+    } else if (botState.getPlayerX() >= 368 && botState.getPlayerY() > 160 && !b.isObjectBelow(132)) {
       final GameObject skeleton = b.getType(WHITE_SKELETON);
       if (skeleton != null && skeleton.y <= 132 
-          && b.playerX < skeleton.x) {
+          && botState.getPlayerX() < skeleton.x) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(493, 192);
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
@@ -141,7 +141,7 @@ public class Substage1300 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerY < 144) {
+    if (botState.getPlayerY() < 144) {
       route(9, 96);
     } else {
       route(9, 192);
@@ -150,7 +150,7 @@ public class Substage1300 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerY < 144) {
+    if (botState.getPlayerY() < 144) {
       route(503, 128);
     } else {
       route(503, 192);

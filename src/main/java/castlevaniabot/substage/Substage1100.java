@@ -27,7 +27,7 @@ public class Substage1100 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == FLEAMAN) {
-      if (obj.y2 >= b.playerY - 56 && obj.y1 <= b.playerY) {
+      if (obj.y2 >= botState.getPlayerY() - 56 && obj.y1 <= botState.getPlayerY()) {
         obj.tier = 5;
       }
     } else if (obj.type == DESTINATION) {

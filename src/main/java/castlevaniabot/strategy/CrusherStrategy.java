@@ -47,7 +47,7 @@ public class CrusherStrategy extends Strategy {
     
     switch(state) {
       case WALK_TO_LEFT_WALL:
-        if (b.playerX != 521 || b.playerY != 208) {
+        if (botState.getPlayerX() != 521 || botState.getPlayerY() != 208) {
           b.substage.route(521, 208);
         } else {
           state = State.WAIT_FOR_CRUSHER_2;
@@ -60,7 +60,7 @@ public class CrusherStrategy extends Strategy {
         }
         break;
       case WALK_BETWEEN_CRUSHERS_1_AND_2:
-        if (b.playerX == 456 && b.playerY == 176) {
+        if (botState.getPlayerX() == 456 && botState.getPlayerY() == 176) {
           state = State.WHIP_CANDLE_1_2;
         } else {
           b.substage.route(456, 176);
@@ -84,7 +84,7 @@ public class CrusherStrategy extends Strategy {
         }
         break;
       case WALK_BETWEEN_CRUSHERS_0_AND_1:
-        if (b.playerX == 392 && b.playerY == 176) {
+        if (botState.getPlayerX() == 392 && botState.getPlayerY() == 176) {
           state = State.WHIP_CANDLE_0_1;
         } else {
           b.substage.route(392, 176);
@@ -108,7 +108,7 @@ public class CrusherStrategy extends Strategy {
         }
         break;
       case WALK_IN_FRONT_OF_CRUSHER_0:
-        if (b.playerX == 328 && b.playerY == 176) {
+        if (botState.getPlayerX() == 328 && botState.getPlayerY() == 176) {
           state = State.WHIP_CANDLE_0;
         } else {
           b.substage.route(328, 176);
@@ -131,8 +131,8 @@ public class CrusherStrategy extends Strategy {
   
   public boolean isActive() {
     
-    if (state == State.INACTIVE && b.playerX >= 512 && b.playerX <= 671
-        && b.playerY >= 96) {
+    if (state == State.INACTIVE && botState.getPlayerX() >= 512 && botState.getPlayerX() <= 671
+        && botState.getPlayerY() >= 96) {
       final GameObject[] objs = b.gameObjects;
       outer: {
         for(int i = b.objsCount - 1; i >= 0; --i) {

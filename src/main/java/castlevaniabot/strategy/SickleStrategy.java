@@ -15,7 +15,7 @@ public class SickleStrategy extends Strategy {
     
     final GameObject death = b.getType(DEATH);
     if (death != null && !b.weaponing) {
-      if (b.hearts > 0 && death.y2 >= b.playerY - 32 && death.y1 <= b.playerY
+      if (b.hearts > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
           && death.distanceX < 128) {
         if (b.face(death)) {
           b.useWeapon();
@@ -32,7 +32,7 @@ public class SickleStrategy extends Strategy {
     final GameObject sickle = b.getTargetedObject().getTarget();
 
     if (sickle.distanceX < 32 
-        && (sickle.y2 <= b.playerY - 32 || sickle.y1 >= b.playerY)) {
+        && (sickle.y2 <= botState.getPlayerY() - 32 || sickle.y1 >= botState.getPlayerY())) {
       moveAwayFrom(sickle);        
     } else if (b.isTargetInStandingWhipRange()) {
       if (b.faceTarget() && !b.weaponing) {
@@ -45,8 +45,8 @@ public class SickleStrategy extends Strategy {
           b.whip();
         }
       }
-    } else if (!b.weaponing && b.hearts > 0 && sickle.y2 >= b.playerY - 32 
-        && sickle.y1 <= b.playerY) {
+    } else if (!b.weaponing && b.hearts > 0 && sickle.y2 >= botState.getPlayerY() - 32
+        && sickle.y1 <= botState.getPlayerY()) {
       if (b.faceTarget()) {
         b.useWeapon();
       }
@@ -76,7 +76,7 @@ public class SickleStrategy extends Strategy {
         b.pressLeft();
         break;
       default:
-        if (sickle.x < b.playerX) {
+        if (sickle.x < botState.getPlayerX()) {
           b.pressRight();
         } else {
           b.pressLeft();

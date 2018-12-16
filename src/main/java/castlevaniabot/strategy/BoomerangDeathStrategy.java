@@ -14,7 +14,7 @@ public class BoomerangDeathStrategy extends Strategy {
     
     final GameObject death = b.getTargetedObject().getTarget();
 
-    if (b.hearts > 0 && death.y2 >= b.playerY - 32 && death.y1 <= b.playerY
+    if (b.hearts > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
         && death.distanceX < 128) {
       if (b.faceTarget()) {
         b.useWeapon();
@@ -40,14 +40,14 @@ public class BoomerangDeathStrategy extends Strategy {
         b.substage.route(128, 160, false);
         break;
       case 4:
-        if (death.y < b.playerY - 16) {
+        if (death.y < botState.getPlayerY() - 16) {
           b.pressLeft();
         } else {
           b.substage.route(9, 128, false);
         }
         break;
       case 11:
-        if (death.y < b.playerY - 16) {
+        if (death.y < botState.getPlayerY() - 16) {
           b.pressRight();
         } else {
           b.substage.route(238, 128, false);
@@ -59,7 +59,7 @@ public class BoomerangDeathStrategy extends Strategy {
         b.pressLeft();
         break;
       default:
-        if (death.x < b.playerX) {
+        if (death.x < botState.getPlayerX()) {
           b.pressRight();
         } else {
           b.pressLeft();

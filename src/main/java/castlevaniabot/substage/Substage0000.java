@@ -87,14 +87,14 @@ public class Substage0000 extends Substage {
 
   @Override
   public void route(final int targetX, final int targetY) {
-    if (targetX > b.playerX) {
-      if (targetX > 696 && b.playerX >= 676 && b.playerX < 696) {
+    if (targetX > botState.getPlayerX()) {
+      if (targetX > 696 && botState.getPlayerX() >= 676 && botState.getPlayerX() < 696) {
         b.pressRightAndJump();
       } else {
         b.pressRight();      
       }
-    } else if (targetX < b.playerX) {
-      if (targetX < 696 && b.playerX > 696 && b.playerX <= 714) {
+    } else if (targetX < botState.getPlayerX()) {
+      if (targetX < 696 && botState.getPlayerX() > 696 && botState.getPlayerX() <= 714) {
         b.pressLeftAndJump();
       } else {     
         b.pressLeft();
@@ -117,7 +117,7 @@ public class Substage0000 extends Substage {
     if (triggeredTreasure) {
       b.addDestination(696, 192);
     } else {
-      if (abs(b.playerX - 712) < 2) {
+      if (abs(botState.getPlayerX() - 712) < 2) {
         triggeredTreasure = true;
       } else {
         b.addDestination(712, 192);

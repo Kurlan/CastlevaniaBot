@@ -101,7 +101,7 @@ public class Substage0701 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (!treasureTriggered && b.playerX >= 480 && b.playerX < 544 
+    if (!treasureTriggered && botState.getPlayerX() >= 480 && botState.getPlayerX() < 544
         && !b.isTypeInBounds(CANDLES, 528, 176, 560, 208)
             && !b.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
@@ -110,14 +110,14 @@ public class Substage0701 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else if (b.weapon == HOLY_WATER && b.hearts > 0
-        && b.playerY == 128 && b.playerX >= 544 && b.playerX < 576
+        && botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
             && b.isTypeRight(WHITE_SKELETON, 576)) {      
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getUSE_WEAPON().init(560, 128, false, false);
         botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
-    } else if (b.playerY == 128 && b.playerX >= 544 && b.playerX < 576 
+    } else if (botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
         && b.boneCount0 > 0) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
@@ -136,7 +136,7 @@ public class Substage0701 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerX < 160) {
+    if (botState.getPlayerX() < 160) {
       route(41, 192);
     } else {
       route(169, 192);
@@ -145,9 +145,9 @@ public class Substage0701 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX < 160) {
+    if (botState.getPlayerX() < 160) {
       route(159, 128);
-    } else if (b.playerX < 544) {
+    } else if (botState.getPlayerX() < 544) {
       route(543, 208);
     } else {
       route(743, 160);

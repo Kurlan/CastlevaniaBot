@@ -30,16 +30,16 @@ public class BlockStrategy extends Strategy {
         b.whip();
       }
     } else if (b.onPlatform && b.getTargetedObject().getTarget().playerFacing
-        && b.getTargetedObject().getTarget().y >= b.playerY - 24 && b.getTargetedObject().getTarget().y <= b.playerY
+        && b.getTargetedObject().getTarget().y >= botState.getPlayerY() - 24 && b.getTargetedObject().getTarget().y <= botState.getPlayerY()
             && b.isTargetInStandingWhipRange()) {
       whipBlock();
     } else {
       final int playerX = (b.getTargetedObject().getTarget().platformX << 4) + 8;
       final int playerY = b.getTargetedObject().getTarget().platformY << 4;
       final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
-      if (b.playerX == playerX && b.playerY == playerY 
+      if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY
           && b.playerLeft == playerLeft) {
-        if (b.playerY - b.getTargetedObject().getTarget().y > 32) {
+        if (botState.getPlayerY() - b.getTargetedObject().getTarget().y > 32) {
           if (b.canJump) {
             if (delayJump > 0) {
               --delayJump;

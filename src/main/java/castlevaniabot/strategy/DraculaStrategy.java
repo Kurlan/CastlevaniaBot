@@ -37,7 +37,7 @@ public class DraculaStrategy extends Strategy {
     }
     
     if (fireball != null && b.canJump 
-        && fireball.left == (b.playerX < fireball.x) 
+        && fireball.left == (botState.getPlayerX() < fireball.x)
             && fireball.distanceX < 48) {
       b.jump();
       jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
@@ -48,7 +48,7 @@ public class DraculaStrategy extends Strategy {
       
       if (lastHead == null) {
         // head just spawned
-        if (b.playerX < head.x) {
+        if (botState.getPlayerX() < head.x) {
           playerX = head.x - 32;
           playerLeft = false;
         } else {
@@ -64,7 +64,7 @@ public class DraculaStrategy extends Strategy {
         }
       }
       
-      if (b.playerX != playerX || b.playerLeft != playerLeft) {
+      if (botState.getPlayerX() != playerX || b.playerLeft != playerLeft) {
         b.substage.routeAndFace(playerX, 192, playerLeft, false);
       }
     } 

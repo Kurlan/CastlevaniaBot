@@ -24,8 +24,8 @@ public class FireColumnStrategy extends Strategy {
       return;
     }
     
-    final int targetX = b.getTargetedObject().getTarget().x + ((b.playerX < b.getTargetedObject().getTarget().x) ? -32 : 32);
-    if (b.playerX == targetX) {
+    final int targetX = b.getTargetedObject().getTarget().x + ((botState.getPlayerX() < b.getTargetedObject().getTarget().x) ? -32 : 32);
+    if (botState.getPlayerX() == targetX) {
       if (b.getTargetedObject().getTarget().playerFacing) {
         b.whip();
         done = 64;

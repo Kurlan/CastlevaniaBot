@@ -96,7 +96,7 @@ public class FrankensteinStrategy extends Strategy {
         if (!b.weaponing && b.kneeling && b.face(frank)) {
           b.whip();
         }
-      } else if (!b.weaponing && b.canHitWithAxe(b.playerX >> 4, b.playerY >> 4, 
+      } else if (!b.weaponing && b.canHitWithAxe(botState.getPlayerX() >> 4, botState.getPlayerY() >> 4,
           offsetX, 0, frank) && b.face(frank)) {
         b.useWeapon();
       } else if (canWalkTowardFrank) {
@@ -125,7 +125,7 @@ public class FrankensteinStrategy extends Strategy {
         b.substage.moveAwayFromTarget(frank.x);
       } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
         if (!b.weaponing && b.face(frank)) {
-          if (b.playerY == frank.y) {
+          if (botState.getPlayerY() == frank.y) {
             b.whipOrWeapon();
           } else {
             b.whip();
@@ -138,7 +138,7 @@ public class FrankensteinStrategy extends Strategy {
         }
       } else {
         if (frank.x < 992 && !b.weaponing && b.face(frank) 
-            && b.playerY == frank.y) {
+            && botState.getPlayerY() == frank.y) {
           b.whipOrWeapon();
         } else {
           b.substage.moveToward(frank);
@@ -186,7 +186,7 @@ public class FrankensteinStrategy extends Strategy {
   
   private boolean handleIgor() {
     
-    if (igor == null || igor.distanceX > 80 || igor.y2 < b.playerY - 56) {
+    if (igor == null || igor.distanceX > 80 || igor.y2 < botState.getPlayerY() - 56) {
       return false;
     }
     
@@ -212,11 +212,11 @@ public class FrankensteinStrategy extends Strategy {
         b.whip();
       }
       return true;
-    } else if ((vy < 0 && igor.y < b.playerY - 16 && igor.distanceX < 56) 
-        || (igor.x1 + vx <= b.playerX + 8 
-            && igor.x2 + vx >= b.playerX - 8 
-            && igor.y2 + vy >= b.playerY - 32 
-            && igor.y1 + vy <= b.playerY)) {
+    } else if ((vy < 0 && igor.y < botState.getPlayerY() - 16 && igor.distanceX < 56)
+        || (igor.x1 + vx <= botState.getPlayerX() + 8
+            && igor.x2 + vx >= botState.getPlayerX() - 8
+            && igor.y2 + vy >= botState.getPlayerY() - 32
+            && igor.y1 + vy <= botState.getPlayerY())) {
       avoidIgor = 23 + ThreadLocalRandom.current().nextInt(17);
       igorLeft = vx > 0;      
       return true;
@@ -232,20 +232,20 @@ public class FrankensteinStrategy extends Strategy {
     }
     
     if (fireball.left) {
-      if (fireball.x2 < b.playerX - 16) {
+      if (fireball.x2 < botState.getPlayerX() - 16) {
         return false;
       }
     } else {
-      if (fireball.x1 > b.playerX + 16) {
+      if (fireball.x1 > botState.getPlayerX() + 16) {
         return false;
       }
     }
     
-    if (fireball.y2 >= b.playerY - 32 && fireball.y1 <= b.playerY) {
+    if (fireball.y2 >= botState.getPlayerY() - 32 && fireball.y1 <= botState.getPlayerY()) {
       final int offsetX = fireballVx << 4;
       final int offsetY = fireballVy << 4;
       if (fireball.distanceX < 24) {
-        final boolean flyingHigh = fireball.y < b.playerY - 16;
+        final boolean flyingHigh = fireball.y < botState.getPlayerY() - 16;
         if (flyingHigh) {
           b.kneel();
           return true;
@@ -274,8 +274,8 @@ public class FrankensteinStrategy extends Strategy {
   
   private void updateObjects() {
     
-    final int px = b.playerX;
-    final int py = b.playerY - 16;
+    final int px = botState.getPlayerX();
+    final int py = botState.getPlayerY() - 16;
     
     frank = igor = fireball = null;
     fireballDist = Integer.MAX_VALUE;

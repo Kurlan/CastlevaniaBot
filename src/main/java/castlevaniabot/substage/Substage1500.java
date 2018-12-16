@@ -41,15 +41,15 @@ public class Substage1500 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == BONE_TOWER) {
-      if (obj.distanceX < 160 && obj.y >= b.playerY - 16 
-          && obj.y <= b.playerY) {
+      if (obj.distanceX < 160 && obj.y >= botState.getPlayerY() - 16
+          && obj.y <= botState.getPlayerY()) {
         obj.tier = 8;
       }
     } else if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 9;
       }
     } else if (obj.type == RED_SKELETON) {
@@ -65,7 +65,7 @@ public class Substage1500 extends Substage {
       obj.tier = 0;
     } else if (obj.distance < HORIZON) {
       
-      if (b.playerY <= 96 && (b.onStairs || obj.y > 96)) {
+      if (botState.getPlayerY() <= 96 && (b.onStairs || obj.y > 96)) {
         return;
       }
       
@@ -78,7 +78,7 @@ public class Substage1500 extends Substage {
               }
               break;
             case 62:
-              if (b.playerX < obj.x) {
+              if (botState.getPlayerX() < obj.x) {
                 obj.tier = 1;
               }
               break;
@@ -137,13 +137,13 @@ public class Substage1500 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.onStairs && b.playerY <= 160 && b.playerX < 672 
+    if (b.onStairs && botState.getPlayerY() <= 160 && botState.getPlayerX() < 672
         && b.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
       if (botState.getCurrentStrategy() != null) {
         clearTarget(targetedObject);
         setStrategy(null);
       }
-      if (b.playerY < 128) {
+      if (botState.getPlayerY() < 128) {
         b.pressDown();
       }
     } else {
@@ -153,7 +153,7 @@ public class Substage1500 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 848 && b.playerY <= 96) {
+    if (botState.getPlayerX() >= 848 && botState.getPlayerY() <= 96) {
       final boolean block1 = api.readPPU(BLOCK_150000) == 0x00;
       final boolean block2 = api.readPPU(BLOCK_150001) == 0x00;
       if (!blockBroken1 && block1) {
@@ -181,7 +181,7 @@ public class Substage1500 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerY >= 128) {
+    if (botState.getPlayerY() >= 128) {
       route(553, 192);
     } else {
       route(521, 96);
@@ -190,7 +190,7 @@ public class Substage1500 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerY >= 128) {
+    if (botState.getPlayerY() >= 128) {
       if (b.onStairs) {
         route(992, 80);
       } else {

@@ -38,7 +38,7 @@ public class DeathHallHolyWaterStrategy extends Strategy {
       final GameObject[] objs = b.gameObjects;
       for(int i = b.objsCount - 1; i >= 0; --i) {
         final GameObject obj = objs[i];
-        if (obj.type == AXE_KNIGHT && obj.x < b.playerX && obj.distanceX < 64) {
+        if (obj.type == AXE_KNIGHT && obj.x < botState.getPlayerX() && obj.distanceX < 64) {
           jumpCounter = 9;
           b.pressLeftAndJump();
           return;

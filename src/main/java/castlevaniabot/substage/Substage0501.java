@@ -34,8 +34,8 @@ public class Substage0501 extends Substage {
     }
     
     if (obj.type == SPEAR_KNIGHT) {
-      if (obj.distanceX < 64 && obj.y >= b.playerY - 32 
-          && obj.y - 32 <= b.playerY) {
+      if (obj.distanceX < 64 && obj.y >= botState.getPlayerY() - 32
+          && obj.y - 32 <= botState.getPlayerY()) {
         obj.tier = 5;
       }
     } else if (obj.type == DESTINATION) {
@@ -77,25 +77,25 @@ public class Substage0501 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.playerY > 144 && b.playerX < 287 && b.playerY > 32) {  
+    if (botState.getPlayerY() > 144 && botState.getPlayerX() < 287 && botState.getPlayerY() > 32) {
       if (botState.getCurrentStrategy()!= b.getAllStrategies().getMEDUSA_HEADS_PITS()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_PITS().init();
         botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_PITS());
       }
-    } else if (b.playerY <= 144 && b.playerX <= 255 && b.playerY > 32) {
+    } else if (botState.getPlayerY() <= 144 && botState.getPlayerX() <= 255 && botState.getPlayerY() > 32) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
         botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
       }
-    } else if (b.playerY <= 112 && b.playerX >= 240 && b.playerX <= 387) {
+    } else if (botState.getPlayerY() <= 112 && botState.getPlayerX() >= 240 && botState.getPlayerX() <= 387) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(352, 255, 112);
         botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
       }
-    } else if (b.playerY <= 112 && b.playerX >= 384 && b.playerX <= 496) {
+    } else if (botState.getPlayerY() <= 112 && botState.getPlayerX() >= 384 && botState.getPlayerX() <= 496) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getJUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getJUMP_MOVING_PLATFORM().init(496, 368, 112);
@@ -108,7 +108,7 @@ public class Substage0501 extends Substage {
   
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 512) {
+    if (botState.getPlayerX() >= 512) {
       if (!blockBroken && api.readPPU(BLOCK_050100) == 0x00) {
         blockWhipped = blockBroken = true;
         mapRoutes = b.allMapRoutes.get("05-01-01");
@@ -117,7 +117,7 @@ public class Substage0501 extends Substage {
         b.addBlock(624, 80);
       }
     }
-    if (b.playerX >= 480 || b.playerY >= 144) {
+    if (botState.getPlayerX() >= 480 || botState.getPlayerY() >= 144) {
       b.addDestination(480, 112);
     } else {
       b.addDestination(25, 144);
@@ -126,15 +126,15 @@ public class Substage0501 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerY <= 144) {
-      if (b.playerX < 272) {
+    if (botState.getPlayerY() <= 144) {
+      if (botState.getPlayerX() < 272) {
         route(25, 144);
-      } else if (b.playerX < 400) {
+      } else if (botState.getPlayerX() < 400) {
         route(352, 112);
       } else {
         route(480, 112);
       }
-    } else if (b.playerX >= 224) {
+    } else if (botState.getPlayerX() >= 224) {
       route(224, 176);
     } else {
       route(96, 192);
@@ -143,10 +143,10 @@ public class Substage0501 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerY <= 144) {
-      if (b.playerX < 272) {
+    if (botState.getPlayerY() <= 144) {
+      if (botState.getPlayerX() < 272) {
         route(255, 112);
-      } else if (b.playerX < 400) {
+      } else if (botState.getPlayerX() < 400) {
         route(383, 112);
       } else {
         route(727, 112);

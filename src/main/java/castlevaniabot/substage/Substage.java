@@ -59,7 +59,7 @@ public abstract class Substage {
   public void routeAndFace(final int targetX, final int targetY, final boolean left,
                            final boolean checkForEnemies) {
     
-    if (b.playerX == targetX && b.playerY == targetY) {
+    if (botState.getPlayerX() == targetX && botState.getPlayerY() == targetY) {
       if (b.playerLeft != left) {
         if (left) {
           b.pressRight();  // walk past and turn around
@@ -89,9 +89,9 @@ public abstract class Substage {
     }
     
     if (b.currentTile.getX() == tx && b.currentTile.getY() == ty) {
-      if (b.playerX < targetX) {
+      if (botState.getPlayerX() < targetX) {
         b.pressRight();
-      } else if (b.playerX > targetX) {
+      } else if (botState.getPlayerX() > targetX) {
         b.pressLeft();
       }      
     } else {  
@@ -147,7 +147,7 @@ public abstract class Substage {
   } 
   
   public void moveAwayFromTarget(final int targetX) {
-    if (b.playerX < targetX) {
+    if (botState.getPlayerX() < targetX) {
       routeLeft();
     } else {
       routeRight();
@@ -155,7 +155,7 @@ public abstract class Substage {
   }  
   
   public void moveAwayFromTarget(GameObject target) {
-    if (b.playerX < target.x) {
+    if (botState.getPlayerX() < target.x) {
       routeLeft();
     } else {
       routeRight();

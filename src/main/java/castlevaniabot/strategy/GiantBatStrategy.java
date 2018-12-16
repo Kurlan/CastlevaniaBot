@@ -36,26 +36,26 @@ public class GiantBatStrategy extends Strategy {
         b.whip();
         whipped = true;
       }
-    } else if (bat.y1 > b.playerY 
-        && bat.y1 + offsetY <= b.playerY 
-        && bat.y2 + offsetY >= b.playerY - 32 
-        && bat.x2 + offsetX >= b.playerX - 8 
-        && bat.x1 + offsetX <= b.playerX + 8
+    } else if (bat.y1 > botState.getPlayerY()
+        && bat.y1 + offsetY <= botState.getPlayerY()
+        && bat.y2 + offsetY >= botState.getPlayerY() - 32
+        && bat.x2 + offsetX >= botState.getPlayerX() - 8
+        && bat.x1 + offsetX <= botState.getPlayerX() + 8
         && b.canJump) {
       
-      final int landX = b.playerX - 37;
+      final int landX = botState.getPlayerX() - 37;
       if (landX >= 0 
           && b.substage.mapRoutes.map[b.currentTile.getY()][landX >> 4].height == 0) {
         b.pressLeftAndJump();
         return;
       }
     } else if (!whipped
-        && bat.x2 < b.playerX - 24
-        && bat.y2 < b.playerY - 48
-        && bat.x2 > b.playerX - b.getWhipRadius() - 16
+        && bat.x2 < botState.getPlayerX() - 24
+        && bat.y2 < botState.getPlayerY() - 48
+        && bat.x2 > botState.getPlayerX() - b.getWhipRadius() - 16
         && b.canJump) {
       
-      final int landX = b.playerX - 37;
+      final int landX = botState.getPlayerX() - 37;
       if (landX >= 0 
           && b.substage.mapRoutes.map[b.currentTile.getY()][landX >> 4].height == 0) {
         b.pressLeftAndJump();

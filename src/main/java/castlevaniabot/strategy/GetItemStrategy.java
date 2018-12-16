@@ -29,10 +29,10 @@ public class GetItemStrategy extends Strategy {
       }
     }
     
-    if (b.getTargetedObject().getTarget().type != DESTINATION && b.playerX == x && b.playerY == y) {
+    if (b.getTargetedObject().getTarget().type != DESTINATION && botState.getPlayerX() == x && botState.getPlayerY() == y) {
       if (b.getTargetedObject().getTarget().y > y) {
         b.kneel();
-      } else if (b.canJump && b.getTargetedObject().getTarget().y < b.playerY - 32) {
+      } else if (b.canJump && b.getTargetedObject().getTarget().y < botState.getPlayerY() - 32) {
         b.jump();
       }
     } else {

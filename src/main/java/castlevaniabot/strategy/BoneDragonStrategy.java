@@ -23,7 +23,7 @@ public class BoneDragonStrategy extends Strategy {
     
     final int playerX;
     final int playerY;
-    if (b.playerX > 448) {
+    if (botState.getPlayerX() > 448) {
       switch(b.whipLength) {
         case 0:  playerX = 652; break;
         case 1:  playerX = 648; break;
@@ -39,7 +39,7 @@ public class BoneDragonStrategy extends Strategy {
       playerY = 192;
     }
     
-    if (b.playerX != playerX || b.playerY != playerY || b.playerLeft) {
+    if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY || b.playerLeft) {
       b.substage.routeAndFace(playerX, playerY, false);
     } if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
       b.kneel();

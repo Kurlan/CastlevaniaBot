@@ -61,12 +61,12 @@ public class Substage1400 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) { 
     
     if (obj.type == GameObjectType.AXE) {
-      if (obj.distanceX < 64 && obj.y1 <= b.playerY 
-          && obj.y2 >= b.playerY - 32) {
+      if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY()
+          && obj.y2 >= botState.getPlayerY() - 32) {
         obj.tier = 7;
       }
     } else if (obj.type == FLEAMAN) {
-      if (obj.y1 <= b.playerY && obj.y2 >= b.playerY - 48) {
+      if (obj.y1 <= botState.getPlayerY() && obj.y2 >= botState.getPlayerY() - 48) {
         obj.tier = 6;
       }
     } else if (obj.type == DESTINATION) {
@@ -74,10 +74,10 @@ public class Substage1400 extends Substage {
     } else if (obj.distance < HORIZON) {
       
       if (obj.y > 128) {
-        if (b.playerY < 152) {
+        if (botState.getPlayerY() < 152) {
           return;
         }        
-      } else if (b.playerY > 128) {
+      } else if (botState.getPlayerY() > 128) {
         return;
       }
       
@@ -143,8 +143,8 @@ public class Substage1400 extends Substage {
       case KILL_FLEAMAN:
         if (fleaman == null && lowerKnight == null && upperKnight != null) {
           setState(State.WHIP_CANDLES, targetedObject);
-        } else if (b.playerY <= 128) {
-          if (fleaman == null || fleaman.y <= b.playerY + 8) {
+        } else if (botState.getPlayerY() <= 128) {
+          if (fleaman == null || fleaman.y <= botState.getPlayerY() + 8) {
             setState(State.WHIP_CANDLES, targetedObject);
           } else {
             super.pickStrategy(targetedObject);
@@ -157,16 +157,16 @@ public class Substage1400 extends Substage {
         }
         break;
       case WHIP_LOWER_AXE:
-        if ((lastLowerAxeExists && lowerAxe == null && b.playerX >= 1072 
-            && b.playerX < 1168) || (lowerAxe == null && b.onStairs)) {
+        if ((lastLowerAxeExists && lowerAxe == null && botState.getPlayerX() >= 1072
+            && botState.getPlayerX() < 1168) || (lowerAxe == null && b.onStairs)) {
           setState(State.DESPAWN_LOWER_KNIGHT, targetedObject);
         } else {
           super.pickStrategy(targetedObject);
         }
         break;
       case DESPAWN_LOWER_KNIGHT:
-        if (lowerAxe != null && lowerAxe.y2 >= b.playerY - 32 
-            && lowerAxe.y1 <= b.playerY - 8) {
+        if (lowerAxe != null && lowerAxe.y2 >= botState.getPlayerY() - 32
+            && lowerAxe.y1 <= botState.getPlayerY() - 8) {
           setState(State.WHIP_LOWER_AXE, targetedObject);
           super.pickStrategy(targetedObject);
         } else if (lowerKnight == null) {
@@ -176,17 +176,17 @@ public class Substage1400 extends Substage {
         }
         break;
       case WHIP_CANDLES:
-        if (b.playerY > 128) {
+        if (botState.getPlayerY() > 128) {
           route(1247, 128);
         } else if (candles == null) {
           setState(State.WALK_TO_STAIRS, targetedObject);
         } else if (upperAxe == null 
-            || (upperAxeLeft && upperAxe.x2 < b.playerX - 8)) {
+            || (upperAxeLeft && upperAxe.x2 < botState.getPlayerX() - 8)) {
           super.pickStrategy(targetedObject);
         }
         break;
       case WALK_TO_STAIRS:          
-        if (b.playerX == 1152 && b.playerY == 128) {
+        if (botState.getPlayerX() == 1152 && botState.getPlayerY() == 128) {
           setState(State.WAIT_FOR_NO_UPPER_AXE, targetedObject);
         } else {
           route(1152, 128);
@@ -207,9 +207,9 @@ public class Substage1400 extends Substage {
         if (kneelDelay > 0) {
           --kneelDelay; 
           b.kneel();
-        } else if (b.playerX < 1112 && upperAxe != null 
+        } else if (botState.getPlayerX() < 1112 && upperAxe != null
             && upperAxe.distanceX < 24) {
-          if (upperAxe.y < b.playerY - 16) {
+          if (upperAxe.y < botState.getPlayerY() - 16) {
             kneelDelay = 16; // remain kneeling even after the axe vanishes
                              // just in case another axe is thrown
             b.kneel();
@@ -217,10 +217,10 @@ public class Substage1400 extends Substage {
             b.jump();
           }
         } else {
-          if (b.playerY == 128) {
+          if (botState.getPlayerY() == 128) {
             route(1144, 112);
-          } else if (b.playerX == 1056 && b.playerY == 96 && (upperAxe == null 
-              || (!upperAxeLeft && upperAxe.x > b.playerX + 12))) {
+          } else if (botState.getPlayerX() == 1056 && botState.getPlayerY() == 96 && (upperAxe == null
+              || (!upperAxeLeft && upperAxe.x > botState.getPlayerX() + 12))) {
             setState(State.GO_UP_STAIRS, targetedObject);
             route(1096, 48);
           } else {
@@ -283,15 +283,15 @@ public class Substage1400 extends Substage {
       lastUpperAxeX = upperAxe.x;
     }
     
-    if ((b.playerY == 192 && b.playerX < 1080) || (upperKnight == null 
-        && (b.playerY <= 128 || (lowerKnight == null && fleaman == null)))) {
+    if ((botState.getPlayerY() == 192 && botState.getPlayerX() < 1080) || (upperKnight == null
+        && (botState.getPlayerY() <= 128 || (lowerKnight == null && fleaman == null)))) {
       b.addDestination(1096, 48);
     }
   }  
 
   @Override
   public void routeLeft() {
-    if (b.playerY < 136) {
+    if (botState.getPlayerY() < 136) {
       route(1033, 96);
     } else {
       route(1033, 192);
@@ -300,7 +300,7 @@ public class Substage1400 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerY < 136) {
+    if (botState.getPlayerY() < 136) {
       route(1247, 128);
     } else {
       route(1263, 192);

@@ -40,7 +40,7 @@ public class GhostStrategy extends Strategy {
     if (moveAwayCounter > 0) {
       --moveAwayCounter;
       b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
-    } else if (ghost.y2 < b.playerY - 48 || ghost.y1 > b.playerY + 16 
+    } else if (ghost.y2 < botState.getPlayerY() - 48 || ghost.y1 > botState.getPlayerY() + 16
         || ghost.distanceX > 48) {
       b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     } else if (ghost.distanceX < 20) {

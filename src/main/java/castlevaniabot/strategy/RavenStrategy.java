@@ -38,7 +38,7 @@ public class RavenStrategy extends Strategy {
       --moveAway;
       b.substage.routeLeft();
     } else if (!b.onStairs && b.onPlatform && raven.active 
-        && raven.y1 > b.playerY) {
+        && raven.y1 > botState.getPlayerY()) {
       moveAway = 64 + ThreadLocalRandom.current().nextInt(11);
       b.substage.routeLeft();
     } else if (!b.weaponing && b.faceTarget()) {

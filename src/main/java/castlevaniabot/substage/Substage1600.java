@@ -27,9 +27,9 @@ public class Substage1600 extends Substage {
     
     if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 6;
       }
     } else if (obj.type == PHANTOM_BAT) {
@@ -41,7 +41,7 @@ public class Substage1600 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 94:
-              if (b.playerX < obj.x) {
+              if (botState.getPlayerX() < obj.x) {
                 obj.tier = 2;
               }
               break;
@@ -105,7 +105,7 @@ public class Substage1600 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerX > 1328 && b.playerY > 144) {
+    if (botState.getPlayerX() > 1328 && botState.getPlayerY() > 144) {
       route(1344, 192);
     } else {
       route(41, 128);

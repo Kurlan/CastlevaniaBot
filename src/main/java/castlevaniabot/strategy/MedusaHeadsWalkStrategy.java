@@ -50,10 +50,10 @@ public class MedusaHeadsWalkStrategy extends Strategy {
     int hy1 = head.y1;
     int hx2 = head.x2;
     int hy2 = head.y2;    
-    int px1 = b.playerX - 8;
-    int px2 = b.playerX + 8;
-    int py1 = b.playerY - 32;
-    int py2 = b.playerY;
+    int px1 = botState.getPlayerX() - 8;
+    int px2 = botState.getPlayerX() + 8;
+    int py1 = botState.getPlayerY() - 32;
+    int py2 = botState.getPlayerY();
     for(int i = FAR + NEAR; i >= 0; --i) {
       
       hx1 += vx;
@@ -93,11 +93,11 @@ public class MedusaHeadsWalkStrategy extends Strategy {
       final GameObject obj = objs[i];
       if (obj.type == MEDUSA_HEAD && obj.left != left) {
         if (left) {
-          if (obj.x >= b.playerX - FAR && obj.x <= b.playerX - NEAR) {
+          if (obj.x >= botState.getPlayerX() - FAR && obj.x <= botState.getPlayerX() - NEAR) {
             return obj;
           }
         } else {
-          if (obj.x >= b.playerX + NEAR && obj.x <= b.playerX + FAR) {
+          if (obj.x >= botState.getPlayerX() + NEAR && obj.x <= botState.getPlayerX() + FAR) {
             return obj;
           }
         }

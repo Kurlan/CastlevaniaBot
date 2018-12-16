@@ -64,7 +64,7 @@ public class NoJumpMovingPlatformStrategy extends Strategy {
     
     switch(state) {
       case WALK_TO_POINT_1:
-        if (b.playerX != playerX1 || b.playerY != playerY) {
+        if (botState.getPlayerX() != playerX1 || botState.getPlayerY() != playerY) {
           b.substage.route(playerX1, playerY);
         } else {
           state = State.WAIT_FOR_PLATFORM;
@@ -84,7 +84,7 @@ public class NoJumpMovingPlatformStrategy extends Strategy {
         }
         break;
       case WALK_ONTO_PLATFORM:
-        if (abs(platform.x1 + 16 - b.playerX) < 2) {
+        if (abs(platform.x1 + 16 - botState.getPlayerX()) < 2) {
           state = State.WAIT_FOR_PLATFORM_TO_MOVE;
         }
         if (playerX1 > playerX2) {
@@ -105,7 +105,7 @@ public class NoJumpMovingPlatformStrategy extends Strategy {
         }
         break;
       case WALK_OFF_OF_PLATFORM:
-        if (b.playerX == playerX2 && b.playerY == playerY) {
+        if (botState.getPlayerX() == playerX2 && botState.getPlayerY() == playerY) {
           state = State.DONE;
         } else if (playerX1 > playerX2) {
           b.pressLeft();

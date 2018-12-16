@@ -1,6 +1,6 @@
 package castlevaniabot.model.creativeelements;
 
-import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.BotState;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class Whip {
@@ -26,13 +26,13 @@ public class Whip {
     bottom = cy + ry;
   }
   
-  public boolean inRange(final CastlevaniaBot b, final GameObject obj) {
-    return inRange(b.playerX, b.playerY, obj.x1, obj.x2, obj.y1, obj.y2);
+  public boolean inRange(final GameObject obj, final BotState botState) {
+    return inRange(botState.getPlayerX(), botState.getPlayerY(), obj.x1, obj.x2, obj.y1, obj.y2);
   }
   
-  public boolean inRange(final CastlevaniaBot b, final GameObject obj,
-                         final int offsetX, final int offsetY) {
-    return inRange(b.playerX, b.playerY, obj.x1 + offsetX, obj.x2 + offsetX, 
+  public boolean inRange(final GameObject obj,
+                         final int offsetX, final int offsetY, final BotState botState) {
+    return inRange(botState.getPlayerX(), botState.getPlayerY(), obj.x1 + offsetX, obj.x2 + offsetX,
         obj.y1 + offsetY, obj.y2 + offsetY);
   }
   

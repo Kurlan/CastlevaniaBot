@@ -52,11 +52,11 @@ public class FleamanStrategy extends Strategy {
       if (b.kneeling && !b.weaponing && b.faceTarget()) {
         b.whip();
       }
-    } else if ((vy < 0 && fleaman.y < b.playerY - 16 && fleaman.distanceX < 56) 
-        || (fleaman.x1 + vx <= b.playerX + 8 
-            && fleaman.x2 + vx >= b.playerX - 8 
-            && fleaman.y2 + vy >= b.playerY - 32 
-            && fleaman.y1 + vy <= b.playerY)) {
+    } else if ((vy < 0 && fleaman.y < botState.getPlayerY() - 16 && fleaman.distanceX < 56)
+        || (fleaman.x1 + vx <= botState.getPlayerX() + 8
+            && fleaman.x2 + vx >= botState.getPlayerX() - 8
+            && fleaman.y2 + vy >= botState.getPlayerY() - 32
+            && fleaman.y1 + vy <= botState.getPlayerY())) {
       move = 23 + ThreadLocalRandom.current().nextInt(17);
       left = vx > 0;
     }

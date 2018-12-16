@@ -70,15 +70,15 @@ public class PhantomBatStrategy extends Strategy {
         }
       }
     } else if (b.canJump && bat.distanceX < 40 && bat.distanceY < 36) {
-      if (b.playerX < 560 || b.playerX >= 696) {
+      if (botState.getPlayerX() < 560 || botState.getPlayerX() >= 696) {
         b.kneel();
-      } else if (b.playerX > 522 && b.playerX < 750) {
+      } else if (botState.getPlayerX() > 522 && botState.getPlayerX() < 750) {
         b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
-    } else if (b.playerX == 736 && b.playerY == 144) {
+    } else if (botState.getPlayerX() == 736 && botState.getPlayerY() == 144) {
       if (b.playerLeft) {
         if (b.canJump) {          
-          final int y = b.playerY - 24;
+          final int y = botState.getPlayerY() - 24;
           final int yJump = y - 32;
           if ((yJump >= bat.y1 && yJump <= bat.y2) 
               || b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
@@ -102,7 +102,7 @@ public class PhantomBatStrategy extends Strategy {
   private void stepAxeStrategy(final GameObject bat, final int offsetX, 
       final int offsetY) {
     
-    if (b.playerX >= 664) {
+    if (botState.getPlayerX() >= 664) {
       stepNoWeaponsStrategy(bat, offsetX, offsetY);
       return;
     } else if (b.weaponing) {
@@ -127,7 +127,7 @@ public class PhantomBatStrategy extends Strategy {
       }
     }
     
-    if (b.playerX == routeX) {
+    if (botState.getPlayerX() == routeX) {
       if (bat.playerFacing) {
         if (weaponDelay == 0) {
           b.useWeapon();
@@ -144,7 +144,7 @@ public class PhantomBatStrategy extends Strategy {
   private void stepStopwatchStrategy(final GameObject bat, final int offsetX, 
       final int offsetY) {
     
-    if (b.playerX >= 664) {
+    if (botState.getPlayerX() >= 664) {
       stepNoWeaponsStrategy(bat, offsetX, offsetY);
       return;
     } else if (b.weaponing) {
@@ -184,7 +184,7 @@ public class PhantomBatStrategy extends Strategy {
   }
   
   private void stepHolyWaterStrategy(final GameObject bat) {
-    if (b.playerY == 208 && abs(b.playerX - 712) < 2) {
+    if (botState.getPlayerY() == 208 && abs(botState.getPlayerX() - 712) < 2) {
       if (b.playerLeft) {
         if (bat.x > 640 && bat.y > 120 && weaponDelay == 0) {
           weaponDelay = 80;
@@ -210,12 +210,12 @@ public class PhantomBatStrategy extends Strategy {
         b.whip();
       }
     } else if (b.canJump && bat.distanceX < 40 && bat.distanceY < 36) {
-      if (b.playerX < 560 || b.playerX >= 696) {
+      if (botState.getPlayerX() < 560 || botState.getPlayerX() >= 696) {
         b.kneel();
-      } else if (b.playerX > 522 && b.playerX < 750) {
+      } else if (botState.getPlayerX() > 522 && botState.getPlayerX() < 750) {
         b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
-    } else if (b.playerY == 208 && b.playerX == 522) {
+    } else if (botState.getPlayerY() == 208 && botState.getPlayerX() == 522) {
       if (b.playerLeft) {
         b.substage.route(521, 208);
       } else if (b.canJump) {

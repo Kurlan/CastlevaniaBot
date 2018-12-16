@@ -46,20 +46,20 @@ public class Substage1701 extends Substage {
     
     switch(obj.type) {
       case EAGLE:
-        if (obj.distanceX < 64 && obj.y1 <= b.playerY 
-            && obj.y2 >= b.playerY - 32) {
+        if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY()
+            && obj.y2 >= botState.getPlayerY() - 32) {
           obj.tier = 8;
         }
         break;
       case FLEAMAN:
-        if (!b.onStairs && obj.distanceX < 48 && obj.y1 <= b.playerY 
-            && obj.y2 >= b.playerY - 48) {
+        if (!b.onStairs && obj.distanceX < 48 && obj.y1 <= botState.getPlayerY()
+            && obj.y2 >= botState.getPlayerY() - 48) {
           obj.tier = 7;
         }
         break;
       case WHITE_SKELETON:
-        if (obj.distanceX < 128 && obj.y1 <= b.playerY + 16
-            && obj.y2 >= b.playerY - 64) {
+        if (obj.distanceX < 128 && obj.y1 <= botState.getPlayerY() + 16
+            && obj.y2 >= botState.getPlayerY() - 64) {
           obj.tier = 6;
         }
         break;
@@ -67,7 +67,7 @@ public class Substage1701 extends Substage {
         obj.tier = 0;
         break;
       case BLOCK:      
-        if (b.playerY > 112 && b.playerX > 364 && b.playerX < 496) {
+        if (botState.getPlayerY() > 112 && botState.getPlayerX() > 364 && botState.getPlayerX() < 496) {
           obj.tier = 6; 
         }
         break;
@@ -75,8 +75,8 @@ public class Substage1701 extends Substage {
         obj.tier = 9;
         break;
       default:
-        if (obj.distance < HORIZON && (obj.x < 64 || b.playerX > 480) 
-            && obj.y1 <= b.playerY) {
+        if (obj.distance < HORIZON && (obj.x < 64 || botState.getPlayerX() > 480)
+            && obj.y1 <= botState.getPlayerY()) {
           switch(obj.type) {
             case CANDLES:
               switch(roundTile(obj.x)) {
@@ -123,11 +123,11 @@ public class Substage1701 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (!usedStopwatch && b.playerX <= 480 && b.playerY <= 96 
+    if (!usedStopwatch && botState.getPlayerX() <= 480 && botState.getPlayerY() <= 96
         && b.weapon == STOPWATCH && b.hearts >= 5) {
       b.useWeapon();
       usedStopwatch = true;
-    } else if (!killedLowerSkeleton && b.playerX >= 496 && b.playerY > 128) {
+    } else if (!killedLowerSkeleton && botState.getPlayerX() >= 496 && botState.getPlayerY() > 128) {
       if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedLowerSkeleton = true;
@@ -138,7 +138,7 @@ public class Substage1701 extends Substage {
         b.getAllStrategies().getSKELETON_WALL().init(726, 192, 136);
         botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
       }
-    } else if (!killedUpperSkeleton && b.playerX >= 496 && b.playerY <= 128) {
+    } else if (!killedUpperSkeleton && botState.getPlayerX() >= 496 && botState.getPlayerY() <= 128) {
       if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedUpperSkeleton = true;
@@ -156,7 +156,7 @@ public class Substage1701 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX >= 368 && b.playerX < 512) {
+    if (botState.getPlayerX() >= 368 && botState.getPlayerX() < 512) {
       final boolean block1 = api.readPPU(BLOCK_170100) == 0x00;
       final boolean block2 = api.readPPU(BLOCK_170101) == 0x00;
       if (!blockBroken1 && block1) {
@@ -179,7 +179,7 @@ public class Substage1701 extends Substage {
       }
     }    
 
-    if (b.playerX >= 176) {
+    if (botState.getPlayerX() >= 176) {
       b.addDestination(320, 223);
     } else {
       b.addDestination(0, 128);
@@ -188,18 +188,18 @@ public class Substage1701 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerX >= 496) {
-      if (b.playerY <= 128 || (b.onStairs && b.playerY < 192)) {
+    if (botState.getPlayerX() >= 496) {
+      if (botState.getPlayerY() <= 128 || (b.onStairs && botState.getPlayerY() < 192)) {
         route(448, 96);
       } else {
         route(521, 192);
       }
-    } else if (b.playerX >= 176) {
-      if (b.playerY <= 96) {
+    } else if (botState.getPlayerX() >= 176) {
+      if (botState.getPlayerY() <= 96) {
         route(336, 96);
-      } else if (b.playerX < 368 && b.playerY < 192) {
+      } else if (botState.getPlayerX() < 368 && botState.getPlayerY() < 192) {
         route(256, 160);
-      } else if (b.playerX >= 368) {
+      } else if (botState.getPlayerX() >= 368) {
         route(336, 192);
       } else {
         route(320, 223);
@@ -211,18 +211,18 @@ public class Substage1701 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX >= 496) {      
-      if (b.playerY <= 128 || (b.onStairs && b.playerY < 192)) {
+    if (botState.getPlayerX() >= 496) {
+      if (botState.getPlayerY() <= 128 || (b.onStairs && botState.getPlayerY() < 192)) {
         route(727, 128);
       } else {
         route(727, 192);
       }
-    } else if (b.playerX >= 176) {
-      if (b.playerY <= 96) {
+    } else if (botState.getPlayerX() >= 176) {
+      if (botState.getPlayerY() <= 96) {
         route(727, 128);
-      } else if (b.playerX < 368 && b.playerY < 192) {
+      } else if (botState.getPlayerX() < 368 && botState.getPlayerY() < 192) {
         route(359, 192);
-      } else if (b.playerX >= 368) {
+      } else if (botState.getPlayerX() >= 368) {
         if (blockBroken1 && blockBroken2) {
           route(487, 192);
         } else {

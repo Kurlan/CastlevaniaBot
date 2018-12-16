@@ -46,8 +46,8 @@ public class CookieMonsterStrategy extends Strategy {
     } else {      
       if (item != null) {
         playerX = item.x;
-        playerLeft = item.x < b.playerX;
-      } else if (b.playerX < head.x) {
+        playerLeft = item.x < botState.getPlayerX();
+      } else if (botState.getPlayerX() < head.x) {
         playerX = head.x - 48;
         playerLeft = false;
       } else {
@@ -73,7 +73,7 @@ public class CookieMonsterStrategy extends Strategy {
         }
       }
       
-      if (b.playerX != playerX || b.playerLeft != playerLeft) {
+      if (botState.getPlayerX() != playerX || b.playerLeft != playerLeft) {
         b.substage.routeAndFace(playerX, 192, playerLeft, false);
       } else if (b.canJump) {
         b.jump();

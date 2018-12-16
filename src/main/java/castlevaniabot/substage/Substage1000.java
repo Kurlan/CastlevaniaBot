@@ -34,24 +34,24 @@ public class Substage1000 extends Substage {
   @Override void evaluteTierAndSubTier(final GameObject obj) {
     
     if (obj.type == RED_BAT) {
-      if (obj.distanceX < 96 && obj.y + 88 >= b.playerY 
-          && obj.y - 40 <= b.playerY && ((obj.left && obj.x >= b.playerX - 40) 
-              || (!obj.left && obj.x <= b.playerX + 40))) {
+      if (obj.distanceX < 96 && obj.y + 88 >= botState.getPlayerY()
+          && obj.y - 40 <= botState.getPlayerY() && ((obj.left && obj.x >= botState.getPlayerX() - 40)
+              || (!obj.left && obj.x <= botState.getPlayerX() + 40))) {
         obj.tier = 6;
       }
     } else if (obj.type == FISHMAN) {
       if (obj.distance > 64) {
         obj.distance = obj.distanceX >> 4;
       }
-      if (obj.x <= b.playerX + 64 && obj.x >= b.playerX - 24 
-          && obj.y <= b.playerY + 4) {
+      if (obj.x <= botState.getPlayerX() + 64 && obj.x >= botState.getPlayerX() - 24
+          && obj.y <= botState.getPlayerY() + 4) {
         obj.tier = 5;
       }      
     } else if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
-          && (obj.y2 >= b.playerY - 32 && obj.y1 <= b.playerY)
-              && ((obj.left && obj.x2 >= b.playerX - 16) 
-                  || (!obj.left && obj.x1 <= b.playerX + 16))) {
+          && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
+              && ((obj.left && obj.x2 >= botState.getPlayerX() - 16)
+                  || (!obj.left && obj.x1 <= botState.getPlayerX() + 16))) {
         obj.tier = 7;
       }
     } else if (obj.type == DESTINATION) {
@@ -128,7 +128,7 @@ public class Substage1000 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_MOVING_PLATFORM() && b.playerY > 112) {
+    if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_MOVING_PLATFORM() && botState.getPlayerY() > 112) {
       if (b.getAllStrategies().getBAT_MOVING_PLATFORM().done) {
         super.pickStrategy(targetedObject);
       }
@@ -136,18 +136,18 @@ public class Substage1000 extends Substage {
       if (b.getAllStrategies().getBAT_DUAL_PLATFORMS().done) {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.playerX == 991 && b.playerY == 160 
+    } else if (botState.getPlayerX() == 991 && botState.getPlayerY() == 160
         && !b.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getBAT_DUAL_PLATFORMS().init();
       botState.setCurrentStrategy(b.getAllStrategies().getBAT_DUAL_PLATFORMS());
-    } else if ((b.playerX == 223 || b.playerX == 767) && b.playerY == 160 
+    } else if ((botState.getPlayerX() == 223 || botState.getPlayerX() == 767) && botState.getPlayerY() == 160
         && !b.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getBAT_MOVING_PLATFORM().init();
       botState.setCurrentStrategy(b.getAllStrategies().getBAT_MOVING_PLATFORM());
     } else if (!whippedHolyWaterCandle && b.weapon != HOLY_WATER 
-        && b.playerY <= 96 && b.playerX >= 720 && b.playerX <= 740) {
+        && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 720 && botState.getPlayerX() <= 740) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWHIP().init(732, 96, false, 40);
@@ -160,11 +160,11 @@ public class Substage1000 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX < 240) {
+    if (botState.getPlayerX() < 240) {
       b.addDestination(223, 160);
-    } else if (b.playerX < 784) {
+    } else if (botState.getPlayerX() < 784) {
       b.addDestination(767, 160);
-    } else if (b.playerX < 1008) {
+    } else if (botState.getPlayerX() < 1008) {
       b.addDestination(991, 160);
     } else {
       b.addDestination(1512, 48);
@@ -173,11 +173,11 @@ public class Substage1000 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerX < 240) {
+    if (botState.getPlayerX() < 240) {
       route(9, 160);
-    } else if (b.playerX < 784) {
+    } else if (botState.getPlayerX() < 784) {
       route(384, 160);
-    } else if (b.playerX < 1008) {
+    } else if (botState.getPlayerX() < 1008) {
       route(960, 160);
     } else {
       route(1280, 160);
@@ -186,11 +186,11 @@ public class Substage1000 extends Substage {
   
   @Override
   public void routeRight() {
-    if (b.playerX < 240) {
+    if (botState.getPlayerX() < 240) {
       route(223, 160);
-    } else if (b.playerX < 784) {
+    } else if (botState.getPlayerX() < 784) {
       route(767, 160);
-    } else if (b.playerX < 1008) {
+    } else if (botState.getPlayerX() < 1008) {
       route(991, 160);
     } else {
       route(1527, 112);

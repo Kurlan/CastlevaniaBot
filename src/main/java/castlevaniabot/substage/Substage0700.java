@@ -95,7 +95,7 @@ public class Substage0700 extends Substage {
 
   @Override
   public void readGameObjects() {
-    if (b.playerX < 384) {
+    if (botState.getPlayerX() < 384) {
       if (!blockBroken && api.readPPU(BLOCK_070000) == 0x00) {
         blockWhipped = blockBroken = true;
         mapRoutes = b.allMapRoutes.get("07-00-01");
@@ -109,7 +109,7 @@ public class Substage0700 extends Substage {
 
   @Override
   public void routeLeft() {
-    if (b.playerY < 128) {
+    if (botState.getPlayerY() < 128) {
       route(88, 48);
     } else {
       route(41, 160);

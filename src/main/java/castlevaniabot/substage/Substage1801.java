@@ -148,12 +148,12 @@ public class Substage1801 extends Substage {
       botState.setCurrentStrategy(b.getAllStrategies().getDRACULA());
     } else if (walkDownStairs) {
       route(607, 223);
-    } else if (b.playerX <= 144 && (b.hearts < 20 || b.whipLength != 2)) {
+    } else if (botState.getPlayerX() <= 144 && (b.hearts < 20 || b.whipLength != 2)) {
       walkDownStairs = true;
       clearTarget(targetedObject);
       setStrategy(null);
     } else {
-      if (b.playerX < 128) {
+      if (botState.getPlayerX() < 128) {
         bossTriggered = true;
       }
       super.pickStrategy(targetedObject);

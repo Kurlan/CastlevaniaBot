@@ -24,7 +24,7 @@ public class FireballStrategy extends Strategy {
     lastY = fireball.y;    
     
     if (fireball.distanceX < 24) {
-      final boolean flyingHigh = fireball.y < b.playerY - 16;
+      final boolean flyingHigh = fireball.y < botState.getPlayerY() - 16;
       if (!b.atTopOfStairs && flyingHigh) {
         b.kneel();                          // duck under fireball        
       } else if (!flyingHigh && b.canJump) {

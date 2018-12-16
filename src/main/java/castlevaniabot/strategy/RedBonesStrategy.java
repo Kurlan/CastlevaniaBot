@@ -21,7 +21,7 @@ public class RedBonesStrategy extends Strategy {
   
   @Override
   public void step() {
-    final int distanceX = abs(targetX - b.playerX);
+    final int distanceX = abs(targetX - botState.getPlayerX());
     if (distanceX <= 16) {
       // When standing on red bones, continue walking in direction facing.
       if (playerLeft) {

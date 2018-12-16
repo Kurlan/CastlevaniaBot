@@ -46,7 +46,7 @@ public class WaitStrategy extends Strategy {
 
   @Override
   public void step() {
-    if (b.playerX == playerX && b.playerY == playerY) {
+    if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY) {
       inPosition = true;
     }
     if (!inPosition) {

@@ -34,7 +34,7 @@ public class MedusaHeadsPitsStrategy extends Strategy {
       case WALK_TO_EDGE:
         if (b.currentTile.getX() != 7 || b.currentTile.getY() != 12) {
           b.substage.route(127, 192);
-        } else if (b.playerX < 131) {
+        } else if (botState.getPlayerX() < 131) {
           b.pressRight();
         } else {
           b.pressRightAndJump();
@@ -42,9 +42,9 @@ public class MedusaHeadsPitsStrategy extends Strategy {
         }
         break;
       case RUN_FOR_IT:
-        if (damageBoost && b.playerX == 232) {
+        if (damageBoost && botState.getPlayerX() == 232) {
           state = State.WAIT_FOR_HEAD;
-        } else if (b.playerX == 328 && b.playerY == 176) {
+        } else if (botState.getPlayerX() == 328 && botState.getPlayerY() == 176) {
           state = State.DONE;
         } else {
           b.substage.route(328, 176);
