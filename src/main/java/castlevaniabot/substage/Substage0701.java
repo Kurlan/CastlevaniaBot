@@ -1,19 +1,29 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.WaitStrategy;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.GameObjectType.CANDLES;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.GHOST;
+import static castlevaniabot.model.gameelements.GameObjectType.RAVEN;
+import static castlevaniabot.model.gameelements.GameObjectType.SMALL_HEART;
+import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 
 public class Substage0701 extends Substage {
   
   private boolean treasureTriggered;
   
-  public Substage0701(final CastlevaniaBot b) {
-    super(b);
+  public Substage0701(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -94,25 +104,25 @@ public class Substage0701 extends Substage {
     if (!treasureTriggered && b.playerX >= 480 && b.playerX < 544 
         && !b.isTypeInBounds(CANDLES, 528, 176, 560, 208)
             && !b.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
-      if (b.strategy != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(528, 208, WaitStrategy.WaitType.KNEEL);
-        b.strategy = b.getAllStrategies().getWAIT();
+        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else if (b.weapon == HOLY_WATER && b.hearts > 0
         && b.playerY == 128 && b.playerX >= 544 && b.playerX < 576
             && b.isTypeRight(WHITE_SKELETON, 576)) {      
-      if (b.strategy != b.getAllStrategies().getUSE_WEAPON()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getUSE_WEAPON().init(560, 128, false, false);
-        b.strategy = b.getAllStrategies().getUSE_WEAPON();
+        botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
     } else if (b.playerY == 128 && b.playerX >= 544 && b.playerX < 576 
         && b.boneCount0 > 0) {
-      if (b.strategy != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(560, 128, WaitStrategy.WaitType.STAND, 30);
-        b.strategy = b.getAllStrategies().getWAIT();
+        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject);

@@ -1,24 +1,32 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.FISHMAN;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_BAT;
 
 public class Substage1000 extends Substage {
   
   private boolean whippedHolyWaterCandle;
   
-  public Substage1000(final CastlevaniaBot b) {
-    super(b);
+  public Substage1000(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
   public void init() {
     super.init();
-    b.strategy = null;
+    botState.setCurrentStrategy(null);
     whippedHolyWaterCandle = false;
     mapRoutes = b.allMapRoutes.get("10-00-00");
   }
@@ -120,11 +128,11 @@ public class Substage1000 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.strategy == b.getAllStrategies().getBAT_MOVING_PLATFORM() && b.playerY > 112) {
+    if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_MOVING_PLATFORM() && b.playerY > 112) {
       if (b.getAllStrategies().getBAT_MOVING_PLATFORM().done) {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.strategy == b.getAllStrategies().getBAT_DUAL_PLATFORMS()) {
+    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_DUAL_PLATFORMS()) {
       if (b.getAllStrategies().getBAT_DUAL_PLATFORMS().done) {
         super.pickStrategy(targetedObject);
       }
@@ -132,18 +140,18 @@ public class Substage1000 extends Substage {
         && !b.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getBAT_DUAL_PLATFORMS().init();
-      b.strategy = b.getAllStrategies().getBAT_DUAL_PLATFORMS();
+      botState.setCurrentStrategy(b.getAllStrategies().getBAT_DUAL_PLATFORMS());
     } else if ((b.playerX == 223 || b.playerX == 767) && b.playerY == 160 
         && !b.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getBAT_MOVING_PLATFORM().init();
-      b.strategy = b.getAllStrategies().getBAT_MOVING_PLATFORM();
+      botState.setCurrentStrategy(b.getAllStrategies().getBAT_MOVING_PLATFORM());
     } else if (!whippedHolyWaterCandle && b.weapon != HOLY_WATER 
         && b.playerY <= 96 && b.playerX >= 720 && b.playerX <= 740) {
-      if (b.strategy != b.getAllStrategies().getWHIP()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWHIP().init(732, 96, false, 40);
-        b.strategy = b.getAllStrategies().getWHIP();
+        botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
       }
     } else {
       super.pickStrategy(targetedObject);

@@ -1,12 +1,15 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_170100;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_170101;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
 
 public class Substage1701 extends Substage {
   
@@ -20,8 +23,8 @@ public class Substage1701 extends Substage {
   private boolean killedLowerSkeleton;
   private boolean killedUpperSkeleton;
   
-  public Substage1701(final CastlevaniaBot b) {
-    super(b);
+  public Substage1701(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -125,7 +128,7 @@ public class Substage1701 extends Substage {
       b.useWeapon();
       usedStopwatch = true;
     } else if (!killedLowerSkeleton && b.playerX >= 496 && b.playerY > 128) {
-      if (b.strategy == b.getAllStrategies().getSKELETON_WALL()) {
+      if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedLowerSkeleton = true;
           super.pickStrategy(targetedObject);
@@ -133,10 +136,10 @@ public class Substage1701 extends Substage {
       } else {
         clearTarget(targetedObject);
         b.getAllStrategies().getSKELETON_WALL().init(726, 192, 136);
-        b.strategy = b.getAllStrategies().getSKELETON_WALL();
+        botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
       }
     } else if (!killedUpperSkeleton && b.playerX >= 496 && b.playerY <= 128) {
-      if (b.strategy == b.getAllStrategies().getSKELETON_WALL()) {
+      if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedUpperSkeleton = true;
           super.pickStrategy(targetedObject);
@@ -144,7 +147,7 @@ public class Substage1701 extends Substage {
       } else {
         clearTarget(targetedObject);
         b.getAllStrategies().getSKELETON_WALL().init(704, 128);
-        b.strategy = b.getAllStrategies().getSKELETON_WALL();
+        botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
       } 
     } else {
       super.pickStrategy(targetedObject);

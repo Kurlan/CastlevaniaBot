@@ -1,12 +1,17 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.GameObjectType.MEDUSA_HEAD;
 
 public class Substage1501 extends Substage {
   
@@ -15,8 +20,8 @@ public class Substage1501 extends Substage {
   private boolean bossDefeated;
   private boolean whippedCandles;
   
-  public Substage1501(final CastlevaniaBot b) {
-    super(b);
+  public Substage1501(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -169,21 +174,21 @@ public class Substage1501 extends Substage {
       b.useWeapon(); // hit candles with boomerang
     } 
     
-    if (b.strategy == b.getAllStrategies().getWHIP()) {
+    if (botState.getCurrentStrategy() == b.getAllStrategies().getWHIP()) {
       if (whippedCandles) {
         super.pickStrategy(targetedObject);
       }
     } else if (bossDefeated) {
       if (!whippedCandles && b.playerX >= 224) {
-        if (b.strategy != b.getAllStrategies().getWHIP()) {
+        if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
           clearTarget(targetedObject);
           b.getAllStrategies().getWHIP().init(238, 128, true, 0, true, false, 36);
-          b.strategy = b.getAllStrategies().getWHIP();
+          botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
         }
       } else {
         super.pickStrategy(targetedObject);
       }
-    } else if (b.strategy == b.getAllStrategies().getHOLY_WATER_DEATH() && b.getAllStrategies().getHOLY_WATER_DEATH().done) {
+    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getHOLY_WATER_DEATH() && b.getAllStrategies().getHOLY_WATER_DEATH().done) {
       bossDefeated = true;
       super.pickStrategy(targetedObject);
     } else if (bossTriggered) {
@@ -197,19 +202,19 @@ public class Substage1501 extends Substage {
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
         clearTarget(targetedObject);
         b.getAllStrategies().getHOLY_WATER_DEATH().init();
-        b.strategy = b.getAllStrategies().getHOLY_WATER_DEATH();
+        botState.setCurrentStrategy(b.getAllStrategies().getHOLY_WATER_DEATH());
       }
-    } else if (b.strategy == b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
+    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
-        b.strategy.step();
+        botState.getCurrentStrategy().step();
       } else {
         super.pickStrategy(targetedObject);
       }      
     } else if (b.weapon == HOLY_WATER && b.hearts > 0) {
-      if (b.strategy != b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getDEATH_HALL_HOLY_WATER().init();
-        b.strategy = b.getAllStrategies().getDEATH_HALL_HOLY_WATER();
+        botState.setCurrentStrategy(b.getAllStrategies().getDEATH_HALL_HOLY_WATER());
       } else {
         super.pickStrategy(targetedObject);
       }
@@ -236,7 +241,7 @@ public class Substage1501 extends Substage {
   @Override
   public void readGameObjects() {
     if (!bossDefeated) {
-      if (bossTriggered && b.strategy != b.getAllStrategies().getHOLY_WATER_DEATH()) {
+      if (bossTriggered && botState.getCurrentStrategy() != b.getAllStrategies().getHOLY_WATER_DEATH()) {
         b.addDestination(80, 160);
       } else {
         b.addDestination(9, 128);

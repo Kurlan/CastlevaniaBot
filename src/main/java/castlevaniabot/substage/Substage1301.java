@@ -1,9 +1,11 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.WaitStrategy;
+import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -28,8 +30,8 @@ public class Substage1301 extends Substage {
   private boolean blockWhipped2;
   private boolean blockBroken2;  
    
-  public Substage1301(final CastlevaniaBot b) {
-    super(b);
+  public Substage1301(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -135,10 +137,10 @@ public class Substage1301 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerY <= 96 && b.playerX >= 336 
         && b.playerX < 416) {
-      if (b.strategy != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy()!= b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
-        b.strategy = b.getAllStrategies().getWAIT();
+        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject);

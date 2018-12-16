@@ -1,13 +1,22 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_120000;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_120001;
+import static castlevaniabot.model.gameelements.GameObjectType.BONE_DRAGON_HEAD;
+import static castlevaniabot.model.gameelements.GameObjectType.CANDLES;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
 
 public class Substage1200 extends Substage {
   
@@ -21,8 +30,8 @@ public class Substage1200 extends Substage {
   private boolean gotHighCandle;
   private boolean aboutToGetCrystalBall;  
   
-  public Substage1200(final CastlevaniaBot b) {
-    super(b);
+  public Substage1200(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -131,7 +140,7 @@ public class Substage1200 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.strategy == b.getAllStrategies().getFRANKENSTEIN()) {
+    if (botState.getCurrentStrategy() == b.getAllStrategies().getFRANKENSTEIN()) {
       if (b.getAllStrategies().getFRANKENSTEIN().done) {
         bossDefeated = true;
         super.pickStrategy(targetedObject);
@@ -139,12 +148,12 @@ public class Substage1200 extends Substage {
     } else if (!bossDefeated && b.playerX > 896) {
       clearTarget(targetedObject);
       b.getAllStrategies().getFRANKENSTEIN().init();
-      b.strategy = b.getAllStrategies().getFRANKENSTEIN();
+      botState.setCurrentStrategy(b.getAllStrategies().getFRANKENSTEIN());
     } else if (bossDefeated && !gotHighCandle && b.countObjects(CANDLES) == 1) {
-      if (b.strategy != b.getAllStrategies().getWHIP()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWHIP().init(992, 144, true, 0, true, true, 24);
-        b.strategy = b.getAllStrategies().getWHIP();
+        botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
       }
     } else {
       super.pickStrategy(targetedObject);
@@ -180,7 +189,7 @@ public class Substage1200 extends Substage {
       }
     }
     
-    if (b.strategy != b.getAllStrategies().getFRANKENSTEIN() && !bossDefeated) {
+    if (botState.getCurrentStrategy() != b.getAllStrategies().getFRANKENSTEIN() && !bossDefeated) {
       b.addDestination(944, 176);
     }
   }  

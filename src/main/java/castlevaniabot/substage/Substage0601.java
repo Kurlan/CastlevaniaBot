@@ -1,13 +1,19 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
+import nintaco.api.API;
 
-import java.util.concurrent.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.GameObjectType.CRYSTAL_BALL;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.MEDUSA;
+import static castlevaniabot.model.gameelements.GameObjectType.SNAKE;
 
 public class Substage0601 extends Substage {
   
@@ -15,8 +21,8 @@ public class Substage0601 extends Substage {
   private boolean reachedBoss;
   private boolean aboutToGetCrystalBall;  
    
-  public Substage0601(final CastlevaniaBot b) {
-    super(b);
+  public Substage0601(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -101,14 +107,14 @@ public class Substage0601 extends Substage {
       if (--walkDelay == 0) {
         b.pressLeft();
       }
-    } else if (b.playerX == 493) {      
-      b.strategy = null;
+    } else if (b.playerX == 493) {
+      botState.setCurrentStrategy(null);
       walkDelay = 150 + ThreadLocalRandom.current().nextInt(11);
     } else if (b.playerX >= 256 && b.playerX < 608) {
-      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
-        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
+        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
       }
     } else {
       super.pickStrategy(targetedObject);

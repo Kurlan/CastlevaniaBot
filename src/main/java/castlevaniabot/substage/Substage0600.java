@@ -1,12 +1,18 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_060000;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_060001;
+import static castlevaniabot.model.gameelements.GameObjectType.BONE_TOWER;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.GHOST;
 
 public class Substage0600 extends Substage {
   
@@ -15,8 +21,8 @@ public class Substage0600 extends Substage {
   private boolean blockWhipped1;
   private boolean blockBroken1;
    
-  public Substage0600(final CastlevaniaBot b) {
-    super(b);
+  public Substage0600(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -87,9 +93,9 @@ public class Substage0600 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.getAllStrategies().getCRUSHER().isActive()) {
-      if (b.strategy != b.getAllStrategies().getCRUSHER()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getCRUSHER()) {
         clearTarget(targetedObject);
-        b.strategy = b.getAllStrategies().getCRUSHER();
+        botState.setCurrentStrategy(b.getAllStrategies().getCRUSHER());
       }
     } else {
       super.pickStrategy(targetedObject);

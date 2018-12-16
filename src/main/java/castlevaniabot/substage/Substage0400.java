@@ -1,12 +1,18 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import nintaco.api.API;
 
-import java.util.concurrent.*;
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_040000;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_040001;
+import static castlevaniabot.model.gameelements.GameObjectType.BLACK_BAT;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.SPEAR_KNIGHT;
 
 public class Substage0400 extends Substage {
   
@@ -15,8 +21,8 @@ public class Substage0400 extends Substage {
   private boolean triggedTreasure;
   private boolean collectTreasure;
   
-  public Substage0400(final CastlevaniaBot b) {
-    super(b);
+  public Substage0400(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override

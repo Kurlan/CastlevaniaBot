@@ -1,12 +1,17 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_170000;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.EAGLE;
+import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
+import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 
 public class Substage1700 extends Substage {
   
@@ -16,8 +21,8 @@ public class Substage1700 extends Substage {
   private int stopWatchDelay;
   private boolean killedSkeleton;
   
-  public Substage1700(final CastlevaniaBot b) {
-    super(b);
+  public Substage1700(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -114,7 +119,7 @@ public class Substage1700 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     
     if (b.weapon == STOPWATCH && b.playerX < 496) {
-      b.strategy = null;
+      botState.setCurrentStrategy(null);
       if (stopWatchDelay > 0 && --stopWatchDelay == 180) {
         b.useWeapon();
       } 
@@ -125,7 +130,7 @@ public class Substage1700 extends Substage {
         route(104, 48, false);
       }
     } else if (!killedSkeleton) {
-      if (b.strategy == b.getAllStrategies().getSKELETON_WALL()) {
+      if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedSkeleton = true;
           super.pickStrategy(targetedObject);
@@ -133,7 +138,7 @@ public class Substage1700 extends Substage {
       } else {
         clearTarget(targetedObject);
         b.getAllStrategies().getSKELETON_WALL().init(736, 128);
-        b.strategy = b.getAllStrategies().getSKELETON_WALL();
+        botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
       }
     } else {
       super.pickStrategy(targetedObject);

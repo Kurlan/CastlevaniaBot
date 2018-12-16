@@ -1,20 +1,24 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_040100;
+import static castlevaniabot.model.gameelements.GameObjectType.BLACK_BAT;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.SPEAR_KNIGHT;
 
 public class Substage0401 extends Substage {
   
   private boolean blockWhipped;
   private boolean blockBroken;
   
-  public Substage0401(final CastlevaniaBot b) {
-    super(b);
+  public Substage0401(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -79,17 +83,17 @@ public class Substage0401 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerX >= 32 && b.playerX <= 104) {
-      if (b.strategy != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(96, 31, 112);
-        b.strategy = b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM();
+        botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
       }
     } else if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 15 && b.currentTile.getX() <= 17 && isKnightInPit()) {
-      if (b.strategy != b.getAllStrategies().getUSE_WEAPON()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getUSE_WEAPON().init(264, 112, false, false);
-        b.strategy = b.getAllStrategies().getUSE_WEAPON();
+        botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
     } else {
       super.pickStrategy(targetedObject);

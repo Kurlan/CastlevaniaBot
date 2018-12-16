@@ -1,12 +1,23 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_150000;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_150001;
+import static castlevaniabot.model.gameelements.GameObjectType.BONE_TOWER;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_BONES;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON_RISING;
 
 public class Substage1500 extends Substage {
   
@@ -16,8 +27,8 @@ public class Substage1500 extends Substage {
   private boolean blockWhipped2;
   private boolean blockBroken2;   
   
-  public Substage1500(final CastlevaniaBot b) {
-    super(b);
+  public Substage1500(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -128,7 +139,7 @@ public class Substage1500 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.onStairs && b.playerY <= 160 && b.playerX < 672 
         && b.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
-      if (b.strategy != null) {
+      if (botState.getCurrentStrategy() != null) {
         clearTarget(targetedObject);
         setStrategy(null);
       }

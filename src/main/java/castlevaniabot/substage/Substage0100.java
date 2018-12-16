@@ -1,8 +1,10 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.gameelements.Addresses.BLOCK_010000;
@@ -11,12 +13,12 @@ import static castlevaniabot.model.gameelements.GameObjectType.GHOUL;
 import static castlevaniabot.model.gameelements.GameObjectType.PANTHER;
 
 public class Substage0100 extends Substage {
-  
+
   private boolean blockWhipped;
   private boolean blockBroken;
   
-  public Substage0100(final CastlevaniaBot b) {
-    super(b);
+  public Substage0100(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -77,10 +79,10 @@ public class Substage0100 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 52 && b.currentTile.getX() <= 56 && isPantherResting()) {
-      if (b.strategy != b.getAllStrategies().getUSE_WEAPON()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getUSE_WEAPON().init(879, 112, true, false);
-        b.strategy = b.getAllStrategies().getUSE_WEAPON();
+        botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
     } else {
       super.pickStrategy(targetedObject);

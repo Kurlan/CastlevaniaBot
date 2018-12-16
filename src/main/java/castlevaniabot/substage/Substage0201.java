@@ -1,13 +1,18 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import java.util.concurrent.*;
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_020100;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_020101;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_BAT;
 
 public class Substage0201 extends Substage {
   
@@ -15,8 +20,8 @@ public class Substage0201 extends Substage {
   private boolean blocksBroken;
   private boolean useRedBatDamageBoost;
   
-  public Substage0201(final CastlevaniaBot b) {
-    super(b);
+  public Substage0201(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
   
   @Override public void init() {
@@ -83,10 +88,10 @@ public class Substage0201 extends Substage {
     
     if (useRedBatDamageBoost && b.playerY == 144 && b.playerX >= 128 
         && b.playerX < 208 && b.playerY < 200) {
-      if (b.strategy != b.getAllStrategies().getRED_BAT_DAMAGE_BOOST()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getRED_BAT_DAMAGE_BOOST()) {
         clearTarget(targetedObject);
-        b.strategy = b.getAllStrategies().getRED_BAT_DAMAGE_BOOST();
-        b.strategy.init();
+        botState.setCurrentStrategy(b.getAllStrategies().getRED_BAT_DAMAGE_BOOST());
+        botState.getCurrentStrategy().init();
       }
       return;
     }

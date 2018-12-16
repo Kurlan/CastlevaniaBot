@@ -1,16 +1,20 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.strategy.Strategy;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.PHANTOM_BAT;
 
 public class Substage1600 extends Substage {
   
-  public Substage1600(final CastlevaniaBot b) {
-    super(b);
+  public Substage1600(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override

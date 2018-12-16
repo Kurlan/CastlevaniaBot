@@ -1,8 +1,10 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.gameelements.Addresses.BLOCK_050100;
@@ -14,8 +16,8 @@ public class Substage0501 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;  
    
-  public Substage0501(final CastlevaniaBot b) {
-    super(b);
+  public Substage0501(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -76,28 +78,28 @@ public class Substage0501 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerY > 144 && b.playerX < 287 && b.playerY > 32) {  
-      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_PITS()) {
+      if (botState.getCurrentStrategy()!= b.getAllStrategies().getMEDUSA_HEADS_PITS()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_PITS().init();
-        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_PITS();
+        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_PITS());
       }
     } else if (b.playerY <= 144 && b.playerX <= 255 && b.playerY > 32) {
-      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
-        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
+        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
       }
     } else if (b.playerY <= 112 && b.playerX >= 240 && b.playerX <= 387) {
-      if (b.strategy != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(352, 255, 112);
-        b.strategy = b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM();
+        botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
       }
     } else if (b.playerY <= 112 && b.playerX >= 384 && b.playerX <= 496) {
-      if (b.strategy != b.getAllStrategies().getJUMP_MOVING_PLATFORM()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getJUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getJUMP_MOVING_PLATFORM().init(496, 368, 112);
-        b.strategy = b.getAllStrategies().getJUMP_MOVING_PLATFORM();
+        botState.setCurrentStrategy(b.getAllStrategies().getJUMP_MOVING_PLATFORM());
       }
     } else {
       super.pickStrategy(targetedObject);

@@ -1,11 +1,15 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_020000;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.FISHMAN;
 
 public class Substage0200 extends Substage {
   
@@ -13,8 +17,8 @@ public class Substage0200 extends Substage {
   private boolean blockBroken;  
   private boolean triggeredTreasure;
   
-  public Substage0200(final CastlevaniaBot b) {
-    super(b);
+  public Substage0200(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
   
   @Override

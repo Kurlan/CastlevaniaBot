@@ -1,13 +1,22 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_140100;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_140101;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_BONES;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON_RISING;
 
 public class Substage1401 extends Substage {
   
@@ -21,8 +30,8 @@ public class Substage1401 extends Substage {
   private boolean blockWhipped2;
   private boolean blockBroken2;   
   
-  public Substage1401(final CastlevaniaBot b) {
-    super(b);
+  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -127,7 +136,7 @@ public class Substage1401 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.strategy == b.getAllStrategies().getWAIT()) {
+    if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
       if (b.playerX >= 832) {
         if (treasureTriggered1) {
           super.pickStrategy(targetedObject);
@@ -142,12 +151,12 @@ public class Substage1401 extends Substage {
             && !b.isEnemyInBounds(288, 128, 480, 208)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getWAIT().init(297, 192);
-      b.strategy = b.getAllStrategies().getWAIT();
+      botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
     } else if (!treasureTriggered1 && b.playerX >= 928 && b.playerX < 1024 
         && b.playerY > 112 && !b.isEnemyInBounds(816, 112, 1024, 208)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getWAIT().init(984, 192);
-      b.strategy = b.getAllStrategies().getWAIT();
+      botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
     } else if (b.playerY == 192 && b.playerX <= 33) {
       b.pressLeft();
     } else {

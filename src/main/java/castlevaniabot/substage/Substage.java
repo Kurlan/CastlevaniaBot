@@ -1,13 +1,13 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.gameelements.GameObject;
-import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
-import nintaco.api.ApiSource;
 
 import static castlevaniabot.model.gameelements.MapRoutes.getOperation;
 import static castlevaniabot.model.gameelements.MapRoutes.getStepX;
@@ -24,14 +24,17 @@ public abstract class Substage {
     return (value >> 4) + ((value >> 3) & 1);
   }
   
-  final API api = ApiSource.getAPI();
+  final API api;
   final CastlevaniaBot b;
+  final BotState botState;
   
   public MapRoutes mapRoutes;
   int playerDelay;
   
-  Substage(final CastlevaniaBot b) {
+  Substage(final CastlevaniaBot b, final BotState botState, final API api) {
     this.b = b;
+    this.botState = botState;
+    this.api = api;
   }
   
   public void init() {
@@ -39,7 +42,7 @@ public abstract class Substage {
         = b.sickleCount0 = b.sickleCount1 = b.redBatsCount0 = b.redBatsCount1 
             = b.redBonesCount0 = b.redBonesCount1 = b.boneCount0 
                 = b.boneCount1 = 0;
-    b.strategy = null;
+    botState.setCurrentStrategy(null);
   }
   
   public MapRoutes getMapRoutes() {
@@ -211,10 +214,10 @@ public abstract class Substage {
       return false;
     }
     
-    if (b.strategy != b.getAllStrategies().getBONE()) {
+    if (botState.getCurrentStrategy() != b.getAllStrategies().getBONE()) {
       clearTarget(targetedObject);
       b.getAllStrategies().getBONE().init(bone);
-      b.strategy = b.getAllStrategies().getBONE();
+      botState.setCurrentStrategy(b.getAllStrategies().getBONE());
     }
     
     return true;
@@ -296,7 +299,7 @@ public abstract class Substage {
     if (strategy != null) {
       strategy.init();
     }
-    b.strategy = strategy;
+    botState.setCurrentStrategy(strategy);
   }
   
   abstract void evaluteTierAndSubTier(GameObject obj);

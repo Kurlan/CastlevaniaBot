@@ -19,7 +19,6 @@ import castlevaniabot.model.gameelements.Modes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.TileType;
 import castlevaniabot.strategy.AllStrategies;
-import castlevaniabot.strategy.Strategy;
 import castlevaniabot.substage.Substage;
 import castlevaniabot.substage.Substage0000;
 import castlevaniabot.substage.Substage0100;
@@ -74,6 +73,7 @@ import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE
 import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Whip.WHIPS;
 import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
 import static castlevaniabot.model.gameelements.Addresses.HEARTS;
 import static castlevaniabot.model.gameelements.Addresses.KNEELING;
@@ -167,14 +167,6 @@ public class CastlevaniaBot {
   
   private static final int[][] WHIP_HEIGHT_AND_DELAY = {
     { 13, 21 }, { 19, 19 }, { 25, 17 }, { 31, 14 }, { 36, 4 },
-  }; 
-
-
-  
-  private static final Whip[][] whips = {
-    { new Whip(24, -2, 16, 6), new Whip(24, 7, 16, 6) },
-    { new Whip(26, -2, 18, 8), new Whip(26, 7, 18, 8) },
-    { new Whip(34, -2, 26, 8), new Whip(34, 7, 26, 8) },
   };
   
   static final int MAX_DISTANCE = 0xFFFF;
@@ -184,41 +176,39 @@ public class CastlevaniaBot {
   
   private static final int AVOID_X_RESET = -512;
   private static final int RED_BONES_THRESHOLD = 120;
-  
-  final Substage0000 SUBSTAGE_0000 = new Substage0000(this);
-  final Substage0100 SUBSTAGE_0100 = new Substage0100(this);
-  final Substage0200 SUBSTAGE_0200 = new Substage0200(this);
-  public final Substage0201 SUBSTAGE_0201 = new Substage0201(this);
-  final Substage0300 SUBSTAGE_0300 = new Substage0300(this);
-  final Substage0400 SUBSTAGE_0400 = new Substage0400(this);
-  final Substage0401 SUBSTAGE_0401 = new Substage0401(this);
-  final Substage0500 SUBSTAGE_0500 = new Substage0500(this);
-  final Substage0501 SUBSTAGE_0501 = new Substage0501(this);
-  final Substage0600 SUBSTAGE_0600 = new Substage0600(this);
-  final Substage0601 SUBSTAGE_0601 = new Substage0601(this);
-  final Substage0700 SUBSTAGE_0700 = new Substage0700(this);
-  final Substage0701 SUBSTAGE_0701 = new Substage0701(this);
-  final Substage0800 SUBSTAGE_0800 = new Substage0800(this);
-  final Substage0801 SUBSTAGE_0801 = new Substage0801(this);
-  public final Substage0900 SUBSTAGE_0900 = new Substage0900(this);
-  final Substage1000 SUBSTAGE_1000 = new Substage1000(this);
-  final Substage1100 SUBSTAGE_1100 = new Substage1100(this);
-  final Substage1200 SUBSTAGE_1200 = new Substage1200(this);
-  final Substage1300 SUBSTAGE_1300 = new Substage1300(this);
-  final Substage1301 SUBSTAGE_1301 = new Substage1301(this);
-  final Substage1400 SUBSTAGE_1400 = new Substage1400(this);
-  final Substage1401 SUBSTAGE_1401 = new Substage1401(this);
-  final Substage1500 SUBSTAGE_1500 = new Substage1500(this);
-  public final Substage1501 SUBSTAGE_1501 = new Substage1501(this);
-  final Substage1600 SUBSTAGE_1600 = new Substage1600(this);
-  final Substage1700 SUBSTAGE_1700 = new Substage1700(this);
-  final Substage1701 SUBSTAGE_1701 = new Substage1701(this);
-  final Substage1800 SUBSTAGE_1800 = new Substage1800(this);
-  final Substage1801 SUBSTAGE_1801 = new Substage1801(this);
 
+  final Substage0000 SUBSTAGE_0000;
+  final Substage0100 SUBSTAGE_0100;
+  final Substage0200 SUBSTAGE_0200;
+  public final Substage0201 SUBSTAGE_0201;
+  final Substage0300 SUBSTAGE_0300;
+  final Substage0400 SUBSTAGE_0400;
+  final Substage0401 SUBSTAGE_0401;
+  final Substage0500 SUBSTAGE_0500;
+  final Substage0501 SUBSTAGE_0501;
+  final Substage0600 SUBSTAGE_0600;
+  final Substage0601 SUBSTAGE_0601;
+  final Substage0700 SUBSTAGE_0700;
+  final Substage0701 SUBSTAGE_0701;
+  final Substage0800 SUBSTAGE_0800;
+  final Substage0801 SUBSTAGE_0801;
+  public final Substage0900 SUBSTAGE_0900;
+  final Substage1000 SUBSTAGE_1000;
+  final Substage1100 SUBSTAGE_1100;
+  final Substage1200 SUBSTAGE_1200;
+  final Substage1300 SUBSTAGE_1300;
+  final Substage1301 SUBSTAGE_1301;
+  final Substage1400 SUBSTAGE_1400;
+  final Substage1401 SUBSTAGE_1401;
+  final Substage1500 SUBSTAGE_1500;
+  public final Substage1501 SUBSTAGE_1501;
+  final Substage1600 SUBSTAGE_1600;
+  final Substage1700 SUBSTAGE_1700;
+  final Substage1701 SUBSTAGE_1701;
+  final Substage1800 SUBSTAGE_1800;
+  final Substage1801 SUBSTAGE_1801;
 
   public Substage substage;
-  public Strategy strategy;
 
   public int objsCount;
   
@@ -349,6 +339,37 @@ public class CastlevaniaBot {
 
     this.api = api;
     this.allMapRoutes = allMapRoutes;
+
+    SUBSTAGE_0000 = new Substage0000(this, botState, api);
+    SUBSTAGE_0100 = new Substage0100(this, botState, api);
+    SUBSTAGE_0200 = new Substage0200(this, botState, api);
+    SUBSTAGE_0201 = new Substage0201(this, botState, api);
+    SUBSTAGE_0300 = new Substage0300(this, botState, api);
+    SUBSTAGE_0400 = new Substage0400(this, botState, api);
+    SUBSTAGE_0401 = new Substage0401(this, botState, api);
+    SUBSTAGE_0500 = new Substage0500(this, botState, api);
+    SUBSTAGE_0501 = new Substage0501(this, botState, api);
+    SUBSTAGE_0600 = new Substage0600(this, botState, api);
+    SUBSTAGE_0601 = new Substage0601(this, botState, api);
+    SUBSTAGE_0700 = new Substage0700(this, botState, api);
+    SUBSTAGE_0701 = new Substage0701(this, botState, api);
+    SUBSTAGE_0800 = new Substage0800(this, botState, api);
+    SUBSTAGE_0801 = new Substage0801(this, botState, api);
+    SUBSTAGE_0900 = new Substage0900(this, botState, api);
+    SUBSTAGE_1000 = new Substage1000(this, botState, api);
+    SUBSTAGE_1100 = new Substage1100(this, botState, api);
+    SUBSTAGE_1200 = new Substage1200(this, botState, api);
+    SUBSTAGE_1300 = new Substage1300(this, botState, api);
+    SUBSTAGE_1301 = new Substage1301(this, botState, api);
+    SUBSTAGE_1400 = new Substage1400(this, botState, api);
+    SUBSTAGE_1401 = new Substage1401(this, botState, api);
+    SUBSTAGE_1500 = new Substage1500(this, botState, api);
+    SUBSTAGE_1501 = new Substage1501(this, botState, api);
+    SUBSTAGE_1600 = new Substage1600(this, botState, api);
+    SUBSTAGE_1700 = new Substage1700(this, botState, api);
+    SUBSTAGE_1701 = new Substage1701(this, botState, api);
+    SUBSTAGE_1800 = new Substage1800(this, botState, api);
+    SUBSTAGE_1801 = new Substage1801(this, botState, api);
   }
 
   public TargetedObject getTargetedObject() {
@@ -363,11 +384,15 @@ public class CastlevaniaBot {
     return this.gameState;
   }
 
+  public BotState getBotState() {
+    return this.botState;
+  }
+
   public void apiDisabled() {
     System.out.println("API disabled");
     gameState.setCurrentLevel(null);
     substage = null;
-    strategy = null;
+    botState.setCurrentStrategy(null);
     targetedObject = TargetedObject
             .builder()
             .target(null)
@@ -1171,7 +1196,7 @@ public class CastlevaniaBot {
   // Returns the whip delay after jumping or -1 if not in range.
   int isInJumpingWhipRange(final GameObject obj) {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (whips[whipLength][0].inRange(this, obj, 0, 
+      if (WHIPS[whipLength][0].inRange(this, obj, 0,
           WHIP_HEIGHT_AND_DELAY[i][0])) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -1181,19 +1206,19 @@ public class CastlevaniaBot {
 
   public boolean isInStandingWhipRange(final GameObject obj, final int xOffset,
                                        final int yOffset) {
-    return whips[whipLength][0].inRange(this, obj, xOffset, yOffset);     
+    return WHIPS[whipLength][0].inRange(this, obj, xOffset, yOffset);
   } 
   
   public boolean isInKneelingWhipRange(final GameObject obj, final int xOffset,
                                        final int yOffset) {
-    return whips[whipLength][1].inRange(this, obj, xOffset, yOffset);
+    return WHIPS[whipLength][1].inRange(this, obj, xOffset, yOffset);
   }  
   
   // Returns the whip delay after jumping or -1 if not in range.
   int isInJumpingWhipRange(final GameObject obj, final int xOffset, 
       final int yOffset) {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (whips[whipLength][0].inRange(this, obj, xOffset, 
+      if (WHIPS[whipLength][0].inRange(this, obj, xOffset,
           yOffset + WHIP_HEIGHT_AND_DELAY[i][0])) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -1202,17 +1227,17 @@ public class CastlevaniaBot {
   }
 
   public boolean isInStandingWhipRange(final GameObject obj) {
-    return whips[whipLength][0].inRange(this, obj);     
+    return WHIPS[whipLength][0].inRange(this, obj);
   } 
   
   public boolean isInKneelingWhipRange(final GameObject obj) {
-    return whips[whipLength][1].inRange(this, obj);
+    return WHIPS[whipLength][1].inRange(this, obj);
   }  
   
   // Returns the whip delay after jumping or -1 if not in range.
   int isTargetInJumpingWhipRange() {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (whips[whipLength][0].inRange(this, targetedObject.getTarget(), 0,
+      if (WHIPS[whipLength][0].inRange(this, targetedObject.getTarget(), 0,
           WHIP_HEIGHT_AND_DELAY[i][0])) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -1221,17 +1246,17 @@ public class CastlevaniaBot {
   }
   
   public boolean isTargetInStandingWhipRange() {
-    return whips[whipLength][0].inRange(this, targetedObject.getTarget());
+    return WHIPS[whipLength][0].inRange(this, targetedObject.getTarget());
   } 
   
   public boolean isTargetInKneelingWhipRange() {
-    return whips[whipLength][1].inRange(this, targetedObject.getTarget());
+    return WHIPS[whipLength][1].inRange(this, targetedObject.getTarget());
   } 
   
   // Returns the whip delay after jumping or -1 if not in range.
   public int isTargetInJumpingWhipRange(final int xOffset, final int yOffset) {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (whips[whipLength][0].inRange(this, targetedObject.getTarget(), xOffset,
+      if (WHIPS[whipLength][0].inRange(this, targetedObject.getTarget(), xOffset,
           yOffset + WHIP_HEIGHT_AND_DELAY[i][0])) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -1240,11 +1265,11 @@ public class CastlevaniaBot {
   }  
   
   public boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset) {
-    return whips[whipLength][0].inRange(this, targetedObject.getTarget(), xOffset, yOffset);
+    return WHIPS[whipLength][0].inRange(this, targetedObject.getTarget(), xOffset, yOffset);
   } 
   
   public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
-    return whips[whipLength][1].inRange(this, targetedObject.getTarget(), xOffset, yOffset);
+    return WHIPS[whipLength][1].inRange(this, targetedObject.getTarget(), xOffset, yOffset);
   }
   
   public int countObjects(final GameObjectType type) {
@@ -1680,7 +1705,7 @@ public class CastlevaniaBot {
   }
   
   public int getWhipRadius() {
-    return whips[whipLength][0].getRadius();
+    return WHIPS[whipLength][0].getRadius();
   }
   
   private boolean isAtBottomOfStairs() {
@@ -2014,7 +2039,7 @@ public class CastlevaniaBot {
     }
 
     if (!playing || gameState.getCurrentLevel() == null || substage == null) {
-      strategy = null;
+      botState.setCurrentStrategy(null);
       targetedObject = TargetedObject
               .builder()
               .target(null)
@@ -2038,11 +2063,11 @@ public class CastlevaniaBot {
 
     avoidX = AVOID_X_RESET;
     substage.pickStrategy(targetedObject);
-    if (strategy != null) {
+    if (botState.getCurrentStrategy() != null) {
       if (entryDelay > 0) {
         --entryDelay;
       } else {
-        strategy.step();
+        botState.getCurrentStrategy().step();
       }
     }  
     

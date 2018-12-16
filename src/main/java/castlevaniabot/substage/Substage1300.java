@@ -1,8 +1,10 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -16,8 +18,8 @@ public class Substage1300 extends Substage {
   
   private boolean waited;
   
-  public Substage1300(final CastlevaniaBot b) {
-    super(b);
+  public Substage1300(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -110,7 +112,7 @@ public class Substage1300 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     
-    if (b.strategy == b.getAllStrategies().getWAIT()) {
+    if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
       final GameObject skeleton = b.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < b.playerX - 48 
           || skeleton.y > 132))) {
@@ -122,7 +124,7 @@ public class Substage1300 extends Substage {
           && b.playerX < skeleton.x) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(493, 192);
-        b.strategy = b.getAllStrategies().getWAIT();
+        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
         waited = false;
       } else {
         super.pickStrategy(targetedObject);

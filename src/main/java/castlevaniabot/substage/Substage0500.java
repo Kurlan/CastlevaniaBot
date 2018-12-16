@@ -1,18 +1,21 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.SPEAR_KNIGHT;
 
 public class Substage0500 extends Substage {
   
   private boolean treasureTriggered;
   
-  public Substage0500(final CastlevaniaBot b) {
-    super(b);
+  public Substage0500(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -73,16 +76,16 @@ public class Substage0500 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerX >= 544) {
-      if (b.strategy != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
-        b.strategy = b.getAllStrategies().getMEDUSA_HEADS_WALK();
+        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
       }
     } else if (!treasureTriggered && b.playerX >= 288 && b.playerX < 320) {
-      if (b.strategy != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(304, 80);
-        b.strategy = b.getAllStrategies().getWAIT();
+        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject);

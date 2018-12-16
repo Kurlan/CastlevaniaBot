@@ -1,19 +1,27 @@
 package castlevaniabot.substage;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.WaitStrategy;
+import nintaco.api.API;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.GameObjectType.BONE_TOWER;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.RAVEN;
 
 public class Substage0801 extends Substage {
   
   private boolean treasureTriggered;  
   
-  public Substage0801(final CastlevaniaBot b) {
-    super(b);
+  public Substage0801(final CastlevaniaBot b, final BotState botState, final API api) {
+    super(b, botState, api);
   }
 
   @Override
@@ -101,10 +109,10 @@ public class Substage0801 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerX >= 627 && b.playerX < 659) {
-      if (b.strategy != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(643, 160, WaitStrategy.WaitType.KNEEL);
-        b.strategy = b.getAllStrategies().getWAIT();
+        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject);
