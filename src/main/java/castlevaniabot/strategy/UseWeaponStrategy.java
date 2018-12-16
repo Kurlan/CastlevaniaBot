@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,10 +18,12 @@ public class UseWeaponStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public UseWeaponStrategy(final CastlevaniaBot b, final BotState botState) {
+    public UseWeaponStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     public void init(final int playerX, final int playerY, final boolean jump,
@@ -49,7 +52,7 @@ public class UseWeaponStrategy implements Strategy {
     public void step() {
         if (done > 0) {
             if (--done == 0) {
-                b.substage.weaponUsed();
+                gameState.getCurrentSubstage().weaponUsed();
             }
             return;
         }
@@ -61,13 +64,13 @@ public class UseWeaponStrategy implements Strategy {
                 useWeapon();
             }
         } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY) {
-            b.substage.route(playerX, playerY);
+            gameState.getCurrentSubstage().route(playerX, playerY);
         } else if (faceLeft != b.playerLeft) {
             // walk past and turn around
             if (faceLeft) {
-                b.substage.routeRight();
+                gameState.getCurrentSubstage().routeRight();
             } else {
-                b.substage.routeLeft();
+                gameState.getCurrentSubstage().routeLeft();
             }
         } else if (jump && b.canJump) {
             jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);

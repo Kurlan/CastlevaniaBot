@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -14,10 +15,12 @@ public class GhostStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public GhostStrategy(final CastlevaniaBot b, final BotState botState) {
+    public GhostStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -44,14 +47,14 @@ public class GhostStrategy implements Strategy {
 
         if (moveAwayCounter > 0) {
             --moveAwayCounter;
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (ghost.y2 < botState.getPlayerY() - 48 || ghost.y1 > botState.getPlayerY() + 16
                 || ghost.distanceX > 48) {
-            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
         } else if (ghost.distanceX < 20) {
             moveAwayCounter = 180 + ThreadLocalRandom.current().nextInt(11);
             ;
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
                 b.whip();                            // stand whip bat

@@ -2,19 +2,21 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class AxeStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
-
+    private final GameState gameState;
     private int lastX;
     private int lastY;
 
-    public AxeStrategy(final CastlevaniaBot b, final BotState botState) {
+    public AxeStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -9,10 +10,12 @@ public class RedBatStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public RedBatStrategy(final CastlevaniaBot b, final BotState botState) {
+    public RedBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class RedBatStrategy implements Strategy {
             }
         } else if ((bat.left && bat.x1 > botState.getPlayerX() + 24)
                 || (!bat.left && bat.x2 < botState.getPlayerX() - 24)) {
-            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
         }
     }
 }

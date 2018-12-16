@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -11,12 +12,14 @@ public class GetItemStrategy implements Strategy {
 
     private int error;
 
-    private final CastlevaniaBot b;
-    private final BotState botState;
+    protected final CastlevaniaBot b;
+    protected final BotState botState;
+    protected final GameState gameState;
 
-    public GetItemStrategy(final CastlevaniaBot b, final BotState botState) {
+    public GetItemStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class GetItemStrategy implements Strategy {
                 b.jump();
             }
         } else {
-            b.substage.route(x, y);
+            gameState.getCurrentSubstage().route(x, y);
         }
     }
 }

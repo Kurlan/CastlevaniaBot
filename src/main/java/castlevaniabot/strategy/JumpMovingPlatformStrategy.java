@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 
 import static java.lang.Math.abs;
@@ -29,10 +30,12 @@ public class JumpMovingPlatformStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public JumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState) {
+    public JumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     // playerX1 and playerX2 are 16 pixels removed from the chasm edges
@@ -76,7 +79,7 @@ public class JumpMovingPlatformStrategy implements Strategy {
         switch (state) {
             case WALK_TO_POINT_1:
                 if (botState.getPlayerX() != playerX1 || botState.getPlayerY() != playerY) {
-                    b.substage.route(playerX1, playerY);
+                    gameState.getCurrentSubstage().route(playerX1, playerY);
                 } else {
                     state = State.WAIT_FOR_PLATFORM;
                 }

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -18,10 +19,12 @@ public class RedSkeletonStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public RedSkeletonStrategy(final CastlevaniaBot b, final BotState botState) {
+    public RedSkeletonStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -59,9 +62,9 @@ public class RedSkeletonStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (skeleton.distanceX < 32) {
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
             moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
         }
     }

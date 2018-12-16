@@ -2,16 +2,19 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class BoomerangDeathStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public BoomerangDeathStrategy(final CastlevaniaBot b, final BotState botState) {
+    public BoomerangDeathStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -47,20 +50,20 @@ public class BoomerangDeathStrategy implements Strategy {
                 break;
             case 2:
             case 13:
-                b.substage.route(128, 160, false);
+                gameState.getCurrentSubstage().route(128, 160, false);
                 break;
             case 4:
                 if (death.y < botState.getPlayerY() - 16) {
                     b.pressLeft();
                 } else {
-                    b.substage.route(9, 128, false);
+                    gameState.getCurrentSubstage().route(9, 128, false);
                 }
                 break;
             case 11:
                 if (death.y < botState.getPlayerY() - 16) {
                     b.pressRight();
                 } else {
-                    b.substage.route(238, 128, false);
+                    gameState.getCurrentSubstage().route(238, 128, false);
                 }
                 break;
             case 3:

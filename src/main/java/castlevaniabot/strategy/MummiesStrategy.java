@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 
@@ -28,10 +29,12 @@ public class MummiesStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public MummiesStrategy(final CastlevaniaBot b, final BotState botState) {
+    public MummiesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class MummiesStrategy implements Strategy {
             }
         }
         if (mummy1 == null) {
-            b.substage.bossDefeated();
+            gameState.getCurrentSubstage().bossDefeated();
             return;
         } else {
             mummyOffsetX1 = mummy1.x - mummyLastX1;
@@ -112,14 +115,14 @@ public class MummiesStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            b.substage.moveAwayFromTarget(moveAwayFromX);
+            gameState.getCurrentSubstage().moveAwayFromTarget(moveAwayFromX);
             return;
         }
 
         if (closestMummy.distanceX < 30 && botState.getPlayerX() > 1312 && botState.getPlayerX() < 1488) {
             moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
             moveAwayFromX = closestMummy.x;
-            b.substage.moveAwayFromTarget(closestMummy.x);
+            gameState.getCurrentSubstage().moveAwayFromTarget(closestMummy.x);
             return;
         }
 
@@ -146,7 +149,7 @@ public class MummiesStrategy implements Strategy {
     private void stepBoomerangStrategy() {
 
         if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !b.playerLeft) {
-            b.substage.routeAndFace(1512, 208, true, false);
+            gameState.getCurrentSubstage().routeAndFace(1512, 208, true, false);
         } else if (!b.weaponing) {
             b.whipOrWeapon();
         }
@@ -165,7 +168,7 @@ public class MummiesStrategy implements Strategy {
         }
 
         if (botState.getPlayerX() != routeX || botState.getPlayerY() != routeY || b.playerLeft) {
-            b.substage.routeAndFace(routeX, routeY, false);
+            gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false);
         } else {
             b.kneel();
             if (b.kneeling && !b.weaponing) {
@@ -177,7 +180,7 @@ public class MummiesStrategy implements Strategy {
     private void stepHolyWaterStrategy() {
 
         if (botState.getPlayerX() != 1290 || botState.getPlayerY() != 144 || b.playerLeft) {
-            b.substage.routeAndFace(1290, 144, false);
+            gameState.getCurrentSubstage().routeAndFace(1290, 144, false);
         } else if (weaponDelay > 0) {
             --weaponDelay;
         } else if (!b.weaponing && ((mummy1 != null && abs(mummy1.x - 1360) < 16)

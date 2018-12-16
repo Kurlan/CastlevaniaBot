@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.DEATH;
@@ -10,10 +11,12 @@ public class SickleStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public SickleStrategy(final CastlevaniaBot b, final BotState botState) {
+    public SickleStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -73,13 +76,13 @@ public class SickleStrategy implements Strategy {
                 break;
             case 2:
             case 13:
-                b.substage.route(128, 160, false);
+                gameState.getCurrentSubstage().route(128, 160, false);
                 break;
             case 4:
-                b.substage.route(9, 128, false);
+                gameState.getCurrentSubstage().route(9, 128, false);
                 break;
             case 11:
-                b.substage.route(238, 128, false);
+                gameState.getCurrentSubstage().route(238, 128, false);
                 break;
             case 3:
             case 14:

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,10 +28,12 @@ public class WaitStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public WaitStrategy(final CastlevaniaBot b, final BotState botState) {
+    public WaitStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     public void init(final int playerX, final int playerY) {
@@ -62,7 +65,7 @@ public class WaitStrategy implements Strategy {
             inPosition = true;
         }
         if (!inPosition) {
-            b.substage.route(playerX, playerY);
+            gameState.getCurrentSubstage().route(playerX, playerY);
         } else if (delay > 0) {
             switch (waitType) {
                 case KNEEL:
@@ -76,7 +79,7 @@ public class WaitStrategy implements Strategy {
                     break; // walk against wall
             }
             if (--delay == 0) {
-                b.substage.treasureTriggered();
+                gameState.getCurrentSubstage().treasureTriggered();
             }
         }
     }

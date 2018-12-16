@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import static java.lang.Math.abs;
 
@@ -12,10 +13,12 @@ public class RedBonesStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public RedBonesStrategy(final CastlevaniaBot b, final BotState botState) {
+    public RedBonesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class RedBonesStrategy implements Strategy {
                 b.pressRight();
             }
         } else if (distanceX < 32) {
-            b.substage.moveAwayFromTarget(targetX);
+            gameState.getCurrentSubstage().moveAwayFromTarget(targetX);
         }
     }
 

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,10 +16,12 @@ public class RavenStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public RavenStrategy(final CastlevaniaBot b, final BotState botState) {
+    public RavenStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -41,11 +44,11 @@ public class RavenStrategy implements Strategy {
             }
         } else if (moveAway > 0) {
             --moveAway;
-            b.substage.routeLeft();
+            gameState.getCurrentSubstage().routeLeft();
         } else if (!b.onStairs && b.onPlatform && raven.active
                 && raven.y1 > botState.getPlayerY()) {
             moveAway = 64 + ThreadLocalRandom.current().nextInt(11);
-            b.substage.routeLeft();
+            gameState.getCurrentSubstage().routeLeft();
         } else if (!b.weaponing && b.faceTarget()) {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                 b.whip();

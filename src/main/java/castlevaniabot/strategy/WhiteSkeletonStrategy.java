@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,10 +21,12 @@ public class WhiteSkeletonStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public WhiteSkeletonStrategy(final CastlevaniaBot b, final BotState botState) {
+    public WhiteSkeletonStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -68,7 +71,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 b.jump();
             }
         } else if (drawingTowardHolyWater) {
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (!b.onStairs && holyWaterDelay == 0 && b.weapon == HOLY_WATER
                 && b.hearts > 0 && skeleton.distanceX < 96
                 && skeleton.distanceY <= 36) {
@@ -83,7 +86,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 }
             }
         } else {
-            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
         }
     }
 }

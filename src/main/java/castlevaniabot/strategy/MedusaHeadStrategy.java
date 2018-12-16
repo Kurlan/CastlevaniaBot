@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -10,10 +11,12 @@ public class MedusaHeadStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public MedusaHeadStrategy(final CastlevaniaBot b, final BotState botState) {
+    public MedusaHeadStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override

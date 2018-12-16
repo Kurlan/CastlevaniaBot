@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -23,10 +24,12 @@ public class WhipStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public WhipStrategy(final CastlevaniaBot b, final BotState botState) {
+    public WhipStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     void init(final int playerX, final int playerY, final boolean playerLeft) {
@@ -64,7 +67,7 @@ public class WhipStrategy implements Strategy {
     public void step() {
         if (done > 0) {
             if (--done == 0) {
-                b.substage.weaponUsed();
+                gameState.getCurrentSubstage().weaponUsed();
             }
             return;
         }
@@ -77,7 +80,7 @@ public class WhipStrategy implements Strategy {
             }
         } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY
                 || b.playerLeft != playerLeft) {
-            b.substage.routeAndFace(playerX, playerY, playerLeft);
+            gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft);
         } else if (jump && b.canJump) {
             if (delayJump > 0) {
                 --delayJump;
@@ -104,7 +107,7 @@ public class WhipStrategy implements Strategy {
     private void useWhip() {
         b.whip();
         if (delayAfterUse == 0) {
-            b.substage.whipUsed();
+            gameState.getCurrentSubstage().whipUsed();
         } else {
             done = delayAfterUse;
         }

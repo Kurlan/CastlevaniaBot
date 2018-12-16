@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -13,10 +14,12 @@ public class BlockStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public BlockStrategy(final CastlevaniaBot b, final BotState botState) {
+    public BlockStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class BlockStrategy implements Strategy {
                     whipBlock();
                 }
             } else {
-                b.substage.routeAndFace(playerX, playerY, playerLeft);
+                gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft);
             }
         }
     }
@@ -69,7 +72,7 @@ public class BlockStrategy implements Strategy {
             --delayWhip;
         } else {
             b.whip();
-            b.substage.blockWhipped();
+            gameState.getCurrentSubstage().blockWhipped();
         }
     }
 }

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 import nintaco.api.API;
 import nintaco.api.ApiSource;
@@ -35,10 +36,12 @@ public class CrusherStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public CrusherStrategy(final CastlevaniaBot b, final BotState botState) {
+    public CrusherStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class CrusherStrategy implements Strategy {
         switch (state) {
             case WALK_TO_LEFT_WALL:
                 if (botState.getPlayerX() != 521 || botState.getPlayerY() != 208) {
-                    b.substage.route(521, 208);
+                    gameState.getCurrentSubstage().route(521, 208);
                 } else {
                     state = State.WAIT_FOR_CRUSHER_2;
                 }
@@ -70,7 +73,7 @@ public class CrusherStrategy implements Strategy {
                 if (botState.getPlayerX() == 456 && botState.getPlayerY() == 176) {
                     state = State.WHIP_CANDLE_1_2;
                 } else {
-                    b.substage.route(456, 176);
+                    gameState.getCurrentSubstage().route(456, 176);
                 }
                 break;
             case WHIP_CANDLE_1_2:
@@ -94,7 +97,7 @@ public class CrusherStrategy implements Strategy {
                 if (botState.getPlayerX() == 392 && botState.getPlayerY() == 176) {
                     state = State.WHIP_CANDLE_0_1;
                 } else {
-                    b.substage.route(392, 176);
+                    gameState.getCurrentSubstage().route(392, 176);
                 }
                 break;
             case WHIP_CANDLE_0_1:
@@ -118,7 +121,7 @@ public class CrusherStrategy implements Strategy {
                 if (botState.getPlayerX() == 328 && botState.getPlayerY() == 176) {
                     state = State.WHIP_CANDLE_0;
                 } else {
-                    b.substage.route(328, 176);
+                    gameState.getCurrentSubstage().route(328, 176);
                 }
                 break;
             case WHIP_CANDLE_0:

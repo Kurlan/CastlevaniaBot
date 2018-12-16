@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class FishmanStrategy implements Strategy {
@@ -12,10 +13,12 @@ public class FishmanStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public FishmanStrategy(final CastlevaniaBot b, final BotState botState) {
+    public FishmanStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class FishmanStrategy implements Strategy {
                 b.jump();
             }
         } else if (fishman.distanceX < 24) {
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         }
     }
 }

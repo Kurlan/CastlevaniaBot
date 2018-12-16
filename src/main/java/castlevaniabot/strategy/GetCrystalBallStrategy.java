@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,13 +15,8 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
     private int jumps;
     private boolean jumpRequested;
 
-    private final CastlevaniaBot b;
-    private final BotState botState;
-
-    public GetCrystalBallStrategy(final CastlevaniaBot b, final BotState botState) {
-        super(b, botState);
-        this.b = b;
-        this.botState = botState;
+    public GetCrystalBallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+        super(b, botState, gameState);
     }
 
     @Override
@@ -48,9 +44,9 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
         } else if (jumpRequested) {
             if (b.canJump) {
                 if (jumps == 0 && b.getTargetedObject().getTarget().playerFacing) {
-                    b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+                    gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
                 } else if (jumps == 1 && !b.getTargetedObject().getTarget().playerFacing) {
-                    b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+                    gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
                 } else {
                     jumpRequested = false;
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
@@ -61,7 +57,7 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
             if (jumps < 2) {
                 jumpRequested = true;
             } else {
-                b.substage.crystalBallAlmostAquired();
+                gameState.getCurrentSubstage().crystalBallAlmostAquired();
                 super.step();
             }
         } else {

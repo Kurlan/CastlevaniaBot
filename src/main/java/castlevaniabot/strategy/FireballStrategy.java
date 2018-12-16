@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class FireballStrategy implements Strategy {
@@ -11,10 +12,12 @@ public class FireballStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public FireballStrategy(final CastlevaniaBot b, final BotState botState) {
+    public FireballStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState =gameState;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class FireballStrategy implements Strategy {
                 b.jump();                           // jump over fireball
             }
         } else if (b.atTopOfStairs) {
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !b.weaponing) {
                 b.whip();                           // stand whip fireball

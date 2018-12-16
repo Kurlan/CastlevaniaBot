@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,10 +21,12 @@ public class AxeKnightStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public AxeKnightStrategy(final CastlevaniaBot b, final BotState botState) {
+    public AxeKnightStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -64,7 +67,7 @@ public class AxeKnightStrategy implements Strategy {
                     }
                 }
             }
-        } else if (b.substage == b.SUBSTAGE_1501 && b.weapon == BOOMERANG
+        } else if (gameState.getCurrentSubstage() == b.SUBSTAGE_1501 && b.weapon == BOOMERANG
                 && b.hearts > 0) {
             if (!b.weaponing && weaponDelay == 0 && b.faceTarget()) {
                 if (b.shot > 1) {
@@ -77,7 +80,7 @@ public class AxeKnightStrategy implements Strategy {
                 b.whip();
             }
         } else if (b.getTargetedObject().getTarget().distanceX > 64) {
-            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
         }
     }
 }

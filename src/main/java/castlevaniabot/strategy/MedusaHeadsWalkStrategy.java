@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.MEDUSA_HEAD;
@@ -18,10 +19,12 @@ public class MedusaHeadsWalkStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public MedusaHeadsWalkStrategy(final CastlevaniaBot b, final BotState botState) {
+    public MedusaHeadsWalkStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     public void init(final boolean left) {
@@ -40,9 +43,9 @@ public class MedusaHeadsWalkStrategy implements Strategy {
 
         if (head == null) {
             if (left) {
-                b.substage.routeLeft();
+                gameState.getCurrentSubstage().routeLeft();
             } else {
-                b.substage.routeRight();
+                gameState.getCurrentSubstage().routeRight();
             }
             return;
         }
@@ -91,9 +94,9 @@ public class MedusaHeadsWalkStrategy implements Strategy {
         }
 
         if (left) {
-            b.substage.routeLeft();
+            gameState.getCurrentSubstage().routeLeft();
         } else {
-            b.substage.routeRight();
+            gameState.getCurrentSubstage().routeRight();
         }
     }
 

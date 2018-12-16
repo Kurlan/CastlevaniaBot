@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -39,10 +40,12 @@ public class FrankensteinStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public FrankensteinStrategy(final CastlevaniaBot b, final BotState botState) {
+    public FrankensteinStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -98,10 +101,10 @@ public class FrankensteinStrategy implements Strategy {
             final int offsetX = frankVx << 4;
             if (avoidFrank > 0) {
                 --avoidFrank;
-                b.substage.moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
-                b.substage.moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
                 if (!b.weaponing && b.face(frank)) {
                     b.whip();
@@ -115,7 +118,7 @@ public class FrankensteinStrategy implements Strategy {
                     offsetX, 0, frank) && b.face(frank)) {
                 b.useWeapon();
             } else if (canWalkTowardFrank) {
-                b.substage.moveToward(frank);
+                gameState.getCurrentSubstage().moveToward(frank);
             }
         }
     }
@@ -134,10 +137,10 @@ public class FrankensteinStrategy implements Strategy {
             final int offsetX = frankVx << 4;
             if (avoidFrank > 0) {
                 --avoidFrank;
-                b.substage.moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
-                b.substage.moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
                 if (!b.weaponing && b.face(frank)) {
                     if (botState.getPlayerY() == frank.y) {
@@ -156,7 +159,7 @@ public class FrankensteinStrategy implements Strategy {
                         && botState.getPlayerY() == frank.y) {
                     b.whipOrWeapon();
                 } else {
-                    b.substage.moveToward(frank);
+                    gameState.getCurrentSubstage().moveToward(frank);
                 }
             }
         }
@@ -180,10 +183,10 @@ public class FrankensteinStrategy implements Strategy {
             final int offsetX = frankVx << 4;
             if (avoidFrank > 0) {
                 --avoidFrank;
-                b.substage.moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
-                b.substage.moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
                 if (!b.weaponing && b.face(frank)) {
                     b.whipOrWeapon();
@@ -194,7 +197,7 @@ public class FrankensteinStrategy implements Strategy {
                     b.whip();
                 }
             } else if (canWalkTowardFrank) {
-                b.substage.moveToward(frank);
+                gameState.getCurrentSubstage().moveToward(frank);
             }
         }
     }
@@ -211,9 +214,9 @@ public class FrankensteinStrategy implements Strategy {
         if (avoidIgor > 0) {
             --avoidIgor;
             if (igorLeft) {
-                b.substage.routeLeft();
+                gameState.getCurrentSubstage().routeLeft();
             } else {
-                b.substage.routeRight();
+                gameState.getCurrentSubstage().routeRight();
             }
             return true;
         } else if (b.isInStandingWhipRange(igor, vx, vy)) {

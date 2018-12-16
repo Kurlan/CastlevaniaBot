@@ -2,6 +2,7 @@ package castlevaniabot;
 
 import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.MovingPlatform;
+import castlevaniabot.substage.Substage;
 import lombok.Data;
 
 import static java.lang.Math.abs;
@@ -14,6 +15,7 @@ public class GameState {
     private Level currentLevel;
     private int stageNumber;
     private int substageNumber;
+    private Substage currentSubstage;
 
     private MovingPlatform[] movingPlatforms;
     private int movingPlatformsCount;

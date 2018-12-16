@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,10 +16,12 @@ public class FleamanStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public FleamanStrategy(final CastlevaniaBot b, final BotState botState) {
+    public FleamanStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -44,9 +47,9 @@ public class FleamanStrategy implements Strategy {
         if (move > 0) {
             --move;
             if (left) {
-                b.substage.routeLeft();
+                gameState.getCurrentSubstage().routeLeft();
             } else {
-                b.substage.routeRight();
+                gameState.getCurrentSubstage().routeRight();
             }
         } else if (b.isTargetInStandingWhipRange(vx, vy)) {
             if (!b.weaponing && b.faceTarget()) {

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.Bone;
 
 public class BoneStrategy implements Strategy {
@@ -10,10 +11,12 @@ public class BoneStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public BoneStrategy(final CastlevaniaBot b, final BotState botState) {
+    public BoneStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     public void init(final Bone bone) {
@@ -29,9 +32,9 @@ public class BoneStrategy implements Strategy {
     public void step() {
         if (!b.onStairs) {
             if (bone.left) {
-                b.substage.routeLeft();
+                gameState.getCurrentSubstage().routeLeft();
             } else {
-                b.substage.routeRight();
+                gameState.getCurrentSubstage().routeRight();
             }
         }
     }

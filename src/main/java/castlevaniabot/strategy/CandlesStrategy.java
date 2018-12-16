@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,10 +18,12 @@ public class CandlesStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public CandlesStrategy(final CastlevaniaBot b, final BotState botState) {
+    public CandlesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class CandlesStrategy implements Strategy {
                     useWeapon();
                 }
             } else {
-                b.substage.routeAndFace(playerX, playerY, playerLeft);
+                gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft);
             }
         }
     }
@@ -86,6 +89,6 @@ public class CandlesStrategy implements Strategy {
             b.whip();
         }
         done = 64;
-        b.substage.candlesWhipped(b.getTargetedObject().getTarget());
+        gameState.getCurrentSubstage().candlesWhipped(b.getTargetedObject().getTarget());
     }
 }

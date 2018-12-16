@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,10 +21,12 @@ public class MedusaHeadsPitsStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public MedusaHeadsPitsStrategy(final CastlevaniaBot b, final BotState botState) {
+    public MedusaHeadsPitsStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
         switch (state) {
             case WALK_TO_EDGE:
                 if (b.currentTile.getX() != 7 || b.currentTile.getY() != 12) {
-                    b.substage.route(127, 192);
+                    gameState.getCurrentSubstage().route(127, 192);
                 } else if (botState.getPlayerX() < 131) {
                     b.pressRight();
                 } else {
@@ -52,7 +55,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
                 } else if (botState.getPlayerX() == 328 && botState.getPlayerY() == 176) {
                     state = State.DONE;
                 } else {
-                    b.substage.route(328, 176);
+                    gameState.getCurrentSubstage().route(328, 176);
                 }
                 break;
             case WAIT_FOR_HEAD:

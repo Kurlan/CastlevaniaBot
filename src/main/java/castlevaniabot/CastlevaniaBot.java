@@ -208,8 +208,6 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
 
-  public Substage substage;
-
   public int objsCount;
   
   final BoneTowerSegment[] boneTowerSegments = new BoneTowerSegment[16];
@@ -303,7 +301,7 @@ public class CastlevaniaBot {
                     .build())
             .build();
       this.botState = new BotState();
-      this.allStrategies = new AllStrategies(this,botState);
+      this.allStrategies = new AllStrategies(this,botState, gameState);
       this.levels = levels;
       this.gameState = new GameState();
 
@@ -389,7 +387,7 @@ public class CastlevaniaBot {
   public void apiDisabled() {
     System.out.println("API disabled");
     gameState.setCurrentLevel(null);
-    substage = null;
+    gameState.setCurrentSubstage(null);
     botState.setCurrentStrategy(null);
     targetedObject = TargetedObject
             .builder()
@@ -489,11 +487,11 @@ public class CastlevaniaBot {
       case 0x1200: _substage = SUBSTAGE_1800; break;
       case 0x1201: _substage = SUBSTAGE_1801; break;
     }
-    if (_substage != null && _substage != substage) {
+    if (_substage != null && _substage != gameState.getCurrentSubstage()) {
       entryDelay = ThreadLocalRandom.current().nextInt(17);
       _substage.init();
     }
-    substage = _substage;
+    gameState.setCurrentSubstage(_substage);
 
     if (gameState.getCurrentLevel() == null || _substage == null) {
       return;
@@ -503,7 +501,7 @@ public class CastlevaniaBot {
       overHangingLeft = overHangingRight = onPlatform = false;
       currentTile.setX(botState.getPlayerX() >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
-      final MapRoutes mapRoutes = substage.getMapRoutes();
+      final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
       final MapElement[][] map = mapRoutes.map;
       if (!TileType.isStairs(map[currentTile.getY()][currentTile.getX()].tileType)) {
         if (currentTile.getX() < mapRoutes.width - 1
@@ -889,7 +887,7 @@ public class CastlevaniaBot {
   }  
   
   public void addDestination(int x, int y) {
-    final MapRoutes mapRoutes = substage.getMapRoutes();
+    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
     
     if (x < 0 || y < 0 || x >= mapRoutes.pixelsWidth 
         || y >= mapRoutes.pixelsHeight) {
@@ -919,7 +917,7 @@ public class CastlevaniaBot {
   }
   
   public void addBlock(int x, int y) {
-    final MapRoutes mapRoutes = substage.getMapRoutes();
+    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
     final MapElement[][] map = mapRoutes.map;
     
     x += 8;
@@ -994,7 +992,7 @@ public class CastlevaniaBot {
   public void addGameObject(final GameObjectType type, int x, int y,
                             final boolean left, final boolean active) {
     
-    final MapRoutes mapRoutes = substage.getMapRoutes();
+    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
     final MapElement[][] map = mapRoutes.map;
     
     x += type.xOffset + gameState.getCameraX();
@@ -1297,7 +1295,7 @@ public class CastlevaniaBot {
       return false;
     }
     
-    final MapElement[][] map = substage.mapRoutes.map;
+    final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
     if (map[currentTile.getY() - 4][currentTile.getX()].height == 0 || map[currentTile.getY() - 3][currentTile.getX()].height == 0){
       return true;
     }
@@ -1306,7 +1304,7 @@ public class CastlevaniaBot {
       return (currentTile.getX() > 0) && (map[currentTile.getY() - 4][currentTile.getX() - 1].height == 0
               || map[currentTile.getY() - 3][currentTile.getX() - 1].height == 0);
     } else {
-      return (currentTile.getX() < substage.mapRoutes.width - 1)
+      return (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1)
           && (map[currentTile.getY() - 4][currentTile.getX() + 1].height == 0
               || map[currentTile.getY() - 3][currentTile.getX() + 1].height == 0);
     }
@@ -1673,7 +1671,7 @@ public class CastlevaniaBot {
     } else if (onStairs && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
       pressDown();
     } else {
-      substage.moveToward(obj);
+      gameState.getCurrentSubstage().moveToward(obj);
     }
     return false;
   }  
@@ -1684,7 +1682,7 @@ public class CastlevaniaBot {
     } else if (onStairs && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
       pressDown();
     } else {
-      substage.moveTowardTarget(targetedObject.getTarget());
+      gameState.getCurrentSubstage().moveTowardTarget(targetedObject.getTarget());
     }
     return false;
   }
@@ -1712,9 +1710,9 @@ public class CastlevaniaBot {
       return false;
     }
     
-    final MapElement[][] map = substage.mapRoutes.map;
+    final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
     final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
-    return (tileType == BACK_STAIRS || (currentTile.getX() < substage.mapRoutes.width - 1
+    return (tileType == BACK_STAIRS || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
         && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS))
             || (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
                 && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS));
@@ -1754,9 +1752,9 @@ public class CastlevaniaBot {
       return false;
     }
     
-    final MapElement[][] map = substage.mapRoutes.map;
+    final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
     final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
-    return isStairsPlatform(tileType) || (currentTile.getX() < substage.mapRoutes.width - 1
+    return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
             && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
         || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
   }
@@ -1946,7 +1944,7 @@ public class CastlevaniaBot {
     if (y >= 0x0F) {
       return false;
     }
-    final MapRoutes mapRoutes = substage.getMapRoutes();
+    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
     x >>= 4;    
     if (x >= mapRoutes.width) {
       return false;
@@ -2036,7 +2034,7 @@ public class CastlevaniaBot {
       pauseDelay = 0;
     }
 
-    if (!playing || gameState.getCurrentLevel() == null || substage == null) {
+    if (!playing || gameState.getCurrentLevel() == null || gameState.getCurrentSubstage() == null) {
       botState.setCurrentStrategy(null);
       targetedObject = TargetedObject
               .builder()
@@ -2060,7 +2058,7 @@ public class CastlevaniaBot {
     }
 
     avoidX = AVOID_X_RESET;
-    substage.pickStrategy(targetedObject);
+    gameState.getCurrentSubstage().pickStrategy(targetedObject);
     if (botState.getCurrentStrategy() != null) {
       if (entryDelay > 0) {
         --entryDelay;

@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.DEATH;
@@ -17,10 +18,12 @@ public class HolyWaterDeathStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public HolyWaterDeathStrategy(final CastlevaniaBot b, final BotState botState) {
+    public HolyWaterDeathStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState = gameState;
     }
 
     @Override
@@ -59,7 +62,7 @@ public class HolyWaterDeathStrategy implements Strategy {
                 b.whip();
             }
         } else if (b.currentTile.getX() != 11) {
-            b.substage.route(191, 160, false);
+            gameState.getCurrentSubstage().route(191, 160, false);
         } else if (botState.getPlayerX() != 195) {
             b.pressRight();
         } else if (jumpDelay > 0) {

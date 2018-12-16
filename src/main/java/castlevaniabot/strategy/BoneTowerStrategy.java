@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,10 +16,12 @@ public class BoneTowerStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public BoneTowerStrategy(final CastlevaniaBot b, final BotState botState) {
+    public BoneTowerStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState =gameState;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class BoneTowerStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange()) {
             if (b.faceTarget()) {
                 if (usedHolyWater || b.weapon != HOLY_WATER || b.hearts == 0
@@ -50,9 +53,9 @@ public class BoneTowerStrategy implements Strategy {
             }
         } else if (tower.distanceX < 24) {
             moveAway = 30 + ThreadLocalRandom.current().nextInt(11);
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else {
-            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
         }
     }
 }

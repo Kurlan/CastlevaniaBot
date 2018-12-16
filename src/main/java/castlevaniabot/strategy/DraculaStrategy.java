@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,10 +18,12 @@ public class DraculaStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public DraculaStrategy(final CastlevaniaBot b, final BotState botState) {
+    public DraculaStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState =gameState;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class DraculaStrategy implements Strategy {
             }
 
             if (botState.getPlayerX() != playerX || b.playerLeft != playerLeft) {
-                b.substage.routeAndFace(playerX, 192, playerLeft, false);
+                gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false);
             }
         }
         lastHead = head;

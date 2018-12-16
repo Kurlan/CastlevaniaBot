@@ -2,6 +2,7 @@ package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class BlackBatStrategy implements Strategy {
@@ -11,10 +12,12 @@ public class BlackBatStrategy implements Strategy {
 
     private final CastlevaniaBot b;
     private final BotState botState;
+    private final GameState gameState;
 
-    public BlackBatStrategy(final CastlevaniaBot b, final BotState botState) {
+    public BlackBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
         this.b = b;
         this.botState = botState;
+        this.gameState =gameState;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class BlackBatStrategy implements Strategy {
                 b.jump();                           // jump over bat
             }
         } else if (b.atTopOfStairs) {
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !b.weaponing) {
                 b.whip();                         // stand whip bat
@@ -51,9 +54,9 @@ public class BlackBatStrategy implements Strategy {
                 }
             }
         } else if (bat.distanceX - offsetX < 24 && offsetY != 0) {
-            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else {
-            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
         }
     }
 }
