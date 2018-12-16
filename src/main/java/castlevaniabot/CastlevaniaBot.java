@@ -302,10 +302,11 @@ public class CastlevaniaBot {
                     .y(-512)
                     .build())
             .build();
-      this.allStrategies = new AllStrategies(this);
+      this.botState = new BotState();
+      this.allStrategies = new AllStrategies(this,botState);
       this.levels = levels;
       this.gameState = new GameState();
-      this.botState = new BotState();
+
     try {
       for(int i = boneTowerSegments.length - 1; i >= 0; --i) {
         boneTowerSegments[i] = new BoneTowerSegment();

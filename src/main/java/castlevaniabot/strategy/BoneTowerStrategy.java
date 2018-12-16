@@ -1,52 +1,58 @@
 package castlevaniabot.strategy;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 
-import java.util.concurrent.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class BoneTowerStrategy extends Strategy {
-  
-  private int moveAway;
-  private boolean usedHolyWater;
-  
-  public BoneTowerStrategy(final CastlevaniaBot b) {
-    super(b);
-  }
-  
-  @Override
-  public void init() {
-    usedHolyWater = false;
-  }
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 
-  @Override
-  public void step() {
-    
-    final GameObject tower = b.getTargetedObject().getTarget();
-    
-    if (b.weaponing) {
-      return;
+public class BoneTowerStrategy implements Strategy {
+
+    private int moveAway;
+    private boolean usedHolyWater;
+
+    private final CastlevaniaBot b;
+    private final BotState botState;
+
+    public BoneTowerStrategy(final CastlevaniaBot b, final BotState botState) {
+        this.b = b;
+        this.botState = botState;
     }
-    
-    if (moveAway > 0) {
-      --moveAway;
-      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
-    } else if (b.isTargetInStandingWhipRange()) {
-      if (b.faceTarget()) {
-        if (usedHolyWater || b.weapon != HOLY_WATER || b.hearts == 0 
-            || tower.distanceX > 48) {
-          b.whip();
-        } else {
-          usedHolyWater = true;
-          b.whipOrWeapon();
+
+    @Override
+    public void init() {
+        usedHolyWater = false;
+    }
+
+    @Override
+    public void step() {
+
+        final GameObject tower = b.getTargetedObject().getTarget();
+
+        if (b.weaponing) {
+            return;
         }
-      }
-    } else if (tower.distanceX < 24) {
-      moveAway = 30 + ThreadLocalRandom.current().nextInt(11);
-      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
-    } else {
-      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+
+        if (moveAway > 0) {
+            --moveAway;
+            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+        } else if (b.isTargetInStandingWhipRange()) {
+            if (b.faceTarget()) {
+                if (usedHolyWater || b.weapon != HOLY_WATER || b.hearts == 0
+                        || tower.distanceX > 48) {
+                    b.whip();
+                } else {
+                    usedHolyWater = true;
+                    b.whipOrWeapon();
+                }
+            }
+        } else if (tower.distanceX < 24) {
+            moveAway = 30 + ThreadLocalRandom.current().nextInt(11);
+            b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
+        } else {
+            b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
+        }
     }
-  }  
 }

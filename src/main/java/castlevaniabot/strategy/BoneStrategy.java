@@ -1,28 +1,38 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.model.creativeelements.Bone;
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.model.creativeelements.Bone;
 
-public class BoneStrategy extends Strategy {
+public class BoneStrategy implements Strategy {
 
-  private Bone bone;
-  
-  public BoneStrategy(final CastlevaniaBot b) {
-    super(b);
-  }
-  
-  public void init(final Bone bone) {
-    this.bone = bone;
-  }
+    private Bone bone;
 
-  @Override
-  public void step() {
-    if (!b.onStairs) {      
-      if (bone.left) {
-        b.substage.routeLeft();        
-      } else {
-        b.substage.routeRight();
-      }
-    }    
-  }  
+    private final CastlevaniaBot b;
+    private final BotState botState;
+
+    public BoneStrategy(final CastlevaniaBot b, final BotState botState) {
+        this.b = b;
+        this.botState = botState;
+    }
+
+    public void init(final Bone bone) {
+        this.bone = bone;
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void step() {
+        if (!b.onStairs) {
+            if (bone.left) {
+                b.substage.routeLeft();
+            } else {
+                b.substage.routeRight();
+            }
+        }
+    }
 }

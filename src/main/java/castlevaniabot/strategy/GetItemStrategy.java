@@ -1,42 +1,50 @@
 package castlevaniabot.strategy;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 
-import java.util.concurrent.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class GetItemStrategy extends Strategy {
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
 
-  private int error;
+public class GetItemStrategy implements Strategy {
 
-  public GetItemStrategy(final CastlevaniaBot b) {
-    super(b);
-  }  
-      
-  @Override public void init() {
-    error = (b.getTargetedObject().getTarget().type == DESTINATION) ? 0
-        : (ThreadLocalRandom.current().nextInt(7) - 3);
-  }  
+    private int error;
 
-  @Override public void step() {
+    private final CastlevaniaBot b;
+    private final BotState botState;
 
-    final int y = b.getTargetedObject().getTarget().platformY << 4;
-    int x = b.getTargetedObject().getTarget().supportX;
-    if (b.getTargetedObject().getTarget().y <= y) {
-      final int t = (x & 0xF) + error;
-      if ((t & 0xF) == t) {
-        x += error;
-      }
+    public GetItemStrategy(final CastlevaniaBot b, final BotState botState) {
+        this.b = b;
+        this.botState = botState;
     }
-    
-    if (b.getTargetedObject().getTarget().type != DESTINATION && botState.getPlayerX() == x && botState.getPlayerY() == y) {
-      if (b.getTargetedObject().getTarget().y > y) {
-        b.kneel();
-      } else if (b.canJump && b.getTargetedObject().getTarget().y < botState.getPlayerY() - 32) {
-        b.jump();
-      }
-    } else {
-      b.substage.route(x, y);
+
+    @Override
+    public void init() {
+        error = (b.getTargetedObject().getTarget().type == DESTINATION) ? 0
+                : (ThreadLocalRandom.current().nextInt(7) - 3);
     }
-  }  
+
+    @Override
+    public void step() {
+
+        final int y = b.getTargetedObject().getTarget().platformY << 4;
+        int x = b.getTargetedObject().getTarget().supportX;
+        if (b.getTargetedObject().getTarget().y <= y) {
+            final int t = (x & 0xF) + error;
+            if ((t & 0xF) == t) {
+                x += error;
+            }
+        }
+
+        if (b.getTargetedObject().getTarget().type != DESTINATION && botState.getPlayerX() == x && botState.getPlayerY() == y) {
+            if (b.getTargetedObject().getTarget().y > y) {
+                b.kneel();
+            } else if (b.canJump && b.getTargetedObject().getTarget().y < botState.getPlayerY() - 32) {
+                b.jump();
+            }
+        } else {
+            b.substage.route(x, y);
+        }
+    }
 }

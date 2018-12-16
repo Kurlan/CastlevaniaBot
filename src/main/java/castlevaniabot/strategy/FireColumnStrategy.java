@@ -1,39 +1,46 @@
 package castlevaniabot.strategy;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 
-public class FireColumnStrategy extends Strategy {
-  
-  private int done;
-    
-  public FireColumnStrategy(final CastlevaniaBot b) {
-    super(b);
-  }
+public class FireColumnStrategy implements Strategy {
 
-  @Override public void init() {
-    done = 0;
-  }
+    private int done;
 
-  @Override public void step() {
-    
-    if (done > 0) {
-      --done;
-      return;
+    private final CastlevaniaBot b;
+    private final BotState botState;
+
+    public FireColumnStrategy(final CastlevaniaBot b, final BotState botState) {
+        this.b = b;
+        this.botState = botState;
     }
-    if (b.weaponing) {
-      return;
+
+    @Override
+    public void init() {
+        done = 0;
     }
-    
-    final int targetX = b.getTargetedObject().getTarget().x + ((botState.getPlayerX() < b.getTargetedObject().getTarget().x) ? -32 : 32);
-    if (botState.getPlayerX() == targetX) {
-      if (b.getTargetedObject().getTarget().playerFacing) {
-        b.whip();
-        done = 64;
-      } else {
-        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget()); // walk past and turn around
-      }
-    } else {
-      b.substage.route(targetX, b.getTargetedObject().getTarget().y);
+
+    @Override
+    public void step() {
+
+        if (done > 0) {
+            --done;
+            return;
+        }
+        if (b.weaponing) {
+            return;
+        }
+
+        final int targetX = b.getTargetedObject().getTarget().x + ((botState.getPlayerX() < b.getTargetedObject().getTarget().x) ? -32 : 32);
+        if (botState.getPlayerX() == targetX) {
+            if (b.getTargetedObject().getTarget().playerFacing) {
+                b.whip();
+                done = 64;
+            } else {
+                b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget()); // walk past and turn around
+            }
+        } else {
+            b.substage.route(targetX, b.getTargetedObject().getTarget().y);
+        }
     }
-  }  
 }
