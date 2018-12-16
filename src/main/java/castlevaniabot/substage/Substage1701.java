@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.Addresses.*;
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -118,7 +119,7 @@ public class Substage1701 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (!usedStopwatch && b.playerX <= 480 && b.playerY <= 96 
         && b.weapon == STOPWATCH && b.hearts >= 5) {
       b.useWeapon();
@@ -127,10 +128,10 @@ public class Substage1701 extends Substage {
       if (b.strategy == b.SKELETON_WALL) {
         if (b.SKELETON_WALL.done) {
           killedLowerSkeleton = true;
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
       } else {
-        clearTarget();
+        clearTarget(targetedObject);
         b.SKELETON_WALL.init(726, 192, 136);
         b.strategy = b.SKELETON_WALL;
       }
@@ -138,15 +139,15 @@ public class Substage1701 extends Substage {
       if (b.strategy == b.SKELETON_WALL) {
         if (b.SKELETON_WALL.done) {
           killedUpperSkeleton = true;
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
       } else {
-        clearTarget();
+        clearTarget(targetedObject);
         b.SKELETON_WALL.init(704, 128);
         b.strategy = b.SKELETON_WALL;
       } 
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

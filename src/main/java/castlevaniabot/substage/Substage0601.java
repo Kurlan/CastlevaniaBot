@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 
 import java.util.concurrent.*;
@@ -89,7 +90,7 @@ public class Substage0601 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
 
     if (!reachedBoss && b.playerX <= 40) {
       reachedBoss = true;
@@ -105,12 +106,12 @@ public class Substage0601 extends Substage {
       walkDelay = 150 + ThreadLocalRandom.current().nextInt(11);
     } else if (b.playerX >= 256 && b.playerX < 608) {
       if (b.strategy != b.MEDUSA_HEADS_WALK) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.MEDUSA_HEADS_WALK.init(true);
         b.strategy = b.MEDUSA_HEADS_WALK;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

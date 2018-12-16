@@ -10,19 +10,20 @@ import castlevaniabot.level.Level6;
 import castlevaniabot.model.creativeelements.Axe;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.creativeelements.BoneTowerSegment;
-import castlevaniabot.model.gameelements.GameObject;
-import castlevaniabot.model.gameelements.GameObjectType;
-import castlevaniabot.model.gameelements.MapElement;
-import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.creativeelements.MedusaHead;
-import castlevaniabot.model.gameelements.Modes;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.creativeelements.Sickle;
-import castlevaniabot.model.gameelements.Coordinates;
-import castlevaniabot.model.gameelements.TileType;
 import castlevaniabot.model.creativeelements.Whip;
+import castlevaniabot.model.gameelements.Coordinates;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.GameObjectType;
+import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.model.gameelements.MapElement;
+import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.model.gameelements.Modes;
+import castlevaniabot.model.gameelements.TileType;
 import castlevaniabot.strategy.AxeKnightStrategy;
 import castlevaniabot.strategy.AxeStrategy;
 import castlevaniabot.strategy.BatDualPlatformsStrategy;
@@ -111,6 +112,22 @@ import nintaco.api.Colors;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
+import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
+import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
 import static castlevaniabot.model.gameelements.Addresses.HEARTS;
 import static castlevaniabot.model.gameelements.Addresses.KNEELING;
@@ -129,20 +146,6 @@ import static castlevaniabot.model.gameelements.Addresses.WEAPON;
 import static castlevaniabot.model.gameelements.Addresses.WEAPONING;
 import static castlevaniabot.model.gameelements.Addresses.WHIP_LENGTH;
 import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
-import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
-import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
-import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
 import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
@@ -150,8 +153,6 @@ import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.isBack;
 import static castlevaniabot.model.gameelements.TileType.isForward;
 import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
-import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
-import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -401,11 +402,6 @@ public class CastlevaniaBot {
   Level level;
   public Substage substage;
   public Strategy strategy;
-  public GameObject target;
-  public GameObjectType targetType;
-  public int targetX = -512;
-  public int targetY = -512;
-  
 
   public int objsCount;
   
@@ -485,10 +481,21 @@ public class CastlevaniaBot {
   private final API api;
   public final Map<String, MapRoutes> allMapRoutes;
   public final GameObject[] gameObjects;
+  private TargetedObject targetedObject;
 
   public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects) {
-      this.currentTile = new Coordinates();
+      this.currentTile = Coordinates.builder().x(0).y(0).build();
       this.gameObjects = gameObjects;
+      this.targetedObject = TargetedObject
+            .builder()
+            .target(null)
+            .targetType(null)
+            .coordinates(Coordinates
+                    .builder()
+                    .x(-512)
+                    .y(-512)
+                    .build())
+            .build();
     try {
       for(int i = movingPlatforms.length - 1; i >= 0; --i) {
         movingPlatforms[i] = new MovingPlatform();
@@ -524,6 +531,9 @@ public class CastlevaniaBot {
     this.allMapRoutes = allMapRoutes;
   }
 
+  public TargetedObject getTargetedObject() {
+    return this.targetedObject;
+  }
   
   public void apiEnabled() {
     System.out.println("API enabled");
@@ -534,9 +544,16 @@ public class CastlevaniaBot {
     level = null;
     substage = null;
     strategy = null;
-    target = null;
-    targetType = null;
-    targetX = targetY = -512;
+    targetedObject = TargetedObject
+            .builder()
+            .target(null)
+            .targetType(null)
+            .coordinates(Coordinates
+                    .builder()
+                    .x(-512)
+                    .y(-512)
+                    .build())
+            .build();
   }
 
   public void dispose() {
@@ -1421,7 +1438,7 @@ public class CastlevaniaBot {
   // Returns the whip delay after jumping or -1 if not in range.
   int isTargetInJumpingWhipRange() {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (whips[whipLength][0].inRange(this, target, 0, 
+      if (whips[whipLength][0].inRange(this, targetedObject.getTarget(), 0,
           WHIP_HEIGHT_AND_DELAY[i][0])) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -1430,17 +1447,17 @@ public class CastlevaniaBot {
   }
   
   public boolean isTargetInStandingWhipRange() {
-    return whips[whipLength][0].inRange(this, target);     
+    return whips[whipLength][0].inRange(this, targetedObject.getTarget());
   } 
   
   public boolean isTargetInKneelingWhipRange() {
-    return whips[whipLength][1].inRange(this, target);
+    return whips[whipLength][1].inRange(this, targetedObject.getTarget());
   } 
   
   // Returns the whip delay after jumping or -1 if not in range.
   public int isTargetInJumpingWhipRange(final int xOffset, final int yOffset) {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (whips[whipLength][0].inRange(this, target, xOffset, 
+      if (whips[whipLength][0].inRange(this, targetedObject.getTarget(), xOffset,
           yOffset + WHIP_HEIGHT_AND_DELAY[i][0])) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -1449,11 +1466,11 @@ public class CastlevaniaBot {
   }  
   
   public boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset) {
-    return whips[whipLength][0].inRange(this, target, xOffset, yOffset);     
+    return whips[whipLength][0].inRange(this, targetedObject.getTarget(), xOffset, yOffset);
   } 
   
   public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
-    return whips[whipLength][1].inRange(this, target, xOffset, yOffset);
+    return whips[whipLength][1].inRange(this, targetedObject.getTarget(), xOffset, yOffset);
   }
   
   public int countObjects(final GameObjectType type) {
@@ -1751,7 +1768,7 @@ public class CastlevaniaBot {
   
   // Can player axe target when standing on specified currentTile?
   public boolean canHitTargetWithAxe(final int platformX, final int platformY) {
-    return canHitWithAxe(platformX, platformY, target);
+    return canHitWithAxe(platformX, platformY, targetedObject.getTarget());
   }
   
   // Can player axe specified GameObject when standing on specified currentTile?
@@ -1865,22 +1882,22 @@ public class CastlevaniaBot {
   }  
   
   public boolean faceTarget() {
-    if (target.playerFacing) {
+    if (targetedObject.getTarget().playerFacing) {
       return true;
     } else if (onStairs && playerY >= 56 && playerY <= 200) {
       pressDown();
     } else {
-      substage.moveTowardTarget();
+      substage.moveTowardTarget(targetedObject.getTarget());
     }
     return false;
   }
   
   public boolean faceFlyingTarget() {
-    if (target.playerFacing) {
+    if (targetedObject.getTarget().playerFacing) {
       return true;
     } else if (onStairs && playerY >= 56 && playerY <= 200) {
       pressDown();
-    } else if (playerX < target.x) {
+    } else if (playerX < targetedObject.getTarget().x) {
       pressRight();
     } else {
       pressLeft();
@@ -2157,10 +2174,10 @@ public class CastlevaniaBot {
       final RedBones bones = redBones0[i]; 
       api.drawRect(bones.x - 8 - cameraX, bones.y - 16, 16, 16);
     }
-    if (target != null) {
+    if (targetedObject.getTarget() != null) {
       api.setColor(Colors.RED);
-      api.drawRect(target.x1 - cameraX, target.y1, target.x2 - target.x1 + 1, 
-          target.y2 - target.y1 + 1);
+      api.drawRect(targetedObject.getTarget().x1 - cameraX, targetedObject.getTarget().y1, targetedObject.getTarget().x2 - targetedObject.getTarget().x1 + 1,
+              targetedObject.getTarget().y2 - targetedObject.getTarget().y1 + 1);
     }
     api.setColor(Colors.GREEN);
     for(int i = movingPlatformsCount - 1; i >= 0; --i) {
@@ -2185,8 +2202,8 @@ public class CastlevaniaBot {
     for(int i = 0; i < objsCount; ++i) {
       System.out.print(gameObjects[i] + " ");
     }
-    if (target != null) {
-      System.out.format("* %s", target);
+    if (targetedObject.getTarget() != null) {
+      System.out.format("* %s", targetedObject.getTarget());
     }
     System.out.println();
   }
@@ -2222,10 +2239,17 @@ public class CastlevaniaBot {
     }
 
     if (!playing || level == null || substage == null) {
-      target = null;
       strategy = null;
-      targetType = null;
-      targetX = targetY = -512;
+      targetedObject = TargetedObject
+              .builder()
+              .target(null)
+              .targetType(null)
+              .coordinates(Coordinates
+                      .builder()
+                      .x(-512)
+                      .y(-512)
+                      .build())
+              .build();
       return;
     } 
 
@@ -2238,7 +2262,7 @@ public class CastlevaniaBot {
     }
 
     avoidX = AVOID_X_RESET;
-    substage.pickStrategy();
+    substage.pickStrategy(targetedObject);
     if (strategy != null) {
       if (entryDelay > 0) {
         --entryDelay;

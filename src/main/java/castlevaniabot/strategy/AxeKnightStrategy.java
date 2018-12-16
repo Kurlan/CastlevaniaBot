@@ -27,7 +27,7 @@ public class AxeKnightStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject knight = b.target;
+    final GameObject knight = b.getTargetedObject().getTarget();
     final int offsetX = (knight.x - lastX) << 4;
     final int offsetY = (knight.y - lastY) << 4;
     lastX = knight.x;
@@ -42,7 +42,7 @@ public class AxeKnightStrategy extends Strategy {
         weaponDelay = HOLY_WATER_RESET;        
         b.useWeapon();
       }
-    } else if (weaponDelay == 0 && b.target.distanceX < 64 
+    } else if (weaponDelay == 0 && b.getTargetedObject().getTarget().distanceX < 64
         && b.weapon == HOLY_WATER && b.hearts > 0) {
       if (!b.weaponing && b.faceTarget() && b.canJump) {
         if (b.isUnderLedge()) {
@@ -50,7 +50,7 @@ public class AxeKnightStrategy extends Strategy {
           b.useWeapon();
         } else {
           jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
-          if (b.target.x < b.playerX) {
+          if (b.getTargetedObject().getTarget().x < b.playerX) {
             b.pressLeftAndJump();
           } else {
             b.pressRightAndJump();
@@ -69,8 +69,8 @@ public class AxeKnightStrategy extends Strategy {
       if (!b.weaponing && b.faceTarget()) {
         b.whip();
       }
-    } else if (b.target.distanceX > 64) {
-      b.substage.moveTowardTarget();
+    } else if (b.getTargetedObject().getTarget().distanceX > 64) {
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }  
 }

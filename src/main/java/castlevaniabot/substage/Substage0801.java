@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.WaitStrategy;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -98,15 +99,15 @@ public class Substage0801 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerX >= 627 && b.playerX < 659) {
       if (b.strategy != b.WAIT) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(643, 160, WaitStrategy.WaitType.KNEEL);
         b.strategy = b.WAIT;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

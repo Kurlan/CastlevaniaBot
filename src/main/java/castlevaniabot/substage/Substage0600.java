@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.Addresses.*;
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -84,14 +85,14 @@ public class Substage0600 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.CRUSHER.isActive()) {
       if (b.strategy != b.CRUSHER) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.strategy = b.CRUSHER;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

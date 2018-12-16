@@ -15,7 +15,7 @@ public class RedBonesStrategy extends Strategy {
   
   @Override
   public void init() {
-    targetX = b.target.x;
+    targetX = b.getTargetedObject().getTarget().x;
     playerLeft = b.playerLeft;
   }
   

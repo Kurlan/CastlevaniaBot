@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.Addresses.*;
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -124,18 +125,18 @@ public class Substage1500 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.onStairs && b.playerY <= 160 && b.playerX < 672 
         && b.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
       if (b.strategy != null) {
-        clearTarget();
+        clearTarget(targetedObject);
         setStrategy(null);
       }
       if (b.playerY < 128) {
         b.pressDown();
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

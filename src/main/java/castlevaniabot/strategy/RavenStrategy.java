@@ -24,7 +24,7 @@ public class RavenStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject raven = b.target;
+    final GameObject raven = b.getTargetedObject().getTarget();
     final int offsetX = (raven.x - lastX) << 4;
     final int offsetY = (raven.y - lastY) << 4;
     lastX = raven.x;

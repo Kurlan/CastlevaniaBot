@@ -1,10 +1,15 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.model.gameelements.GameObject;
 
-import static castlevaniabot.model.creativeelements.Weapon.*;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static castlevaniabot.model.creativeelements.Weapon.AXE;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.DAGGER;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
 
 public class MedusaStrategy extends Strategy {
   
@@ -36,7 +41,7 @@ public class MedusaStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject medusa = b.target;
+    final GameObject medusa = b.getTargetedObject().getTarget();
     final int offsetX = (medusa.x - lastX) << 4;
     final int offsetY = (medusa.y - lastY) << 4;
     lastX = medusa.x;
@@ -70,7 +75,7 @@ public class MedusaStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();    
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
       if (b.faceTarget()) {
         b.kneel();
@@ -84,9 +89,9 @@ public class MedusaStrategy extends Strategy {
       }
     } else if (medusa.distanceX <= 40) {
       moveAway = 90 + ThreadLocalRandom.current().nextInt(61);
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }
   
@@ -119,7 +124,7 @@ public class MedusaStrategy extends Strategy {
           weaponDelay = 17;
         }
       } else {
-        b.substage.moveAwayFromTarget();
+        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
       if (b.faceTarget() && !b.weaponing) {
@@ -146,7 +151,7 @@ public class MedusaStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();  
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.playerY - 24 >= medusa.y1 && b.playerY - 24 <= medusa.y2) {
       if (b.faceTarget() && !b.weaponing) {
         b.useWeapon();
@@ -164,9 +169,9 @@ public class MedusaStrategy extends Strategy {
       }      
     } else if (medusa.distanceX <= 40) {
       moveAway = 90 + ThreadLocalRandom.current().nextInt(61);
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }    
   }
   
@@ -179,7 +184,7 @@ public class MedusaStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();  
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.playerY - 24 >= medusa.y1 && b.playerY - 24 <= medusa.y2) {
       if (b.faceTarget() && !b.weaponing) {
         b.useWeapon();
@@ -197,9 +202,9 @@ public class MedusaStrategy extends Strategy {
       }      
     } else if (medusa.distanceX <= 40) {
       moveAway = 90 + ThreadLocalRandom.current().nextInt(61);
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }    
   }
   
@@ -212,7 +217,7 @@ public class MedusaStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();    
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
       if (b.faceTarget() && !b.weaponing) {
         b.whipOrWeapon();
@@ -226,9 +231,9 @@ public class MedusaStrategy extends Strategy {
       }      
     } else if (medusa.distanceX <= 40) {
       moveAway = 90 + ThreadLocalRandom.current().nextInt(61);
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }    
   }
   
@@ -241,7 +246,7 @@ public class MedusaStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();    
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
       if (b.faceTarget() && !b.weaponing) {
         if (weaponDelay == 0) {
@@ -265,9 +270,9 @@ public class MedusaStrategy extends Strategy {
       }      
     } else if (medusa.distanceX <= 40) {
       moveAway = 90 + ThreadLocalRandom.current().nextInt(61);
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }    
   }
 }

@@ -29,7 +29,7 @@ public class SickleStrategy extends Strategy {
       }
     }
     
-    final GameObject sickle = b.target;
+    final GameObject sickle = b.getTargetedObject().getTarget();
 
     if (sickle.distanceX < 32 
         && (sickle.y2 <= b.playerY - 32 || sickle.y1 >= b.playerY)) {

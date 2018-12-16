@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.WaitStrategy;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -89,12 +90,12 @@ public class Substage0701 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerX >= 480 && b.playerX < 544 
         && !b.isTypeInBounds(CANDLES, 528, 176, 560, 208)
             && !b.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
       if (b.strategy != b.WAIT) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(528, 208, WaitStrategy.WaitType.KNEEL);
         b.strategy = b.WAIT;
       }
@@ -102,19 +103,19 @@ public class Substage0701 extends Substage {
         && b.playerY == 128 && b.playerX >= 544 && b.playerX < 576
             && b.isTypeRight(WHITE_SKELETON, 576)) {      
       if (b.strategy != b.USE_WEAPON) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.USE_WEAPON.init(560, 128, false, false);
         b.strategy = b.USE_WEAPON;
       }
     } else if (b.playerY == 128 && b.playerX >= 544 && b.playerX < 576 
         && b.boneCount0 > 0) {
       if (b.strategy != b.WAIT) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(560, 128, WaitStrategy.WaitType.STAND, 30);
         b.strategy = b.WAIT;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

@@ -17,7 +17,7 @@ public class BlackBatStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject bat = b.target;
+    final GameObject bat = b.getTargetedObject().getTarget();
     final int offsetX = (bat.x - lastX) << 4;
     final int offsetY = (bat.y - lastY) << 4;
     lastX = bat.x;
@@ -31,7 +31,7 @@ public class BlackBatStrategy extends Strategy {
         b.jump();                           // jump over bat
       }
     } else if (b.atTopOfStairs) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
       if (b.faceTarget() && !b.weaponing) {
         b.whip();                         // stand whip bat
@@ -44,9 +44,9 @@ public class BlackBatStrategy extends Strategy {
         }
       }      
     } else if (bat.distanceX - offsetX < 24 && offsetY != 0) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }
 }

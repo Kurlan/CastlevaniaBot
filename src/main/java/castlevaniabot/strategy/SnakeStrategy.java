@@ -15,7 +15,7 @@ public class SnakeStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject snake = b.target;
+    final GameObject snake = b.getTargetedObject().getTarget();
     final int offsetX = (snake.x - lastX) << 4;
     final int offsetY = (snake.y - lastY) << 4;
     lastX = snake.x;

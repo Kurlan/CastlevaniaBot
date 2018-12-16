@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 import castlevaniabot.strategy.WaitStrategy;
 
@@ -146,29 +147,29 @@ public class Substage0900 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     
     if (bossTriggered && !bossDefeated) {
       if (b.strategy != b.MUMMIES) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.MUMMIES.init();
         b.strategy = b.MUMMIES;
       }
     } else if (enteredTomb && !treasureTriggered) {
       if (b.strategy != b.WAIT) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(1320, 160, WaitStrategy.WaitType.WALK_LEFT, 200);
         b.strategy = b.WAIT;
       }
     } else if (!enteredTomb && b.playerX >= 992 && b.playerX < 1327 
         && areFireballsOrBoneTowersNotPresent()) {
       if (b.strategy != b.MEDUSA_HEADS_WALK) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.MEDUSA_HEADS_WALK.init(false);
         b.strategy = b.MEDUSA_HEADS_WALK;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

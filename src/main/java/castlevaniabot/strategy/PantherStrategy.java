@@ -14,7 +14,7 @@ public class PantherStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject panther = b.target;
+    final GameObject panther = b.getTargetedObject().getTarget();
     final int offsetX = (panther.x - lastX) << 4;
     final int offsetY = (panther.y - lastY) << 4;
     lastX = panther.x;

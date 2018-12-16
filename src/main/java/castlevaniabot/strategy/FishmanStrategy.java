@@ -19,7 +19,7 @@ public class FishmanStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject fishman = b.target;
+    final GameObject fishman = b.getTargetedObject().getTarget();
     final int offsetX = (fishman.x - lastX) << 4;
     final int offsetY = (fishman.y - lastY) << 4;
     lastX = fishman.x;
@@ -38,7 +38,7 @@ public class FishmanStrategy extends Strategy {
         b.jump();
       }
     } else if (fishman.distanceX < 24) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     }     
   }
 }

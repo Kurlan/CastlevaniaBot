@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
 import static castlevaniabot.model.creativeelements.Weapon.*;
@@ -93,7 +94,7 @@ public class Substage0800 extends Substage {
     route(727, 160);
   } 
   
-  @Override boolean handleBones() {
+  @Override boolean handleBones(TargetedObject targetedObject) {
     return false; // Walk right through falling bones
   }
 }

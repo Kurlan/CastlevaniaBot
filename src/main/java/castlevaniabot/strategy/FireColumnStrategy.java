@@ -24,16 +24,16 @@ public class FireColumnStrategy extends Strategy {
       return;
     }
     
-    final int targetX = b.target.x + ((b.playerX < b.target.x) ? -32 : 32);
+    final int targetX = b.getTargetedObject().getTarget().x + ((b.playerX < b.getTargetedObject().getTarget().x) ? -32 : 32);
     if (b.playerX == targetX) {
-      if (b.target.playerFacing) {
+      if (b.getTargetedObject().getTarget().playerFacing) {
         b.whip();
         done = 64;
       } else {
-        b.substage.moveAwayFromTarget(); // walk past and turn around
+        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget()); // walk past and turn around
       }
     } else {
-      b.substage.route(targetX, b.target.y);
+      b.substage.route(targetX, b.getTargetedObject().getTarget().y);
     }
   }  
 }

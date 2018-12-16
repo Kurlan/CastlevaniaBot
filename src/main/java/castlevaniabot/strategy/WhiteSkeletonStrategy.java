@@ -29,7 +29,7 @@ public class WhiteSkeletonStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject skeleton = b.target;
+    final GameObject skeleton = b.getTargetedObject().getTarget();
     final int offsetX = (skeleton.x - lastX) << 4;
     final int offsetY = (skeleton.y - lastY) << 4;
     lastX = skeleton.x;
@@ -62,7 +62,7 @@ public class WhiteSkeletonStrategy extends Strategy {
         b.jump();
       }
     } else if (drawingTowardHolyWater) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (!b.onStairs && holyWaterDelay == 0 && b.weapon == HOLY_WATER 
         && b.hearts > 0 && skeleton.distanceX < 96 
             && skeleton.distanceY <= 36) {
@@ -77,7 +77,7 @@ public class WhiteSkeletonStrategy extends Strategy {
         }
       }
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }   
   }
 }

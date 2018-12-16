@@ -25,7 +25,7 @@ public class GiantBatStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject bat = b.target;
+    final GameObject bat = b.getTargetedObject().getTarget();
     final int offsetX = (bat.x - lastX) << 4;
     final int offsetY = (bat.y - lastY) << 4;
     lastX = bat.x;

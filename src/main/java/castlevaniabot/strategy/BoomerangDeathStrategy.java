@@ -12,7 +12,7 @@ public class BoomerangDeathStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject death = b.target;
+    final GameObject death = b.getTargetedObject().getTarget();
 
     if (b.hearts > 0 && death.y2 >= b.playerY - 32 && death.y1 <= b.playerY
         && death.distanceX < 128) {

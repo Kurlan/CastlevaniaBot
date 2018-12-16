@@ -15,7 +15,7 @@ public class EagleStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject eagle = b.target;
+    final GameObject eagle = b.getTargetedObject().getTarget();
     final int offsetX = (eagle.x - lastX) << 4;
     final int offsetY = (eagle.y - lastY) << 4;
     lastX = eagle.x;

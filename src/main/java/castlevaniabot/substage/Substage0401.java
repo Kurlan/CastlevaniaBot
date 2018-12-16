@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.Addresses.*;
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -76,22 +77,22 @@ public class Substage0401 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerX >= 32 && b.playerX <= 104) {
       if (b.strategy != b.NO_JUMP_MOVING_PLATFORM) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.NO_JUMP_MOVING_PLATFORM.init(96, 31, 112);
         b.strategy = b.NO_JUMP_MOVING_PLATFORM;
       }
     } else if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 15 && b.currentTile.getX() <= 17 && isKnightInPit()) {
       if (b.strategy != b.USE_WEAPON) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.USE_WEAPON.init(264, 112, false, false);
         b.strategy = b.USE_WEAPON;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

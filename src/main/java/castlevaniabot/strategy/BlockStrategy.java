@@ -29,17 +29,17 @@ public class BlockStrategy extends Strategy {
       if (--jumpCounter == 0) {
         b.whip();
       }
-    } else if (b.onPlatform && b.target.playerFacing 
-        && b.target.y >= b.playerY - 24 && b.target.y <= b.playerY
+    } else if (b.onPlatform && b.getTargetedObject().getTarget().playerFacing
+        && b.getTargetedObject().getTarget().y >= b.playerY - 24 && b.getTargetedObject().getTarget().y <= b.playerY
             && b.isTargetInStandingWhipRange()) {
       whipBlock();
     } else {
-      final int playerX = (b.target.platformX << 4) + 8;
-      final int playerY = b.target.platformY << 4;      
-      final boolean playerLeft = playerX > b.target.x;
+      final int playerX = (b.getTargetedObject().getTarget().platformX << 4) + 8;
+      final int playerY = b.getTargetedObject().getTarget().platformY << 4;
+      final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
       if (b.playerX == playerX && b.playerY == playerY 
           && b.playerLeft == playerLeft) {
-        if (b.playerY - b.target.y > 32) {
+        if (b.playerY - b.getTargetedObject().getTarget().y > 32) {
           if (b.canJump) {
             if (delayJump > 0) {
               --delayJump;

@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
 import static castlevaniabot.model.creativeelements.Weapon.*;
@@ -70,21 +71,21 @@ public class Substage0500 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerX >= 544) {
       if (b.strategy != b.MEDUSA_HEADS_WALK) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.MEDUSA_HEADS_WALK.init(true);
         b.strategy = b.MEDUSA_HEADS_WALK;
       }
     } else if (!treasureTriggered && b.playerX >= 288 && b.playerX < 320) {
       if (b.strategy != b.WAIT) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(304, 80);
         b.strategy = b.WAIT;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

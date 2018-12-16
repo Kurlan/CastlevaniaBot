@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -94,7 +95,7 @@ public class Substage1801 extends Substage {
           if (holyWaterTimeOut == 0 || b.weapon == HOLY_WATER) {
             bossTriggered = true;
             if (b.strategy != b.DRACULA) {
-              clearTarget();
+              clearTarget(b.getTargetedObject());
               b.DRACULA.init();
               b.strategy = b.DRACULA;
             }
@@ -106,7 +107,7 @@ public class Substage1801 extends Substage {
           if (holyWaterTimeOut == 0 || b.weapon == HOLY_WATER) {
             bossTriggered = true;
             if (b.strategy != b.COOKIE_MONSTER) {
-              clearTarget();
+              clearTarget(b.getTargetedObject());
               b.COOKIE_MONSTER.init();
               b.strategy = b.COOKIE_MONSTER;
             }
@@ -123,13 +124,13 @@ public class Substage1801 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (bossDefeated) {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     } else if (b.strategy == b.COOKIE_MONSTER) {
       if (b.COOKIE_MONSTER.done) {
         bossTriggered = bossDefeated = true;
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       } else {
         b.COOKIE_MONSTER.step();
       }
@@ -137,20 +138,20 @@ public class Substage1801 extends Substage {
       b.DRACULA.step();
     } else if (b.weapon == HOLY_WATER) {
       bossTriggered = true;
-      clearTarget();
+      clearTarget(targetedObject);
       b.DRACULA.init();
       b.strategy = b.DRACULA;
     } else if (walkDownStairs) {
       route(607, 223);
     } else if (b.playerX <= 144 && (b.hearts < 20 || b.whipLength != 2)) {
       walkDownStairs = true;
-      clearTarget();
+      clearTarget(targetedObject);
       setStrategy(null);
     } else {
       if (b.playerX < 128) {
         bossTriggered = true;
       }
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

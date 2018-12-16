@@ -12,7 +12,7 @@ public class RedBatStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject bat = b.target;
+    final GameObject bat = b.getTargetedObject().getTarget();
     final RedBat redBat = b.getRedBat(bat);
     if (redBat == null) {
       return;
@@ -50,7 +50,7 @@ public class RedBatStrategy extends Strategy {
       }      
     } else if ((bat.left && bat.x1 > b.playerX + 24) 
         || (!bat.left && bat.x2 < b.playerX - 24)) {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }
 }

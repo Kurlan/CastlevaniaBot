@@ -3,6 +3,7 @@ package castlevaniabot.substage;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
 import static castlevaniabot.model.creativeelements.Weapon.*;
@@ -130,40 +131,40 @@ public class Substage1400 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     
     switch(state) {
       case KILL_FLEAMAN:
         if (fleaman == null && lowerKnight == null && upperKnight != null) {
-          setState(State.WHIP_CANDLES);
+          setState(State.WHIP_CANDLES, targetedObject);
         } else if (b.playerY <= 128) {
           if (fleaman == null || fleaman.y <= b.playerY + 8) {
-            setState(State.WHIP_CANDLES);
+            setState(State.WHIP_CANDLES, targetedObject);
           } else {
-            super.pickStrategy();
+            super.pickStrategy(targetedObject);
           }
         } else if (fleaman == null 
             && (lastFleamanExists || lowerKnight != null)) {
-          setState(State.WHIP_LOWER_AXE);
+          setState(State.WHIP_LOWER_AXE, targetedObject);
         } else {
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
         break;
       case WHIP_LOWER_AXE:
         if ((lastLowerAxeExists && lowerAxe == null && b.playerX >= 1072 
             && b.playerX < 1168) || (lowerAxe == null && b.onStairs)) {
-          setState(State.DESPAWN_LOWER_KNIGHT);
+          setState(State.DESPAWN_LOWER_KNIGHT, targetedObject);
         } else {
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
         break;
       case DESPAWN_LOWER_KNIGHT:
         if (lowerAxe != null && lowerAxe.y2 >= b.playerY - 32 
             && lowerAxe.y1 <= b.playerY - 8) {
-          setState(State.WHIP_LOWER_AXE);
-          super.pickStrategy();
+          setState(State.WHIP_LOWER_AXE, targetedObject);
+          super.pickStrategy(targetedObject);
         } else if (lowerKnight == null) {
-          setState(State.WHIP_CANDLES);
+          setState(State.WHIP_CANDLES, targetedObject);
         } else if (lowerKnight.distanceX > 32) {
           route(1247, 128);
         }
@@ -172,28 +173,28 @@ public class Substage1400 extends Substage {
         if (b.playerY > 128) {
           route(1247, 128);
         } else if (candles == null) {
-          setState(State.WALK_TO_STAIRS);
+          setState(State.WALK_TO_STAIRS, targetedObject);
         } else if (upperAxe == null 
             || (upperAxeLeft && upperAxe.x2 < b.playerX - 8)) {
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
         break;
       case WALK_TO_STAIRS:          
         if (b.playerX == 1152 && b.playerY == 128) {
-          setState(State.WAIT_FOR_NO_UPPER_AXE);
+          setState(State.WAIT_FOR_NO_UPPER_AXE, targetedObject);
         } else {
           route(1152, 128);
         }
         break;
       case WAIT_FOR_NO_UPPER_AXE:
         if (!lastUpperAxeExists && upperAxe == null) {
-          setState(State.WAIT_FOR_UPPER_AXE);
+          setState(State.WAIT_FOR_UPPER_AXE, targetedObject);
         }
         break;
       case WAIT_FOR_UPPER_AXE:
         if (upperAxe != null && !upperAxeLeft && upperAxe.x >= 1128 
             && upperAxe.y <= 80) {
-          setState(State.RUN_FOR_IT);
+          setState(State.RUN_FOR_IT, targetedObject);
         }
         break;
       case RUN_FOR_IT:
@@ -214,7 +215,7 @@ public class Substage1400 extends Substage {
             route(1144, 112);
           } else if (b.playerX == 1056 && b.playerY == 96 && (upperAxe == null 
               || (!upperAxeLeft && upperAxe.x > b.playerX + 12))) {
-            setState(State.GO_UP_STAIRS);
+            setState(State.GO_UP_STAIRS, targetedObject);
             route(1096, 48);
           } else {
             route(1056, 96);
@@ -227,9 +228,9 @@ public class Substage1400 extends Substage {
     }
   }
   
-  private void setState(final State state) {
+  private void setState(final State state, TargetedObject targetedObject) {
     this.state = state;
-    clearTarget();
+    clearTarget(targetedObject);
     setStrategy(null);
   }
 

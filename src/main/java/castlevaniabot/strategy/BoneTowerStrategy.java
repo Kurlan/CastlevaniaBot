@@ -23,7 +23,7 @@ public class BoneTowerStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject tower = b.target;
+    final GameObject tower = b.getTargetedObject().getTarget();
     
     if (b.weaponing) {
       return;
@@ -31,7 +31,7 @@ public class BoneTowerStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.isTargetInStandingWhipRange()) {
       if (b.faceTarget()) {
         if (usedHolyWater || b.weapon != HOLY_WATER || b.hearts == 0 
@@ -44,9 +44,9 @@ public class BoneTowerStrategy extends Strategy {
       }
     } else if (tower.distanceX < 24) {
       moveAway = 30 + ThreadLocalRandom.current().nextInt(11);
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }  
 }

@@ -24,7 +24,7 @@ public class FleamanStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject fleaman = b.target;
+    final GameObject fleaman = b.getTargetedObject().getTarget();
     final int vx;
     final int vy;
     if (lastX != 0) {

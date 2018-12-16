@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import java.util.concurrent.*;
 import static castlevaniabot.model.gameelements.Addresses.*;
@@ -78,19 +79,19 @@ public class Substage0201 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     
     if (useRedBatDamageBoost && b.playerY == 144 && b.playerX >= 128 
         && b.playerX < 208 && b.playerY < 200) {
       if (b.strategy != b.RED_BAT_DAMAGE_BOOST) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.strategy = b.RED_BAT_DAMAGE_BOOST;
         b.strategy.init();
       }
       return;
     }
     
-    super.pickStrategy();
+    super.pickStrategy(targetedObject);
   }  
   
   @Override

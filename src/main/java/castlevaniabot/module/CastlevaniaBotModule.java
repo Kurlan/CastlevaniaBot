@@ -3,7 +3,6 @@ package castlevaniabot.module;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.maps.MapLoader;
 import castlevaniabot.model.gameelements.GameObject;
-import castlevaniabot.model.gameelements.GameState;
 import castlevaniabot.model.gameelements.MapRoutes;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -71,9 +70,4 @@ public class CastlevaniaBotModule extends AbstractModule {
         return gameObjects;
     }
 
-    @Provides
-    @Singleton
-    public GameState getGameState() {
-        return new GameState();
-    }
 }

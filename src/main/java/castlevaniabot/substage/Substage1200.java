@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 
 import static castlevaniabot.model.gameelements.Addresses.*;
@@ -129,24 +130,24 @@ public class Substage1200 extends Substage {
   }  
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.strategy == b.FRANKENSTEIN) {
       if (b.FRANKENSTEIN.done) {
         bossDefeated = true;
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (!bossDefeated && b.playerX > 896) {
-      clearTarget();
+      clearTarget(targetedObject);
       b.FRANKENSTEIN.init();
       b.strategy = b.FRANKENSTEIN;
     } else if (bossDefeated && !gotHighCandle && b.countObjects(CANDLES) == 1) {
       if (b.strategy != b.WHIP) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WHIP.init(992, 144, true, 0, true, true, 24);
         b.strategy = b.WHIP;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

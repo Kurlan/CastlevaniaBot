@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
 import static castlevaniabot.model.creativeelements.Weapon.*;
@@ -118,34 +119,34 @@ public class Substage1000 extends Substage {
   }
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.strategy == b.BAT_MOVING_PLATFORM && b.playerY > 112) {
       if (b.BAT_MOVING_PLATFORM.done) {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (b.strategy == b.BAT_DUAL_PLATFORMS) {
       if (b.BAT_DUAL_PLATFORMS.done) {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (b.playerX == 991 && b.playerY == 160 
         && !b.isTypePresent(RED_BAT)) {
-      clearTarget();
+      clearTarget(targetedObject);
       b.BAT_DUAL_PLATFORMS.init();
       b.strategy = b.BAT_DUAL_PLATFORMS;
     } else if ((b.playerX == 223 || b.playerX == 767) && b.playerY == 160 
         && !b.isTypePresent(RED_BAT)) {
-      clearTarget();
+      clearTarget(targetedObject);
       b.BAT_MOVING_PLATFORM.init();
       b.strategy = b.BAT_MOVING_PLATFORM;
     } else if (!whippedHolyWaterCandle && b.weapon != HOLY_WATER 
         && b.playerY <= 96 && b.playerX >= 720 && b.playerX <= 740) {
       if (b.strategy != b.WHIP) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WHIP.init(732, 96, false, 40);
         b.strategy = b.WHIP;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }  
 

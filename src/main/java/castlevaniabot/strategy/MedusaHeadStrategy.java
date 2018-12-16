@@ -14,7 +14,7 @@ public class MedusaHeadStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject head = b.target;
+    final GameObject head = b.getTargetedObject().getTarget();
     final MedusaHead medusaHead = b.getMedusaHead(head);
     if (medusaHead == null) {
       return;

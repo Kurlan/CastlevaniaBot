@@ -25,7 +25,7 @@ public class RedSkeletonStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject skeleton = b.target;
+    final GameObject skeleton = b.getTargetedObject().getTarget();
     final int offsetX = (skeleton.x - lastX) << 4;
     final int offsetY = (skeleton.y - lastY) << 4;
     lastX = skeleton.x;
@@ -51,9 +51,9 @@ public class RedSkeletonStrategy extends Strategy {
     
     if (moveAway > 0) {
       --moveAway;
-      b.substage.moveAwayFromTarget();      
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (skeleton.distanceX < 32) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
     }   
   }
@@ -64,8 +64,8 @@ public class RedSkeletonStrategy extends Strategy {
     final RedBones[] redBones0 = b.redBones0;
     for(int i = b.redBonesCount0 - 1; i >= 0; --i) {
       final RedBones redBones = redBones0[i];
-      if (abs(b.target.x - redBones.x) < 64 
-          && abs(b.target.y - redBones.y) <= 4) {
+      if (abs(b.getTargetedObject().getTarget().x - redBones.x) < 64
+          && abs(b.getTargetedObject().getTarget().y - redBones.y) <= 4) {
         return false;
       }
     }

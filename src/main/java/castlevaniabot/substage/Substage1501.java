@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -161,7 +162,7 @@ public class Substage1501 extends Substage {
   }  
   
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     
     if (b.playerX == 800 && b.weapon == BOOMERANG && b.hearts > 0 
         && !b.weaponing) {
@@ -170,31 +171,31 @@ public class Substage1501 extends Substage {
     
     if (b.strategy == b.WHIP) {
       if (whippedCandles) {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (bossDefeated) {
       if (!whippedCandles && b.playerX >= 224) {
         if (b.strategy != b.WHIP) {
-          clearTarget();
+          clearTarget(targetedObject);
           b.WHIP.init(238, 128, true, 0, true, false, 36);
           b.strategy = b.WHIP;
         }
       } else {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (b.strategy == b.HOLY_WATER_DEATH && b.HOLY_WATER_DEATH.done) {
       bossDefeated = true;
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     } else if (bossTriggered) {
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
         b.HOLY_WATER_DEATH.step();
       } else {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (b.playerX < 128) {
       bossTriggered = true;
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.HOLY_WATER_DEATH.init();
         b.strategy = b.HOLY_WATER_DEATH;
       }
@@ -202,18 +203,18 @@ public class Substage1501 extends Substage {
       if (b.weapon == HOLY_WATER && b.hearts > 0) {
         b.strategy.step();
       } else {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }      
     } else if (b.weapon == HOLY_WATER && b.hearts > 0) {
       if (b.strategy != b.DEATH_HALL_HOLY_WATER) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.DEATH_HALL_HOLY_WATER.init();
         b.strategy = b.DEATH_HALL_HOLY_WATER;
       } else {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

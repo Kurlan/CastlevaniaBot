@@ -14,25 +14,25 @@ public class GetItemStrategy extends Strategy {
   }  
       
   @Override public void init() {
-    error = (b.target.type == DESTINATION) ? 0 
+    error = (b.getTargetedObject().getTarget().type == DESTINATION) ? 0
         : (ThreadLocalRandom.current().nextInt(7) - 3);
   }  
 
   @Override public void step() {
 
-    final int y = b.target.platformY << 4;
-    int x = b.target.supportX;
-    if (b.target.y <= y) {
+    final int y = b.getTargetedObject().getTarget().platformY << 4;
+    int x = b.getTargetedObject().getTarget().supportX;
+    if (b.getTargetedObject().getTarget().y <= y) {
       final int t = (x & 0xF) + error;
       if ((t & 0xF) == t) {
         x += error;
       }
     }
     
-    if (b.target.type != DESTINATION && b.playerX == x && b.playerY == y) {
-      if (b.target.y > y) {
+    if (b.getTargetedObject().getTarget().type != DESTINATION && b.playerX == x && b.playerY == y) {
+      if (b.getTargetedObject().getTarget().y > y) {
         b.kneel();
-      } else if (b.canJump && b.target.y < b.playerY - 32) {
+      } else if (b.canJump && b.getTargetedObject().getTarget().y < b.playerY - 32) {
         b.jump();
       }
     } else {

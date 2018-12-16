@@ -37,13 +37,13 @@ public class CandlesStrategy extends Strategy {
         useWeapon();
       }
     } else {
-      final int playerY = b.target.platformY << 4;
-      int playerX = b.target.platformX << 4;
-      final boolean playerLeft = playerX > b.target.x;
+      final int playerY = b.getTargetedObject().getTarget().platformY << 4;
+      int playerX = b.getTargetedObject().getTarget().platformX << 4;
+      final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
       playerX += playerLeft ? 1 : 14;      
       if (b.playerX == playerX && b.playerY == playerY 
           && b.playerLeft == playerLeft) {
-        final int height = b.playerY - b.target.y;
+        final int height = b.playerY - b.getTargetedObject().getTarget().y;
         if (height < 16) {
           b.kneel();
           if (b.kneeling) {
@@ -72,12 +72,12 @@ public class CandlesStrategy extends Strategy {
   }  
   
   private void useWeapon() {
-    if (!usedHolyWater && b.target.active) { // active indicates grindable
+    if (!usedHolyWater && b.getTargetedObject().getTarget().active) { // active indicates grindable
       usedHolyWater = b.grind();
     } else {
       b.whip();
     }
     done = 64;
-    b.substage.candlesWhipped(b.target);
+    b.substage.candlesWhipped(b.getTargetedObject().getTarget());
   }
 }

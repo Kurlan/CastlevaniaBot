@@ -17,7 +17,7 @@ public class FireballStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject fireball = b.target;
+    final GameObject fireball = b.getTargetedObject().getTarget();
     final int offsetX = (fireball.x - lastX) << 4;
     final int offsetY = (fireball.y - lastY) << 4;
     lastX = fireball.x;
@@ -31,7 +31,7 @@ public class FireballStrategy extends Strategy {
         b.jump();                           // jump over fireball
       }
     } else if (b.atTopOfStairs) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
       if (b.faceTarget() && !b.weaponing) {
         b.whip();                           // stand whip fireball

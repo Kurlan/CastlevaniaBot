@@ -19,7 +19,7 @@ public class SpearKnightStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject knight = b.target;
+    final GameObject knight = b.getTargetedObject().getTarget();
     final int offsetX = (knight.x - lastX) << 4;
     final int offsetY = (knight.y - lastY) << 4;
     lastX = knight.x;
@@ -34,9 +34,9 @@ public class SpearKnightStrategy extends Strategy {
         b.jump();
       }
     } else if (knight.distanceX < 24) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (knight.distanceX > 32) {
-      b.substage.moveTowardTarget();
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }    
   }
   

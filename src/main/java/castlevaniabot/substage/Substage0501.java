@@ -2,10 +2,12 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_050100;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.SPEAR_KNIGHT;
 
 public class Substage0501 extends Substage {
   
@@ -72,33 +74,33 @@ public class Substage0501 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.playerY > 144 && b.playerX < 287 && b.playerY > 32) {  
       if (b.strategy != b.MEDUSA_HEADS_PITS) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.MEDUSA_HEADS_PITS.init();
         b.strategy = b.MEDUSA_HEADS_PITS; 
       }
     } else if (b.playerY <= 144 && b.playerX <= 255 && b.playerY > 32) {
       if (b.strategy != b.MEDUSA_HEADS_WALK) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.MEDUSA_HEADS_WALK.init(true);
         b.strategy = b.MEDUSA_HEADS_WALK;  
       }
     } else if (b.playerY <= 112 && b.playerX >= 240 && b.playerX <= 387) {
       if (b.strategy != b.NO_JUMP_MOVING_PLATFORM) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.NO_JUMP_MOVING_PLATFORM.init(352, 255, 112);
         b.strategy = b.NO_JUMP_MOVING_PLATFORM;
       }
     } else if (b.playerY <= 112 && b.playerX >= 384 && b.playerX <= 496) {
       if (b.strategy != b.JUMP_MOVING_PLATFORM) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.JUMP_MOVING_PLATFORM.init(496, 368, 112);
         b.strategy = b.JUMP_MOVING_PLATFORM;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

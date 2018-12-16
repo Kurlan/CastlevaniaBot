@@ -2,10 +2,13 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_010000;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.GHOUL;
+import static castlevaniabot.model.gameelements.GameObjectType.PANTHER;
 
 public class Substage0100 extends Substage {
   
@@ -71,16 +74,16 @@ public class Substage0100 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 52 && b.currentTile.getX() <= 56 && isPantherResting()) {
       if (b.strategy != b.USE_WEAPON) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.USE_WEAPON.init(879, 112, true, false);
         b.strategy = b.USE_WEAPON;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
   

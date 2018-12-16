@@ -2,9 +2,15 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
+import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 
 public class Substage1300 extends Substage {
   
@@ -102,27 +108,27 @@ public class Substage1300 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     
     if (b.strategy == b.WAIT) {
       final GameObject skeleton = b.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < b.playerX - 48 
           || skeleton.y > 132))) {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else if (b.playerX >= 368 && b.playerY > 160 && !b.isObjectBelow(132)) {
       final GameObject skeleton = b.getType(WHITE_SKELETON);
       if (skeleton != null && skeleton.y <= 132 
           && b.playerX < skeleton.x) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(493, 192);
         b.strategy = b.WAIT;
         waited = false;
       } else {
-        super.pickStrategy();
+        super.pickStrategy(targetedObject);
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

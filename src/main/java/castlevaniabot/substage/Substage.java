@@ -3,11 +3,16 @@ package castlevaniabot.substage;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.strategy.Strategy;
-import nintaco.api.*;
-import static java.lang.Math.*;
-import static castlevaniabot.model.gameelements.MapRoutes.*;
+import nintaco.api.API;
+import nintaco.api.ApiSource;
+
+import static castlevaniabot.model.gameelements.MapRoutes.getOperation;
+import static castlevaniabot.model.gameelements.MapRoutes.getStepX;
+import static castlevaniabot.model.gameelements.MapRoutes.getStepY;
+import static java.lang.Math.abs;
 
 public abstract class Substage {
   
@@ -122,19 +127,19 @@ public abstract class Substage {
     }
   } 
   
-  void moveTowardTarget(final boolean checkForEnemies) {
-    if (b.target.onPlatform) {
-      route(b.target.supportX, b.target.y, checkForEnemies);
+  void moveTowardTarget(final boolean checkForEnemies, GameObject target) {
+    if (target.onPlatform) {
+      route(target.supportX, target.y, checkForEnemies);
     } else {
-      route(b.target.supportX, b.target.platformY << 4, checkForEnemies);
+      route(target.supportX, target.platformY << 4, checkForEnemies);
     }
   }  
   
-  public void moveTowardTarget() {
-    if (b.target.onPlatform) {
-      route(b.target.supportX, b.target.y, false);
+  public void moveTowardTarget(GameObject target) {
+    if (target.onPlatform) {
+      route(target.supportX, target.y, false);
     } else {
-      route(b.target.supportX, b.target.platformY << 4, false);
+      route(target.supportX, target.platformY << 4, false);
     }
   } 
   
@@ -146,8 +151,8 @@ public abstract class Substage {
     }
   }  
   
-  public void moveAwayFromTarget() {
-    if (b.playerX < b.target.x) {
+  public void moveAwayFromTarget(GameObject target) {
+    if (b.playerX < target.x) {
       routeLeft();
     } else {
       routeRight();
@@ -199,7 +204,7 @@ public abstract class Substage {
     }
   }
 
-  boolean handleBones() {
+  boolean handleBones(TargetedObject targetedObject) {
     
     final Bone bone = b.getHarmfulBone();
     if (bone == null) {
@@ -207,7 +212,7 @@ public abstract class Substage {
     }
     
     if (b.strategy != b.BONE) {
-      clearTarget();
+      clearTarget(targetedObject);
       b.BONE.init(bone);
       b.strategy = b.BONE;
     }
@@ -215,18 +220,18 @@ public abstract class Substage {
     return true;
   }  
   
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     
     if (playerDelay > 0) {
       --playerDelay;
-      if (b.targetType != null) {
-        clearTarget();
+      if (targetedObject.getTargetType() != null) {
+        clearTarget(targetedObject);
         setStrategy(null);
       }
       return;
     }
     
-    if (handleBones()) {
+    if (handleBones(targetedObject)) {
       return;
     }
     
@@ -242,9 +247,9 @@ public abstract class Substage {
       if (obj.tier >= 0) {
         obj.rank = (obj.tier << 24) | (obj.subTier << 20) | obj.distTier;
         if (currentTarget == null
-            && obj.type == b.targetType 
-            && abs(obj.x - b.targetX) <= 8 
-            && abs(obj.y - b.targetY) <= 8) {
+            && obj.type == targetedObject.getTargetType()
+            && abs(obj.x - targetedObject.getCoordinates().getX()) <= 8
+            && abs(obj.y - targetedObject.getCoordinates().getY()) <= 8) {
           currentTarget = obj;
         }        
         if (newTarget == null || obj.rank > newTarget.rank) {
@@ -256,33 +261,34 @@ public abstract class Substage {
     }
            
     if (newTarget == null) { // currentTarget must also be null
-      if (b.targetType != null) {
-        clearTarget();
+      if (targetedObject.getTargetType() != null) {
+        clearTarget(targetedObject);
         setStrategy(selectStrategy(null));
       }
     } else if (currentTarget == null
         || newTarget.rank - currentTarget.rank > MARGINAL_RANK) {
-      setTarget(newTarget);
+      setTarget(newTarget, targetedObject);
       setStrategy(selectStrategy(newTarget));    
     } else {
-      setTarget(currentTarget);
+      setTarget(currentTarget, targetedObject);
     }   
   } 
   
-  void clearTarget() {
-    setTarget(null);
+  void clearTarget(TargetedObject targetedObject) {
+    setTarget(null, targetedObject);
   }
   
-  void setTarget(final GameObject obj) {
+  void setTarget(final GameObject obj, TargetedObject targetedObject) {
     if (obj == null) {
-      b.target = null;
-      b.targetType = null;
-      b.targetX = b.targetY = -512;
+      targetedObject.setTarget(null);
+      targetedObject.setTargetType(null);
+      targetedObject.getCoordinates().setX(-512);
+      targetedObject.getCoordinates().setY(-512);
     } else {
-      b.target = obj;
-      b.targetType = obj.type;
-      b.targetX = obj.x;
-      b.targetY = obj.y;
+      targetedObject.setTarget(obj);
+      targetedObject.setTargetType(obj.type);
+      targetedObject.getCoordinates().setX(obj.x);
+      targetedObject.getCoordinates().setY(obj.y);
     }
   }
   

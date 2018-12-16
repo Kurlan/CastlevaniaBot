@@ -2,11 +2,21 @@ package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.WaitStrategy;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
-import static castlevaniabot.model.creativeelements.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
+import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_130100;
+import static castlevaniabot.model.gameelements.Addresses.BLOCK_130101;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_BONES;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON_RISING;
+import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 
 public class Substage1301 extends Substage {
   
@@ -122,16 +132,16 @@ public class Substage1301 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (!treasureTriggered && b.playerY <= 96 && b.playerX >= 336 
         && b.playerX < 416) {
       if (b.strategy != b.WAIT) {
-        clearTarget();
+        clearTarget(targetedObject);
         b.WAIT.init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
         b.strategy = b.WAIT;
       }
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

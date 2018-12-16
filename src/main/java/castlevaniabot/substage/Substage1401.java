@@ -3,6 +3,7 @@ package castlevaniabot.substage;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
+import castlevaniabot.model.gameelements.TargetedObject;
 
 import static castlevaniabot.model.gameelements.Addresses.*;
 import static castlevaniabot.model.gameelements.GameObjectType.*;
@@ -125,32 +126,32 @@ public class Substage1401 extends Substage {
   }
 
   @Override
-  public void pickStrategy() {
+  public void pickStrategy(TargetedObject targetedObject) {
     if (b.strategy == b.WAIT) {
       if (b.playerX >= 832) {
         if (treasureTriggered1) {
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
       } else {
         if (treasureTriggered3) {
-          super.pickStrategy();
+          super.pickStrategy(targetedObject);
         }
       }
     } else if (!treasureTriggered3 && !b.onStairs && b.playerX >= 288 
         && b.playerX < 480 && b.playerY > 128
             && !b.isEnemyInBounds(288, 128, 480, 208)) {
-      clearTarget();
+      clearTarget(targetedObject);
       b.WAIT.init(297, 192);
       b.strategy = b.WAIT;
     } else if (!treasureTriggered1 && b.playerX >= 928 && b.playerX < 1024 
         && b.playerY > 112 && !b.isEnemyInBounds(816, 112, 1024, 208)) {
-      clearTarget();
+      clearTarget(targetedObject);
       b.WAIT.init(984, 192);
       b.strategy = b.WAIT;
     } else if (b.playerY == 192 && b.playerX <= 33) {
       b.pressLeft();
     } else {
-      super.pickStrategy();
+      super.pickStrategy(targetedObject);
     }
   }
 

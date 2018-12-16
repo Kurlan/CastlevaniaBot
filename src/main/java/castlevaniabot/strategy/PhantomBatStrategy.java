@@ -29,7 +29,7 @@ public class PhantomBatStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject bat = b.target;
+    final GameObject bat = b.getTargetedObject().getTarget();
     final int offsetX = (bat.x - lastX) << 4;
     final int offsetY = (bat.y - lastY) << 4;
     lastX = bat.x;
@@ -73,7 +73,7 @@ public class PhantomBatStrategy extends Strategy {
       if (b.playerX < 560 || b.playerX >= 696) {
         b.kneel();
       } else if (b.playerX > 522 && b.playerX < 750) {
-        b.substage.moveAwayFromTarget();
+        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
     } else if (b.playerX == 736 && b.playerY == 144) {
       if (b.playerLeft) {
@@ -134,7 +134,7 @@ public class PhantomBatStrategy extends Strategy {
           weaponDelay = 17;
         }
       } else {
-        b.substage.moveAwayFromTarget();
+        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
     } else {
       b.substage.route(routeX, 208);
@@ -167,12 +167,12 @@ public class PhantomBatStrategy extends Strategy {
             }
           }
         } else {
-          b.substage.moveAwayFromTarget();
+          b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
         }
       } else if (bat.distanceX > 48) {
-        b.substage.moveTowardTarget();
+        b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
       } else {
-        b.substage.moveAwayFromTarget();
+        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
     } else if (b.canJump && bat.y >= 160 && bat.distanceX >= 48 
         && bat.distanceX <= 96) {
@@ -213,7 +213,7 @@ public class PhantomBatStrategy extends Strategy {
       if (b.playerX < 560 || b.playerX >= 696) {
         b.kneel();
       } else if (b.playerX > 522 && b.playerX < 750) {
-        b.substage.moveAwayFromTarget();
+        b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
       }
     } else if (b.playerY == 208 && b.playerX == 522) {
       if (b.playerLeft) {

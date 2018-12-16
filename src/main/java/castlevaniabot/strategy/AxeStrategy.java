@@ -15,7 +15,7 @@ public class AxeStrategy extends Strategy {
   @Override
   public void step() {
     
-    final GameObject axe = b.target;
+    final GameObject axe = b.getTargetedObject().getTarget();
     final int offsetX = (axe.x - lastX) << 4;
     final int offsetY = (axe.y - lastY) << 4;
     lastX = axe.x;

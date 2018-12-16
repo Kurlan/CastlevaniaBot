@@ -19,7 +19,7 @@ public class GhoulStrategy extends Strategy {
 
   @Override public void step() {
     
-    final GameObject ghoul = b.target;
+    final GameObject ghoul = b.getTargetedObject().getTarget();
     final int offsetX = (ghoul.x - lastX) << 4;
     final int offsetY = (ghoul.y - lastY) << 4;
     lastX = ghoul.x;
@@ -30,7 +30,7 @@ public class GhoulStrategy extends Strategy {
     }    
     
     if (ghoul.y < b.playerY - 16 && ghoul.y >= b.playerY - 56) {
-      b.substage.moveAwayFromTarget();
+      b.substage.moveAwayFromTarget(b.getTargetedObject().getTarget());
     } else if (b.canJump && ghoul.distanceX < 24 && ghoul.distanceY < 8) {
       b.jump();
     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
@@ -41,8 +41,8 @@ public class GhoulStrategy extends Strategy {
           usedHolyWater = b.grind();
         }
       }
-    } else if (b.target.distanceX >= 48) {
-      b.substage.moveTowardTarget();
+    } else if (b.getTargetedObject().getTarget().distanceX >= 48) {
+      b.substage.moveTowardTarget(b.getTargetedObject().getTarget());
     }
   }  
 }
