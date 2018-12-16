@@ -7,6 +7,22 @@ import castlevaniabot.level.Level3;
 import castlevaniabot.level.Level4;
 import castlevaniabot.level.Level5;
 import castlevaniabot.level.Level6;
+import castlevaniabot.model.creativeelements.Axe;
+import castlevaniabot.model.creativeelements.Bone;
+import castlevaniabot.model.creativeelements.BoneTowerSegment;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.GameObjectType;
+import castlevaniabot.model.gameelements.MapElement;
+import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.model.creativeelements.MedusaHead;
+import castlevaniabot.model.gameelements.Modes;
+import castlevaniabot.model.creativeelements.MovingPlatform;
+import castlevaniabot.model.creativeelements.RedBat;
+import castlevaniabot.model.creativeelements.RedBones;
+import castlevaniabot.model.creativeelements.Sickle;
+import castlevaniabot.model.gameelements.Coordinates;
+import castlevaniabot.model.gameelements.TileType;
+import castlevaniabot.model.creativeelements.Whip;
 import castlevaniabot.strategy.AxeKnightStrategy;
 import castlevaniabot.strategy.AxeStrategy;
 import castlevaniabot.strategy.BatDualPlatformsStrategy;
@@ -95,47 +111,47 @@ import nintaco.api.Colors;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static castlevaniabot.Addresses.CAMERA_X;
-import static castlevaniabot.Addresses.HEARTS;
-import static castlevaniabot.Addresses.KNEELING;
-import static castlevaniabot.Addresses.MODE;
-import static castlevaniabot.Addresses.ON_STAIRS;
-import static castlevaniabot.Addresses.PAUSED;
-import static castlevaniabot.Addresses.PLAYER_FACING;
-import static castlevaniabot.Addresses.PLAYER_IMAGE;
-import static castlevaniabot.Addresses.PLAYER_X;
-import static castlevaniabot.Addresses.PLAYER_Y;
-import static castlevaniabot.Addresses.PLAYING;
-import static castlevaniabot.Addresses.SHOT;
-import static castlevaniabot.Addresses.STAGE;
-import static castlevaniabot.Addresses.SUBSTAGE;
-import static castlevaniabot.Addresses.WEAPON;
-import static castlevaniabot.Addresses.WEAPONING;
-import static castlevaniabot.Addresses.WHIP_LENGTH;
-import static castlevaniabot.GameObjectType.DESTINATION;
-import static castlevaniabot.Operations.GO_DOWN_STAIRS;
-import static castlevaniabot.Operations.GO_UP_STAIRS;
-import static castlevaniabot.Operations.WALK_CENTER_LEFT_JUMP;
-import static castlevaniabot.Operations.WALK_CENTER_RIGHT_JUMP;
-import static castlevaniabot.Operations.WALK_LEFT;
-import static castlevaniabot.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
-import static castlevaniabot.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
-import static castlevaniabot.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
-import static castlevaniabot.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
-import static castlevaniabot.Operations.WALK_RIGHT;
-import static castlevaniabot.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
-import static castlevaniabot.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
-import static castlevaniabot.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
-import static castlevaniabot.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
-import static castlevaniabot.TileType.BACK_PLATFORM;
-import static castlevaniabot.TileType.BACK_STAIRS;
-import static castlevaniabot.TileType.FORWARD_PLATFORM;
-import static castlevaniabot.TileType.FORWARD_STAIRS;
-import static castlevaniabot.TileType.isBack;
-import static castlevaniabot.TileType.isForward;
-import static castlevaniabot.TileType.isStairsPlatform;
-import static castlevaniabot.Weapon.HOLY_WATER;
-import static castlevaniabot.Weapon.NONE;
+import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
+import static castlevaniabot.model.gameelements.Addresses.HEARTS;
+import static castlevaniabot.model.gameelements.Addresses.KNEELING;
+import static castlevaniabot.model.gameelements.Addresses.MODE;
+import static castlevaniabot.model.gameelements.Addresses.ON_STAIRS;
+import static castlevaniabot.model.gameelements.Addresses.PAUSED;
+import static castlevaniabot.model.gameelements.Addresses.PLAYER_FACING;
+import static castlevaniabot.model.gameelements.Addresses.PLAYER_IMAGE;
+import static castlevaniabot.model.gameelements.Addresses.PLAYER_X;
+import static castlevaniabot.model.gameelements.Addresses.PLAYER_Y;
+import static castlevaniabot.model.gameelements.Addresses.PLAYING;
+import static castlevaniabot.model.gameelements.Addresses.SHOT;
+import static castlevaniabot.model.gameelements.Addresses.STAGE;
+import static castlevaniabot.model.gameelements.Addresses.SUBSTAGE;
+import static castlevaniabot.model.gameelements.Addresses.WEAPON;
+import static castlevaniabot.model.gameelements.Addresses.WEAPONING;
+import static castlevaniabot.model.gameelements.Addresses.WHIP_LENGTH;
+import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
+import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
+import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
+import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
+import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
+import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
+import static castlevaniabot.model.gameelements.TileType.isBack;
+import static castlevaniabot.model.gameelements.TileType.isForward;
+import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static java.lang.Math.abs;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -207,7 +223,7 @@ public class CastlevaniaBot {
     { 13, 21 }, { 19, 19 }, { 25, 17 }, { 31, 14 }, { 36, 4 },
   }; 
 
-  static final int[][] HITBOX_RADII = {
+  public static final int[][] HITBOX_RADII = {
     {  0,  0 }, // 00
     {  6, 14 }, // 01
     {  6,  6 }, // 02
@@ -390,7 +406,7 @@ public class CastlevaniaBot {
   public int targetX = -512;
   public int targetY = -512;
   
-  public final GameObject[] gameObjects = new GameObject[128];
+
   public int objsCount;
   
   public final MovingPlatform[] movingPlatforms = new MovingPlatform[16];
@@ -433,8 +449,6 @@ public class CastlevaniaBot {
   int crystalBallY;
   int crystalBallTime;
   
-
-  
   boolean playing;
   public boolean onStairs;
   public boolean onPlatform;
@@ -453,7 +467,7 @@ public class CastlevaniaBot {
   public int playerX;
   public int playerY;
 
-  public Tile tile;
+
   int cameraX;
   public int whipLength;
   public int hearts;
@@ -466,15 +480,16 @@ public class CastlevaniaBot {
   
   private int avoidX;
 
+  public Coordinates currentTile;
+
   private final API api;
   public final Map<String, MapRoutes> allMapRoutes;
+  public final GameObject[] gameObjects;
 
-  public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes) {
-      this.tile = new Tile();
+  public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects) {
+      this.currentTile = new Coordinates();
+      this.gameObjects = gameObjects;
     try {
-      for(int i = gameObjects.length - 1; i >= 0; --i) {
-        gameObjects[i] = new GameObject();
-      }
       for(int i = movingPlatforms.length - 1; i >= 0; --i) {
         movingPlatforms[i] = new MovingPlatform();
       }
@@ -630,34 +645,34 @@ public class CastlevaniaBot {
 
     if (onStairs) {
       overHangingLeft = overHangingRight = onPlatform = false;
-      tile.setX(playerX >> 4);
-      tile.setY(playerY >> 4);
+      currentTile.setX(playerX >> 4);
+      currentTile.setY(playerY >> 4);
       final MapRoutes mapRoutes = substage.getMapRoutes();
       final MapElement[][] map = mapRoutes.map;
-      if (!TileType.isStairs(map[tile.getY()][tile.getX()].tileType)) {
-        if (tile.getX() < mapRoutes.width - 1
-            && TileType.isStairs(map[tile.getY()][tile.getX() + 1].tileType)) {
-          tile.setX(tile.getX() + 1);
-        } else if (tile.getX() > 0
-            && TileType.isStairs(map[tile.getY()][tile.getX() - 1].tileType)) {
-          tile.setX(tile.getX() - 1);
+      if (!TileType.isStairs(map[currentTile.getY()][currentTile.getX()].tileType)) {
+        if (currentTile.getX() < mapRoutes.width - 1
+            && TileType.isStairs(map[currentTile.getY()][currentTile.getX() + 1].tileType)) {
+          currentTile.setX(currentTile.getX() + 1);
+        } else if (currentTile.getX() > 0
+            && TileType.isStairs(map[currentTile.getY()][currentTile.getX() - 1].tileType)) {
+          currentTile.setX(currentTile.getX() - 1);
         }
       }
     } else if (isOnPlatform(playerX, playerY)) {
       onPlatform = true;
       overHangingLeft = overHangingRight = false;
-      tile.setX(playerX >> 4);
-      tile.setY(playerY >> 4);
+      currentTile.setX(playerX >> 4);
+      currentTile.setY(playerY >> 4);
     } else if (isOnPlatform(playerX - 4, playerY)) {
       overHangingRight = onPlatform = true;
       overHangingLeft = false;
-      tile.setX((playerX - 4) >> 4);
-      tile.setY(playerY >> 4);
+      currentTile.setX((playerX - 4) >> 4);
+      currentTile.setY(playerY >> 4);
     } else if (isOnPlatform(playerX + 4, playerY)) {
       overHangingLeft = onPlatform = true;
       overHangingRight = false;
-      tile.setX((playerX + 4) >> 4);
-      tile.setY(playerY >> 4);
+      currentTile.setX((playerX + 4) >> 4);
+      currentTile.setY(playerY >> 4);
     } else {
       overHangingLeft = overHangingRight = onPlatform = false;
     }
@@ -1079,7 +1094,7 @@ public class CastlevaniaBot {
     obj.left = false;
     obj.active = false;
     obj.playerFacing = playerLeft ^ (playerX < x);
-    obj.distance = mapRoutes.getDistance(obj, tile);
+    obj.distance = mapRoutes.getDistance(obj, currentTile);
     obj.x1 = x - 8;
     obj.x2 = x + 8;
     obj.y1 = obj.y2 = y;
@@ -1125,7 +1140,7 @@ public class CastlevaniaBot {
         final int height = map[cy][px].height;          
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
-          final int dist = mapRoutes.getDistance(px, py, tile);
+          final int dist = mapRoutes.getDistance(px, py, currentTile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
@@ -1143,7 +1158,7 @@ public class CastlevaniaBot {
         final int height = map[cy][px].height;          
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
-          final int dist = mapRoutes.getDistance(px, py, tile);
+          final int dist = mapRoutes.getDistance(px, py, currentTile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
@@ -1222,7 +1237,7 @@ public class CastlevaniaBot {
         final int hRight = map[cy][pxRight].height;
         if (hLeft <= hRight && hLeft >= 1 && hLeft <= 4) {
           final int py = cy + hLeft;
-          final int dist = mapRoutes.getDistance(pxLeft, py, tile);
+          final int dist = mapRoutes.getDistance(pxLeft, py, currentTile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {
               obj.distance = dist;
@@ -1252,7 +1267,7 @@ public class CastlevaniaBot {
         final int hRight = map[cy][pxRight].height;
         if (hRight <= hLeft && hRight >= 1 && hRight <= 4) {
           final int py = cy + hRight;
-          final int dist = mapRoutes.getDistance(pxRight, py, tile);
+          final int dist = mapRoutes.getDistance(pxRight, py, currentTile);
           if (dist < MAX_DISTANCE) {
             if (dist < obj.distance) {
               obj.distance = dist;
@@ -1284,7 +1299,7 @@ public class CastlevaniaBot {
           final int hRight = map[dy][pxRight].height;
           if (hLeft <= hRight && hLeft >= 1 && hLeft <= 3) {
             final int py = dy + hLeft;
-            final int dist = mapRoutes.getDistance(pxLeft, py, tile);
+            final int dist = mapRoutes.getDistance(pxLeft, py, currentTile);
             if (dist < MAX_DISTANCE) {
               if (dist < obj.distance) {
                 obj.distance = dist;
@@ -1314,7 +1329,7 @@ public class CastlevaniaBot {
           final int hRight = map[dy][pxRight].height;
           if (hRight <= hLeft && hRight >= 1 && hRight <= 3) {
             final int py = dy + hRight;
-            final int dist = mapRoutes.getDistance(pxRight, py, tile);
+            final int dist = mapRoutes.getDistance(pxRight, py, currentTile);
             if (dist < MAX_DISTANCE) {
               if (dist < obj.distance) {
                 obj.distance = dist;
@@ -1344,14 +1359,14 @@ public class CastlevaniaBot {
         } 
       }
       if (obj.onPlatform) {
-        obj.distance = mapRoutes.getDistance(obj, tile);
+        obj.distance = mapRoutes.getDistance(obj, currentTile);
       } else {
         final int height = map[obj.platformY][obj.platformX].height;
         if (height == MAX_HEIGHT) {
           obj.distance = MAX_DISTANCE;        
         } else {
           obj.platformY += height;
-          obj.distance = mapRoutes.getDistance(obj, tile);
+          obj.distance = mapRoutes.getDistance(obj, currentTile);
         }
       }
     }
@@ -1464,22 +1479,22 @@ public class CastlevaniaBot {
   
   public boolean isUnderLedge() {
     
-    if (tile.getY() < 4) {
+    if (currentTile.getY() < 4) {
       return false;
     }
     
     final MapElement[][] map = substage.mapRoutes.map;
-    if (map[tile.getY() - 4][tile.getX()].height == 0 || map[tile.getY() - 3][tile.getX()].height == 0){
+    if (map[currentTile.getY() - 4][currentTile.getX()].height == 0 || map[currentTile.getY() - 3][currentTile.getX()].height == 0){
       return true;
     }
     
     if (playerLeft) {
-      return (tile.getX() > 0) && (map[tile.getY() - 4][tile.getX() - 1].height == 0
-              || map[tile.getY() - 3][tile.getX() - 1].height == 0);
+      return (currentTile.getX() > 0) && (map[currentTile.getY() - 4][currentTile.getX() - 1].height == 0
+              || map[currentTile.getY() - 3][currentTile.getX() - 1].height == 0);
     } else {
-      return (tile.getX() < substage.mapRoutes.width - 1)
-          && (map[tile.getY() - 4][tile.getX() + 1].height == 0
-              || map[tile.getY() - 3][tile.getX() + 1].height == 0);
+      return (currentTile.getX() < substage.mapRoutes.width - 1)
+          && (map[currentTile.getY() - 4][currentTile.getX() + 1].height == 0
+              || map[currentTile.getY() - 3][currentTile.getX() + 1].height == 0);
     }
   }  
   
@@ -1734,12 +1749,12 @@ public class CastlevaniaBot {
     return (onPlatform && jumpDelay == 0) ? 0 : JUMP_WHIP_OFFSETS[jumpDelay];
   }
   
-  // Can player axe target when standing on specified tile?
+  // Can player axe target when standing on specified currentTile?
   public boolean canHitTargetWithAxe(final int platformX, final int platformY) {
     return canHitWithAxe(platformX, platformY, target);
   }
   
-  // Can player axe specified GameObject when standing on specified tile?
+  // Can player axe specified GameObject when standing on specified currentTile?
   boolean canHitWithAxe(final int platformX, final int platformY, 
       final GameObject obj) {
     
@@ -1764,7 +1779,7 @@ public class CastlevaniaBot {
     return false;
   }
   
-  // Can player axe specified GameObject when standing on specified tile?
+  // Can player axe specified GameObject when standing on specified currentTile?
   public boolean canHitWithAxe(final int platformX, final int platformY,
                                final int offsetX, final int offsetY, final GameObject obj) {
     
@@ -1884,11 +1899,11 @@ public class CastlevaniaBot {
     }
     
     final MapElement[][] map = substage.mapRoutes.map;
-    final int tileType = map[tile.getY() - 1][tile.getX()].tileType;
-    return (tileType == BACK_STAIRS || (tile.getX() < substage.mapRoutes.width - 1
-        && map[tile.getY() - 1][tile.getX() + 1].tileType == FORWARD_STAIRS))
-            || (tileType == FORWARD_STAIRS || (tile.getX() > 0
-                && map[tile.getY() - 1][tile.getX() - 1].tileType == BACK_STAIRS));
+    final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
+    return (tileType == BACK_STAIRS || (currentTile.getX() < substage.mapRoutes.width - 1
+        && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS))
+            || (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
+                && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS));
   }  
   
   private void goUpStairs(final MapElement[][] map, final int width) {
@@ -1900,16 +1915,16 @@ public class CastlevaniaBot {
       pressLeft();
     } else if (onPlatform) {      
       final int x = playerX & 0x0F;
-      final int tileType = map[tile.getY() - 1][tile.getX()].tileType;
-      if (tileType == BACK_STAIRS || (tile.getX() < width - 1
-          && map[tile.getY() - 1][tile.getX() + 1].tileType == FORWARD_STAIRS)) {
+      final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
+      if (tileType == BACK_STAIRS || (currentTile.getX() < width - 1
+          && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS)) {
         if (x < 15) {
           pressRight();
         } else {
           api.writeGamepad(0, Up, true);
         }
-      } else if (tileType == FORWARD_STAIRS || (tile.getX() > 0
-          && map[tile.getY() - 1][tile.getX() - 1].tileType == BACK_STAIRS)) {
+      } else if (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
+          && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS)) {
         if (x > 0) {
           pressLeft();
         } else {
@@ -1926,10 +1941,10 @@ public class CastlevaniaBot {
     }
     
     final MapElement[][] map = substage.mapRoutes.map;
-    final int tileType = map[tile.getY()][tile.getX()].tileType;
-    return isStairsPlatform(tileType) || (tile.getX() < substage.mapRoutes.width - 1
-            && isBack(map[tile.getY()][tile.getX() + 1].tileType))
-        || (tile.getX() > 0 && isForward(map[tile.getY()][tile.getX() - 1].tileType));
+    final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
+    return isStairsPlatform(tileType) || (currentTile.getX() < substage.mapRoutes.width - 1
+            && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
+        || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
   }
   
   private void goDownStairs(final MapElement[][] map, final int width) {
@@ -1937,16 +1952,16 @@ public class CastlevaniaBot {
       api.writeGamepad(0, Down, true);
     } else if (onPlatform) {
       final int x = playerX & 0x0F;
-      final int tileType = map[tile.getY()][tile.getX()].tileType;
-      if (tileType == FORWARD_PLATFORM || (tile.getX() < width - 1
-          && isBack(map[tile.getY()][tile.getX() + 1].tileType))) {
+      final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
+      if (tileType == FORWARD_PLATFORM || (currentTile.getX() < width - 1
+          && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))) {
         if (x < 15) {
           pressRight();
         } else {
           api.writeGamepad(0, Down, true);
         }
-      } else if (tileType == BACK_PLATFORM || (tile.getX() > 0
-          && isForward(map[tile.getY()][tile.getX() - 1].tileType))) {
+      } else if (tileType == BACK_PLATFORM || (currentTile.getX() > 0
+          && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType))) {
         if (x > 0) {
           pressLeft();
         } else {
@@ -2012,7 +2027,7 @@ public class CastlevaniaBot {
       final boolean checkForEnemies) {
     if (onStairs) {
       api.writeGamepad(0, Up, true);
-    } else if (checkForEnemies && stepY > tile.getY()) {
+    } else if (checkForEnemies && stepY > currentTile.getY()) {
       final int x = playerX & 0xF;
       if (overHangingLeft && direction == Left && x < 13) {
         if (!isEnemyInBounds((stepX << 4) - 24, playerY - 32, playerX + 24, 
@@ -2038,11 +2053,11 @@ public class CastlevaniaBot {
     
     switch (offsetX) {
       case 8:
-        if (tile.getX() == 0 || map[tile.getY() - 1][tile.getX() - 1].height == 0
-            || map[tile.getY() - 2][tile.getX() - 1].height == 0) {
+        if (currentTile.getX() == 0 || map[currentTile.getY() - 1][currentTile.getX() - 1].height == 0
+            || map[currentTile.getY() - 2][currentTile.getX() - 1].height == 0) {
           offsetX = 10;
-        } else if (tile.getX() == width - 1 || map[tile.getY() - 1][tile.getX() + 1].height == 0
-            || map[tile.getY() - 2][tile.getX() + 1].height == 0) {
+        } else if (currentTile.getX() == width - 1 || map[currentTile.getY() - 1][currentTile.getX() + 1].height == 0
+            || map[currentTile.getY() - 2][currentTile.getX() + 1].height == 0) {
           offsetX = 6;
         } break;
       case 19:
@@ -2057,7 +2072,7 @@ public class CastlevaniaBot {
         break;
     }
     
-    final int x = playerX - (tile.getX() << 4);
+    final int x = playerX - (currentTile.getX() << 4);
     if (x == offsetX) {
       if (playerLeft ^ (direction == Right)) {
         if (jumpDelay == 0) {
@@ -2105,10 +2120,10 @@ public class CastlevaniaBot {
     if (x >= mapRoutes.width) {
       return false;
     }
-    return mapRoutes.getDistance(x, y, tile) < 32;
+    return mapRoutes.getDistance(x, y, currentTile) < 32;
   }
   
-  // (x, y) are absolute coordinates, not tile coordinates
+  // (x, y) are absolute coordinates, not currentTile coordinates
   boolean isOnPlatform(int x, int y) {
     if (x < 0 || y < 0 || (y & 0x0E) != 0) {
       return false;

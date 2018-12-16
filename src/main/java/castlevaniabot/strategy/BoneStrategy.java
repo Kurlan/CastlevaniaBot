@@ -1,6 +1,6 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.Bone;
+import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.CastlevaniaBot;
 
 public class BoneStrategy extends Strategy {

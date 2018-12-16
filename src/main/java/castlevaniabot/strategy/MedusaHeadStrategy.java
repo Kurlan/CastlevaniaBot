@@ -1,7 +1,7 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
-import castlevaniabot.MedusaHead;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.CastlevaniaBot;
 
 // No longer used!

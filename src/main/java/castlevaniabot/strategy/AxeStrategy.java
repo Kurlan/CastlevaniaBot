@@ -1,7 +1,7 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 
 public class AxeStrategy extends Strategy {
   

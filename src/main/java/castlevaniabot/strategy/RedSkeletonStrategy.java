@@ -1,7 +1,7 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
-import castlevaniabot.RedBones;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.CastlevaniaBot;
 
 import java.util.concurrent.*;

@@ -1,10 +1,10 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import nintaco.api.*;
-import static castlevaniabot.Addresses.*;
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.Addresses.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class CrusherStrategy extends Strategy {
   

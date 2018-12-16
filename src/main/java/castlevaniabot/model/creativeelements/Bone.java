@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.creativeelements;
 
 public class Bone {
   public int x;

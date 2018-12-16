@@ -3,7 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.CastlevaniaBot;
 
 import java.util.concurrent.*;
-import static castlevaniabot.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.*;
 
 public class GetCrystalBallStrategy extends GetItemStrategy {
  

@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.creativeelements;
 
 public interface Weapon {
   int NONE       = 0x00;

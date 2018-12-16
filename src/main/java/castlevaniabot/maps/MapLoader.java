@@ -1,7 +1,7 @@
 package castlevaniabot.maps;
 
-import castlevaniabot.MapElement;
-import castlevaniabot.MapRoutes;
+import castlevaniabot.model.gameelements.MapElement;
+import castlevaniabot.model.gameelements.MapRoutes;
 
 import java.io.DataInputStream;
 

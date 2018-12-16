@@ -1,9 +1,9 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
 
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 // Used in substages 17-00 and 17-01 to kill the 3 white skeletons
 public class SkeletonWallStrategy extends Strategy {

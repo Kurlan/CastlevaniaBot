@@ -1,11 +1,11 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import nintaco.api.*;
 import static java.lang.Math.*;
-import static castlevaniabot.Addresses.*;
-import static castlevaniabot.Weapon.*;
+import static castlevaniabot.model.gameelements.Addresses.*;
+import static castlevaniabot.model.creativeelements.Weapon.*;
 
 public class Substage0000 extends Substage {
   
@@ -23,7 +23,7 @@ public class Substage0000 extends Substage {
     mapRoutes = b.allMapRoutes.get("00-00-00");
     triggeredTreasure = false;
     
-    // The bot cannot handle Difficult Mode (game loop 2 or above).
+    // The bot cannot handle Difficult Mode (gameelements loop 2 or above).
     if (api.readCPU(LOOP) != 0x00) { 
       api.writeCPU(LOOP, 0x00);       // Reset to Normal Mode.
       api.writeCPU(WEAPONING, 0x00);  // Clear weaponing state from prior loop.

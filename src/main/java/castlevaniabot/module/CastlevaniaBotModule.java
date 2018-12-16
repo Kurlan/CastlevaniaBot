@@ -1,8 +1,10 @@
 package castlevaniabot.module;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.MapRoutes;
 import castlevaniabot.maps.MapLoader;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.GameState;
+import castlevaniabot.model.gameelements.MapRoutes;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -32,8 +34,8 @@ public class CastlevaniaBotModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes) {
-        return new CastlevaniaBot(api, allRoutes);
+    public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes, GameObject[] gameObjects) {
+        return new CastlevaniaBot(api, allRoutes, gameObjects);
     }
 
     @Provides
@@ -57,5 +59,21 @@ public class CastlevaniaBotModule extends AbstractModule {
             }
 
         return routes;
+    }
+
+    @Provides
+    @Singleton
+    public GameObject[] getGameObjects() {
+        GameObject[] gameObjects = new GameObject[128];
+        for(int i = gameObjects.length - 1; i >= 0; --i) {
+            gameObjects[i] = new GameObject();
+        }
+        return gameObjects;
+    }
+
+    @Provides
+    @Singleton
+    public GameState getGameState() {
+        return new GameState();
     }
 }

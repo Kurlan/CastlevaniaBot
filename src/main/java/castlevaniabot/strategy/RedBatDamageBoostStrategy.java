@@ -1,9 +1,9 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
 
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class RedBatDamageBoostStrategy extends Strategy {
   

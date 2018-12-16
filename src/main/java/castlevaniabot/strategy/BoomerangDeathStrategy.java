@@ -1,7 +1,7 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 
 public class BoomerangDeathStrategy extends Strategy {
 
@@ -29,7 +29,7 @@ public class BoomerangDeathStrategy extends Strategy {
   } 
   
   private void moveAwayFrom(final GameObject death) {
-    switch(b.tile.getX()) {
+    switch(b.currentTile.getX()) {
       case 0:
       case 1: 
       case 12:

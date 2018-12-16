@@ -1,10 +1,10 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.*;
-import static castlevaniabot.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.*;
 
 public class BoneTowerStrategy extends Strategy {
   

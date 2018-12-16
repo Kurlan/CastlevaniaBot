@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.gameelements;
 
 public interface Addresses {
   int MODE          = 0x0018;

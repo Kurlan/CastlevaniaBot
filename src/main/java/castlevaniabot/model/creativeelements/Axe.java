@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.creativeelements;
 
 public class Axe {
     // Parabolic axe path (reversed order, negated)

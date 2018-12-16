@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.gameelements;
 
 import java.io.*;
 

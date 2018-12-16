@@ -1,11 +1,11 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
 
 import java.util.concurrent.*;
 import static java.lang.Math.*;
-import static castlevaniabot.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.*;
 
 public class PhantomBatStrategy extends Strategy {
   

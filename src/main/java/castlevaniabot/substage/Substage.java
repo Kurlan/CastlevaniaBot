@@ -1,11 +1,13 @@
 package castlevaniabot.substage;
 
-import castlevaniabot.*;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.model.creativeelements.Bone;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.*;
 import static java.lang.Math.*;
-import static castlevaniabot.MapRoutes.*;
+import static castlevaniabot.model.gameelements.MapRoutes.*;
 
 public abstract class Substage {
   
@@ -78,14 +80,14 @@ public abstract class Substage {
       return;
     }
     
-    if (b.tile.getX() == tx && b.tile.getY() == ty) {
+    if (b.currentTile.getX() == tx && b.currentTile.getY() == ty) {
       if (b.playerX < targetX) {
         b.pressRight();
       } else if (b.playerX > targetX) {
         b.pressLeft();
       }      
     } else {  
-      final int route = mapRoutes.routes[b.tile.getY()][b.tile.getX()][ty][tx];
+      final int route = mapRoutes.routes[b.currentTile.getY()][b.currentTile.getX()][ty][tx];
       b.executeOperation(mapRoutes.map, mapRoutes.width, getOperation(route), 
           getStepX(route), getStepY(route), checkForEnemies);
     }

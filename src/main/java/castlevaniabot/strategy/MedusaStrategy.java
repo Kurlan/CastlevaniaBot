@@ -1,9 +1,9 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
 
-import static castlevaniabot.Weapon.*;
+import static castlevaniabot.model.creativeelements.Weapon.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MedusaStrategy extends Strategy {

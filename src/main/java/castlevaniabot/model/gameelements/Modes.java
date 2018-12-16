@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.gameelements;
 
 public interface Modes {
   int TITLE_SCREEN = 0x01;

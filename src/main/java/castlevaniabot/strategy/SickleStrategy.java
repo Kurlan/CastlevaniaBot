@@ -1,9 +1,9 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
 
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class SickleStrategy extends Strategy {
   
@@ -54,7 +54,7 @@ public class SickleStrategy extends Strategy {
   }
   
   private void moveAwayFrom(final GameObject sickle) {
-    switch(b.tile.getX()) {
+    switch(b.currentTile.getX()) {
       case 0:
       case 1: 
       case 12:

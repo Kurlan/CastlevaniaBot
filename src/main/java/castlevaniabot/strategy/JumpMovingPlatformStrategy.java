@@ -1,6 +1,6 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.MovingPlatform;
+import castlevaniabot.model.creativeelements.MovingPlatform;
 import castlevaniabot.CastlevaniaBot;
 
 import static java.lang.Math.*;

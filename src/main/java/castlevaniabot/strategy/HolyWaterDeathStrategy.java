@@ -1,9 +1,9 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.CastlevaniaBot;
 
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class HolyWaterDeathStrategy extends Strategy {
   
@@ -53,7 +53,7 @@ public class HolyWaterDeathStrategy extends Strategy {
       if (--jumpCounter == 0) {
         b.whip();
       }
-    } else if (b.tile.getX() != 11) {
+    } else if (b.currentTile.getX() != 11) {
       b.substage.route(191, 160, false);
     } else if (b.playerX != 195) {
       b.pressRight(); 

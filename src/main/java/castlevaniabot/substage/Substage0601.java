@@ -1,12 +1,12 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.strategy.Strategy;
 
 import java.util.concurrent.*;
-import static castlevaniabot.GameObjectType.*;
-import static castlevaniabot.Weapon.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
+import static castlevaniabot.model.creativeelements.Weapon.*;
 
 public class Substage0601 extends Substage {
   

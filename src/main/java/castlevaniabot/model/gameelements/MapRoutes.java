@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.model.gameelements;
 
 public class MapRoutes {
   
@@ -39,11 +39,11 @@ public class MapRoutes {
     pixelsHeight = height << 4;
   }
    
-  public int getDistance(final int platformX, final int platformY, final Tile tile) {
+  public int getDistance(final int platformX, final int platformY, final Coordinates tile) {
     return (routes[tile.getY()][tile.getX()][platformY][platformX] >> 16) & 0xFFFF;
   }  
   
-  public int getDistance(final GameObject obj, final Tile tile) {
+  public int getDistance(final GameObject obj, final Coordinates tile) {
     return (routes[tile.getY()][tile.getX()][obj.platformY][obj.platformX] >> 16)
         & 0xFFFF;
   }  

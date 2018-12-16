@@ -32,7 +32,7 @@ public class MedusaHeadsPitsStrategy extends Strategy {
   public void step() {
     switch(state) {
       case WALK_TO_EDGE:
-        if (b.tile.getX() != 7 || b.tile.getY() != 12) {
+        if (b.currentTile.getX() != 7 || b.currentTile.getY() != 12) {
           b.substage.route(127, 192);
         } else if (b.playerX < 131) {
           b.pressRight();

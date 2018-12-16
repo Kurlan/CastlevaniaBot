@@ -1,10 +1,10 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
-import castlevaniabot.MovingPlatform;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.creativeelements.MovingPlatform;
 
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class BatDualPlatformsStrategy extends Strategy {
 

@@ -1,7 +1,7 @@
 package castlevaniabot.strategy;
 
-import castlevaniabot.GameObject;
-import castlevaniabot.RedBat;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.CastlevaniaBot;
 
 public class RedBatStrategy extends Strategy {

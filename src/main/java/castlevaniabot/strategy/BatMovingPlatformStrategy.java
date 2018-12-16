@@ -1,10 +1,10 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
-import castlevaniabot.MovingPlatform;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.creativeelements.MovingPlatform;
 
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class BatMovingPlatformStrategy extends Strategy {
   
@@ -104,7 +104,7 @@ public class BatMovingPlatformStrategy extends Strategy {
     }
     
     if (bat == null && fishman == null && (b.playerLeft || (b.playerX > 400 
-        && (b.playerX - (b.tile.getX() << 4)) < 19))) {
+        && (b.playerX - (b.currentTile.getX() << 4)) < 19))) {
       b.pressRight();
     }
     

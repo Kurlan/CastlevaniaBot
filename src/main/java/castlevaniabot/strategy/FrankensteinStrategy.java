@@ -1,14 +1,14 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObject;
+import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static castlevaniabot.Weapon.AXE;
-import static castlevaniabot.Weapon.BOOMERANG;
-import static castlevaniabot.Weapon.DAGGER;
-import static castlevaniabot.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Weapon.AXE;
+import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
+import static castlevaniabot.model.creativeelements.Weapon.DAGGER;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static java.lang.Math.abs;
 import static java.lang.Math.signum;
 

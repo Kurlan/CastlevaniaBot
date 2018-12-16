@@ -1,4 +1,7 @@
-package castlevaniabot;
+package castlevaniabot.model.creativeelements;
+
+import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.model.gameelements.GameObject;
 
 public class Whip {
 
@@ -29,7 +32,7 @@ public class Whip {
   
   // Returns true if the specified region is within left or right whipping range
   // as opposed to the whipping range directly in front of the player.
-  // After this test, the player must face the game object prior to whipping.
+  // After this test, the player must face the gameelements object prior to whipping.
   boolean inRange(final int playerX, final int playerY, 
       final int left, final int right, final int top, final int bottom) {
     

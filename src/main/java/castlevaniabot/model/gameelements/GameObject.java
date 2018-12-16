@@ -1,7 +1,4 @@
-package castlevaniabot;
-
-import lombok.Builder;
-import lombok.Data;
+package castlevaniabot.model.gameelements;
 
 public class GameObject {
   

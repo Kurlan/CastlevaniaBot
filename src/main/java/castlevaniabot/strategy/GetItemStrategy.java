@@ -3,7 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.CastlevaniaBot;
 
 import java.util.concurrent.*;
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class GetItemStrategy extends Strategy {
 

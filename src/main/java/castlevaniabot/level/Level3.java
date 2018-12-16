@@ -1,10 +1,10 @@
 package castlevaniabot.level;
 
 import castlevaniabot.CastlevaniaBot;
-import castlevaniabot.GameObjectType;
+import castlevaniabot.model.gameelements.GameObjectType;
 import nintaco.api.*;
-import static castlevaniabot.Addresses.*;
-import static castlevaniabot.GameObjectType.*;
+import static castlevaniabot.model.gameelements.Addresses.*;
+import static castlevaniabot.model.gameelements.GameObjectType.*;
 
 public class Level3 implements Level {
   
