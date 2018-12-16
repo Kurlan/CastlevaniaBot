@@ -90,7 +90,6 @@ import castlevaniabot.substage.Substage1701;
 import castlevaniabot.substage.Substage1800;
 import castlevaniabot.substage.Substage1801;
 import nintaco.api.API;
-import nintaco.api.ApiSource;
 import nintaco.api.Colors;
 
 import java.io.BufferedInputStream;
@@ -387,8 +386,6 @@ public class CastlevaniaBot {
   public final WhiteSkeletonStrategy WHITE_SKELETON
       = new WhiteSkeletonStrategy(this);
   public final WhipStrategy WHIP = new WhipStrategy(this);
-  
-  private final API api = ApiSource.getAPI();
 
   Level level;
   public Substage substage;
@@ -473,8 +470,10 @@ public class CastlevaniaBot {
   public int weapon = NONE;
   
   private int avoidX;
+
+  private final API api;
   
-  public CastlevaniaBot() {
+  public CastlevaniaBot(API api) {
     try {
       for(int i = gameObjects.length - 1; i >= 0; --i) {
         gameObjects[i] = new GameObject();
@@ -510,33 +509,28 @@ public class CastlevaniaBot {
       t.printStackTrace(); // Display construction errors to console
     }
 
-    api.addFrameListener(this::renderFinished);
-    api.addStatusListener(this::statusChanged);
-    api.addActivateListener(this::apiEnabled);
-    api.addDeactivateListener(this::apiDisabled);
-    api.addStopListener(this::dispose);
-    api.run();
+    this.api = api;
   }
-  
-  private void loadMaps() throws Throwable {    
+
+  public void loadMaps() throws Throwable {
     try(final BufferedReader br = new BufferedReader(new InputStreamReader(
-        CastlevaniaBot.class.getClassLoader().getResourceAsStream("maps/files.txt")))) {
+            CastlevaniaBot.class.getClassLoader().getResourceAsStream("maps/files.txt")))) {
       String name = null;
       while((name = br.readLine()) != null) {
         name = name.trim();
         if (name.length() > 0) {
           try(final DataInputStream in = new DataInputStream(
-              new BufferedInputStream(CastlevaniaBot.class.getClassLoader().getResourceAsStream("maps/" + name)))) {
+                  new BufferedInputStream(CastlevaniaBot.class.getClassLoader().getResourceAsStream("maps/" + name)))) {
             loadMap(name, in);
           }
         }
       }
     }
   }
-  
-  private void loadMap(final String name, final DataInputStream in) 
-      throws Throwable {    
-    
+
+  private void loadMap(final String name, final DataInputStream in)
+          throws Throwable {
+
     final int WIDTH = in.readInt();
     final int HEIGHT = in.readInt();
 
@@ -556,7 +550,7 @@ public class CastlevaniaBot {
             routes[startY][startX][endY][endX] = (endX << 8) | (endY << 4);
             if (startX != endX || startY != endY) {
               routes[startY][startX][endY][endX] |= 0xFFFF0000;
-            } 
+            }
           }
         }
       }
@@ -566,18 +560,19 @@ public class CastlevaniaBot {
       final int endX = in.read();
       final int endYstartY = in.read();
       final int startY = endYstartY & 0x0F;
-      final int endY = (endYstartY >> 4) & 0x0F;        
-      routes[startY][startX][endY][endX] = in.readInt();        
+      final int endY = (endYstartY >> 4) & 0x0F;
+      routes[startY][startX][endY][endX] = in.readInt();
     }
-    allMapRoutes.put(name, new MapRoutes(this, name, WIDTH, HEIGHT, map, 
-        routes));
+    allMapRoutes.put(name, new MapRoutes(this, name, WIDTH, HEIGHT, map,
+            routes));
   }
+
   
-  private void apiEnabled() {
+  public void apiEnabled() {
     System.out.println("API enabled");
   }
   
-  private void apiDisabled() {
+  public void apiDisabled() {
     System.out.println("API disabled");
     level = null;
     substage = null;
@@ -586,28 +581,28 @@ public class CastlevaniaBot {
     targetType = null;
     targetX = targetY = -512;
   }
-  
-  private void dispose() {
+
+  public void dispose() {
     System.out.println("API stopped");
   }
   
-  private void statusChanged(final String message) {
+  public void statusChanged(final String message) {
     System.out.format("Status message: %s%n", message);
   }
   
   private void readState() {
-    
+
     mode = api.readCPU(MODE);
     final int play = api.readCPU(PLAYING);
     playing = (mode == Modes.PLAYING || mode == Modes.CRYSTAL_BALL)
-        && (play == 0x06 || play == 0x01 || play == 0x00) 
+        && (play == 0x06 || play == 0x01 || play == 0x00)
             && api.readCPU(PLAYER_IMAGE) != 0x1C;
     if (!playing) {
       return;
     }
     stageNumber = api.readCPU(STAGE);
-    substageNumber = api.readCPU(SUBSTAGE);    
-    kneeling = api.readCPU(KNEELING) == 0x0A;    
+    substageNumber = api.readCPU(SUBSTAGE);
+    kneeling = api.readCPU(KNEELING) == 0x0A;
     playerY = api.readCPU(PLAYER_Y) + (kneeling ? 12 : 16);
     playerX = api.readCPU16(PLAYER_X);
     playerLeft = api.readCPU(PLAYER_FACING) == 0x01;
@@ -618,14 +613,14 @@ public class CastlevaniaBot {
     shot = api.readCPU(SHOT) + 1;
     onStairs = api.readCPU(ON_STAIRS) == 0x00;
     paused = api.readCPU(PAUSED) == 0x01;
-    
+
     if (weaponDelay == 0) {
       final int _weaponing = api.readCPU(WEAPONING);
       weaponing = _weaponing != 0xFC && _weaponing != 0x00;
     } else {
       weaponing = true;
     }
-    
+
    switch(stageNumber) {
       case  0:
       case  1:
@@ -647,7 +642,7 @@ public class CastlevaniaBot {
       case 17:
       case 18: level = LEVEL_6; break;
     }
-    
+
     Substage _substage = null;
     switch((stageNumber << 8) | substageNumber) {
       case 0x0000: _substage = SUBSTAGE_0000; break;
@@ -686,11 +681,11 @@ public class CastlevaniaBot {
       _substage.init();
     }
     substage = _substage;
-    
+
     if (level == null || _substage == null) {
       return;
     }
-    
+
     if (onStairs) {
       overHangingLeft = overHangingRight = onPlatform = false;
       tileX = playerX >> 4;
@@ -698,13 +693,13 @@ public class CastlevaniaBot {
       final MapRoutes mapRoutes = substage.getMapRoutes();
       final MapElement[][] map = mapRoutes.map;
       if (!TileType.isStairs(map[tileY][tileX].tileType)) {
-        if (tileX < mapRoutes.width - 1 
+        if (tileX < mapRoutes.width - 1
             && TileType.isStairs(map[tileY][tileX + 1].tileType)) {
           ++tileX;
-        } else if (tileX > 0 
+        } else if (tileX > 0
             && TileType.isStairs(map[tileY][tileX - 1].tileType)) {
           --tileX;
-        } 
+        }
       }
     } else if (isOnPlatform(playerX, playerY)) {
       onPlatform = true;
@@ -724,12 +719,12 @@ public class CastlevaniaBot {
     } else {
       overHangingLeft = overHangingRight = onPlatform = false;
     }
-    
+
     atBottomOfStairs = isAtBottomOfStairs();
     atTopOfStairs = isAtTopOfStairs();
-    canJump = !weaponing && !onStairs && !kneeling && onPlatform 
+    canJump = !weaponing && !onStairs && !kneeling && onPlatform
         && jumpDelay == 0;
-    
+
     level.readGameObjects();
     _substage.readGameObjects();
   }
@@ -2239,7 +2234,7 @@ public class CastlevaniaBot {
     System.out.println();
   }
   
-  private void renderFinished() {  
+  public void renderFinished() {
    
     readState();
 
@@ -2298,9 +2293,5 @@ public class CastlevaniaBot {
 //    paintGameObjects();
 //    printGameObjects();
   }
-  
-  public static void main(final String... args) {
-    ApiSource.initRemoteAPI("localhost", 9999);
-    new CastlevaniaBot();
-  }
+
 }
