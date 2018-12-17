@@ -2,10 +2,14 @@ package castlevaniabot.control;
 
 import castlevaniabot.BotState;
 import castlevaniabot.model.gameelements.Coordinates;
+import castlevaniabot.model.gameelements.MapElement;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TileType;
 
 import javax.inject.Inject;
+
+import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
+import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
 
 public class PlayerController {
 
@@ -41,6 +45,34 @@ public class PlayerController {
             botState.setJumpDelay(2); // Low number enables jumps against walls.
             gamePad.pressLeft();
             gamePad.pressA();
+        }
+    }
+
+    public void goUpStairs(final MapElement[][] map, final int width, BotState botState, Coordinates currentTile) {
+        if (botState.isOnStairs()) {
+            gamePad.pressUp();
+        } else if (botState.isOverHangingLeft()) {
+            goRight(botState);
+        } else if (botState.isOverHangingRight()) {
+            goLeft(botState);
+        } else if (botState.isOnPlatform()) {
+            final int x = botState.getPlayerX() & 0x0F;
+            final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
+            if (tileType == BACK_STAIRS || (currentTile.getX() < width - 1
+                    && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS)) {
+                if (x < 15) {
+                    goRight(botState);
+                } else {
+                    gamePad.pressUp();
+                }
+            } else if (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
+                    && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS)) {
+                if (x > 0) {
+                    goLeft(botState);
+                } else {
+                    gamePad.pressUp();
+                }
+            }
         }
     }
 

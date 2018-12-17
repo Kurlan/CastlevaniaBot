@@ -244,9 +244,6 @@ public class CastlevaniaBot {
   int crystalBallY;
   int crystalBallTime;
 
-  public boolean onPlatform;
-  boolean overHangingLeft;
-  boolean overHangingRight;
   boolean atBottomOfStairs;
   public boolean atTopOfStairs;
   public boolean playerLeft;
@@ -493,7 +490,9 @@ public class CastlevaniaBot {
     }
 
     if (botState.isOnStairs()) {
-      overHangingLeft = overHangingRight = onPlatform = false;
+      botState.setOverHangingLeft(false);
+      botState.setOverHangingRight(false);
+      botState.setOnPlatform(false);
       currentTile.setX(botState.getPlayerX() >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
       final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
@@ -508,27 +507,32 @@ public class CastlevaniaBot {
         }
       }
     } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
-      onPlatform = true;
-      overHangingLeft = overHangingRight = false;
+      botState.setOnPlatform(true);
+      botState.setOverHangingLeft(false);
+      botState.setOverHangingRight(false);
       currentTile.setX(botState.getPlayerX() >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
     } else if (playerController.isOnPlatform(botState.getPlayerX() - 4, botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
-      overHangingRight = onPlatform = true;
-      overHangingLeft = false;
+      botState.setOnPlatform(true);
+      botState.setOverHangingLeft(false);
+      botState.setOverHangingRight(true);
       currentTile.setX((botState.getPlayerX() - 4) >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
     } else if (playerController.isOnPlatform(botState.getPlayerX() + 4, botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
-      overHangingLeft = onPlatform = true;
-      overHangingRight = false;
+      botState.setOnPlatform(true);
+      botState.setOverHangingLeft(true);
+      botState.setOverHangingRight(false);
       currentTile.setX((botState.getPlayerX() + 4) >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
     } else {
-      overHangingLeft = overHangingRight = onPlatform = false;
+      botState.setOverHangingLeft(false);
+      botState.setOverHangingRight(false);
+      botState.setOnPlatform(false);
     }
 
     atBottomOfStairs = isAtBottomOfStairs();
     atTopOfStairs = isAtTopOfStairs();
-    canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && onPlatform
+    canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && botState.isOnPlatform()
         && botState.getJumpDelay() == 0;
 
     gameState.getCurrentLevel().readGameObjects(this);
@@ -1197,7 +1201,7 @@ public class CastlevaniaBot {
 
   public boolean isInStandingWhipRange(final GameObject obj, final int xOffset,
                                        final int yOffset) {
-    return WHIPS[botState.getWhipLength()][0].inRange( obj, xOffset, yOffset, botState);
+    return WHIPS[botState.getWhipLength()][0].inRange(obj, xOffset, yOffset, botState);
   } 
   
   public boolean isInKneelingWhipRange(final GameObject obj, final int xOffset,
@@ -1519,7 +1523,7 @@ public class CastlevaniaBot {
         break;
         
       case GO_UP_STAIRS:
-        goUpStairs(map, width);
+        playerController.goUpStairs(map, width, botState, currentTile);
         break;
       case GO_DOWN_STAIRS:
         goDownStairs(map, width);
@@ -1553,7 +1557,7 @@ public class CastlevaniaBot {
   } 
   
   int getJumpWhipOffset() {
-    return (onPlatform && botState.getJumpDelay() == 0) ? 0 : JUMP_WHIP_OFFSETS[botState.getJumpDelay()];
+    return (botState.isOnPlatform() && botState.getJumpDelay() == 0) ? 0 : JUMP_WHIP_OFFSETS[botState.getJumpDelay()];
   }
   
   // Can player axe target when standing on specified currentTile?
@@ -1701,7 +1705,7 @@ public class CastlevaniaBot {
   
   private boolean isAtBottomOfStairs() {
     
-    if (botState.isOnStairs() || !onPlatform) {
+    if (botState.isOnStairs() || !botState.isOnPlatform()) {
       return false;
     }
     
@@ -1711,39 +1715,11 @@ public class CastlevaniaBot {
         && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS))
             || (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
                 && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS));
-  }  
-  
-  private void goUpStairs(final MapElement[][] map, final int width) {
-    if (botState.isOnStairs()) {
-      gamePad.pressUp();
-    } else if (overHangingLeft) {
-      playerController.goRight(botState);
-    } else if (overHangingRight) {
-      playerController.goLeft(botState);
-    } else if (onPlatform) {      
-      final int x = botState.getPlayerX() & 0x0F;
-      final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
-      if (tileType == BACK_STAIRS || (currentTile.getX() < width - 1
-          && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS)) {
-        if (x < 15) {
-          playerController.goRight(botState);
-        } else {
-          gamePad.pressUp();
-        }
-      } else if (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
-          && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS)) {
-        if (x > 0) {
-          playerController.goLeft(botState);
-        } else {
-          gamePad.pressUp();
-        } 
-      }
-    }
   }
   
   private boolean isAtTopOfStairs() {
     
-    if (botState.isOnStairs() || !onPlatform) {
+    if (botState.isOnStairs() || !botState.isOnPlatform()) {
       return false;
     }
     
@@ -1757,7 +1733,7 @@ public class CastlevaniaBot {
   private void goDownStairs(final MapElement[][] map, final int width) {
     if (botState.isOnStairs()) {
       gamePad.pressDown();
-    } else if (onPlatform) {
+    } else if (botState.isOnPlatform()) {
       final int x = botState.getPlayerX() & 0x0F;
       final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
       if (tileType == FORWARD_PLATFORM || (currentTile.getX() < width - 1
@@ -1777,9 +1753,7 @@ public class CastlevaniaBot {
       }
     }
   }
-  
 
-  
   void go(final int direction) {
     if (direction == Left) {
       playerController.goLeft(botState);
@@ -1802,12 +1776,12 @@ public class CastlevaniaBot {
       gamePad.pressUp();
     } else if (checkForEnemies && stepY > currentTile.getY()) {
       final int x = botState.getPlayerX() & 0xF;
-      if (overHangingLeft && direction == Left && x < 13) {
+      if (botState.isOverHangingLeft() && direction == Left && x < 13) {
         if (!isEnemyInBounds((stepX << 4) - 24, botState.getPlayerY() - 32, botState.getPlayerX() + 24,
             stepY << 4)) {
           playerController.goLeft(botState);
         }
-      } else if (overHangingRight && direction == Right && x > 2) {
+      } else if (botState.isOverHangingRight() && direction == Right && x > 2) {
         if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 32, (stepX << 4) + 40,
             stepY << 4)) {
           playerController.goRight(botState);

@@ -14,4 +14,8 @@ public class BotState {
     private boolean onStairs;
 
     private int jumpDelay;
+
+    private boolean overHangingLeft;
+    private boolean overHangingRight;
+    private boolean onPlatform;
 }
