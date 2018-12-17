@@ -200,7 +200,7 @@ public class Substage1401 extends Substage {
         if (b.kneeling) {
           treasureTriggered2 = true;
         } else {
-          b.kneel();
+          playerController.kneel();
         }
       }      
     }   

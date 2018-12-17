@@ -29,6 +29,8 @@ public class GameState {
     private boolean playing;
     private boolean paused;
 
+    private int weaponDelay;
+
     public GameState() {
         movingPlatforms = new MovingPlatform[16];
         for(int i = movingPlatforms.length - 1; i >= 0; --i) {

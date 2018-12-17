@@ -49,7 +49,7 @@ public class GhoulStrategy implements Strategy {
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
                 if (usedHolyWater) {
-                    b.whip();
+                    playerController.whip(gameState);
                 } else {
                     usedHolyWater = b.grind();
                 }

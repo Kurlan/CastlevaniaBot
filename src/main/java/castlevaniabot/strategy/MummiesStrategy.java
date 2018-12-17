@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 
@@ -30,11 +31,13 @@ public class MummiesStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public MummiesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public MummiesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -170,9 +173,9 @@ public class MummiesStrategy implements Strategy {
         if (botState.getPlayerX() != routeX || botState.getPlayerY() != routeY || botState.isPlayerLeft()) {
             gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false);
         } else {
-            b.kneel();
+            playerController.kneel();
             if (b.kneeling && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         }
     }

@@ -87,7 +87,7 @@ public class CrusherStrategy implements Strategy {
                 } else if (botState.isPlayerLeft()) {
                     playerController.goRight(botState);
                 } else {
-                    b.whip();
+                    playerController.whip(gameState);
                     delay = 48;
                 }
                 break;
@@ -111,7 +111,7 @@ public class CrusherStrategy implements Strategy {
                 } else if (botState.isPlayerLeft()) {
                     playerController.goRight(botState);
                 } else {
-                    b.whip();
+                    playerController.whip(gameState);
                     delay = 48;
                 }
                 break;
@@ -135,7 +135,7 @@ public class CrusherStrategy implements Strategy {
                 } else if (botState.isPlayerLeft()) {
                     playerController.goRight(botState);
                 } else {
-                    b.whip();
+                    playerController.whip(gameState);
                     delay = 48;
                 }
                 break;

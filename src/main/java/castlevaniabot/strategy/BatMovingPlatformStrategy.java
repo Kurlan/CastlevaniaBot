@@ -76,13 +76,13 @@ public class BatMovingPlatformStrategy implements Strategy {
 
             if (b.isInStandingWhipRange(bat, offsetX, offsetY)) {
                 if (b.face(bat) && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             } else if (b.isInKneelingWhipRange(bat, offsetX, offsetY)) {
                 if (b.face(bat)) {
-                    b.kneel();
+                    playerController.kneel();
                     if (b.kneeling && !gameState.isWeaponing()) {
-                        b.whip();
+                        playerController.whip(gameState);
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class BatMovingPlatformStrategy implements Strategy {
 
             if (b.isInStandingWhipRange(fishman, offsetX, offsetY)) {
                 if (b.face(fishman) && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         }
@@ -135,7 +135,7 @@ public class BatMovingPlatformStrategy implements Strategy {
                 }
 
                 if (botState.getPlayerX() >= 856 && botState.getPlayerX() < 936) {
-                    b.kneel();
+                    playerController.kneel();
                 }
             } else if (b.canJump && batTimer < BAT_TIMER_THRESHOLD) {
                 if (botState.getPlayerX() > 400) {

@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,11 +17,13 @@ public class GhostStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public GhostStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public GhostStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -57,13 +60,13 @@ public class GhostStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.whip();                            // stand whip bat
+                playerController.whip(gameState);                            // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling) {
-                    b.whip();                          // kneel whip bat
+                    playerController.whip(gameState);                        // kneel whip bat
                 }
             }
         }

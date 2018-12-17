@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class EagleStrategy implements Strategy {
@@ -13,11 +14,14 @@ public class EagleStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public EagleStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+
+    public EagleStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState =gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -36,13 +40,13 @@ public class EagleStrategy implements Strategy {
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceFlyingTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (!botState.isOnStairs() && b.isTargetInKneelingWhipRange(offsetY, offsetY)) {
             if (b.faceFlyingTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         }

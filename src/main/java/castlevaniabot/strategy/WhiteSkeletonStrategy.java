@@ -64,7 +64,7 @@ public class WhiteSkeletonStrategy implements Strategy {
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {
                 if (holyWaterDelay > 0) {
-                    b.whip();
+                    playerController.whip(gameState);
                 } else if (b.grind()) {
                     holyWaterDelay = HOLY_WATER_RESET;
                 }

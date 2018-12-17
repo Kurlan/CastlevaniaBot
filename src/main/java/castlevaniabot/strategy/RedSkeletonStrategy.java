@@ -49,7 +49,7 @@ public class RedSkeletonStrategy implements Strategy {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                 if (!gameState.isWeaponing() && b.faceTarget()) {
                     if (usedHolyWater) {
-                        b.whip();
+                        playerController.whip(gameState);
                     } else {
                         usedHolyWater = b.grind();
                     }

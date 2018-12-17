@@ -38,7 +38,7 @@ public class BoomerangDeathStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange()) {
             if (b.faceTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (death.distanceX < 32) {
             moveAwayFrom(death);

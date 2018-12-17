@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -12,11 +13,13 @@ public class MedusaHeadStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public MedusaHeadStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public MedusaHeadStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -48,13 +51,13 @@ public class MedusaHeadStrategy implements Strategy {
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         }

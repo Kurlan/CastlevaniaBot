@@ -32,7 +32,7 @@ public class GotCrystalBallStrategy implements Strategy {
     public void step() {
         if (jumpDelay > 0) {
             if (--jumpDelay == 0) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.canJump) {
             playerController.jump(botState);

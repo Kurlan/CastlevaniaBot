@@ -80,7 +80,7 @@ public class AxeKnightStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.getTargetedObject().getTarget().distanceX > 64) {
             gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());

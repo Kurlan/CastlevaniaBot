@@ -45,7 +45,7 @@ public class GetItemStrategy implements Strategy {
 
         if (b.getTargetedObject().getTarget().type != DESTINATION && botState.getPlayerX() == x && botState.getPlayerY() == y) {
             if (b.getTargetedObject().getTarget().y > y) {
-                b.kneel();
+                playerController.kneel();
             } else if (b.canJump && b.getTargetedObject().getTarget().y < botState.getPlayerY() - 32) {
                 playerController.jump(botState);
             }

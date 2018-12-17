@@ -40,18 +40,18 @@ public class AxeStrategy implements Strategy {
         if (axe.distanceX < 24) {
             final boolean flyingHigh = axe.y + offsetY < botState.getPlayerY() - 16;
             if (!b.atTopOfStairs && flyingHigh) {
-                b.kneel();
+                playerController.kneel();
             } else if (!flyingHigh && b.canJump) {
                 playerController.jump(botState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            b.kneel();
+            playerController.kneel();
             if (b.kneeling && !gameState.isWeaponing() && b.faceTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         }
     }

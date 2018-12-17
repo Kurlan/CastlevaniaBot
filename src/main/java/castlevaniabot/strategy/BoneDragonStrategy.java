@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class BoneDragonStrategy implements Strategy {
@@ -13,11 +14,13 @@ public class BoneDragonStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public BoneDragonStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public BoneDragonStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -68,13 +71,13 @@ public class BoneDragonStrategy implements Strategy {
             gameState.getCurrentSubstage().routeAndFace(playerX, playerY, false);
         }
         if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            b.kneel();
+            playerController.kneel();
             if (b.kneeling && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         }
     }

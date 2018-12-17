@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,11 +18,13 @@ public class FleamanStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public FleamanStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public FleamanStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -53,12 +56,12 @@ public class FleamanStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange(vx, vy)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(vx, vy)) {
-            b.kneel();
+            playerController.kneel();
             if (b.kneeling && !gameState.isWeaponing() && b.faceTarget()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if ((vy < 0 && fleaman.y < botState.getPlayerY() - 16 && fleaman.distanceX < 56)
                 || (fleaman.x1 + vx <= botState.getPlayerX() + 8

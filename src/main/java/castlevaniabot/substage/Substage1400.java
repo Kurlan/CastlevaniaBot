@@ -208,13 +208,13 @@ public class Substage1400 extends Substage {
       case RUN_FOR_IT:
         if (kneelDelay > 0) {
           --kneelDelay; 
-          b.kneel();
+          playerController.kneel();
         } else if (botState.getPlayerX() < 1112 && upperAxe != null
             && upperAxe.distanceX < 24) {
           if (upperAxe.y < botState.getPlayerY() - 16) {
             kneelDelay = 16; // remain kneeling even after the axe vanishes
                              // just in case another axe is thrown
-            b.kneel();
+            playerController.kneel();
           } else if (b.canJump) {
             playerController.jump(botState);
           }

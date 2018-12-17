@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static castlevaniabot.control.PlayerController.WEAPON_DELAY;
 import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
 import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
 import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
@@ -112,8 +113,6 @@ public class CastlevaniaBot {
   
   static final int MAX_DISTANCE = 0xFFFF;
   static final int MAX_HEIGHT   = 0xF;
-  
-  static final int WEAPON_DELAY = 16;
   
   private static final int AVOID_X_RESET = -512;
   private static final int RED_BONES_THRESHOLD = 120;
@@ -195,7 +194,6 @@ public class CastlevaniaBot {
   public int hearts;
   public int shot;
 
-  int weaponDelay;
   int entryDelay;
   int pauseDelay;
   public int weapon = NONE;
@@ -357,7 +355,7 @@ public class CastlevaniaBot {
     botState.setOnStairs(api.readCPU(ON_STAIRS) == 0x00);
     gameState.setPaused(api.readCPU(PAUSED) == 0x01);
 
-    if (weaponDelay == 0) {
+    if (gameState.getWeaponDelay() == 0) {
       final int _weaponing = api.readCPU(WEAPONING);
       gameState.setWeaponing(_weaponing != 0xFC && _weaponing != 0x00);
     } else {
@@ -1462,17 +1460,6 @@ public class CastlevaniaBot {
     }
   }
   
-  public void kneel() {
-    gamePad.pressDown();
-  }
-  
-  public void whip() {
-    if (!gameState.isWeaponing()) {
-      weaponDelay = WEAPON_DELAY;
-      gamePad.pressB();
-    }
-  }
-  
   // Can player axe target when standing on specified currentTile?
   public boolean canHitTargetWithAxe(final int platformX, final int platformY) {
     return canHitWithAxe(platformX, platformY, targetedObject.getTarget());
@@ -1532,7 +1519,7 @@ public class CastlevaniaBot {
   // Use holy water if possible to grind for double and triple shots, else whip.
   public boolean grind() {
     if (!gameState.isWeaponing()) {
-      weaponDelay = WEAPON_DELAY;
+      gameState.setWeaponDelay(WEAPON_DELAY);
       if (!atBottomOfStairs && weapon == HOLY_WATER && hearts > 5 && shot < 3) {
         gamePad.pressUp();
         gamePad.pressB();
@@ -1548,7 +1535,7 @@ public class CastlevaniaBot {
   
   public void whipOrWeapon() {
     if (!gameState.isWeaponing()) {
-      weaponDelay = WEAPON_DELAY;
+      gameState.setWeaponDelay(WEAPON_DELAY);
       if (!atBottomOfStairs) {
         gamePad.pressUp();
       }
@@ -1558,7 +1545,7 @@ public class CastlevaniaBot {
   
   public void useWeapon() {
     if (!gameState.isWeaponing()) {
-      weaponDelay = WEAPON_DELAY;
+      gameState.setWeaponDelay(WEAPON_DELAY);
       gamePad.pressUp();
       gamePad.pressB();
     }
@@ -1780,8 +1767,8 @@ public class CastlevaniaBot {
       botState.setJumpDelay(botState.getJumpDelay() - 1);
     }
 
-    if (weaponDelay > 0) {
-      --weaponDelay;
+    if (gameState.getWeaponDelay() > 0) {
+      gameState.setWeaponDelay(gameState.getWeaponDelay() - 1);;
     }
 
     botState.setAvoidX(AVOID_X_RESET);

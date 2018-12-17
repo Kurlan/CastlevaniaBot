@@ -43,7 +43,7 @@ public class RavenStrategy implements Strategy {
 
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (moveAway > 0) {
             --moveAway;
@@ -54,11 +54,11 @@ public class RavenStrategy implements Strategy {
             gameState.getCurrentSubstage().routeLeft();
         } else if (!gameState.isWeaponing() && b.faceTarget()) {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-                b.whip();
+                playerController.whip(gameState);
             } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             } else if (b.canJump) {
                 final int whipDelay = b.isTargetInJumpingWhipRange(offsetX, offsetY);

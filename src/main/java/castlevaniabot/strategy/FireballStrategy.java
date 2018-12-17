@@ -39,7 +39,7 @@ public class FireballStrategy implements Strategy {
         if (fireball.distanceX < 24) {
             final boolean flyingHigh = fireball.y < botState.getPlayerY() - 16;
             if (!b.atTopOfStairs && flyingHigh) {
-                b.kneel();                          // duck under fireball
+                playerController.kneel();                          // duck under fireball
             } else if (!flyingHigh && b.canJump) {
                 playerController.jump(botState);                     // jump over fireball
             }
@@ -47,13 +47,13 @@ public class FireballStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();                           // stand whip fireball
+                playerController.whip(gameState);                           // stand whip fireball
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();                         // kneel whip fireball
+                    playerController.whip(gameState);                         // kneel whip fireball
                 }
             }
         }

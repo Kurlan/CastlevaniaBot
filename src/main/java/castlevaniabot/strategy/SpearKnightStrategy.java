@@ -57,7 +57,7 @@ public class SpearKnightStrategy implements Strategy {
         if (!usedHolyWater) {
             usedHolyWater = b.grind();
         } else {
-            b.whip();
+            playerController.whip(gameState);
         }
     }
 }

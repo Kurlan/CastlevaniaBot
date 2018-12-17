@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class SnakeStrategy implements Strategy {
@@ -13,11 +14,13 @@ public class SnakeStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public SnakeStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public SnakeStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -36,9 +39,9 @@ public class SnakeStrategy implements Strategy {
 
         if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         }

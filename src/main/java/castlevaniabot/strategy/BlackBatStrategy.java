@@ -39,7 +39,7 @@ public class BlackBatStrategy implements Strategy {
         if (bat.distanceX < 24) {
             final boolean flyingHigh = bat.y + offsetY < botState.getPlayerY() - 16;
             if (!b.atTopOfStairs && flyingHigh) {
-                b.kneel();                          // duck under bat
+                playerController.kneel();                      // duck under bat
             } else if (!flyingHigh && b.canJump) {
                 playerController.jump(botState);                           // jump over bat
             }
@@ -47,13 +47,13 @@ public class BlackBatStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();                         // stand whip bat
+                playerController.whip(gameState);                   // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();                         // kneel whip bat
+                    playerController.whip(gameState);                     // kneel whip bat
                 }
             }
         } else if (bat.distanceX - offsetX < 24 && offsetY != 0) {

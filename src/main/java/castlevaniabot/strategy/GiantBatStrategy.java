@@ -44,7 +44,7 @@ public class GiantBatStrategy implements Strategy {
 
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
-                b.whip();
+                playerController.whip(gameState);
                 whipped = true;
             }
         } else if (bat.y1 > botState.getPlayerY()

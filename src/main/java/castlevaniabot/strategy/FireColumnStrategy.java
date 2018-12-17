@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 public class FireColumnStrategy implements Strategy {
 
@@ -11,11 +12,13 @@ public class FireColumnStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public FireColumnStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public FireColumnStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class FireColumnStrategy implements Strategy {
         final int targetX = b.getTargetedObject().getTarget().x + ((botState.getPlayerX() < b.getTargetedObject().getTarget().x) ? -32 : 32);
         if (botState.getPlayerX() == targetX) {
             if (b.getTargetedObject().getTarget().playerFacing) {
-                b.whip();
+                playerController.whip(gameState);
                 done = 64;
             } else {
                 gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget()); // walk past and turn around

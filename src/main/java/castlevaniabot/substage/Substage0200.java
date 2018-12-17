@@ -96,7 +96,7 @@ public class Substage0200 extends Substage {
         if (b.kneeling) {
           triggeredTreasure = true;
         } else {
-          b.kneel();
+          playerController.kneel();
         }
       } else {
         b.addDestination(464, 192);

@@ -40,7 +40,7 @@ public class SickleStrategy implements Strategy {
                 return;
             } else if (b.isInStandingWhipRange(death)) {
                 if (b.face(death)) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
                 return;
             }
@@ -53,13 +53,13 @@ public class SickleStrategy implements Strategy {
             moveAwayFrom(sickle);
         } else if (b.isTargetInStandingWhipRange()) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange()) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else if (!gameState.isWeaponing() && b.hearts > 0 && sickle.y2 >= botState.getPlayerY() - 32

@@ -43,7 +43,7 @@ public class DraculaStrategy implements Strategy {
 
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
-                b.whip();
+                playerController.whip(gameState);
             }
         }
 

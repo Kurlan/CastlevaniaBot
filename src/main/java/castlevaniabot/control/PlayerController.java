@@ -23,6 +23,8 @@ import static nintaco.api.GamepadButtons.Right;
 
 public class PlayerController {
 
+    public static final int WEAPON_DELAY = 16;
+
     // Parabolic jump path
     public static final int[] ABSOLUTE_JUMP_YS = {
             0,  5, 10, 13, 16, 19, 22, 25, 27, 29, 31, 32, 33, 34, 35, 35,
@@ -137,6 +139,17 @@ public class PlayerController {
                     gamePad.pressUp();
                 }
             }
+        }
+    }
+
+    public void kneel() {
+        gamePad.pressDown();
+    }
+
+    public void whip(GameState gameState) {
+        if (!gameState.isWeaponing()) {
+            gameState.setWeaponDelay(WEAPON_DELAY);
+            gamePad.pressB();
         }
     }
 

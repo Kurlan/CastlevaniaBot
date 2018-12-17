@@ -108,7 +108,7 @@ public class WhipStrategy implements Strategy {
     }
 
     private void useWhip() {
-        b.whip();
+        playerController.whip(gameState);
         if (delayAfterUse == 0) {
             gameState.getCurrentSubstage().whipUsed();
         } else {

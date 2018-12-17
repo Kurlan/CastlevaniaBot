@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,11 +27,13 @@ public class MedusaStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public MedusaStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public MedusaStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState =gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -96,14 +99,14 @@ public class MedusaStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (medusa.distanceX <= 40) {
             moveAway = 90 + ThreadLocalRandom.current().nextInt(61);
@@ -152,13 +155,13 @@ public class MedusaStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else {
@@ -182,13 +185,13 @@ public class MedusaStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else if (medusa.distanceX <= 40) {
@@ -215,13 +218,13 @@ public class MedusaStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else if (medusa.distanceX <= 40) {
@@ -248,9 +251,9 @@ public class MedusaStrategy implements Strategy {
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {
-                b.kneel();
+                playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else if (medusa.distanceX <= 40) {
@@ -277,7 +280,7 @@ public class MedusaStrategy implements Strategy {
                     weaponDelay = 180;
                     b.useWeapon();
                 } else {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
@@ -286,9 +289,9 @@ public class MedusaStrategy implements Strategy {
                     weaponDelay = 180;
                     b.useWeapon();
                 } else {
-                    b.kneel();
+                    playerController.kneel();
                     if (b.kneeling && !gameState.isWeaponing()) {
-                        b.whip();
+                        playerController.whip(gameState);
                     }
                 }
             }

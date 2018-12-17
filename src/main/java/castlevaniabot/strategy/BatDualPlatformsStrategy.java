@@ -69,7 +69,7 @@ public class BatDualPlatformsStrategy implements Strategy {
 
             if (b.isInStandingWhipRange(fishman, offsetX, offsetY)) {
                 if (b.face(fishman) && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                 }
             }
         }
@@ -91,14 +91,14 @@ public class BatDualPlatformsStrategy implements Strategy {
 
             if (b.isInStandingWhipRange(bat, offsetX, offsetY)) {
                 if (b.face(bat) && !gameState.isWeaponing()) {
-                    b.whip();
+                    playerController.whip(gameState);
                     justWhipped = 4;
                 }
             } else if (b.isInKneelingWhipRange(bat, offsetX, offsetY)) {
                 if (b.face(bat)) {
-                    b.kneel();
+                    playerController.kneel();
                     if (b.kneeling && !gameState.isWeaponing()) {
-                        b.whip();
+                        playerController.whip(gameState);
                         justWhipped = 4;
                     }
                 }
@@ -139,7 +139,7 @@ public class BatDualPlatformsStrategy implements Strategy {
             }
 
             if (botState.getPlayerX() >= 1016 && botState.getPlayerX() < 1064) {
-                b.kneel();
+                playerController.kneel();
             } else if ((platform.x1 >= 1087 && platform.x1 <= 1089)
                     || (platform.x1 >= 1231 && platform.x1 <= 1233)) {
                 playerController.goRightAndJump(botState);

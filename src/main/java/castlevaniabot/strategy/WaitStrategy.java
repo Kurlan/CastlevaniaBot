@@ -72,7 +72,7 @@ public class WaitStrategy implements Strategy {
         } else if (delay > 0) {
             switch (waitType) {
                 case KNEEL:
-                    b.kneel();
+                    playerController.kneel();
                     break;
                 case WALK_LEFT:
                     playerController.goLeft(botState);

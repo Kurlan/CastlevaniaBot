@@ -59,9 +59,9 @@ public class CandlesStrategy implements Strategy {
                     && botState.isPlayerLeft() == playerLeft) {
                 final int height = botState.getPlayerY() - b.getTargetedObject().getTarget().y;
                 if (height < 16) {
-                    b.kneel();
+                    playerController.kneel();
                     if (b.kneeling) {
-                        b.whip();
+                        playerController.whip(gameState);
                         done = 64;
                     }
                 } else if (height > 16) {
@@ -89,7 +89,7 @@ public class CandlesStrategy implements Strategy {
         if (!usedHolyWater && b.getTargetedObject().getTarget().active) { // active indicates grindable
             usedHolyWater = b.grind();
         } else {
-            b.whip();
+            playerController.whip(gameState);
         }
         done = 64;
         gameState.getCurrentSubstage().candlesWhipped(b.getTargetedObject().getTarget());

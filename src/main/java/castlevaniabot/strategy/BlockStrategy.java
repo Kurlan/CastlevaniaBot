@@ -40,7 +40,7 @@ public class BlockStrategy implements Strategy {
 
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
-                b.whip();
+                playerController.whip(gameState);
             }
         } else if (botState.isOnPlatform() && b.getTargetedObject().getTarget().playerFacing
                 && b.getTargetedObject().getTarget().y >= botState.getPlayerY() - 24 && b.getTargetedObject().getTarget().y <= botState.getPlayerY()
@@ -74,7 +74,7 @@ public class BlockStrategy implements Strategy {
         if (delayWhip > 0) {
             --delayWhip;
         } else {
-            b.whip();
+            playerController.whip(gameState);
             gameState.getCurrentSubstage().blockWhipped();
         }
     }
