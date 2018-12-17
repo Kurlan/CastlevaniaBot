@@ -50,7 +50,7 @@ public class BoomerangDeathStrategy implements Strategy {
             case 0:
             case 1:
             case 12:
-                b.goRight();
+                playerController.goRight(botState);
                 break;
             case 2:
             case 13:
@@ -65,7 +65,7 @@ public class BoomerangDeathStrategy implements Strategy {
                 break;
             case 11:
                 if (death.y < botState.getPlayerY() - 16) {
-                    b.goRight();
+                    playerController.goRight(botState);
                 } else {
                     gameState.getCurrentSubstage().route(238, 128, false);
                 }
@@ -77,7 +77,7 @@ public class BoomerangDeathStrategy implements Strategy {
                 break;
             default:
                 if (death.x < botState.getPlayerX()) {
-                    b.goRight();
+                    playerController.goRight(botState);
                 } else {
                     playerController.goLeft(botState);
                 }

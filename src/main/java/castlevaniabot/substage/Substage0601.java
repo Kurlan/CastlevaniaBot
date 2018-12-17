@@ -101,7 +101,7 @@ public class Substage0601 extends Substage {
 
     if (!reachedBoss && botState.getPlayerX() <= 40) {
       reachedBoss = true;
-      b.goRight();
+      playerController.goRight(botState);
     }
 
     if (walkDelay > 0) {

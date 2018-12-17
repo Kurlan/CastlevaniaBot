@@ -72,7 +72,7 @@ public class AllStrategies {
         BONE_TOWER = new BoneTowerStrategy(castlevaniaBot, botState, gameState);
         CANDLES = new CandlesStrategy(castlevaniaBot, botState, gameState);
         COOKIE_MONSTER = new CookieMonsterStrategy(castlevaniaBot, botState, gameState);
-        CRUSHER = new CrusherStrategy(castlevaniaBot, botState, gameState);
+        CRUSHER = new CrusherStrategy(castlevaniaBot, botState, gameState, playerController);
         DEATH_HALL_HOLY_WATER = new DeathHallHolyWaterStrategy(castlevaniaBot, botState, gameState);
         DRACULA = new DraculaStrategy(castlevaniaBot, botState, gameState);
         EAGLE = new EagleStrategy(castlevaniaBot, botState, gameState);
@@ -87,11 +87,11 @@ public class AllStrategies {
         GHOUL = new GhoulStrategy(castlevaniaBot, botState, gameState);
         GIANT_BAT = new GiantBatStrategy(castlevaniaBot, botState, gameState);
         GOT_CRYSTAL_BALL = new GotCrystalBallStrategy(castlevaniaBot, botState, gameState);
-        HOLY_WATER_DEATH = new HolyWaterDeathStrategy(castlevaniaBot, botState, gameState);
+        HOLY_WATER_DEATH = new HolyWaterDeathStrategy(castlevaniaBot, botState, gameState, playerController);
         JUMP_MOVING_PLATFORM = new JumpMovingPlatformStrategy(castlevaniaBot, botState, gameState, playerController);
         MEDUSA = new MedusaStrategy(castlevaniaBot, botState, gameState);
         MEDUSA_HEAD = new MedusaHeadStrategy(castlevaniaBot, botState, gameState);
-        MEDUSA_HEADS_PITS = new MedusaHeadsPitsStrategy(castlevaniaBot, botState, gameState);
+        MEDUSA_HEADS_PITS = new MedusaHeadsPitsStrategy(castlevaniaBot, botState, gameState, playerController);
         MEDUSA_HEADS_WALK = new MedusaHeadsWalkStrategy(castlevaniaBot, botState, gameState);
         MUMMIES = new MummiesStrategy(castlevaniaBot, botState, gameState);
         NO_JUMP_MOVING_PLATFORM = new NoJumpMovingPlatformStrategy(castlevaniaBot, botState, gameState, playerController);

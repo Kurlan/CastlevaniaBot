@@ -109,10 +109,10 @@ public class JumpMovingPlatformStrategy implements Strategy {
                     } else if (b.playerLeft) {
                         playerController.goLeft(botState);                // walk past and turn around
                     } else {
-                        b.goRight();               // walk past and turn around
+                        playerController.goRight(botState);               // walk past and turn around
                     }
                 } else if (botState.getPlayerX() < platform.x1 + 16) {
-                    b.goRight();
+                    playerController.goRight(botState);
                 } else {
                     playerController.goLeft(botState);
                 }

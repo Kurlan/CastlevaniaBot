@@ -92,7 +92,7 @@ public class Substage0000 extends Substage {
       if (targetX > 696 && botState.getPlayerX() >= 676 && botState.getPlayerX() < 696) {
         b.goRightAndJump();
       } else {
-        b.goRight();
+        playerController.goRight(botState);
       }
     } else if (targetX < botState.getPlayerX()) {
       if (targetX < 696 && botState.getPlayerX() > 696 && botState.getPlayerX() <= 714) {

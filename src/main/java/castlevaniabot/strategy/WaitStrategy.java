@@ -78,7 +78,7 @@ public class WaitStrategy implements Strategy {
                     playerController.goLeft(botState);
                     break; // walk against wall
                 case WALK_RIGHT:
-                    b.goRight();
+                    playerController.goRight(botState);
                     break; // walk against wall
             }
             if (--delay == 0) {

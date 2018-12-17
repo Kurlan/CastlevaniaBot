@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import nintaco.api.API;
 import nintaco.api.ApiSource;
@@ -37,11 +38,13 @@ public class CrusherStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public CrusherStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public CrusherStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -82,7 +85,7 @@ public class CrusherStrategy implements Strategy {
                         state = State.WAIT_FOR_CRUSHER_1;
                     }
                 } else if (b.playerLeft) {
-                    b.goRight();
+                    playerController.goRight(botState);
                 } else {
                     b.whip();
                     delay = 48;
@@ -106,7 +109,7 @@ public class CrusherStrategy implements Strategy {
                         state = State.WAIT_FOR_CRUSHER_0;
                     }
                 } else if (b.playerLeft) {
-                    b.goRight();
+                    playerController.goRight(botState);
                 } else {
                     b.whip();
                     delay = 48;
@@ -130,7 +133,7 @@ public class CrusherStrategy implements Strategy {
                         init();
                     }
                 } else if (b.playerLeft) {
-                    b.goRight();
+                    playerController.goRight(botState);
                 } else {
                     b.whip();
                     delay = 48;

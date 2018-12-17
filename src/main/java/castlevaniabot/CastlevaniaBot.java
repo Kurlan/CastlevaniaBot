@@ -1653,7 +1653,7 @@ public class CastlevaniaBot {
     } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
       gamePad.pressDown();
     } else if (botState.getPlayerX() < obj.x) {
-      goRight();
+      playerController.goRight(botState);
     } else {
       playerController.goLeft(botState);
     }
@@ -1688,7 +1688,7 @@ public class CastlevaniaBot {
     } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
         gamePad.pressDown();
     } else if (botState.getPlayerX() < targetedObject.getTarget().x) {
-      goRight();
+      playerController.goRight(botState);
     } else {
       playerController.goLeft(botState);
     }
@@ -1717,7 +1717,7 @@ public class CastlevaniaBot {
     if (botState.isOnStairs()) {
       gamePad.pressUp();
     } else if (overHangingLeft) {
-      goRight();
+      playerController.goRight(botState);
     } else if (overHangingRight) {
       playerController.goLeft(botState);
     } else if (onPlatform) {      
@@ -1726,7 +1726,7 @@ public class CastlevaniaBot {
       if (tileType == BACK_STAIRS || (currentTile.getX() < width - 1
           && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS)) {
         if (x < 15) {
-          goRight();
+          playerController.goRight(botState);
         } else {
           gamePad.pressUp();
         }
@@ -1763,7 +1763,7 @@ public class CastlevaniaBot {
       if (tileType == FORWARD_PLATFORM || (currentTile.getX() < width - 1
           && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))) {
         if (x < 15) {
-          goRight();
+          playerController.goRight(botState);
         } else {
           gamePad.pressDown();
         }
@@ -1775,12 +1775,6 @@ public class CastlevaniaBot {
           gamePad.pressDown();
         }        
       }
-    }
-  }
-  
-  public void goRight() {
-    if (botState.getPlayerX() <= botState.getAvoidX() - 16 || botState.getPlayerX() > botState.getAvoidX()) {
-      gamePad.pressRight();
     }
   }
   
@@ -1804,7 +1798,7 @@ public class CastlevaniaBot {
     if (direction == Left) {
       playerController.goLeft(botState);
     } else {
-      goRight();
+      playerController.goRight(botState);
     }
   }
   
@@ -1830,7 +1824,7 @@ public class CastlevaniaBot {
       } else if (overHangingRight && direction == Right && x > 2) {
         if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 32, (stepX << 4) + 40,
             stepY << 4)) {
-          goRight();
+          playerController.goRight(botState);
         }
       } else {
         go(direction);
@@ -1886,14 +1880,14 @@ public class CastlevaniaBot {
           }
         }
       } else if (direction == Left) {
-        goRight();                   // walk past and turn around
+        playerController.goRight(botState);                   // walk past and turn around
       } else {
         playerController.goLeft(botState);                  // walk past and turn around
       }
     } else if (x > offsetX) {
       playerController.goLeft(botState);
     } else {
-      goRight();
+      playerController.goRight(botState);;
     }    
   }
   

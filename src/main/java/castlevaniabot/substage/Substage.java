@@ -65,7 +65,7 @@ public abstract class Substage {
     if (botState.getPlayerX() == targetX && botState.getPlayerY() == targetY) {
       if (b.playerLeft != left) {
         if (left) {
-          b.goRight();  // walk past and turn around
+          playerController.goRight(botState);  // walk past and turn around
         } else {
           playerController.goLeft(botState);   // walk past and turn around
         }
@@ -93,7 +93,7 @@ public abstract class Substage {
     
     if (b.currentTile.getX() == tx && b.currentTile.getY() == ty) {
       if (botState.getPlayerX() < targetX) {
-        b.goRight();
+        playerController.goRight(botState);
       } else if (botState.getPlayerX() > targetX) {
         playerController.goLeft(botState);
       }      

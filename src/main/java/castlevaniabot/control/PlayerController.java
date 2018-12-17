@@ -18,4 +18,10 @@ public class PlayerController {
             gamePad.pressLeft();
         }
     }
+
+    public void goRight(BotState botState) {
+        if (botState.getPlayerX() <= botState.getAvoidX() - 16 || botState.getPlayerX() > botState.getAvoidX()) {
+            gamePad.pressRight();
+        }
+    }
 }
