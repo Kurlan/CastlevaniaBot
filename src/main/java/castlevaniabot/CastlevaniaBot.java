@@ -94,9 +94,7 @@ import static castlevaniabot.model.gameelements.Addresses.WEAPON;
 import static castlevaniabot.model.gameelements.Addresses.WEAPONING;
 import static castlevaniabot.model.gameelements.Addresses.WHIP_LENGTH;
 import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
-import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
-import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.isBack;
 import static castlevaniabot.model.gameelements.TileType.isForward;
@@ -1526,7 +1524,7 @@ public class CastlevaniaBot {
         playerController.goUpStairs(map, width, botState, currentTile);
         break;
       case GO_DOWN_STAIRS:
-        goDownStairs(map, width);
+        playerController.goDownStairs(map, width, botState, currentTile);
         break;
     }    
   }
@@ -1728,30 +1726,6 @@ public class CastlevaniaBot {
     return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
             && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
         || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
-  }
-  
-  private void goDownStairs(final MapElement[][] map, final int width) {
-    if (botState.isOnStairs()) {
-      gamePad.pressDown();
-    } else if (botState.isOnPlatform()) {
-      final int x = botState.getPlayerX() & 0x0F;
-      final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
-      if (tileType == FORWARD_PLATFORM || (currentTile.getX() < width - 1
-          && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))) {
-        if (x < 15) {
-          playerController.goRight(botState);
-        } else {
-          gamePad.pressDown();
-        }
-      } else if (tileType == BACK_PLATFORM || (currentTile.getX() > 0
-          && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType))) {
-        if (x > 0) {
-          playerController.goLeft(botState);
-        } else {
-          gamePad.pressDown();
-        }        
-      }
-    }
   }
 
   void go(final int direction) {

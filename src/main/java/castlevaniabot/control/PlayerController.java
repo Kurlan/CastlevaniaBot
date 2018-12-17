@@ -8,8 +8,12 @@ import castlevaniabot.model.gameelements.TileType;
 
 import javax.inject.Inject;
 
+import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
+import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
+import static castlevaniabot.model.gameelements.TileType.isBack;
+import static castlevaniabot.model.gameelements.TileType.isForward;
 
 public class PlayerController {
 
@@ -71,6 +75,30 @@ public class PlayerController {
                     goLeft(botState);
                 } else {
                     gamePad.pressUp();
+                }
+            }
+        }
+    }
+
+    public void goDownStairs(final MapElement[][] map, final int width, BotState botState, Coordinates currentTile) {
+        if (botState.isOnStairs()) {
+            gamePad.pressDown();
+        } else if (botState.isOnPlatform()) {
+            final int x = botState.getPlayerX() & 0x0F;
+            final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
+            if (tileType == FORWARD_PLATFORM || (currentTile.getX() < width - 1
+                    && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))) {
+                if (x < 15) {
+                    goRight(botState);
+                } else {
+                    gamePad.pressDown();
+                }
+            } else if (tileType == BACK_PLATFORM || (currentTile.getX() > 0
+                    && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType))) {
+                if (x > 0) {
+                    goLeft(botState);
+                } else {
+                    gamePad.pressDown();
                 }
             }
         }
