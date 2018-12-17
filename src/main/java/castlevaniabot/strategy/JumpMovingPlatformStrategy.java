@@ -104,9 +104,9 @@ public class JumpMovingPlatformStrategy implements Strategy {
                 break;
             case WALK_TO_PLATFORM_CENTER:
                 if (botState.getPlayerX() == platform.x1 + 16) {
-                    if (b.playerLeft == (playerX1 > playerX2)) {
+                    if (botState.isPlayerLeft() == (playerX1 > playerX2)) {
                         state = State.WAIT_FOR_PLATFORM_TO_MOVE;
-                    } else if (b.playerLeft) {
+                    } else if (botState.isPlayerLeft()) {
                         playerController.goLeft(botState);                // walk past and turn around
                     } else {
                         playerController.goRight(botState);               // walk past and turn around

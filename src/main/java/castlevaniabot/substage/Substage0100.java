@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
@@ -18,8 +19,8 @@ public class Substage0100 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;
   
-  public Substage0100(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
-    super(b, botState, api, playerController);
+  public Substage0100(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
+    super(b, botState, api, playerController, gameState);
   }
 
   @Override
@@ -91,8 +92,8 @@ public class Substage0100 extends Substage {
   }
   
   private boolean isPantherResting() {
-    final GameObject[] objs = b.gameObjects;
-    for(int i = b.objsCount - 1; i >= 0; --i) {
+    final GameObject[] objs = gameState.getGameObjects();
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (!obj.active && obj.type == PANTHER && obj.x > 912) {
         return true;

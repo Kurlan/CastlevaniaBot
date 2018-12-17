@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.strategy.Strategy;
@@ -14,8 +15,8 @@ import static castlevaniabot.model.gameelements.GameObjectType.PHANTOM_BAT;
 
 public class Substage1600 extends Substage {
   
-  public Substage1600(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
-    super(b, botState, api, playerController);
+  public Substage1600(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
+    super(b, botState, api, playerController, gameState);
   }
 
   @Override

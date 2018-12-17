@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
@@ -31,8 +32,8 @@ public class Substage1401 extends Substage {
   private boolean blockWhipped2;
   private boolean blockBroken2;   
   
-  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController) {
-    super(b, botState, api, playerController);
+  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, final GameState gameState) {
+    super(b, botState, api, playerController, gameState);
   }
 
   @Override
@@ -149,12 +150,12 @@ public class Substage1401 extends Substage {
       }
     } else if (!treasureTriggered3 && !botState.isOnStairs()&& botState.getPlayerX() >= 288
         && botState.getPlayerX() < 480 && botState.getPlayerY() > 128
-            && !b.isEnemyInBounds(288, 128, 480, 208)) {
+            && !playerController.isEnemyInBounds(288, 128, 480, 208, gameState)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getWAIT().init(297, 192);
       botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
     } else if (!treasureTriggered1 && botState.getPlayerX() >= 928 && botState.getPlayerX() < 1024
-        && botState.getPlayerY() > 112 && !b.isEnemyInBounds(816, 112, 1024, 208)) {
+        && botState.getPlayerY() > 112 && !playerController.isEnemyInBounds(816, 112, 1024, 208, gameState)) {
       clearTarget(targetedObject);
       b.getAllStrategies().getWAIT().init(984, 192);
       botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
@@ -209,11 +210,11 @@ public class Substage1401 extends Substage {
   public void route(final int targetX, final int targetY,
                     final boolean checkForEnemies) {
     if (botState.isOnStairs() && botState.getPlayerY() >= 156 && botState.getPlayerX() < 256) {
-      if (!b.isEnemyInBounds(120, 156, 184, 208)) {
+      if (!playerController.isEnemyInBounds(120, 156, 184, 208, gameState)) {
         super.route(targetX, targetY, checkForEnemies);
       }
     } else if (botState.getPlayerX() >= 1200 && botState.getPlayerY() > 96 && botState.getPlayerY() < 144) {
-      if (!b.isEnemyInBounds(1192, 0, 1279, 104)) {
+      if (!playerController.isEnemyInBounds(1192, 0, 1279, 104, gameState)) {
         super.route(targetX, targetY, checkForEnemies);
       }
     } else {

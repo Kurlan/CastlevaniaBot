@@ -51,7 +51,7 @@ public class BlockStrategy implements Strategy {
             final int playerY = b.getTargetedObject().getTarget().platformY << 4;
             final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
             if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY
-                    && b.playerLeft == playerLeft) {
+                    && botState.isPlayerLeft() == playerLeft) {
                 if (botState.getPlayerY() - b.getTargetedObject().getTarget().y > 32) {
                     if (b.canJump) {
                         if (delayJump > 0) {

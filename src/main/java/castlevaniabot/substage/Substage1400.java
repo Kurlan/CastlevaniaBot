@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
@@ -44,8 +45,8 @@ public class Substage1400 extends Substage {
   private boolean upperAxeLeft;
   private State state;
   
-  public Substage1400(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
-    super(b, botState, api, playerController);
+  public Substage1400(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
+    super(b, botState, api, playerController, gameState);
   }
 
   @Override
@@ -247,8 +248,8 @@ public class Substage1400 extends Substage {
     lastLowerAxeExists = lowerAxe != null;
     lastUpperAxeExists = upperAxe != null;
     candles = fleaman = lowerAxe = upperAxe = lowerKnight = upperKnight = null;
-    final GameObject[] objs = b.gameObjects;
-    for(int i = b.objsCount - 1; i >= 0; --i) {
+    final GameObject[] objs = gameState.getGameObjects();
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       switch(obj.type) {
         case AXE:

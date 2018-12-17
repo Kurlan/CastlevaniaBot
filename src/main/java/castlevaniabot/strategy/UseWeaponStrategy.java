@@ -68,7 +68,7 @@ public class UseWeaponStrategy implements Strategy {
             }
         } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY) {
             gameState.getCurrentSubstage().route(playerX, playerY);
-        } else if (faceLeft != b.playerLeft) {
+        } else if (faceLeft != botState.isPlayerLeft()) {
             // walk past and turn around
             if (faceLeft) {
                 gameState.getCurrentSubstage().routeRight();

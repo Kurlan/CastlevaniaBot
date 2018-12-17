@@ -1,6 +1,7 @@
 package castlevaniabot.level;
 
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObjectType;
 import nintaco.api.*;
 
@@ -18,9 +19,10 @@ public class Level2 implements Level {
     this.api = api;
   }
   
-  @Override public void readGameObjects(CastlevaniaBot b) {
-    b.boneTowerSegmentsCount = b.objsCount = 0;
-    b.getGameState().setMovingPlatformsCount(0);
+  @Override public void readGameObjects(CastlevaniaBot b, GameState gameState) {
+    b.boneTowerSegmentsCount = 0;
+    gameState.setObjsCount(0);
+    gameState.setMovingPlatformsCount(0);
     for(int i = 63; i >= 0; --i) {
       final int sprite = api.readCPU32(SPRITES | (i << 2));      
       final int y = sprite & 0xFF;

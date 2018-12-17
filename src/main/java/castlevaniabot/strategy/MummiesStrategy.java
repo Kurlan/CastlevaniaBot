@@ -50,8 +50,8 @@ public class MummiesStrategy implements Strategy {
 
         mummy1 = null;
         mummy2 = null;
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             if (obj.type == GameObjectType.MUMMY) {
                 if (mummy1 == null) {
@@ -148,7 +148,7 @@ public class MummiesStrategy implements Strategy {
 
     private void stepBoomerangStrategy() {
 
-        if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !b.playerLeft) {
+        if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !botState.isPlayerLeft()) {
             gameState.getCurrentSubstage().routeAndFace(1512, 208, true, false);
         } else if (!gameState.isWeaponing()) {
             b.whipOrWeapon();
@@ -167,7 +167,7 @@ public class MummiesStrategy implements Strategy {
             }
         }
 
-        if (botState.getPlayerX() != routeX || botState.getPlayerY() != routeY || b.playerLeft) {
+        if (botState.getPlayerX() != routeX || botState.getPlayerY() != routeY || botState.isPlayerLeft()) {
             gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false);
         } else {
             b.kneel();
@@ -179,7 +179,7 @@ public class MummiesStrategy implements Strategy {
 
     private void stepHolyWaterStrategy() {
 
-        if (botState.getPlayerX() != 1290 || botState.getPlayerY() != 144 || b.playerLeft) {
+        if (botState.getPlayerX() != 1290 || botState.getPlayerY() != 144 || botState.isPlayerLeft()) {
             gameState.getCurrentSubstage().routeAndFace(1290, 144, false);
         } else if (weaponDelay > 0) {
             --weaponDelay;

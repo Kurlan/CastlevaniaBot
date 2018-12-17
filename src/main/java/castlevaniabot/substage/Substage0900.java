@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
@@ -33,8 +34,8 @@ public class Substage0900 extends Substage {
   
   public boolean blockBroken;
   
-  public Substage0900(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
-    super(b, botState, api, playerController);
+  public Substage0900(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
+    super(b, botState, api, playerController, gameState);
   }
 
   @Override
@@ -146,9 +147,9 @@ public class Substage0900 extends Substage {
                     final boolean checkForEnemies) {
     
     if (bossDefeated) {
-      if (botState.getPlayerX() == 1388 && targetX >= 1424 && !b.playerLeft) {
+      if (botState.getPlayerX() == 1388 && targetX >= 1424 && !botState.isPlayerLeft()) {
         playerController.goRightAndJump(botState);
-      } else if (botState.getPlayerX() == 1428 && targetX <= 1376 && b.playerLeft) {
+      } else if (botState.getPlayerX() == 1428 && targetX <= 1376 && botState.isPlayerLeft()) {
         playerController.goLeftAndJump(botState);
       } else {
         super.route(targetX, targetY, checkForEnemies);
@@ -186,8 +187,8 @@ public class Substage0900 extends Substage {
   }
   
   private boolean areFireballsOrBoneTowersNotPresent() {
-    final GameObject[] objs = b.gameObjects;
-    for(int i = b.objsCount - 1; i >= 0; --i) {
+    final GameObject[] objs = gameState.getGameObjects();
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
       if (obj.type == FIREBALL || obj.type == BONE_TOWER) {
         return false;

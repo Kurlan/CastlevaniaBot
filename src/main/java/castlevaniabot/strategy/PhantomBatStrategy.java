@@ -101,7 +101,7 @@ public class PhantomBatStrategy implements Strategy {
                 gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
             }
         } else if (botState.getPlayerX() == 736 && botState.getPlayerY() == 144) {
-            if (b.playerLeft) {
+            if (botState.isPlayerLeft()) {
                 if (b.canJump) {
                     final int y = botState.getPlayerY() - 24;
                     final int yJump = y - 32;
@@ -216,7 +216,7 @@ public class PhantomBatStrategy implements Strategy {
 
     private void stepHolyWaterStrategy(final GameObject bat) {
         if (botState.getPlayerY() == 208 && abs(botState.getPlayerX() - 712) < 2) {
-            if (b.playerLeft) {
+            if (botState.isPlayerLeft()) {
                 if (bat.x > 640 && bat.y > 120 && weaponDelay == 0) {
                     weaponDelay = 80;
                     b.whipOrWeapon();
@@ -247,7 +247,7 @@ public class PhantomBatStrategy implements Strategy {
                 gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
             }
         } else if (botState.getPlayerY() == 208 && botState.getPlayerX() == 522) {
-            if (b.playerLeft) {
+            if (botState.isPlayerLeft()) {
                 gameState.getCurrentSubstage().route(521, 208);
             } else if (b.canJump) {
                 if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {

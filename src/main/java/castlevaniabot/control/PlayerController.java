@@ -1,7 +1,10 @@
 package castlevaniabot.control;
 
 import castlevaniabot.BotState;
+import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.Coordinates;
+import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.MapElement;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TileType;
@@ -15,6 +18,8 @@ import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.isBack;
 import static castlevaniabot.model.gameelements.TileType.isForward;
 import static java.lang.Math.abs;
+import static nintaco.api.GamepadButtons.Left;
+import static nintaco.api.GamepadButtons.Right;
 
 public class PlayerController {
 
@@ -163,6 +168,87 @@ public class PlayerController {
                     gamePad.pressDown();
                 }
             }
+        }
+    }
+
+
+    public void goAndJump(final int direction, BotState botState) {
+        if (direction == Left) {
+            goLeftAndJump(botState);
+        } else {
+            goRightAndJump(botState);
+        }
+    }
+
+    public boolean isEnemyInBounds(final int x1, final int y1, final int x2,
+                                   final int y2, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            final GameObjectType type = obj.type;
+            if (type.enemy && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1
+                    && obj.y1 <= y2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void walkAndJump(final MapElement[][] map, final int width,
+                             int offsetX, final int direction, final int stepX, final int stepY,
+                             final boolean checkForEnemies, BotState botState, Coordinates currentTile, GameState gameState) {
+
+        switch (offsetX) {
+            case 8:
+                if (currentTile.getX() == 0 || map[currentTile.getY() - 1][currentTile.getX() - 1].height == 0
+                        || map[currentTile.getY() - 2][currentTile.getX() - 1].height == 0) {
+                    offsetX = 10;
+                } else if (currentTile.getX() == width - 1 || map[currentTile.getY() - 1][currentTile.getX() + 1].height == 0
+                        || map[currentTile.getY() - 2][currentTile.getX() + 1].height == 0) {
+                    offsetX = 6;
+                } break;
+            case 19:
+                if (direction == Left) {
+                    offsetX = 18;
+                }
+                break;
+            case -4:
+                if (direction == Right) {
+                    offsetX = -3;
+                }
+                break;
+        }
+
+        final int x = botState.getPlayerX() - (currentTile.getX() << 4);
+        if (x == offsetX) {
+            if (botState.isPlayerLeft() ^ (direction == Right)) {
+                if (botState.getJumpDelay() == 0) {
+                    if (checkForEnemies) {
+                        if (direction == Left) {
+                            if (!isEnemyInBounds((stepX << 4) - 48, botState.getPlayerY() - 64,
+                                    botState.getPlayerX() + 24, stepY << 4, gameState)) {
+                                goLeftAndJump(botState);
+                            }
+                        } else {
+                            if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 64,
+                                    (stepX << 4) + 64, stepY << 4, gameState)) {
+                                goRightAndJump(botState);
+                            }
+                        }
+                    } else {
+                        goAndJump(direction, botState);
+                    }
+                }
+            } else if (direction == Left) {
+                goRight(botState);                   // walk past and turn around
+            } else {
+                goLeft(botState);                  // walk past and turn around
+            }
+        } else if (x > offsetX) {
+            goLeft(botState);
+        } else {
+            goRight(botState);;
         }
     }
 

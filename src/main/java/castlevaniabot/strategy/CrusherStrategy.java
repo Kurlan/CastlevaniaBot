@@ -84,7 +84,7 @@ public class CrusherStrategy implements Strategy {
                     if (--delay == 0) {
                         state = State.WAIT_FOR_CRUSHER_1;
                     }
-                } else if (b.playerLeft) {
+                } else if (botState.isPlayerLeft()) {
                     playerController.goRight(botState);
                 } else {
                     b.whip();
@@ -108,7 +108,7 @@ public class CrusherStrategy implements Strategy {
                     if (--delay == 0) {
                         state = State.WAIT_FOR_CRUSHER_0;
                     }
-                } else if (b.playerLeft) {
+                } else if (botState.isPlayerLeft()) {
                     playerController.goRight(botState);
                 } else {
                     b.whip();
@@ -132,7 +132,7 @@ public class CrusherStrategy implements Strategy {
                     if (--delay == 0) {
                         init();
                     }
-                } else if (b.playerLeft) {
+                } else if (botState.isPlayerLeft()) {
                     playerController.goRight(botState);
                 } else {
                     b.whip();
@@ -146,10 +146,10 @@ public class CrusherStrategy implements Strategy {
 
         if (state == State.INACTIVE && botState.getPlayerX() >= 512 && botState.getPlayerX() <= 671
                 && botState.getPlayerY() >= 96) {
-            final GameObject[] objs = b.gameObjects;
+            final GameObject[] objs = gameState.getGameObjects();
             outer:
             {
-                for (int i = b.objsCount - 1; i >= 0; --i) {
+                for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
                     final GameObject obj = objs[i];
                     if (obj.type != DESTINATION && obj.x2 >= 512 && obj.x1 <= 671
                             && obj.y2 >= 96) {

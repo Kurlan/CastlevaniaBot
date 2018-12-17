@@ -75,7 +75,7 @@ public class DraculaStrategy implements Strategy {
                 }
             }
 
-            if (botState.getPlayerX() != playerX || b.playerLeft != playerLeft) {
+            if (botState.getPlayerX() != playerX || botState.isPlayerLeft() != playerLeft) {
                 gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false);
             }
         }
@@ -84,8 +84,8 @@ public class DraculaStrategy implements Strategy {
 
     private void updateObjects() {
         head = fireball = null;
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             switch (obj.type) {
                 case DRACULA_HEAD:

@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.gameelements.GameObject;
@@ -29,15 +30,17 @@ public abstract class Substage {
   final CastlevaniaBot b;
   final BotState botState;
   final PlayerController playerController;
+  final GameState gameState;
   
   public MapRoutes mapRoutes;
   int playerDelay;
   
-  Substage(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
+  Substage(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
     this.b = b;
     this.botState = botState;
     this.api = api;
     this.playerController = playerController;
+    this.gameState = gameState;
   }
   
   public void init() {
@@ -63,7 +66,7 @@ public abstract class Substage {
                            final boolean checkForEnemies) {
     
     if (botState.getPlayerX() == targetX && botState.getPlayerY() == targetY) {
-      if (b.playerLeft != left) {
+      if (botState.isPlayerLeft() != left) {
         if (left) {
           playerController.goRight(botState);  // walk past and turn around
         } else {
@@ -243,8 +246,8 @@ public abstract class Substage {
     
     GameObject currentTarget = null;    
     GameObject newTarget = null;
-    for(int i = b.objsCount - 1; i >= 0; --i) {      
-      final GameObject obj = b.gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       
       obj.tier = -1;
       obj.subTier = 0;

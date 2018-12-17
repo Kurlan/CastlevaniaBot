@@ -84,7 +84,7 @@ public class CookieMonsterStrategy implements Strategy {
                 }
             }
 
-            if (botState.getPlayerX() != playerX || b.playerLeft != playerLeft) {
+            if (botState.getPlayerX() != playerX || botState.isPlayerLeft() != playerLeft) {
                 gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false);
             } else if (b.canJump) {
                 playerController.jump(botState);
@@ -95,8 +95,8 @@ public class CookieMonsterStrategy implements Strategy {
 
     private void updateObjects() {
         item = head = null;
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             switch (obj.type) {
                 case COOKIE_MONSTER_HEAD:

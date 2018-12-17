@@ -116,7 +116,7 @@ public class BatMovingPlatformStrategy implements Strategy {
             }
         }
 
-        if (bat == null && fishman == null && (b.playerLeft || (botState.getPlayerX() > 400
+        if (bat == null && fishman == null && (botState.isPlayerLeft() || (botState.getPlayerX() > 400
                 && (botState.getPlayerX() - (b.currentTile.getX() << 4)) < 19))) {
             playerController.goRight(botState);
         }
@@ -125,7 +125,7 @@ public class BatMovingPlatformStrategy implements Strategy {
             if (botState.getPlayerX() + 4 >= platform.x1 && botState.getPlayerX() - 4 <= platform.x2) {
                 final int cx = platform.x1 + 24;
                 if (botState.getPlayerX() == cx) {
-                    if (b.playerLeft) {
+                    if (botState.isPlayerLeft()) {
                         playerController.goLeft(botState);
                     }
                 } else if (botState.getPlayerX() < cx) {
@@ -158,7 +158,7 @@ public class BatMovingPlatformStrategy implements Strategy {
         }
 
         if (jumpRequested) {
-            if (b.playerLeft) {
+            if (botState.isPlayerLeft()) {
                 playerController.goRight(botState);
             } else {
                 playerController.goRightAndJump(botState);
@@ -176,8 +176,8 @@ public class BatMovingPlatformStrategy implements Strategy {
     }
 
     private GameObject getRedBat() {
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             if (objs[i].type == RED_BAT) {
                 return objs[i];
             }
@@ -186,8 +186,8 @@ public class BatMovingPlatformStrategy implements Strategy {
     }
 
     private GameObject getFishman() {
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             if (objs[i].type == FISHMAN) {
                 return objs[i];
             }

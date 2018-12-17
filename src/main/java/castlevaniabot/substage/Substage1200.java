@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
@@ -31,8 +32,8 @@ public class Substage1200 extends Substage {
   private boolean gotHighCandle;
   private boolean aboutToGetCrystalBall;  
   
-  public Substage1200(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
-    super(b, botState, api, playerController);
+  public Substage1200(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
+    super(b, botState, api, playerController, gameState);
   }
 
   @Override
@@ -127,9 +128,9 @@ public class Substage1200 extends Substage {
 
     if (bossDefeated) {
       // crystal ball X +/- 20
-      if (botState.getPlayerX() == 876 && targetX >= 912 && !b.playerLeft) {
+      if (botState.getPlayerX() == 876 && targetX >= 912 && !botState.isPlayerLeft()) {
         playerController.goRightAndJump(botState);
-      } else if (botState.getPlayerX() == 916 && targetX <= 880 && b.playerLeft) {
+      } else if (botState.getPlayerX() == 916 && targetX <= 880 && botState.isPlayerLeft()) {
         playerController.goLeftAndJump(botState);
       } else {
         super.route(targetX, targetY, checkForEnemies);

@@ -148,8 +148,6 @@ public class CastlevaniaBot {
   final Substage1701 SUBSTAGE_1701;
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
-
-  public int objsCount;
   
   final BoneTowerSegment[] boneTowerSegments = new BoneTowerSegment[16];
   public int boneTowerSegmentsCount;
@@ -190,7 +188,6 @@ public class CastlevaniaBot {
 
   boolean atBottomOfStairs;
   public boolean atTopOfStairs;
-  public boolean playerLeft;
   public boolean kneeling;
 
   public boolean canJump;
@@ -207,7 +204,6 @@ public class CastlevaniaBot {
 
   private final API api;
   public final Map<String, MapRoutes> allMapRoutes;
-  public final GameObject[] gameObjects;
 
   private BotState botState;
   private GameState gameState;
@@ -223,7 +219,6 @@ public class CastlevaniaBot {
   public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects, List<Level> levels,
                         GamePad gamePad, PlayerController playerController) {
       this.currentTile = Coordinates.builder().x(0).y(0).build();
-      this.gameObjects = gameObjects;
       this.targetedObject = TargetedObject
             .builder()
             .target(null)
@@ -236,6 +231,7 @@ public class CastlevaniaBot {
             .build();
       this.botState = new BotState();
       this.gameState = new GameState();
+      gameState.setGameObjects(gameObjects);
       this.allStrategies = new AllStrategies(this,botState, gameState, playerController);
       this.levels = levels;
       this.gamePad = gamePad;
@@ -272,36 +268,36 @@ public class CastlevaniaBot {
     this.api = api;
     this.allMapRoutes = allMapRoutes;
 
-    SUBSTAGE_0000 = new Substage0000(this, botState, api, playerController);
-    SUBSTAGE_0100 = new Substage0100(this, botState, api, playerController);
-    SUBSTAGE_0200 = new Substage0200(this, botState, api, playerController);
-    SUBSTAGE_0201 = new Substage0201(this, botState, api, playerController);
-    SUBSTAGE_0300 = new Substage0300(this, botState, api, playerController);
-    SUBSTAGE_0400 = new Substage0400(this, botState, api, playerController);
-    SUBSTAGE_0401 = new Substage0401(this, botState, api, playerController);
-    SUBSTAGE_0500 = new Substage0500(this, botState, api, playerController);
-    SUBSTAGE_0501 = new Substage0501(this, botState, api, playerController);
-    SUBSTAGE_0600 = new Substage0600(this, botState, api, playerController);
-    SUBSTAGE_0601 = new Substage0601(this, botState, api, playerController);
-    SUBSTAGE_0700 = new Substage0700(this, botState, api, playerController);
-    SUBSTAGE_0701 = new Substage0701(this, botState, api, playerController);
-    SUBSTAGE_0800 = new Substage0800(this, botState, api, playerController);
-    SUBSTAGE_0801 = new Substage0801(this, botState, api, playerController);
-    SUBSTAGE_0900 = new Substage0900(this, botState, api, playerController);
-    SUBSTAGE_1000 = new Substage1000(this, botState, api, playerController);
-    SUBSTAGE_1100 = new Substage1100(this, botState, api, playerController);
-    SUBSTAGE_1200 = new Substage1200(this, botState, api, playerController);
-    SUBSTAGE_1300 = new Substage1300(this, botState, api, playerController);
-    SUBSTAGE_1301 = new Substage1301(this, botState, api, playerController);
-    SUBSTAGE_1400 = new Substage1400(this, botState, api, playerController);
-    SUBSTAGE_1401 = new Substage1401(this, botState, api, playerController);
-    SUBSTAGE_1500 = new Substage1500(this, botState, api, playerController);
-    SUBSTAGE_1501 = new Substage1501(this, botState, api, playerController);
-    SUBSTAGE_1600 = new Substage1600(this, botState, api, playerController);
-    SUBSTAGE_1700 = new Substage1700(this, botState, api, playerController);
-    SUBSTAGE_1701 = new Substage1701(this, botState, api, playerController);
-    SUBSTAGE_1800 = new Substage1800(this, botState, api, playerController);
-    SUBSTAGE_1801 = new Substage1801(this, botState, api, playerController);
+    SUBSTAGE_0000 = new Substage0000(this, botState, api, playerController, gameState);
+    SUBSTAGE_0100 = new Substage0100(this, botState, api, playerController, gameState);
+    SUBSTAGE_0200 = new Substage0200(this, botState, api, playerController, gameState);
+    SUBSTAGE_0201 = new Substage0201(this, botState, api, playerController, gameState);
+    SUBSTAGE_0300 = new Substage0300(this, botState, api, playerController, gameState);
+    SUBSTAGE_0400 = new Substage0400(this, botState, api, playerController, gameState);
+    SUBSTAGE_0401 = new Substage0401(this, botState, api, playerController, gameState);
+    SUBSTAGE_0500 = new Substage0500(this, botState, api, playerController, gameState);
+    SUBSTAGE_0501 = new Substage0501(this, botState, api, playerController, gameState);
+    SUBSTAGE_0600 = new Substage0600(this, botState, api, playerController, gameState);
+    SUBSTAGE_0601 = new Substage0601(this, botState, api, playerController, gameState);
+    SUBSTAGE_0700 = new Substage0700(this, botState, api, playerController, gameState);
+    SUBSTAGE_0701 = new Substage0701(this, botState, api, playerController, gameState);
+    SUBSTAGE_0800 = new Substage0800(this, botState, api, playerController, gameState);
+    SUBSTAGE_0801 = new Substage0801(this, botState, api, playerController, gameState);
+    SUBSTAGE_0900 = new Substage0900(this, botState, api, playerController, gameState);
+    SUBSTAGE_1000 = new Substage1000(this, botState, api, playerController, gameState);
+    SUBSTAGE_1100 = new Substage1100(this, botState, api, playerController, gameState);
+    SUBSTAGE_1200 = new Substage1200(this, botState, api, playerController, gameState);
+    SUBSTAGE_1300 = new Substage1300(this, botState, api, playerController, gameState);
+    SUBSTAGE_1301 = new Substage1301(this, botState, api, playerController, gameState);
+    SUBSTAGE_1400 = new Substage1400(this, botState, api, playerController, gameState);
+    SUBSTAGE_1401 = new Substage1401(this, botState, api, playerController, gameState);
+    SUBSTAGE_1500 = new Substage1500(this, botState, api, playerController, gameState);
+    SUBSTAGE_1501 = new Substage1501(this, botState, api, playerController, gameState);
+    SUBSTAGE_1600 = new Substage1600(this, botState, api, playerController, gameState);
+    SUBSTAGE_1700 = new Substage1700(this, botState, api, playerController, gameState);
+    SUBSTAGE_1701 = new Substage1701(this, botState, api, playerController, gameState);
+    SUBSTAGE_1800 = new Substage1800(this, botState, api, playerController, gameState);
+    SUBSTAGE_1801 = new Substage1801(this, botState, api, playerController, gameState);
   }
 
   public TargetedObject getTargetedObject() {
@@ -352,7 +348,7 @@ public class CastlevaniaBot {
     kneeling = api.readCPU(KNEELING) == 0x0A;
     botState.setPlayerY(api.readCPU(PLAYER_Y) + (kneeling ? 12 : 16));
     botState.setPlayerX(api.readCPU16(PLAYER_X));
-    playerLeft = api.readCPU(PLAYER_FACING) == 0x01;
+    botState.setPlayerLeft(api.readCPU(PLAYER_FACING) == 0x01);
     gameState.setCameraX(api.readCPU16(CAMERA_X));
     weapon = api.readCPU(WEAPON);
     botState.setWhipLength(api.readCPU(WHIP_LENGTH));
@@ -479,7 +475,7 @@ public class CastlevaniaBot {
     canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && botState.isOnPlatform()
         && botState.getJumpDelay() == 0;
 
-    gameState.getCurrentLevel().readGameObjects(this);
+    gameState.getCurrentLevel().readGameObjects(this, gameState);
     _substage.readGameObjects();
   }
   
@@ -837,7 +833,7 @@ public class CastlevaniaBot {
       return;
     }
     
-    final GameObject obj = gameObjects[objsCount];
+    final GameObject obj = gameState.getGameObjects()[gameState.getObjsCount()];
     obj.type = DESTINATION;
     obj.supportX = obj.x = x;
     obj.y = y;  
@@ -848,15 +844,15 @@ public class CastlevaniaBot {
     obj.distanceY = abs(y - botState.getPlayerY());
     obj.left = false;
     obj.active = false;
-    obj.playerFacing = playerLeft ^ (botState.getPlayerX() < x);
+    obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
     obj.distance = mapRoutes.getDistance(obj, currentTile);
     obj.x1 = x - 8;
     obj.x2 = x + 8;
     obj.y1 = obj.y2 = y;
     obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8) 
-        | (0xFF - min(0xFF, obj.distanceX));    
-    
-    ++objsCount;
+        | (0xFF - min(0xFF, obj.distanceX));
+
+    gameState.setObjsCount(gameState.getObjsCount() - 1);
   }
   
   public void addBlock(int x, int y) {
@@ -871,7 +867,7 @@ public class CastlevaniaBot {
       return;
     }
     
-    final GameObject obj = gameObjects[objsCount];
+    final GameObject obj = gameState.getGameObjects()[gameState.getObjsCount()];
     obj.type = GameObjectType.BLOCK;
     obj.supportX = obj.x = x;
     obj.y = y;  
@@ -879,7 +875,7 @@ public class CastlevaniaBot {
     obj.distanceY = abs(y - botState.getPlayerY());
     obj.left = false;
     obj.active = false;
-    obj.playerFacing = playerLeft ^ (botState.getPlayerX() < x);
+    obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
     obj.x1 = x - 8;
     obj.x2 = x + 8;
     obj.y1 = y - 15;
@@ -927,9 +923,9 @@ public class CastlevaniaBot {
     }
     
     obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8) 
-        | (0xFF - min(0xFF, obj.distanceX));    
-    
-    ++objsCount;    
+        | (0xFF - min(0xFF, obj.distanceX));
+
+    gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
   
   public void addGameObject(final GameObjectType type, int x, int y,
@@ -953,7 +949,7 @@ public class CastlevaniaBot {
       return;
     }
     
-    final GameObject obj = gameObjects[objsCount];
+    final GameObject obj = gameState.getGameObjects()[gameState.getObjsCount()];
     obj.type = type;
     obj.x = x;
     obj.y = y;
@@ -961,7 +957,7 @@ public class CastlevaniaBot {
     obj.distanceY = abs(y - botState.getPlayerY());
     obj.left = left;
     obj.active = active;
-    obj.playerFacing = playerLeft ^ (botState.getPlayerX() < x);
+    obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
     
     obj.x1 = x - type.xRadius;
     obj.x2 = x + type.xRadius;
@@ -1127,9 +1123,9 @@ public class CastlevaniaBot {
     }
     
     obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8) 
-        | (0xFF - min(0xFF, obj.distanceX)); 
-    
-    ++objsCount;
+        | (0xFF - min(0xFF, obj.distanceX));
+
+    gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
   
   // Returns the whip delay after jumping or -1 if not in range.
@@ -1210,11 +1206,10 @@ public class CastlevaniaBot {
   public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
     return WHIPS[botState.getWhipLength()][1].inRange(targetedObject.getTarget(), xOffset, yOffset, botState);
   }
-  
   public int countObjects(final GameObjectType type) {
     int count = 0;
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type) {
         ++count;
       }
@@ -1223,8 +1218,8 @@ public class CastlevaniaBot {
   }
   
   public GameObject getType(final GameObjectType type) {
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type) {
         return obj;
       }
@@ -1243,7 +1238,7 @@ public class CastlevaniaBot {
       return true;
     }
     
-    if (playerLeft) {
+    if (botState.isPlayerLeft()) {
       return (currentTile.getX() > 0) && (map[currentTile.getY() - 4][currentTile.getX() - 1].height == 0
               || map[currentTile.getY() - 3][currentTile.getX() - 1].height == 0);
     } else {
@@ -1255,8 +1250,8 @@ public class CastlevaniaBot {
   
   public boolean isTypePresent(final GameObjectType type) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type) {
         return true;
       }
@@ -1267,8 +1262,8 @@ public class CastlevaniaBot {
   
   public boolean isObjectBelow(final int y) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.y2 >= y) {
         return true;
       }
@@ -1279,8 +1274,8 @@ public class CastlevaniaBot {
 
   boolean isObjectAbove(final int y) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.y1 <= y) {
         return true;
       }
@@ -1291,8 +1286,8 @@ public class CastlevaniaBot {
   
   boolean isEnemyBelow(final int y) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type.enemy && obj.y2 >= y) {
         return true;
       }
@@ -1303,8 +1298,8 @@ public class CastlevaniaBot {
 
   boolean isEnemyAbove(final int y) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type.enemy && obj.y1 <= y) {
         return true;
       }
@@ -1315,8 +1310,8 @@ public class CastlevaniaBot {
   
   boolean isTypeAbove(final GameObjectType type, final int y) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.y1 <= y) {
         return true;
       }
@@ -1327,8 +1322,8 @@ public class CastlevaniaBot {
 
   boolean isTypeBelow(final GameObjectType type, final int y) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.y2 >= y) {
         return true;
       }
@@ -1339,8 +1334,8 @@ public class CastlevaniaBot {
 
   boolean isTypeLeft(final GameObjectType type, final int x) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.x1 <= x) {
         return true;
       }
@@ -1351,8 +1346,8 @@ public class CastlevaniaBot {
   
   public boolean isTypeRight(final GameObjectType type, final int x) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.x2 >= x) {
         return true;
       }
@@ -1363,8 +1358,8 @@ public class CastlevaniaBot {
   
   boolean isTypeInRange(final GameObjectType type, final int x1, final int x2) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1) {
         return true;
       }
@@ -1377,8 +1372,8 @@ public class CastlevaniaBot {
       final int x2, final int y2) {
     
     int count = 0;
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 
           && obj.y1 <= y2) {
         ++count;
@@ -1390,8 +1385,8 @@ public class CastlevaniaBot {
   public boolean isTypeInBounds(final GameObjectType type, final int x1, final int y1,
                                 final int x2, final int y2) {
     
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 
           && obj.y1 <= y2) {
         return true;
@@ -1404,21 +1399,6 @@ public class CastlevaniaBot {
   boolean isObjectInBounds(final GameObject obj, final int x1, final int y1, 
       final int x2, final int y2) {    
     return obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 && obj.y1 <= y2;
-  }  
-  
-  public boolean isEnemyInBounds(final int x1, final int y1, final int x2,
-                                 final int y2) {
-    
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
-      final GameObjectType type = obj.type;
-      if (type.enemy && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 
-          && obj.y1 <= y2) {
-        return true;
-      }
-    }
-
-    return false;
   }
   
   public void executeOperation(final MapElement[][] map, final int width,
@@ -1435,35 +1415,35 @@ public class CastlevaniaBot {
         break;
         
       case WALK_CENTER_LEFT_JUMP:
-        walkAndJump(map, width, 8, Left, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 8, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
       case WALK_RIGHT_MIDDLE_LEFT_JUMP:
-        walkAndJump(map, width, 13, Left, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 13, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
       case WALK_LEFT_MIDDLE_LEFT_JUMP:
-        walkAndJump(map, width, 2, Left, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 2, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;        
       case WALK_RIGHT_EDGE_LEFT_JUMP:
-        walkAndJump(map, width, 19, Left, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 19, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
       case WALK_LEFT_EDGE_LEFT_JUMP:
-        walkAndJump(map, width, -4, Left, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, -4, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
         
       case WALK_CENTER_RIGHT_JUMP:
-        walkAndJump(map, width, 8, Right, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 8, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
       case WALK_RIGHT_MIDDLE_RIGHT_JUMP:
-        walkAndJump(map, width, 13, Right, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 13, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
       case WALK_LEFT_MIDDLE_RIGHT_JUMP:
-        walkAndJump(map, width, 2, Right, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 2, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;          
       case WALK_RIGHT_EDGE_RIGHT_JUMP:
-        walkAndJump(map, width, 19, Right, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, 19, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
       case WALK_LEFT_EDGE_RIGHT_JUMP:
-        walkAndJump(map, width, -4, Right, stepX, stepY, checkForEnemies);
+        playerController.walkAndJump(map, width, -4, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
         break;
         
       case GO_UP_STAIRS:
@@ -1671,14 +1651,6 @@ public class CastlevaniaBot {
     }
   }
   
-  void goAndJump(final int direction) {
-    if (direction == Left) {
-      playerController.goLeftAndJump(botState);
-    } else {
-      playerController.goRightAndJump(botState);
-    }
-  }  
-  
   private void walk(final int direction, final int stepX, final int stepY, 
       final boolean checkForEnemies) {
     if (botState.isOnStairs()) {
@@ -1686,13 +1658,13 @@ public class CastlevaniaBot {
     } else if (checkForEnemies && stepY > currentTile.getY()) {
       final int x = botState.getPlayerX() & 0xF;
       if (botState.isOverHangingLeft() && direction == Left && x < 13) {
-        if (!isEnemyInBounds((stepX << 4) - 24, botState.getPlayerY() - 32, botState.getPlayerX() + 24,
-            stepY << 4)) {
+        if (!playerController.isEnemyInBounds((stepX << 4) - 24, botState.getPlayerY() - 32, botState.getPlayerX() + 24,
+            stepY << 4, gameState)) {
           playerController.goLeft(botState);
         }
       } else if (botState.isOverHangingRight() && direction == Right && x > 2) {
-        if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 32, (stepX << 4) + 40,
-            stepY << 4)) {
+        if (!playerController.isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 32, (stepX << 4) + 40,
+            stepY << 4, gameState)) {
           playerController.goRight(botState);
         }
       } else {
@@ -1703,76 +1675,19 @@ public class CastlevaniaBot {
     }
   }
   
-  private void walkAndJump(final MapElement[][] map, final int width,
-      int offsetX, final int direction, final int stepX, final int stepY, 
-          final boolean checkForEnemies) {
-    
-    switch (offsetX) {
-      case 8:
-        if (currentTile.getX() == 0 || map[currentTile.getY() - 1][currentTile.getX() - 1].height == 0
-            || map[currentTile.getY() - 2][currentTile.getX() - 1].height == 0) {
-          offsetX = 10;
-        } else if (currentTile.getX() == width - 1 || map[currentTile.getY() - 1][currentTile.getX() + 1].height == 0
-            || map[currentTile.getY() - 2][currentTile.getX() + 1].height == 0) {
-          offsetX = 6;
-        } break;
-      case 19:
-        if (direction == Left) {
-          offsetX = 18;
-        }
-        break;
-      case -4:
-        if (direction == Right) {
-          offsetX = -3;
-        }
-        break;
-    }
-    
-    final int x = botState.getPlayerX() - (currentTile.getX() << 4);
-    if (x == offsetX) {
-      if (playerLeft ^ (direction == Right)) {
-        if (botState.getJumpDelay() == 0) {
-          if (checkForEnemies) {
-            if (direction == Left) {
-              if (!isEnemyInBounds((stepX << 4) - 48, botState.getPlayerY() - 64,
-                      botState.getPlayerX() + 24, stepY << 4)) {
-                playerController.goLeftAndJump(botState);
-              }
-            } else {
-              if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 64,
-                  (stepX << 4) + 64, stepY << 4)) {
-                playerController.goRightAndJump(botState);
-              }
-            }
-          } else {
-            goAndJump(direction);
-          }
-        }
-      } else if (direction == Left) {
-        playerController.goRight(botState);                   // walk past and turn around
-      } else {
-        playerController.goLeft(botState);                  // walk past and turn around
-      }
-    } else if (x > offsetX) {
-      playerController.goLeft(botState);
-    } else {
-      playerController.goRight(botState);;
-    }    
-  }
-  
   boolean isPlayerInRange(final int x1, final int x2) {
     return botState.getPlayerX() >= x1 && botState.getPlayerX() <= x2;
   }
   
   private void paintGameObjects() {
     api.setColor(Colors.YELLOW);
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       api.drawRect(obj.x1 - gameState.getCameraX(), obj.y1, obj.x2 - obj.x1 + 1,
           obj.y2 - obj.y1 + 1);
     }    
-    for(int i = objsCount - 1; i >= 0; --i) {
-      final GameObject obj = gameObjects[i];
+    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+      final GameObject obj = gameState.getGameObjects()[i];
       api.drawRect(obj.x1 - gameState.getCameraX(), obj.y1, obj.x2 - obj.x1 + 1,
           obj.y2 - obj.y1 + 1);
     }
@@ -1795,9 +1710,9 @@ public class CastlevaniaBot {
   }
   
   private void printGameObject(final GameObjectType type) {
-    for(int i = 0; i < objsCount; ++i) {
-      if (gameObjects[i].type == type) {
-        System.out.print(gameObjects[i] + " ");
+    for(int i = 0; i < gameState.getObjsCount(); ++i) {
+      if (gameState.getGameObjects()[i].type == type) {
+        System.out.print(gameState.getGameObjects()[i] + " ");
       }
     }
     System.out.println();
@@ -1807,8 +1722,8 @@ public class CastlevaniaBot {
     for(int i = redBonesCount0 - 1; i >= 0; --i) {
       System.out.print(redBones0[i] + " ");
     }
-    for(int i = 0; i < objsCount; ++i) {
-      System.out.print(gameObjects[i] + " ");
+    for(int i = 0; i < gameState.getObjsCount(); ++i) {
+      System.out.print(gameState.getGameObjects()[i] + " ");
     }
     if (targetedObject.getTarget() != null) {
       System.out.format("* %s", targetedObject.getTarget());

@@ -300,8 +300,8 @@ public class FrankensteinStrategy implements Strategy {
 
         frank = igor = fireball = null;
         fireballDist = Integer.MAX_VALUE;
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             switch (obj.type) {
                 case FRANKENSTEIN:

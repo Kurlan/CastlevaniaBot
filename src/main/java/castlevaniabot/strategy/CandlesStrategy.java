@@ -56,7 +56,7 @@ public class CandlesStrategy implements Strategy {
             final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
             playerX += playerLeft ? 1 : 14;
             if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY
-                    && b.playerLeft == playerLeft) {
+                    && botState.isPlayerLeft() == playerLeft) {
                 final int height = botState.getPlayerY() - b.getTargetedObject().getTarget().y;
                 if (height < 16) {
                     b.kneel();

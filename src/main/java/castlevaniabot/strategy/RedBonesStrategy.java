@@ -27,7 +27,7 @@ public class RedBonesStrategy implements Strategy {
     @Override
     public void init() {
         targetX = b.getTargetedObject().getTarget().x;
-        playerLeft = b.playerLeft;
+        playerLeft = botState.isPlayerLeft();
     }
 
     @Override

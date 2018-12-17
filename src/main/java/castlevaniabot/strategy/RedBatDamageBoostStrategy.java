@@ -33,7 +33,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
     public void step() {
 
         if (batSpawned) {
-            if (b.playerLeft) {
+            if (botState.isPlayerLeft()) {
                 playerController.goRightAndJump(botState);
                 b.SUBSTAGE_0201.redBatDamageBoostDone();
             } else {
@@ -41,7 +41,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
             }
         } else {
             final GameObject bat = b.getType(RED_BAT);
-            if (botState.getPlayerX() != 195 || botState.getPlayerY() != 144 || b.playerLeft) {
+            if (botState.getPlayerX() != 195 || botState.getPlayerY() != 144 || botState.isPlayerLeft()) {
                 if (bat != null) {
                     b.getTargetedObject().setTarget(bat);
                     b.getAllStrategies().getRED_BAT().step();

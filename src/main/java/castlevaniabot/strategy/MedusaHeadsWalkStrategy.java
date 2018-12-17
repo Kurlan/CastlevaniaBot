@@ -101,8 +101,8 @@ public class MedusaHeadsWalkStrategy implements Strategy {
     }
 
     private GameObject getNearestMedusaHead() {
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             if (obj.type == MEDUSA_HEAD && obj.left != left) {
                 if (left) {

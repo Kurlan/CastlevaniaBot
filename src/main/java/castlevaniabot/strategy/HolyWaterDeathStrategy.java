@@ -43,8 +43,8 @@ public class HolyWaterDeathStrategy implements Strategy {
         }
 
         GameObject death = null;
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             if (obj.type == DEATH) {
                 death = obj;

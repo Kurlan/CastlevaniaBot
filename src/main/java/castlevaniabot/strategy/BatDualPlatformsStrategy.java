@@ -129,7 +129,7 @@ public class BatDualPlatformsStrategy implements Strategy {
                 && botState.getPlayerX() - 4 <= platform.x2) {
             final int cx = platform.x1 + 24;
             if (botState.getPlayerX() == cx) {
-                if (b.playerLeft) {
+                if (botState.isPlayerLeft()) {
                     playerController.goLeft(botState);
                 }
             } else if (botState.getPlayerX() < cx) {
@@ -150,8 +150,8 @@ public class BatDualPlatformsStrategy implements Strategy {
     private void updateObjects() {
 
         bat = fishman = null;
-        final GameObject[] objs = b.gameObjects;
-        for (int i = b.objsCount - 1; i >= 0; --i) {
+        final GameObject[] objs = gameState.getGameObjects();
+        for (int i = gameState.getObjsCount() - 1; i >= 0; --i) {
             final GameObject obj = objs[i];
             if (obj.type == RED_BAT) {
                 bat = obj;
