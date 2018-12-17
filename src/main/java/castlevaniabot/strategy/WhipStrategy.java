@@ -7,7 +7,7 @@ import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static castlevaniabot.CastlevaniaBot.JUMP_WHIP_DELAYS;
+import static castlevaniabot.control.PlayerController.JUMP_WHIP_DELAYS;
 import static nintaco.util.MathUtil.clamp;
 
 public class WhipStrategy implements Strategy {
@@ -99,7 +99,7 @@ public class WhipStrategy implements Strategy {
                         playerController.goRightAndJump(botState);
                     }
                 } else {
-                    b.jump();
+                    playerController.jump(botState);
                 }
             }
         } else {

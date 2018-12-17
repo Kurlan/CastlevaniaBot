@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -41,11 +42,13 @@ public class FrankensteinStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public FrankensteinStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public FrankensteinStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -268,7 +271,7 @@ public class FrankensteinStrategy implements Strategy {
                     b.kneel();
                     return true;
                 } else if (!flyingHigh && b.canJump) {
-                    b.jump();
+                    playerController.jump(botState);
                     return true;
                 }
             } else if (b.isInStandingWhipRange(fireball, offsetX, offsetY)) {

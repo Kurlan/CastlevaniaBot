@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -11,11 +12,13 @@ public class RedBatStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public RedBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public RedBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class RedBatStrategy implements Strategy {
             if (flyingHigh) {
                 b.kneel();                           // duck under bat
             } else if (!flyingHigh && b.canJump) {
-                b.jump();                            // jump over bat
+                playerController.jump(botState);                         // jump over bat
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {

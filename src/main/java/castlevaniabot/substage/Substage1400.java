@@ -215,7 +215,7 @@ public class Substage1400 extends Substage {
                              // just in case another axe is thrown
             b.kneel();
           } else if (b.canJump) {
-            b.jump();
+            playerController.jump(botState);
           }
         } else {
           if (botState.getPlayerY() == 128) {

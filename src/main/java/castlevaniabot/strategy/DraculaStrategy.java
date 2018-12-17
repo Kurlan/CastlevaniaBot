@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,11 +20,13 @@ public class DraculaStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public DraculaStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public DraculaStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
-        this.gameState =gameState;
+        this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class DraculaStrategy implements Strategy {
         if (fireball != null && b.canJump
                 && fireball.left == (botState.getPlayerX() < fireball.x)
                 && fireball.distanceX < 48) {
-            b.jump();
+            playerController.jump(botState);
             jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
             return;
         }

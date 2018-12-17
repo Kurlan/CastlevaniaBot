@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,11 +18,13 @@ public class RavenStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public RavenStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public RavenStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class RavenStrategy implements Strategy {
                 final int whipDelay = b.isTargetInJumpingWhipRange(offsetX, offsetY);
                 if (whipDelay > 0) {
                     jumpCounter = whipDelay;
-                    b.jump();
+                    playerController.jump(botState);
                 }
             }
         }

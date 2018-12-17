@@ -71,7 +71,7 @@ public class HolyWaterDeathStrategy implements Strategy {
         } else if (jumpDelay > 0) {
             if (b.canJump && --jumpDelay == 0) {
                 jumpCounter = 4;
-                b.jump();
+                playerController.jump(botState);
             }
         } else if (botState.isOnPlatform()) {
             jumpDelay = 2;

@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class AxeStrategy implements Strategy {
@@ -10,13 +11,16 @@ public class AxeStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
+
     private int lastX;
     private int lastY;
 
-    public AxeStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public AxeStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -38,7 +42,7 @@ public class AxeStrategy implements Strategy {
             if (!b.atTopOfStairs && flyingHigh) {
                 b.kneel();
             } else if (!flyingHigh && b.canJump) {
-                b.jump();
+                playerController.jump(botState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {

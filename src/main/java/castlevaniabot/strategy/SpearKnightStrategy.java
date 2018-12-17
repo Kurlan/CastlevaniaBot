@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class SpearKnightStrategy implements Strategy {
@@ -14,11 +15,13 @@ public class SpearKnightStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public SpearKnightStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public SpearKnightStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class SpearKnightStrategy implements Strategy {
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
             if (b.faceTarget() && b.canJump) {
-                b.jump();
+                playerController.jump(botState);
             }
         } else if (knight.distanceX < 24) {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());

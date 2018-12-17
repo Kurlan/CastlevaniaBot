@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -27,11 +28,13 @@ public class PhantomBatStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public PhantomBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public PhantomBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class PhantomBatStrategy implements Strategy {
                     if ((yJump >= bat.y1 && yJump <= bat.y2)
                             || b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
                         jumpCounter = (botState.getWhipLength() == 0) ? 16 : 10;
-                        b.jump();
+                        playerController.jump(botState);
                     } else if (y >= bat.y1 && y <= bat.y2) {
                         weaponDelay = 17;
                         b.useWeapon();
@@ -189,7 +192,7 @@ public class PhantomBatStrategy implements Strategy {
                     if (b.canJump) {
                         if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
                             jumpCounter = (botState.getWhipLength() == 0) ? 16 : 10;
-                            b.jump();
+                            playerController.jump(botState);
                         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                             b.whip();
                         }
@@ -249,7 +252,7 @@ public class PhantomBatStrategy implements Strategy {
             } else if (b.canJump) {
                 if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
                     jumpCounter = (botState.getWhipLength() == 0) ? 16 : 10;
-                    b.jump();
+                    playerController.jump(botState);
                 } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                     b.whip();
                 }

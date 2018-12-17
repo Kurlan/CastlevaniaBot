@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,11 +16,13 @@ public class GetItemStrategy implements Strategy {
     protected final CastlevaniaBot b;
     protected final BotState botState;
     protected final GameState gameState;
+    protected final PlayerController playerController;
 
-    public GetItemStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public GetItemStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class GetItemStrategy implements Strategy {
             if (b.getTargetedObject().getTarget().y > y) {
                 b.kneel();
             } else if (b.canJump && b.getTargetedObject().getTarget().y < botState.getPlayerY() - 32) {
-                b.jump();
+                playerController.jump(botState);
             }
         } else {
             gameState.getCurrentSubstage().route(x, y);

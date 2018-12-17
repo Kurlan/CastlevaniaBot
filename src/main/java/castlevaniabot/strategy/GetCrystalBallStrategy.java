@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -15,8 +16,8 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
     private int jumps;
     private boolean jumpRequested;
 
-    public GetCrystalBallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
-        super(b, botState, gameState);
+    public GetCrystalBallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
+        super(b, botState, gameState, playerController);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
                 } else {
                     jumpRequested = false;
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
-                    b.jump();
+                    playerController.jump(botState);
                 }
             }
         } else if (b.getTargetedObject().getTarget().distanceX < 18) {

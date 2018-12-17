@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -20,11 +21,13 @@ public class CookieMonsterStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public CookieMonsterStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public CookieMonsterStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -84,7 +87,7 @@ public class CookieMonsterStrategy implements Strategy {
             if (botState.getPlayerX() != playerX || b.playerLeft != playerLeft) {
                 gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false);
             } else if (b.canJump) {
-                b.jump();
+                playerController.jump(botState);
                 jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
             }
         }

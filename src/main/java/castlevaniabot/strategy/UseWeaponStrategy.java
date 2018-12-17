@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -19,11 +20,13 @@ public class UseWeaponStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public UseWeaponStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public UseWeaponStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     public void init(final int playerX, final int playerY, final boolean jump,
@@ -74,7 +77,7 @@ public class UseWeaponStrategy implements Strategy {
             }
         } else if (jump && b.canJump) {
             jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
-            b.jump();
+            playerController.jump(botState);
         } else {
             useWeapon();
         }

@@ -63,7 +63,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
                 break;
             case WAIT_FOR_HEAD:
                 if (--delay == 0) {
-                    b.jump();
+                    playerController.jump(botState);
                     state = State.DONE;
                 }
                 break;

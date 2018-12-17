@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class FireballStrategy implements Strategy {
@@ -13,11 +14,13 @@ public class FireballStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public FireballStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public FireballStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState =gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class FireballStrategy implements Strategy {
             if (!b.atTopOfStairs && flyingHigh) {
                 b.kneel();                          // duck under fireball
             } else if (!flyingHigh && b.canJump) {
-                b.jump();                           // jump over fireball
+                playerController.jump(botState);                     // jump over fireball
             }
         } else if (b.atTopOfStairs) {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());

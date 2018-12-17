@@ -3,10 +3,11 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import static castlevaniabot.CastlevaniaBot.JUMP_WHIP_DELAYS;
+import static castlevaniabot.control.PlayerController.JUMP_WHIP_DELAYS;
 import static nintaco.util.MathUtil.clamp;
 
 public class CandlesStrategy implements Strategy {
@@ -19,11 +20,13 @@ public class CandlesStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public CandlesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public CandlesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -70,7 +73,7 @@ public class CandlesStrategy implements Strategy {
                             if (botState.getWhipLength() == 0) {
                                 jumpCounter -= 6;
                             }
-                            b.jump();
+                            playerController.jump(botState);
                         }
                     }
                 } else {
