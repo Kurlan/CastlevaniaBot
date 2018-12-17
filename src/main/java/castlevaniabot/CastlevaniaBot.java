@@ -852,7 +852,7 @@ public class CastlevaniaBot {
     obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8) 
         | (0xFF - min(0xFF, obj.distanceX));
 
-    gameState.setObjsCount(gameState.getObjsCount() - 1);
+    gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
   
   public void addBlock(int x, int y) {
