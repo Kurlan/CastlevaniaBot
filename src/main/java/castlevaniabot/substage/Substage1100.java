@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import nintaco.api.API;
 
@@ -14,8 +15,8 @@ import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
 
 public class Substage1100 extends Substage {
   
-  public Substage1100(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage1100(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override

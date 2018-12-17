@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
@@ -27,14 +28,16 @@ public abstract class Substage {
   final API api;
   final CastlevaniaBot b;
   final BotState botState;
+  final PlayerController playerController;
   
   public MapRoutes mapRoutes;
   int playerDelay;
   
-  Substage(final CastlevaniaBot b, final BotState botState, final API api) {
+  Substage(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
     this.b = b;
     this.botState = botState;
     this.api = api;
+    this.playerController = playerController;
   }
   
   public void init() {
@@ -64,7 +67,7 @@ public abstract class Substage {
         if (left) {
           b.goRight();  // walk past and turn around
         } else {
-          b.goLeft();   // walk past and turn around
+          playerController.goLeft(botState);   // walk past and turn around
         }
       }
     } else {
@@ -92,7 +95,7 @@ public abstract class Substage {
       if (botState.getPlayerX() < targetX) {
         b.goRight();
       } else if (botState.getPlayerX() > targetX) {
-        b.goLeft();
+        playerController.goLeft(botState);
       }      
     } else {  
       final int route = mapRoutes.routes[b.currentTile.getY()][b.currentTile.getX()][ty][tx];

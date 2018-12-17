@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 public class BoomerangDeathStrategy implements Strategy {
@@ -10,11 +11,14 @@ public class BoomerangDeathStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public BoomerangDeathStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public BoomerangDeathStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState,
+                                  final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class BoomerangDeathStrategy implements Strategy {
                 break;
             case 4:
                 if (death.y < botState.getPlayerY() - 16) {
-                    b.goLeft();
+                    playerController.goLeft(botState);
                 } else {
                     gameState.getCurrentSubstage().route(9, 128, false);
                 }
@@ -69,13 +73,13 @@ public class BoomerangDeathStrategy implements Strategy {
             case 3:
             case 14:
             case 15:
-                b.goLeft();
+                playerController.goLeft(botState);
                 break;
             default:
                 if (death.x < botState.getPlayerX()) {
                     b.goRight();
                 } else {
-                    b.goLeft();
+                    playerController.goLeft(botState);
                 }
                 break;
         }

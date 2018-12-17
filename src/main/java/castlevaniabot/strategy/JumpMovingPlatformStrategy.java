@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 
 import static java.lang.Math.abs;
@@ -31,11 +32,13 @@ public class JumpMovingPlatformStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public JumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public JumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     // playerX1 and playerX2 are 16 pixels removed from the chasm edges
@@ -104,14 +107,14 @@ public class JumpMovingPlatformStrategy implements Strategy {
                     if (b.playerLeft == (playerX1 > playerX2)) {
                         state = State.WAIT_FOR_PLATFORM_TO_MOVE;
                     } else if (b.playerLeft) {
-                        b.goLeft();                // walk past and turn around
+                        playerController.goLeft(botState);                // walk past and turn around
                     } else {
                         b.goRight();               // walk past and turn around
                     }
                 } else if (botState.getPlayerX() < platform.x1 + 16) {
                     b.goRight();
                 } else {
-                    b.goLeft();
+                    playerController.goLeft(botState);
                 }
                 break;
             case WAIT_FOR_PLATFORM_TO_MOVE:

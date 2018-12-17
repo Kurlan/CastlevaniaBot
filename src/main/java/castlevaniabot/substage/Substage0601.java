@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
@@ -21,8 +22,8 @@ public class Substage0601 extends Substage {
   private boolean reachedBoss;
   private boolean aboutToGetCrystalBall;  
    
-  public Substage0601(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage0601(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override
@@ -105,7 +106,7 @@ public class Substage0601 extends Substage {
 
     if (walkDelay > 0) {
       if (--walkDelay == 0) {
-        b.goLeft();
+        playerController.goLeft(botState);
       }
     } else if (botState.getPlayerX() == 493) {
       botState.setCurrentStrategy(null);

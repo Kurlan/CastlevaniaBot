@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import nintaco.api.API;
 
@@ -17,8 +18,8 @@ public class Substage0000 extends Substage {
   
   private boolean triggeredTreasure;
   
-  public Substage0000(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage0000(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override
@@ -96,8 +97,8 @@ public class Substage0000 extends Substage {
     } else if (targetX < botState.getPlayerX()) {
       if (targetX < 696 && botState.getPlayerX() > 696 && botState.getPlayerX() <= 714) {
         b.goLeftAndJump();
-      } else {     
-        b.goLeft();
+      } else {
+        playerController.goLeft(botState);
       }
     } 
   }

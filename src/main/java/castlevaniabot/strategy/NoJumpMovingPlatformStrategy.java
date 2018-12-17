@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 
 import static java.lang.Math.abs;
@@ -30,11 +31,13 @@ public class NoJumpMovingPlatformStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public NoJumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public NoJumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     // playerX1 and playerX2 are the tips of the chasam edge blocks
@@ -101,7 +104,7 @@ public class NoJumpMovingPlatformStrategy implements Strategy {
                     state = State.WAIT_FOR_PLATFORM_TO_MOVE;
                 }
                 if (playerX1 > playerX2) {
-                    b.goLeft();
+                    playerController.goLeft(botState);
                 } else {
                     b.goRight();
                 }
@@ -121,7 +124,7 @@ public class NoJumpMovingPlatformStrategy implements Strategy {
                 if (botState.getPlayerX() == playerX2 && botState.getPlayerY() == playerY) {
                     state = State.DONE;
                 } else if (playerX1 > playerX2) {
-                    b.goLeft();
+                    playerController.goLeft(botState);
                 } else {
                     b.goRight();
                 }

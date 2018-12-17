@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import nintaco.api.API;
@@ -19,8 +20,8 @@ public class Substage1000 extends Substage {
   
   private boolean whippedHolyWaterCandle;
   
-  public Substage1000(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage1000(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override

@@ -1,4 +1,4 @@
-package castlevaniabot;
+package castlevaniabot.control;
 
 import nintaco.api.API;
 

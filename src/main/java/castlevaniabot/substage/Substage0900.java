@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
@@ -32,8 +33,8 @@ public class Substage0900 extends Substage {
   
   public boolean blockBroken;
   
-  public Substage0900(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage0900(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override

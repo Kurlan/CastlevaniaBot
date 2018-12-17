@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -34,11 +35,13 @@ public class BatDualPlatformsStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public BatDualPlatformsStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public BatDualPlatformsStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -127,12 +130,12 @@ public class BatDualPlatformsStrategy implements Strategy {
             final int cx = platform.x1 + 24;
             if (botState.getPlayerX() == cx) {
                 if (b.playerLeft) {
-                    b.goLeft();
+                    playerController.goLeft(botState);
                 }
             } else if (botState.getPlayerX() < cx) {
                 b.goRight();
             } else {
-                b.goLeft();
+                playerController.goLeft(botState);
             }
 
             if (botState.getPlayerX() >= 1016 && botState.getPlayerX() < 1064) {

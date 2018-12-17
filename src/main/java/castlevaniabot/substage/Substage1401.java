@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.TargetedObject;
@@ -30,8 +31,8 @@ public class Substage1401 extends Substage {
   private boolean blockWhipped2;
   private boolean blockBroken2;   
   
-  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override
@@ -158,7 +159,7 @@ public class Substage1401 extends Substage {
       b.getAllStrategies().getWAIT().init(984, 192);
       botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
     } else if (botState.getPlayerY() == 192 && botState.getPlayerX() <= 33) {
-      b.goLeft();
+      playerController.goLeft(botState);
     } else {
       super.pickStrategy(targetedObject);
     }

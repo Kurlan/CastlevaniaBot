@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import static java.lang.Math.abs;
 
@@ -14,11 +15,13 @@ public class RedBonesStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public RedBonesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public RedBonesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class RedBonesStrategy implements Strategy {
         if (distanceX <= 16) {
             // When standing on red bones, continue walking in direction facing.
             if (playerLeft) {
-                b.goLeft();
+                playerController.goLeft(botState);
             } else {
                 b.goRight();
             }

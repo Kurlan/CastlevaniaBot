@@ -2,6 +2,7 @@ package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
@@ -20,8 +21,8 @@ public class Substage0300 extends Substage {
   private boolean blockBroken;
   private boolean aboutToGetCrystalBall;
  
-  public Substage0300(final CastlevaniaBot b, final BotState botState, final API api) {
-    super(b, botState, api);
+  public Substage0300(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController) {
+    super(b, botState, api, playerController);
   }
 
   @Override

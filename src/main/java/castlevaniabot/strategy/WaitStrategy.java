@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -29,11 +30,13 @@ public class WaitStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public WaitStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public WaitStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     public void init(final int playerX, final int playerY) {
@@ -72,7 +75,7 @@ public class WaitStrategy implements Strategy {
                     b.kneel();
                     break;
                 case WALK_LEFT:
-                    b.goLeft();
+                    playerController.goLeft(botState);
                     break; // walk against wall
                 case WALK_RIGHT:
                     b.goRight();

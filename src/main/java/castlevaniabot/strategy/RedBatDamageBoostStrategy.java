@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.RED_BAT;
@@ -14,11 +15,13 @@ public class RedBatDamageBoostStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public RedBatDamageBoostStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public RedBatDamageBoostStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
                 b.goRightAndJump();
                 b.SUBSTAGE_0201.redBatDamageBoostDone();
             } else {
-                b.goLeft();
+                playerController.goLeft(botState);
             }
         } else {
             final GameObject bat = b.getType(RED_BAT);
@@ -51,7 +54,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
                 if (bat.left && bat.x >= botState.getPlayerX() - 16) {
                     if (bat.x < 272) {
                         batSpawned = true;
-                        b.goLeft();
+                        playerController.goLeft(botState);
                     }
                 } else {
                     b.getTargetedObject().setTarget(bat);
