@@ -512,12 +512,12 @@ public class CastlevaniaBot {
       overHangingLeft = overHangingRight = false;
       currentTile.setX(botState.getPlayerX() >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
-    } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
+    } else if (playerController.isOnPlatform(botState.getPlayerX() - 4, botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       overHangingRight = onPlatform = true;
       overHangingLeft = false;
       currentTile.setX((botState.getPlayerX() - 4) >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
-    } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
+    } else if (playerController.isOnPlatform(botState.getPlayerX() + 4, botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       overHangingLeft = onPlatform = true;
       overHangingRight = false;
       currentTile.setX((botState.getPlayerX() + 4) >> 4);
@@ -1155,11 +1155,11 @@ public class CastlevaniaBot {
       obj.platformY = y >> 4;      
       obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile);
       if (!obj.onPlatform) {
-        if (obj.onPlatform == playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile)) {
+        if (obj.onPlatform == playerController.isOnOrInPlatform(mapRoutes, x - 4, y, currentTile)) {
           obj.supportX = x - 4;
           obj.platformX = (x - 4) >> 4;
           obj.platformY = y >> 4;
-        } else if (obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile)) {
+        } else if (obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x + 4, y, currentTile)) {
           obj.supportX = x + 4;
           obj.platformX = (x + 4) >> 4;
           obj.platformY = y >> 4;
