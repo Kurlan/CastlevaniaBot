@@ -156,9 +156,9 @@ public class Substage1501 extends Substage {
     if (bossDefeated) {
       // crystal ball X +/- 20
       if (botState.getPlayerX() == 108 && targetX >= 144 && !b.playerLeft) {
-        b.goRightAndJump();
+        playerController.goRightAndJump(botState);
       } else if (botState.getPlayerX() == 148 && targetX <= 112 && b.playerLeft) {
-        b.goLeftAndJump();
+        playerController.goLeftAndJump(botState);
       } else {
         super.route(targetX, targetY, checkForEnemies);
       }

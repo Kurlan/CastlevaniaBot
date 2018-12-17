@@ -34,7 +34,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
 
         if (batSpawned) {
             if (b.playerLeft) {
-                b.goRightAndJump();
+                playerController.goRightAndJump(botState);
                 b.SUBSTAGE_0201.redBatDamageBoostDone();
             } else {
                 playerController.goLeft(botState);

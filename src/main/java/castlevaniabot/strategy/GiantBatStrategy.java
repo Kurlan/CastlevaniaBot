@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -17,11 +18,13 @@ public class GiantBatStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public GiantBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public GiantBatStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -54,7 +57,7 @@ public class GiantBatStrategy implements Strategy {
             final int landX = botState.getPlayerX() - 37;
             if (landX >= 0
                     && gameState.getCurrentSubstage().mapRoutes.map[b.currentTile.getY()][landX >> 4].height == 0) {
-                b.goLeftAndJump();
+                playerController.goLeftAndJump(botState);
                 return;
             }
         } else if (!whipped
@@ -66,7 +69,7 @@ public class GiantBatStrategy implements Strategy {
             final int landX = botState.getPlayerX() - 37;
             if (landX >= 0
                     && gameState.getCurrentSubstage().mapRoutes.map[b.currentTile.getY()][landX >> 4].height == 0) {
-                b.goLeftAndJump();
+                playerController.goLeftAndJump(botState);
                 jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                 return;
             }

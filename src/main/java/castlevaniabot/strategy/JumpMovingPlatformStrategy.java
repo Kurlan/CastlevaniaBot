@@ -91,12 +91,12 @@ public class JumpMovingPlatformStrategy implements Strategy {
                 if (approaching) {
                     if (playerX1 > playerX2) {
                         if (abs(platform.x2 - playerX1) < JUMP_DISTANCE) {
-                            b.goLeftAndJump();
+                            playerController.goLeftAndJump(botState);
                             state = State.WALK_TO_PLATFORM_CENTER;
                         }
                     } else {
                         if (abs(platform.x1 - playerX1) < JUMP_DISTANCE) {
-                            b.goRightAndJump();
+                            playerController.goRightAndJump(botState);
                             state = State.WALK_TO_PLATFORM_CENTER;
                         }
                     }
@@ -120,12 +120,12 @@ public class JumpMovingPlatformStrategy implements Strategy {
             case WAIT_FOR_PLATFORM_TO_MOVE:
                 if (playerX1 > playerX2) {
                     if (abs(platform.x1 - playerX2) < JUMP_DISTANCE) {
-                        b.goLeftAndJump();
+                        playerController.goLeftAndJump(botState);
                         state = State.DONE;
                     }
                 } else {
                     if (abs(platform.x2 - playerX2) < JUMP_DISTANCE) {
-                        b.goLeftAndJump();
+                        playerController.goLeftAndJump(botState);
                         state = State.DONE;
                     }
                 }

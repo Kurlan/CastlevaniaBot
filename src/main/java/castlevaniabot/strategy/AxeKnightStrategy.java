@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,11 +23,13 @@ public class AxeKnightStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public AxeKnightStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public AxeKnightStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -61,9 +64,9 @@ public class AxeKnightStrategy implements Strategy {
                 } else {
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                     if (b.getTargetedObject().getTarget().x < botState.getPlayerX()) {
-                        b.goLeftAndJump();
+                        playerController.goLeftAndJump(botState);
                     } else {
-                        b.goRightAndJump();
+                        playerController.goRightAndJump(botState);
                     }
                 }
             }

@@ -48,7 +48,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
                 } else if (botState.getPlayerX() < 131) {
                     playerController.goRight(botState);
                 } else {
-                    b.goRightAndJump();
+                    playerController.goRightAndJump(botState);
                     state = State.RUN_FOR_IT;
                 }
                 break;

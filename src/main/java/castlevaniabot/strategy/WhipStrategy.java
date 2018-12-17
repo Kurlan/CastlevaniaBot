@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,11 +26,13 @@ public class WhipStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public WhipStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public WhipStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     void init(final int playerX, final int playerY, final boolean playerLeft) {
@@ -91,9 +94,9 @@ public class WhipStrategy implements Strategy {
                 }
                 if (jumpToward) {
                     if (playerLeft) {
-                        b.goLeftAndJump();
+                        playerController.goLeftAndJump(botState);
                     } else {
-                        b.goRightAndJump();
+                        playerController.goRightAndJump(botState);
                     }
                 } else {
                     b.jump();

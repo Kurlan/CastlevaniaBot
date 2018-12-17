@@ -90,13 +90,13 @@ public class Substage0000 extends Substage {
   public void route(final int targetX, final int targetY) {
     if (targetX > botState.getPlayerX()) {
       if (targetX > 696 && botState.getPlayerX() >= 676 && botState.getPlayerX() < 696) {
-        b.goRightAndJump();
+        playerController.goRightAndJump(botState);
       } else {
         playerController.goRight(botState);
       }
     } else if (targetX < botState.getPlayerX()) {
       if (targetX < 696 && botState.getPlayerX() > 696 && botState.getPlayerX() <= 714) {
-        b.goLeftAndJump();
+        playerController.goLeftAndJump(botState);
       } else {
         playerController.goLeft(botState);
       }

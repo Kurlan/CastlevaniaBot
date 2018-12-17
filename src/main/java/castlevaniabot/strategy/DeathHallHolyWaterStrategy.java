@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.AXE_KNIGHT;
@@ -17,11 +18,13 @@ public class DeathHallHolyWaterStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public DeathHallHolyWaterStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public DeathHallHolyWaterStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
-        this.gameState =gameState;
+        this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     @Override
@@ -48,7 +51,7 @@ public class DeathHallHolyWaterStrategy implements Strategy {
                 final GameObject obj = objs[i];
                 if (obj.type == AXE_KNIGHT && obj.x < botState.getPlayerX() && obj.distanceX < 64) {
                     jumpCounter = 9;
-                    b.goLeftAndJump();
+                    playerController.goLeftAndJump(botState);
                     return;
                 }
             }

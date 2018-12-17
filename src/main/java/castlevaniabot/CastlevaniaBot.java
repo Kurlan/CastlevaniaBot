@@ -507,17 +507,17 @@ public class CastlevaniaBot {
           currentTile.setX(currentTile.getX() - 1);
         }
       }
-    } else if (isOnPlatform(botState.getPlayerX(), botState.getPlayerY())) {
+    } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       onPlatform = true;
       overHangingLeft = overHangingRight = false;
       currentTile.setX(botState.getPlayerX() >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
-    } else if (isOnPlatform(botState.getPlayerX() - 4, botState.getPlayerY())) {
+    } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       overHangingRight = onPlatform = true;
       overHangingLeft = false;
       currentTile.setX((botState.getPlayerX() - 4) >> 4);
       currentTile.setY(botState.getPlayerY() >> 4);
-    } else if (isOnPlatform(botState.getPlayerX() + 4, botState.getPlayerY())) {
+    } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       overHangingLeft = onPlatform = true;
       overHangingRight = false;
       currentTile.setX((botState.getPlayerX() + 4) >> 4);
@@ -1153,13 +1153,13 @@ public class CastlevaniaBot {
       obj.supportX = x;
       obj.platformX = x >> 4;
       obj.platformY = y >> 4;      
-      obj.onPlatform = isOnOrInPlatform(mapRoutes, x, y);
+      obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile);
       if (!obj.onPlatform) {
-        if (obj.onPlatform = isOnOrInPlatform(mapRoutes, x - 4, y)) {
+        if (obj.onPlatform == playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile)) {
           obj.supportX = x - 4;
           obj.platformX = (x - 4) >> 4;
           obj.platformY = y >> 4;
-        } else if (obj.onPlatform = isOnOrInPlatform(mapRoutes, x + 4, y)) {
+        } else if (obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile)) {
           obj.supportX = x + 4;
           obj.platformX = (x + 4) >> 4;
           obj.platformY = y >> 4;
@@ -1778,21 +1778,7 @@ public class CastlevaniaBot {
     }
   }
   
-  public void goLeftAndJump() {
-    if (botState.getJumpDelay() == 0 && (botState.getPlayerX() < botState.getAvoidX() || botState.getPlayerX() >= botState.getAvoidX() + 58)) {
-      botState.setJumpDelay(2); // Low number enables jumps against walls.
-      gamePad.pressLeft();
-      gamePad.pressA();
-    }
-  }
-  
-  public void goRightAndJump() {
-    if (botState.getJumpDelay() == 0 && (botState.getPlayerX() <= botState.getAvoidX() - 58 || botState.getPlayerX() > botState.getAvoidX())) {
-        botState.setJumpDelay(2); // Low number enables jumps against walls.
-      gamePad.pressRight();
-      gamePad.pressA();
-    }
-  }  
+
   
   void go(final int direction) {
     if (direction == Left) {
@@ -1804,9 +1790,9 @@ public class CastlevaniaBot {
   
   void goAndJump(final int direction) {
     if (direction == Left) {
-      goLeftAndJump();
+      playerController.goLeftAndJump(botState);
     } else {
-      goRightAndJump();
+      playerController.goRightAndJump(botState);
     }
   }  
   
@@ -1867,12 +1853,12 @@ public class CastlevaniaBot {
             if (direction == Left) {
               if (!isEnemyInBounds((stepX << 4) - 48, botState.getPlayerY() - 64,
                       botState.getPlayerX() + 24, stepY << 4)) {
-                goLeftAndJump();
+                playerController.goLeftAndJump(botState);
               }
             } else {
               if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 64,
                   (stepX << 4) + 64, stepY << 4)) {
-                goRightAndJump();
+                playerController.goRightAndJump(botState);
               }
             }
           } else {
@@ -1893,38 +1879,6 @@ public class CastlevaniaBot {
   
   boolean isPlayerInRange(final int x1, final int x2) {
     return botState.getPlayerX() >= x1 && botState.getPlayerX() <= x2;
-  }
-  
-  boolean isOnOrInPlatform(final MapRoutes mapRoutes, int x, int y) {
-    if (x < 0 || y < 0) {
-      return false;
-    }
-    y >>= 4;
-    if (y >= 0x0F) {
-      return false;
-    }
-    x >>= 4;    
-    if (x >= mapRoutes.width) {
-      return false;
-    }
-    return mapRoutes.getDistance(x, y, currentTile) < 32;
-  }
-  
-  // (x, y) are absolute coordinates, not currentTile coordinates
-  boolean isOnPlatform(int x, int y) {
-    if (x < 0 || y < 0 || (y & 0x0E) != 0) {
-      return false;
-    }
-    y >>= 4;
-    if (y >= 0x0F) {
-      return false;
-    }
-    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
-    x >>= 4;    
-    if (x >= mapRoutes.width) {
-      return false;
-    }
-    return TileType.isPlatform(mapRoutes.map[y][x].tileType);
   }
   
   private void paintGameObjects() {

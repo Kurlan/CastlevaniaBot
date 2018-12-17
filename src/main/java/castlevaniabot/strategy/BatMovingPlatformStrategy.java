@@ -161,7 +161,7 @@ public class BatMovingPlatformStrategy implements Strategy {
             if (b.playerLeft) {
                 playerController.goRight(botState);
             } else {
-                b.goRightAndJump();
+                playerController.goRightAndJump(botState);
                 jumpRequested = false;
                 if ((botState.getPlayerX() >= 380 && botState.getPlayerX() < 388)
                         || (botState.getPlayerX() >= 956 && botState.getPlayerX() < 964)) {

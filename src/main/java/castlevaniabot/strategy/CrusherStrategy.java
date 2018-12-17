@@ -68,7 +68,7 @@ public class CrusherStrategy implements Strategy {
                 break;
             case WAIT_FOR_CRUSHER_2:
                 if (ascendings[2] && ys[2] == 4) {
-                    b.goLeftAndJump();
+                    playerController.goLeftAndJump(botState);
                     state = State.WALK_BETWEEN_CRUSHERS_1_AND_2;
                 }
                 break;

@@ -142,7 +142,7 @@ public class BatDualPlatformsStrategy implements Strategy {
                 b.kneel();
             } else if ((platform.x1 >= 1087 && platform.x1 <= 1089)
                     || (platform.x1 >= 1231 && platform.x1 <= 1233)) {
-                b.goRightAndJump();
+                playerController.goRightAndJump(botState);
             }
         }
     }

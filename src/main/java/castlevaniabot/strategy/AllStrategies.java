@@ -61,7 +61,7 @@ public class AllStrategies {
 
     public AllStrategies(CastlevaniaBot castlevaniaBot, BotState botState, GameState gameState, PlayerController playerController) {
         AXE = new AxeStrategy(castlevaniaBot, botState, gameState);
-        AXE_KNIGHT = new AxeKnightStrategy(castlevaniaBot, botState, gameState);
+        AXE_KNIGHT = new AxeKnightStrategy(castlevaniaBot, botState, gameState, playerController);
         BAT_MOVING_PLATFORM = new BatMovingPlatformStrategy(castlevaniaBot, botState, gameState, playerController);
         BAT_DUAL_PLATFORMS = new BatDualPlatformsStrategy(castlevaniaBot, botState, gameState, playerController);
         BONE_DRAGON = new BoneDragonStrategy(castlevaniaBot, botState, gameState);
@@ -73,7 +73,7 @@ public class AllStrategies {
         CANDLES = new CandlesStrategy(castlevaniaBot, botState, gameState);
         COOKIE_MONSTER = new CookieMonsterStrategy(castlevaniaBot, botState, gameState);
         CRUSHER = new CrusherStrategy(castlevaniaBot, botState, gameState, playerController);
-        DEATH_HALL_HOLY_WATER = new DeathHallHolyWaterStrategy(castlevaniaBot, botState, gameState);
+        DEATH_HALL_HOLY_WATER = new DeathHallHolyWaterStrategy(castlevaniaBot, botState, gameState, playerController);
         DRACULA = new DraculaStrategy(castlevaniaBot, botState, gameState);
         EAGLE = new EagleStrategy(castlevaniaBot, botState, gameState);
         FIREBALL = new FireballStrategy(castlevaniaBot, botState, gameState);
@@ -85,7 +85,7 @@ public class AllStrategies {
         GET_ITEM = new GetItemStrategy(castlevaniaBot, botState, gameState);
         GHOST = new GhostStrategy(castlevaniaBot, botState, gameState);
         GHOUL = new GhoulStrategy(castlevaniaBot, botState, gameState);
-        GIANT_BAT = new GiantBatStrategy(castlevaniaBot, botState, gameState);
+        GIANT_BAT = new GiantBatStrategy(castlevaniaBot, botState, gameState, playerController);
         GOT_CRYSTAL_BALL = new GotCrystalBallStrategy(castlevaniaBot, botState, gameState);
         HOLY_WATER_DEATH = new HolyWaterDeathStrategy(castlevaniaBot, botState, gameState, playerController);
         JUMP_MOVING_PLATFORM = new JumpMovingPlatformStrategy(castlevaniaBot, botState, gameState, playerController);
@@ -103,12 +103,12 @@ public class AllStrategies {
         RED_BONES = new RedBonesStrategy(castlevaniaBot, botState, gameState, playerController);
         RED_SKELETON = new RedSkeletonStrategy(castlevaniaBot, botState, gameState);
         SICKLE = new SickleStrategy(castlevaniaBot, botState, gameState, playerController);
-        SKELETON_WALL = new SkeletonWallStrategy(castlevaniaBot, botState, gameState);
+        SKELETON_WALL = new SkeletonWallStrategy(castlevaniaBot, botState, gameState, playerController);
         SNAKE = new SnakeStrategy(castlevaniaBot, botState, gameState);
         SPEAR_KNIGHT = new SpearKnightStrategy(castlevaniaBot, botState, gameState);
         USE_WEAPON = new UseWeaponStrategy(castlevaniaBot, botState, gameState);
         WAIT = new WaitStrategy(castlevaniaBot, botState, gameState, playerController);
         WHITE_SKELETON = new WhiteSkeletonStrategy(castlevaniaBot, botState, gameState);
-        WHIP = new WhipStrategy(castlevaniaBot, botState, gameState);
+        WHIP = new WhipStrategy(castlevaniaBot, botState, gameState, playerController);
     }
 }

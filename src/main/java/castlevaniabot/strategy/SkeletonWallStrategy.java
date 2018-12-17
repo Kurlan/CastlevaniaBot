@@ -3,6 +3,7 @@ package castlevaniabot.strategy;
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
 import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
@@ -24,11 +25,13 @@ public class SkeletonWallStrategy implements Strategy {
     private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
+    private final PlayerController playerController;
 
-    public SkeletonWallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
+    public SkeletonWallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.b = b;
         this.botState = botState;
         this.gameState = gameState;
+        this.playerController = playerController;
     }
 
     public void init(final int playerX, final int playerY) {
@@ -90,7 +93,7 @@ public class SkeletonWallStrategy implements Strategy {
         } else if (skeleton.y < botState.getPlayerY()
                 && b.isInStandingWhipRange(skeleton, offsetX + 16, offsetY + 32)) {
             if (b.canJump) {
-                b.goLeftAndJump();
+                playerController.goLeftAndJump(botState);
             }
         }
     }
