@@ -53,14 +53,14 @@ public class AxeKnightStrategy implements Strategy {
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
                 weaponDelay = HOLY_WATER_RESET;
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         } else if (weaponDelay == 0 && b.getTargetedObject().getTarget().distanceX < 64
                 && b.weapon == HOLY_WATER && b.hearts > 0) {
             if (!gameState.isWeaponing() && b.faceTarget() && b.canJump) {
                 if (b.isUnderLedge()) {
                     weaponDelay = HOLY_WATER_RESET;
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                 } else {
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                     if (b.getTargetedObject().getTarget().x < botState.getPlayerX()) {
@@ -76,7 +76,7 @@ public class AxeKnightStrategy implements Strategy {
                 if (b.shot > 1) {
                     weaponDelay = 90;
                 }
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {

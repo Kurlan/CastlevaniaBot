@@ -102,8 +102,8 @@ public abstract class Substage {
       }      
     } else {  
       final int route = mapRoutes.routes[b.currentTile.getY()][b.currentTile.getX()][ty][tx];
-      b.executeOperation(mapRoutes.map, mapRoutes.width, getOperation(route), 
-          getStepX(route), getStepY(route), checkForEnemies);
+      playerController.executeOperation(mapRoutes.map, mapRoutes.width, getOperation(route),
+          getStepX(route), getStepY(route), checkForEnemies, botState, gameState, b.currentTile);
     }
   } 
   

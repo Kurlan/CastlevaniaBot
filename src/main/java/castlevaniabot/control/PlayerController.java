@@ -11,6 +11,20 @@ import castlevaniabot.model.gameelements.TileType;
 
 import javax.inject.Inject;
 
+import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
+import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
+import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
+import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
 import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
@@ -86,6 +100,60 @@ public class PlayerController {
         this.gamePad = gamePad;
     }
 
+    public void executeOperation(final MapElement[][] map, final int width,
+                                 final int operation, final int stepX, final int stepY,
+                                 final boolean checkForEnemies, BotState botState, GameState gameState, Coordinates currentTile) {
+
+        switch(operation) {
+
+            case WALK_LEFT:
+                walk(Left, stepX, stepY, checkForEnemies, botState, gameState, currentTile);
+                break;
+            case WALK_RIGHT:
+                walk(Right, stepX, stepY, checkForEnemies, botState, gameState, currentTile);
+                break;
+
+            case WALK_CENTER_LEFT_JUMP:
+                walkAndJump(map, width, 8, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_RIGHT_MIDDLE_LEFT_JUMP:
+                walkAndJump(map, width, 13, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_LEFT_MIDDLE_LEFT_JUMP:
+                walkAndJump(map, width, 2, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_RIGHT_EDGE_LEFT_JUMP:
+                walkAndJump(map, width, 19, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_LEFT_EDGE_LEFT_JUMP:
+                walkAndJump(map, width, -4, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+
+            case WALK_CENTER_RIGHT_JUMP:
+                walkAndJump(map, width, 8, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_RIGHT_MIDDLE_RIGHT_JUMP:
+                walkAndJump(map, width, 13, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_LEFT_MIDDLE_RIGHT_JUMP:
+                walkAndJump(map, width, 2, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_RIGHT_EDGE_RIGHT_JUMP:
+                walkAndJump(map, width, 19, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+            case WALK_LEFT_EDGE_RIGHT_JUMP:
+                walkAndJump(map, width, -4, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
+                break;
+
+            case GO_UP_STAIRS:
+                goUpStairs(map, width, botState, currentTile);
+                break;
+            case GO_DOWN_STAIRS:
+                goDownStairs(map, width, botState, currentTile);
+                break;
+        }
+    }
+
     public void goLeft(BotState botState) {
         if (botState.getPlayerX() < botState.getAvoidX() || botState.getPlayerX() >= botState.getAvoidX() + 16) {
             gamePad.pressLeft();
@@ -144,6 +212,14 @@ public class PlayerController {
 
     public void kneel() {
         gamePad.pressDown();
+    }
+
+    public void useWeapon(GameState gameState) {
+        if (!gameState.isWeaponing()) {
+            gameState.setWeaponDelay(WEAPON_DELAY);
+            gamePad.pressUp();
+            gamePad.pressB();
+        }
     }
 
     public void whip(GameState gameState) {

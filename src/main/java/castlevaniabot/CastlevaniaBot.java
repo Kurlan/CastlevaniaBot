@@ -60,20 +60,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.control.PlayerController.WEAPON_DELAY;
-import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
-import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
-import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_EDGE_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_LEFT_MIDDLE_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
-import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static castlevaniabot.model.creativeelements.Whip.WHIPS;
@@ -102,8 +88,6 @@ import static castlevaniabot.model.gameelements.TileType.isForward;
 import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
-import static nintaco.api.GamepadButtons.Left;
-import static nintaco.api.GamepadButtons.Right;
 
 public class CastlevaniaBot {
   
@@ -1399,60 +1383,6 @@ public class CastlevaniaBot {
     return obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 && obj.y1 <= y2;
   }
   
-  public void executeOperation(final MapElement[][] map, final int width,
-                               final int operation, final int stepX, final int stepY,
-                               final boolean checkForEnemies) {
-    
-    switch(operation) {
-      
-      case WALK_LEFT:
-        playerController.walk(Left, stepX, stepY, checkForEnemies, botState, gameState, currentTile);
-        break;
-      case WALK_RIGHT:
-        playerController.walk(Right, stepX, stepY, checkForEnemies, botState, gameState, currentTile);
-        break;
-        
-      case WALK_CENTER_LEFT_JUMP:
-        playerController.walkAndJump(map, width, 8, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-      case WALK_RIGHT_MIDDLE_LEFT_JUMP:
-        playerController.walkAndJump(map, width, 13, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-      case WALK_LEFT_MIDDLE_LEFT_JUMP:
-        playerController.walkAndJump(map, width, 2, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;        
-      case WALK_RIGHT_EDGE_LEFT_JUMP:
-        playerController.walkAndJump(map, width, 19, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-      case WALK_LEFT_EDGE_LEFT_JUMP:
-        playerController.walkAndJump(map, width, -4, Left, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-        
-      case WALK_CENTER_RIGHT_JUMP:
-        playerController.walkAndJump(map, width, 8, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-      case WALK_RIGHT_MIDDLE_RIGHT_JUMP:
-        playerController.walkAndJump(map, width, 13, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-      case WALK_LEFT_MIDDLE_RIGHT_JUMP:
-        playerController.walkAndJump(map, width, 2, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;          
-      case WALK_RIGHT_EDGE_RIGHT_JUMP:
-        playerController.walkAndJump(map, width, 19, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-      case WALK_LEFT_EDGE_RIGHT_JUMP:
-        playerController.walkAndJump(map, width, -4, Right, stepX, stepY, checkForEnemies, botState, currentTile, gameState);
-        break;
-        
-      case GO_UP_STAIRS:
-        playerController.goUpStairs(map, width, botState, currentTile);
-        break;
-      case GO_DOWN_STAIRS:
-        playerController.goDownStairs(map, width, botState, currentTile);
-        break;
-    }    
-  }
-  
   public void avoid(final GameObject obj) {
     if ((!obj.onPlatform || obj.y >= botState.getPlayerY() - 48)
         && (botState.getAvoidX() < 0 || obj.distanceX < abs(botState.getPlayerX() - botState.getAvoidX()))) {
@@ -1539,14 +1469,6 @@ public class CastlevaniaBot {
       if (!atBottomOfStairs) {
         gamePad.pressUp();
       }
-      gamePad.pressB();
-    }
-  }
-  
-  public void useWeapon() {
-    if (!gameState.isWeaponing()) {
-      gameState.setWeaponDelay(WEAPON_DELAY);
-      gamePad.pressUp();
       gamePad.pressB();
     }
   }

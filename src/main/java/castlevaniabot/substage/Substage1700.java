@@ -123,7 +123,7 @@ public class Substage1700 extends Substage {
     if (b.weapon == STOPWATCH && botState.getPlayerX() < 496) {
       botState.setCurrentStrategy(null);
       if (stopWatchDelay > 0 && --stopWatchDelay == 180) {
-        b.useWeapon();
+        playerController.useWeapon(gameState);
       } 
       if (stopWatchDelay == 0 && botState.getPlayerX() < 272 && b.weapon == STOPWATCH
           && b.hearts >= 5) {

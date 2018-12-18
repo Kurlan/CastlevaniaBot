@@ -34,7 +34,7 @@ public class BoomerangDeathStrategy implements Strategy {
         if (b.hearts > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
                 && death.distanceX < 128) {
             if (b.faceTarget()) {
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange()) {
             if (b.faceTarget()) {

@@ -35,7 +35,7 @@ public class SickleStrategy implements Strategy {
             if (b.hearts > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
                     && death.distanceX < 128) {
                 if (b.face(death)) {
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                 }
                 return;
             } else if (b.isInStandingWhipRange(death)) {
@@ -65,7 +65,7 @@ public class SickleStrategy implements Strategy {
         } else if (!gameState.isWeaponing() && b.hearts > 0 && sickle.y2 >= botState.getPlayerY() - 32
                 && sickle.y1 <= botState.getPlayerY()) {
             if (b.faceTarget()) {
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         }
     }

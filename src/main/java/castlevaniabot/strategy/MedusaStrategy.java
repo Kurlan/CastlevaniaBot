@@ -147,7 +147,7 @@ public class MedusaStrategy implements Strategy {
         if (botState.getPlayerX() == routeX) {
             if (medusa.playerFacing) {
                 if (weaponDelay == 0) {
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                     weaponDelay = 17;
                 }
             } else {
@@ -181,7 +181,7 @@ public class MedusaStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (botState.getPlayerY() - 24 >= medusa.y1 && botState.getPlayerY() - 24 <= medusa.y2) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
@@ -214,7 +214,7 @@ public class MedusaStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (botState.getPlayerY() - 24 >= medusa.y1 && botState.getPlayerY() - 24 <= medusa.y2) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
@@ -278,7 +278,7 @@ public class MedusaStrategy implements Strategy {
             if (b.faceTarget() && !gameState.isWeaponing()) {
                 if (weaponDelay == 0) {
                     weaponDelay = 180;
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                 } else {
                     playerController.whip(gameState);
                 }
@@ -287,7 +287,7 @@ public class MedusaStrategy implements Strategy {
             if (b.faceTarget()) {
                 if (weaponDelay == 0) {
                     weaponDelay = 180;
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                 } else {
                     playerController.kneel();
                     if (b.kneeling && !gameState.isWeaponing()) {

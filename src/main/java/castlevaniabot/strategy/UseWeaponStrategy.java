@@ -84,7 +84,7 @@ public class UseWeaponStrategy implements Strategy {
     }
 
     private void useWeapon() {
-        b.useWeapon();
+        playerController.useWeapon(gameState);
         done = delayAfterUse;
     }
 }

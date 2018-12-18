@@ -59,7 +59,7 @@ public class WhiteSkeletonStrategy implements Strategy {
             if (--jumpCounter == 0) {
                 holyWaterDelay = HOLY_WATER_RESET;
                 drawingTowardHolyWater = true;
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (!gameState.isWeaponing() && b.faceTarget()) {
@@ -82,7 +82,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 if (b.isUnderLedge()) {
                     holyWaterDelay = HOLY_WATER_RESET;
                     drawingTowardHolyWater = true;
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                 } else {
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                     playerController.jump(botState);

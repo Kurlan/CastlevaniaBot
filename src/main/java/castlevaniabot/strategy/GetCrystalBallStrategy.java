@@ -39,7 +39,7 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
 
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
-                b.useWeapon();
+                playerController.useWeapon(gameState);
                 ++jumps;
             }
         } else if (jumpRequested) {

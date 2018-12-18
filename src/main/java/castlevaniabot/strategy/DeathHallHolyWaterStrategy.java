@@ -42,7 +42,7 @@ public class DeathHallHolyWaterStrategy implements Strategy {
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
                 holyWaterDelay = HOLY_WATER_RESET;
-                b.useWeapon();
+                playerController.useWeapon(gameState);
             }
             return;
         } else if (holyWaterDelay == 0) {

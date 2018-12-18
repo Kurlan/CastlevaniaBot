@@ -91,7 +91,7 @@ public class PhantomBatStrategy implements Strategy {
                     playerController.whip(gameState);
                 } else {
                     weaponDelay = 17;
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                 }
             }
         } else if (b.canJump && bat.distanceX < 40 && bat.distanceY < 36) {
@@ -111,7 +111,7 @@ public class PhantomBatStrategy implements Strategy {
                         playerController.jump(botState);
                     } else if (y >= bat.y1 && y <= bat.y2) {
                         weaponDelay = 17;
-                        b.useWeapon();
+                        playerController.useWeapon(gameState);
                     } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                         playerController.whip(gameState);
                     }
@@ -161,7 +161,7 @@ public class PhantomBatStrategy implements Strategy {
         if (botState.getPlayerX() == routeX) {
             if (bat.playerFacing) {
                 if (weaponDelay == 0) {
-                    b.useWeapon();
+                    playerController.useWeapon(gameState);
                     weaponDelay = 17;
                 }
             } else {
@@ -208,7 +208,7 @@ public class PhantomBatStrategy implements Strategy {
         } else if (b.canJump && bat.y >= 160 && bat.distanceX >= 48
                 && bat.distanceX <= 96) {
             weaponDelay = 180;
-            b.useWeapon();
+            playerController.useWeapon(gameState);
         } else {
             stepNoWeaponsStrategy(bat, offsetX, offsetY);
         }

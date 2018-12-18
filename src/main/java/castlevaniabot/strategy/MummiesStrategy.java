@@ -189,7 +189,7 @@ public class MummiesStrategy implements Strategy {
         } else if (!gameState.isWeaponing() && ((mummy1 != null && abs(mummy1.x - 1360) < 16)
                 || (mummy2 != null && abs(mummy2.x - 1360) < 16))) {
             weaponDelay = 60;
-            b.useWeapon();
+            playerController.useWeapon(gameState);
         }
     }
 }
