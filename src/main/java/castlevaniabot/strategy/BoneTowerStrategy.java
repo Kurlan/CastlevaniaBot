@@ -51,7 +51,7 @@ public class BoneTowerStrategy implements Strategy {
                     playerController.whip(gameState);
                 } else {
                     usedHolyWater = true;
-                    b.whipOrWeapon();
+                    playerController.whipOrWeapon(gameState, botState);
                 }
             }
         } else if (tower.distanceX < 24) {

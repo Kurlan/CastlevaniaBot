@@ -167,7 +167,6 @@ public class CastlevaniaBot {
   int crystalBallY;
   int crystalBallTime;
 
-  boolean atBottomOfStairs;
   public boolean atTopOfStairs;
   public boolean kneeling;
 
@@ -451,7 +450,7 @@ public class CastlevaniaBot {
       botState.setOnPlatform(false);
     }
 
-    atBottomOfStairs = isAtBottomOfStairs();
+    botState.setAtBottomOfStairs(isAtBottomOfStairs());
     atTopOfStairs = isAtTopOfStairs();
     canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && botState.isOnPlatform()
         && botState.getJumpDelay() == 0;
@@ -1279,7 +1278,7 @@ public class CastlevaniaBot {
   public boolean grind() {
     if (!gameState.isWeaponing()) {
       gameState.setWeaponDelay(WEAPON_DELAY);
-      if (!atBottomOfStairs && botState.getWeapon() == HOLY_WATER && hearts > 5 && shot < 3) {
+      if (!botState.isAtBottomOfStairs() && botState.getWeapon() == HOLY_WATER && hearts > 5 && shot < 3) {
         gamePad.pressUp();
         gamePad.pressB();
         return true;
@@ -1289,16 +1288,6 @@ public class CastlevaniaBot {
       }
     } else {
       return false;
-    }
-  }
-  
-  public void whipOrWeapon() {
-    if (!gameState.isWeaponing()) {
-      gameState.setWeaponDelay(WEAPON_DELAY);
-      if (!atBottomOfStairs) {
-        gamePad.pressUp();
-      }
-      gamePad.pressB();
     }
   }
   

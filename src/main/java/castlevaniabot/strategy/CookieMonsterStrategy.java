@@ -48,7 +48,7 @@ public class CookieMonsterStrategy implements Strategy {
 
         if (jumpCounter > 0) {
             if (--jumpCounter == 0) {
-                b.whipOrWeapon();
+                playerController.whipOrWeapon(gameState, botState);
             }
         }
 

@@ -147,7 +147,7 @@ public class FrankensteinStrategy implements Strategy {
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
                 if (!gameState.isWeaponing() && b.face(frank)) {
                     if (botState.getPlayerY() == frank.y) {
-                        b.whipOrWeapon();
+                        playerController.whipOrWeapon(gameState, botState);
                     } else {
                         playerController.whip(gameState);
                     }
@@ -160,7 +160,7 @@ public class FrankensteinStrategy implements Strategy {
             } else {
                 if (frank.x < 992 && !gameState.isWeaponing() && b.face(frank)
                         && botState.getPlayerY() == frank.y) {
-                    b.whipOrWeapon();
+                    playerController.whipOrWeapon(gameState, botState);
                 } else {
                     gameState.getCurrentSubstage().moveToward(frank);
                 }
@@ -192,7 +192,7 @@ public class FrankensteinStrategy implements Strategy {
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
             } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
                 if (!gameState.isWeaponing() && b.face(frank)) {
-                    b.whipOrWeapon();
+                    playerController.whipOrWeapon(gameState, botState);
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 playerController.kneel();

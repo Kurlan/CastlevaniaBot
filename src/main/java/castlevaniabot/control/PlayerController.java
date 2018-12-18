@@ -236,6 +236,16 @@ public class PlayerController {
         }
     }
 
+    public void whipOrWeapon(GameState gameState, BotState botState) {
+        if (!gameState.isWeaponing()) {
+            gameState.setWeaponDelay(WEAPON_DELAY);
+            if (!botState.isAtBottomOfStairs()) {
+                gamePad.pressUp();
+            }
+            gamePad.pressB();
+        }
+    }
+
     public void jump(BotState botState) {
         if (botState.getJumpDelay() == 0) {
             botState.setJumpDelay(JUMP_WHIP_OFFSETS.length - 1);

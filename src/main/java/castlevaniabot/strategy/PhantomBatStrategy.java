@@ -219,7 +219,7 @@ public class PhantomBatStrategy implements Strategy {
             if (botState.isPlayerLeft()) {
                 if (bat.x > 640 && bat.y > 120 && weaponDelay == 0) {
                     weaponDelay = 80;
-                    b.whipOrWeapon();
+                    playerController.whipOrWeapon(gameState, botState);
                 }
             } else {
                 gameState.getCurrentSubstage().routeLeft();

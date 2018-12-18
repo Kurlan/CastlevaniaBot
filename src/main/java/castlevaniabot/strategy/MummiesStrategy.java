@@ -145,7 +145,7 @@ public class MummiesStrategy implements Strategy {
         }
         if (targetMummy != null && b.face(targetMummy) && !gameState.isWeaponing()) {
             weaponedMummy1 = !weaponedMummy1;
-            b.whipOrWeapon();
+            playerController.whipOrWeapon(gameState, botState);
         }
     }
 
@@ -154,7 +154,7 @@ public class MummiesStrategy implements Strategy {
         if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !botState.isPlayerLeft()) {
             gameState.getCurrentSubstage().routeAndFace(1512, 208, true, false);
         } else if (!gameState.isWeaponing()) {
-            b.whipOrWeapon();
+            playerController.whipOrWeapon(gameState, botState);
         }
     }
 

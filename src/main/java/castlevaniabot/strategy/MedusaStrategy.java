@@ -247,7 +247,7 @@ public class MedusaStrategy implements Strategy {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget() && !gameState.isWeaponing()) {
-                b.whipOrWeapon();
+                playerController.whipOrWeapon(gameState, botState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (b.faceTarget()) {

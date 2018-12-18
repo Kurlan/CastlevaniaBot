@@ -20,4 +20,5 @@ public class BotState {
     private boolean onPlatform;
     private boolean playerLeft;
     private int weapon;
+    private boolean atBottomOfStairs;
 }
