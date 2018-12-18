@@ -1405,11 +1405,11 @@ public class CastlevaniaBot {
     
     switch(operation) {
       
-      case WALK_LEFT: 
-        walk(Left, stepX, stepY, checkForEnemies);
+      case WALK_LEFT:
+        playerController.walk(Left, stepX, stepY, checkForEnemies, botState, gameState, currentTile);
         break;
       case WALK_RIGHT:
-        walk(Right, stepX, stepY, checkForEnemies);
+        playerController.walk(Right, stepX, stepY, checkForEnemies, botState, gameState, currentTile);
         break;
         
       case WALK_CENTER_LEFT_JUMP:
@@ -1628,38 +1628,6 @@ public class CastlevaniaBot {
     return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
             && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
         || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
-  }
-
-  void go(final int direction) {
-    if (direction == Left) {
-      playerController.goLeft(botState);
-    } else {
-      playerController.goRight(botState);
-    }
-  }
-  
-  private void walk(final int direction, final int stepX, final int stepY, 
-      final boolean checkForEnemies) {
-    if (botState.isOnStairs()) {
-      gamePad.pressUp();
-    } else if (checkForEnemies && stepY > currentTile.getY()) {
-      final int x = botState.getPlayerX() & 0xF;
-      if (botState.isOverHangingLeft() && direction == Left && x < 13) {
-        if (!playerController.isEnemyInBounds((stepX << 4) - 24, botState.getPlayerY() - 32, botState.getPlayerX() + 24,
-            stepY << 4, gameState)) {
-          playerController.goLeft(botState);
-        }
-      } else if (botState.isOverHangingRight() && direction == Right && x > 2) {
-        if (!playerController.isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 32, (stepX << 4) + 40,
-            stepY << 4, gameState)) {
-          playerController.goRight(botState);
-        }
-      } else {
-        go(direction);
-      }
-    } else {
-      go(direction);
-    }
   }
   
   boolean isPlayerInRange(final int x1, final int x2) {

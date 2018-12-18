@@ -193,6 +193,38 @@ public class PlayerController {
         }
     }
 
+    public void go(final int direction, BotState botState) {
+        if (direction == Left) {
+            goLeft(botState);
+        } else {
+            goRight(botState);
+        }
+    }
+
+    public void walk(final int direction, final int stepX, final int stepY,
+                      final boolean checkForEnemies, BotState botState, GameState gameState, Coordinates currentTile) {
+        if (botState.isOnStairs()) {
+            gamePad.pressUp();
+        } else if (checkForEnemies && stepY > currentTile.getY()) {
+            final int x = botState.getPlayerX() & 0xF;
+            if (botState.isOverHangingLeft() && direction == Left && x < 13) {
+                if (!isEnemyInBounds((stepX << 4) - 24, botState.getPlayerY() - 32, botState.getPlayerX() + 24,
+                        stepY << 4, gameState)) {
+                    goLeft(botState);
+                }
+            } else if (botState.isOverHangingRight() && direction == Right && x > 2) {
+                if (!isEnemyInBounds(botState.getPlayerX() - 24, botState.getPlayerY() - 32, (stepX << 4) + 40,
+                        stepY << 4, gameState)) {
+                    goRight(botState);
+                }
+            } else {
+                go(direction, botState);
+            }
+        } else {
+            go(direction, botState);
+        }
+    }
+
     public boolean isEnemyInBounds(final int x1, final int y1, final int x2,
                                    final int y2, GameState gameState) {
 
