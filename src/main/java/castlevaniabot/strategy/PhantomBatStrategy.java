@@ -56,10 +56,10 @@ public class PhantomBatStrategy implements Strategy {
             --weaponDelay;
         }
 
-        if (b.hearts >= 5 && b.weapon == STOPWATCH) {
+        if (b.hearts >= 5 && botState.getWeapon() == STOPWATCH) {
             stepStopwatchStrategy(bat, offsetX, offsetY);
         } else if (b.hearts > 0) {
-            switch (b.weapon) {
+            switch (botState.getWeapon()) {
                 case HOLY_WATER:
                     stepHolyWaterStrategy(bat);
                     break;

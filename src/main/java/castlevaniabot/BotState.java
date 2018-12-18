@@ -19,4 +19,5 @@ public class BotState {
     private boolean overHangingRight;
     private boolean onPlatform;
     private boolean playerLeft;
+    private int weapon;
 }

@@ -43,7 +43,7 @@ public class Substage0500 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case CANDLES:
-          if (b.weapon != HOLY_WATER || roundTile(obj.x) != 29) {
+          if (botState.getWeapon() != HOLY_WATER || roundTile(obj.x) != 29) {
             obj.tier = 1; 
           }
           break;
@@ -61,7 +61,7 @@ public class Substage0500 extends Substage {
         case BOOMERANG_WEAPON:
         case DAGGER_WEAPON:        
         case STOPWATCH_WEAPON:
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
             b.avoid(obj);

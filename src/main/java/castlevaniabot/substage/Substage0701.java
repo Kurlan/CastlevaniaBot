@@ -48,7 +48,7 @@ public class Substage0701 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case CANDLES: 
-          if (b.weapon != HOLY_WATER || roundTile(obj.x) != 38) {
+          if (botState.getWeapon() != HOLY_WATER || roundTile(obj.x) != 38) {
             // Keep holy water by avoiding axe candle
             obj.tier = 1;             
           }
@@ -66,28 +66,28 @@ public class Substage0701 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case DAGGER_WEAPON:
-          if (b.weapon == NONE || b.weapon == STOPWATCH) {
+          if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;        
         case BOOMERANG_WEAPON:
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;
         case AXE_WEAPON:
-          if (b.weapon != HOLY_WATER && b.weapon != BOOMERANG) {
+          if (botState.getWeapon() != HOLY_WATER && botState.getWeapon() != BOOMERANG) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;          
         case STOPWATCH_WEAPON:  
-          if (b.weapon == NONE) {
+          if (botState.getWeapon() == NONE) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
@@ -111,7 +111,7 @@ public class Substage0701 extends Substage {
         b.getAllStrategies().getWAIT().init(528, 208, WaitStrategy.WaitType.KNEEL);
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
-    } else if (b.weapon == HOLY_WATER && b.hearts > 0
+    } else if (botState.getWeapon() == HOLY_WATER && b.hearts > 0
         && botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
             && b.isTypeRight(WHITE_SKELETON, 576)) {      
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {

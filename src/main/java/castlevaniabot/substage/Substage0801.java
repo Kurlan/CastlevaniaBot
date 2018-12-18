@@ -53,7 +53,7 @@ public class Substage0801 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case CANDLES:
-          if (b.weapon != HOLY_WATER || botState.getPlayerX() < 664
+          if (botState.getWeapon() != HOLY_WATER || botState.getPlayerX() < 664
               || roundTile(obj.x) != 42) {
             // Hit stopwatch candle even if current weapon is holy water to
             // reduce risk of hitting it while attacking raven.
@@ -73,28 +73,28 @@ public class Substage0801 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case DAGGER_WEAPON:
-          if (b.weapon == NONE || b.weapon == STOPWATCH) {
+          if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;        
         case BOOMERANG_WEAPON:
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;
         case AXE_WEAPON:
-          if (b.weapon != HOLY_WATER && b.weapon != BOOMERANG) {
+          if (botState.getWeapon() != HOLY_WATER && botState.getWeapon() != BOOMERANG) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;          
         case STOPWATCH_WEAPON:  
-          if (b.weapon == NONE) {
+          if (botState.getWeapon() == NONE) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
@@ -143,7 +143,7 @@ public class Substage0801 extends Substage {
 
   @Override
   public void candlesWhipped(final GameObject candle) {
-    if (b.weapon != NONE && roundTile(candle.x) == 42) { // stopwatch
+    if (botState.getWeapon() != NONE && roundTile(candle.x) == 42) { // stopwatch
       delayPlayer();
     }
   }

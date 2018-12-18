@@ -64,7 +64,7 @@ public class FrankensteinStrategy implements Strategy {
         updateObjects();
 
         if (b.hearts > 0) {
-            switch (b.weapon) {
+            switch (botState.getWeapon()) {
                 case AXE:
                     stepAxeStrategy();
                     break;

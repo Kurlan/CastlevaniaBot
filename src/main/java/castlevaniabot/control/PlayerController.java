@@ -2,12 +2,17 @@ package castlevaniabot.control;
 
 import castlevaniabot.BotState;
 import castlevaniabot.GameState;
+import castlevaniabot.model.creativeelements.MovingPlatform;
+import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.MapElement;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.TileType;
+import nintaco.api.API;
+import nintaco.api.Colors;
 
 import javax.inject.Inject;
 
@@ -94,10 +99,12 @@ public class PlayerController {
     }
 
     private final GamePad gamePad;
+    private final API api;
 
     @Inject
-    public PlayerController(GamePad gamePad) {
+    public PlayerController(GamePad gamePad, API api) {
         this.gamePad = gamePad;
+        this.api = api;
     }
 
     public void executeOperation(final MapElement[][] map, final int width,
@@ -403,4 +410,178 @@ public class PlayerController {
         }
         return TileType.isPlatform(mapRoutes.map[y][x].tileType);
     }
+
+    // Unused methods from original.
+
+    private boolean isTypeInRange(final GameObjectType type, final int x1, final int x2, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private int countTypeInBounds(final GameObjectType type, final int x1, final int y1,
+                          final int x2, final int y2, GameState gameState) {
+
+        int count = 0;
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1
+                    && obj.y1 <= y2) {
+                ++count;
+            }
+        }
+        return count;
+    }
+
+    private boolean isObjectInBounds(final GameObject obj, final int x1, final int y1,
+                             final int x2, final int y2) {
+        return obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1 && obj.y1 <= y2;
+    }
+
+
+    private boolean faceFlying(final GameObject obj, BotState botState, GameState gameState) {
+        if (obj.playerFacing) {
+            return true;
+        } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
+            gamePad.pressDown();
+        } else {
+            gameState.getCurrentSubstage().moveToward(obj);
+        }
+        return false;
+    }
+
+    boolean isPlayerInRange(final int x1, final int x2, BotState botState) {
+        return botState.getPlayerX() >= x1 && botState.getPlayerX() <= x2;
+    }
+
+    private void printGameObject(final GameObjectType type, GameState gameState) {
+        for(int i = 0; i < gameState.getObjsCount(); ++i) {
+            if (gameState.getGameObjects()[i].type == type) {
+                System.out.print(gameState.getGameObjects()[i] + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    private void printGameObjects(GameState gameState, TargetedObject targetedObject, RedBones[] redBones0, int redBonesCount0) {
+        for(int i = redBonesCount0 - 1; i >= 0; --i) {
+            System.out.print(redBones0[i] + " ");
+        }
+        for(int i = 0; i < gameState.getObjsCount(); ++i) {
+            System.out.print(gameState.getGameObjects()[i] + " ");
+        }
+        if (targetedObject.getTarget() != null) {
+            System.out.format("* %s", targetedObject.getTarget());
+        }
+        System.out.println();
+    }
+
+    private void paintGameObjects(GameState gameState, RedBones[] redBones0, int redBonesCount0, TargetedObject targetedObject) {
+        api.setColor(Colors.YELLOW);
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            api.drawRect(obj.x1 - gameState.getCameraX(), obj.y1, obj.x2 - obj.x1 + 1,
+                    obj.y2 - obj.y1 + 1);
+        }
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            api.drawRect(obj.x1 - gameState.getCameraX(), obj.y1, obj.x2 - obj.x1 + 1,
+                    obj.y2 - obj.y1 + 1);
+        }
+        api.setColor(Colors.CYAN);
+        for(int i = redBonesCount0 - 1; i >= 0; --i) {
+            final RedBones bones = redBones0[i];
+            api.drawRect(bones.x - 8 - gameState.getCameraX(), bones.y - 16, 16, 16);
+        }
+        if (targetedObject.getTarget() != null) {
+            api.setColor(Colors.RED);
+            api.drawRect(targetedObject.getTarget().x1 - gameState.getCameraX(), targetedObject.getTarget().y1, targetedObject.getTarget().x2 - targetedObject.getTarget().x1 + 1,
+                    targetedObject.getTarget().y2 - targetedObject.getTarget().y1 + 1);
+        }
+        api.setColor(Colors.GREEN);
+
+        for(int i = gameState.getMovingPlatformsCount() - 1; i >= 0; --i) {
+            final MovingPlatform p = gameState.getMovingPlatforms()[i];
+            api.drawRect(p.x1 - gameState.getCameraX(), p.y, p.x2 - p.x1 + 1, 8);
+        }
+    }
+
+    boolean isObjectAbove(final int y, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.y1 <= y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isEnemyBelow(final int y, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type.enemy && obj.y2 >= y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isEnemyAbove(final int y, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type.enemy && obj.y1 <= y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isTypeAbove(final GameObjectType type, final int y, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type == type && obj.y1 <= y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isTypeBelow(final GameObjectType type, final int y, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type == type && obj.y2 >= y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isTypeLeft(final GameObjectType type, final int x, GameState gameState) {
+
+        for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = gameState.getGameObjects()[i];
+            if (obj.type == type && obj.x1 <= x) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

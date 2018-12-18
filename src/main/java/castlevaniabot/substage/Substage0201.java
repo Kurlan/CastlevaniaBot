@@ -71,7 +71,7 @@ public class Substage0201 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case STOPWATCH_WEAPON:  
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);

@@ -116,21 +116,21 @@ public class Substage1501 extends Substage {
             case TRIPLE_SHOT:
               obj.tier = 5; break;
             case DAGGER_WEAPON:
-              if (b.weapon == NONE || b.weapon == STOPWATCH) {
+              if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
                 obj.tier = 5;
               } else {
                 b.avoid(obj);
               }
               break;        
             case AXE_WEAPON:
-              if (b.weapon != HOLY_WATER && b.weapon != BOOMERANG) {
+              if (botState.getWeapon() != HOLY_WATER && botState.getWeapon() != BOOMERANG) {
                 obj.tier = 5;
               } else {
                 b.avoid(obj);
               }
               break;          
             case STOPWATCH_WEAPON:  
-              if (b.weapon == NONE) {
+              if (botState.getWeapon() == NONE) {
                 obj.tier = 5;
               } else {
                 b.avoid(obj);
@@ -171,7 +171,7 @@ public class Substage1501 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     
-    if (botState.getPlayerX() == 800 && b.weapon == BOOMERANG && b.hearts > 0
+    if (botState.getPlayerX() == 800 && botState.getWeapon() == BOOMERANG && b.hearts > 0
         && !b.getGameState().isWeaponing()) {
       playerController.useWeapon(gameState); // hit candles with boomerang
     } 
@@ -194,25 +194,25 @@ public class Substage1501 extends Substage {
       bossDefeated = true;
       super.pickStrategy(targetedObject);
     } else if (bossTriggered) {
-      if (b.weapon == HOLY_WATER && b.hearts > 0) {
+      if (botState.getWeapon() == HOLY_WATER && b.hearts > 0) {
         b.getAllStrategies().getHOLY_WATER_DEATH().step();
       } else {
         super.pickStrategy(targetedObject);
       }
     } else if (botState.getPlayerX() < 128) {
       bossTriggered = true;
-      if (b.weapon == HOLY_WATER && b.hearts > 0) {
+      if (botState.getWeapon() == HOLY_WATER && b.hearts > 0) {
         clearTarget(targetedObject);
         b.getAllStrategies().getHOLY_WATER_DEATH().init();
         botState.setCurrentStrategy(b.getAllStrategies().getHOLY_WATER_DEATH());
       }
     } else if (botState.getCurrentStrategy() == b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
-      if (b.weapon == HOLY_WATER && b.hearts > 0) {
+      if (botState.getWeapon() == HOLY_WATER && b.hearts > 0) {
         botState.getCurrentStrategy().step();
       } else {
         super.pickStrategy(targetedObject);
       }      
-    } else if (b.weapon == HOLY_WATER && b.hearts > 0) {
+    } else if (botState.getWeapon() == HOLY_WATER && b.hearts > 0) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getDEATH_HALL_HOLY_WATER().init();

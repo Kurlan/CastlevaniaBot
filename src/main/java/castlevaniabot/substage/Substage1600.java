@@ -77,7 +77,7 @@ public class Substage1600 extends Substage {
         case BOOMERANG_WEAPON:
         case AXE_WEAPON:                         
         case HOLY_WATER_WEAPON:
-          if (b.weapon != STOPWATCH && (obj.x < 128 || obj.x >= 1344)) {
+          if (botState.getWeapon() != STOPWATCH && (obj.x < 128 || obj.x >= 1344)) {
             obj.tier = 5; 
           } else {
             b.avoid(obj);

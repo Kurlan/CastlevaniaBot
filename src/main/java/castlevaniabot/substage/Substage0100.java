@@ -66,7 +66,7 @@ public class Substage0100 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case STOPWATCH_WEAPON:  
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
@@ -79,7 +79,7 @@ public class Substage0100 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
+    if (botState.getWeapon() == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 52 && b.currentTile.getX() <= 56 && isPantherResting()) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);

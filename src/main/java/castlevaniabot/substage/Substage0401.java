@@ -68,7 +68,7 @@ public class Substage0401 extends Substage {
         case BOOMERANG_WEAPON:
         case DAGGER_WEAPON:        
         case STOPWATCH_WEAPON:
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
@@ -90,7 +90,7 @@ public class Substage0401 extends Substage {
         b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(96, 31, 112);
         botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
       }
-    } else if (b.weapon == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
+    } else if (botState.getWeapon() == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 15 && b.currentTile.getX() <= 17 && isKnightInPit()) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);

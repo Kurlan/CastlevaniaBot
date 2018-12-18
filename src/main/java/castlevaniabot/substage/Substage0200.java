@@ -52,7 +52,7 @@ public class Substage0200 extends Substage {
         case BLOCK:
           obj.tier = 1; break;
         case CANDLES:
-          if (roundTile(obj.x) != 18 || b.weapon != HOLY_WATER) {
+          if (roundTile(obj.x) != 18 || botState.getWeapon() != HOLY_WATER) {
             obj.tier = 2;
           }
           break;
@@ -68,7 +68,7 @@ public class Substage0200 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case STOPWATCH_WEAPON:  
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);

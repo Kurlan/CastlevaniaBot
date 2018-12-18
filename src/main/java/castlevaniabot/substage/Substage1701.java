@@ -83,7 +83,7 @@ public class Substage1701 extends Substage {
             case CANDLES:
               switch(roundTile(obj.x)) {
                 case 34:
-                  if (b.weapon != STOPWATCH) {
+                  if (botState.getWeapon() != STOPWATCH) {
                     obj.tier = 1;
                   }
                   break;
@@ -108,7 +108,7 @@ public class Substage1701 extends Substage {
             case BOOMERANG_WEAPON:
             case AXE_WEAPON:                         
             case HOLY_WATER_WEAPON:
-              if (b.weapon != STOPWATCH) {
+              if (botState.getWeapon() != STOPWATCH) {
                 obj.tier = 5; 
               } else {
                 b.avoid(obj);
@@ -126,7 +126,7 @@ public class Substage1701 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (!usedStopwatch && botState.getPlayerX() <= 480 && botState.getPlayerY() <= 96
-        && b.weapon == STOPWATCH && b.hearts >= 5) {
+        && botState.getWeapon() == STOPWATCH && b.hearts >= 5) {
       playerController.useWeapon(gameState);
       usedStopwatch = true;
     } else if (!killedLowerSkeleton && botState.getPlayerX() >= 496 && botState.getPlayerY() > 128) {

@@ -99,7 +99,7 @@ public class Substage1700 extends Substage {
         case AXE_WEAPON:                         
         case HOLY_WATER_WEAPON:
           if (botState.getPlayerX() >= 496) {
-            if (b.weapon != STOPWATCH) {
+            if (botState.getWeapon() != STOPWATCH) {
               obj.tier = 5; 
             } else {
               b.avoid(obj);
@@ -120,12 +120,12 @@ public class Substage1700 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     
-    if (b.weapon == STOPWATCH && botState.getPlayerX() < 496) {
+    if (botState.getWeapon() == STOPWATCH && botState.getPlayerX() < 496) {
       botState.setCurrentStrategy(null);
       if (stopWatchDelay > 0 && --stopWatchDelay == 180) {
         playerController.useWeapon(gameState);
       } 
-      if (stopWatchDelay == 0 && botState.getPlayerX() < 272 && b.weapon == STOPWATCH
+      if (stopWatchDelay == 0 && botState.getPlayerX() < 272 && botState.getWeapon() == STOPWATCH
           && b.hearts >= 5) {
         stopWatchDelay = 181;        
       } else if (stopWatchDelay < 179) {

@@ -77,7 +77,7 @@ public class Substage0900 extends Substage {
           switch(roundTile(obj.x)) {
             case 78: obj.subTier = 2; break;
             case 82:
-              if (b.weapon == BOOMERANG) {
+              if (botState.getWeapon() == BOOMERANG) {
                 break outer;
               }
               obj.subTier = 1; 
@@ -102,29 +102,29 @@ public class Substage0900 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case DAGGER_WEAPON:
-          if (!bossTriggered && (b.weapon == NONE || b.weapon == STOPWATCH)) {
+          if (!bossTriggered && (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH)) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;        
         case BOOMERANG_WEAPON:
-          if (!bossTriggered && b.weapon != HOLY_WATER) {
+          if (!bossTriggered && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;
         case AXE_WEAPON:
-          if (!bossTriggered && b.weapon != HOLY_WATER 
-              && b.weapon != BOOMERANG) {
+          if (!bossTriggered && botState.getWeapon() != HOLY_WATER
+              && botState.getWeapon() != BOOMERANG) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;          
         case STOPWATCH_WEAPON:  
-          if (!bossTriggered && b.weapon == NONE) {
+          if (!bossTriggered && botState.getWeapon() == NONE) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
@@ -248,7 +248,7 @@ public class Substage0900 extends Substage {
 
   @Override
   public void candlesWhipped(final GameObject candle) {
-    if (b.weapon != NONE && b.weapon != STOPWATCH 
+    if (botState.getWeapon() != NONE && botState.getWeapon() != STOPWATCH
         && roundTile(candle.x) == 82) { // dagger
       delayPlayer();
     }

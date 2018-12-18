@@ -25,7 +25,7 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
         super.init();
         jumpRequested = false;
         jumpCounter = 0;
-        if (b.hearts == 0 || b.weapon == NONE || b.weapon == STOPWATCH) {
+        if (b.hearts == 0 || botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             jumps = 2;
         } else if (b.hearts == 1 || b.shot == 1) {
             jumps = 1;

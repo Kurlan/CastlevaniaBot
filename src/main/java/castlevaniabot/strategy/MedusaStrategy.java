@@ -46,7 +46,7 @@ public class MedusaStrategy implements Strategy {
     }
 
     public boolean isTimeFrozen() {
-        return b.weapon == STOPWATCH && weaponDelay > 0;
+        return botState.getWeapon() == STOPWATCH && weaponDelay > 0;
     }
 
     @Override
@@ -62,10 +62,10 @@ public class MedusaStrategy implements Strategy {
             --weaponDelay;
         }
 
-        if (b.hearts >= 5 && b.weapon == STOPWATCH) {
+        if (b.hearts >= 5 && botState.getWeapon() == STOPWATCH) {
             stepStopwatchStrategy(medusa, offsetX, offsetY);
         } else if (b.hearts > 0) {
-            switch (b.weapon) {
+            switch (botState.getWeapon()) {
                 case AXE:
                     stepAxeStrategy(medusa, offsetX, offsetY);
                     break;

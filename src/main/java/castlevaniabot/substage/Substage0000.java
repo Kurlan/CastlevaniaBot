@@ -53,28 +53,28 @@ public class Substage0000 extends Substage {
       case TRIPLE_SHOT:
         obj.tier = 4; break;
       case DAGGER_WEAPON:
-        if (b.weapon == NONE || b.weapon == STOPWATCH) {
+        if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
           obj.tier = 5;
         } else {
           b.avoid(obj);
         }
         break;        
       case BOOMERANG_WEAPON:
-        if (b.weapon != HOLY_WATER) {
+        if (botState.getWeapon() != HOLY_WATER) {
           obj.tier = 5;
         } else {
           b.avoid(obj);
         }
         break;
       case AXE_WEAPON:
-        if (b.weapon != HOLY_WATER && b.weapon != BOOMERANG) {
+        if (botState.getWeapon() != HOLY_WATER && botState.getWeapon() != BOOMERANG) {
           obj.tier = 5;
         } else {
           b.avoid(obj);
         }
         break;          
       case STOPWATCH_WEAPON:  
-        if (b.weapon == NONE) {
+        if (botState.getWeapon() == NONE) {
           obj.tier = 5;
         } else {
           b.avoid(obj);

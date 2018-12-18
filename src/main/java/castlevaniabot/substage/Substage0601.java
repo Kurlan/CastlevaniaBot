@@ -78,7 +78,7 @@ public class Substage0601 extends Substage {
         case DAGGER_WEAPON:        
         case STOPWATCH_WEAPON:
           if (botState.getPlayerX() >= 256) {
-            if (b.weapon != HOLY_WATER) {
+            if (botState.getWeapon() != HOLY_WATER) {
               obj.tier = 4;
             } else {
               b.avoid(obj);

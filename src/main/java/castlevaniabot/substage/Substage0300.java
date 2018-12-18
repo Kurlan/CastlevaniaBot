@@ -53,7 +53,7 @@ public class Substage0300 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case CANDLES:
-          if (roundTile(obj.x) != 22 || b.weapon != HOLY_WATER) {
+          if (roundTile(obj.x) != 22 || botState.getWeapon() != HOLY_WATER) {
             obj.tier = 1;
             if ((obj.y < 160) ^ (botState.getPlayerY() >= 160)) {
               obj.subTier = 1;
@@ -76,7 +76,7 @@ public class Substage0300 extends Substage {
         case STOPWATCH_WEAPON:
         case AXE_WEAPON:
           if (botState.getPlayerX() < 512) {
-            if (b.weapon != HOLY_WATER) {
+            if (botState.getWeapon() != HOLY_WATER) {
               obj.tier = 5;
             } else {
               b.avoid(obj);

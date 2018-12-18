@@ -66,8 +66,8 @@ public class Substage1200 extends Substage {
               case 14: obj.subTier = 2; break;
               case 18: obj.subTier = 1; break;
             }
-          } else if (roundTile(obj.x) == 6 && b.weapon != NONE 
-              && b.weapon != STOPWATCH) {
+          } else if (roundTile(obj.x) == 6 && botState.getWeapon() != NONE
+              && botState.getWeapon() != STOPWATCH) {
             break;
           }
           obj.tier = 1; break;        
@@ -82,29 +82,29 @@ public class Substage1200 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 3; break;        
         case AXE_WEAPON:
-          if (botState.getPlayerX() < 768 && b.weapon != BOOMERANG
-              && b.weapon != HOLY_WATER) {
+          if (botState.getPlayerX() < 768 && botState.getWeapon() != BOOMERANG
+              && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
           }
           break;
         case BOOMERANG_WEAPON:       
-          if (botState.getPlayerX() < 768 && b.weapon != HOLY_WATER) {
+          if (botState.getPlayerX() < 768 && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
           }
           break;           
         case DAGGER_WEAPON:        
-          if (botState.getPlayerX() < 768 && (b.weapon == NONE || b.weapon == STOPWATCH)) {
+          if (botState.getPlayerX() < 768 && (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH)) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
           }
           break;            
         case STOPWATCH_WEAPON:
-          if (botState.getPlayerX() < 768 && b.weapon == NONE) {
+          if (botState.getPlayerX() < 768 && botState.getWeapon() == NONE) {
             obj.tier = 4;
           } else {
             b.avoid(obj);

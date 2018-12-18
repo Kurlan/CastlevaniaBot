@@ -63,12 +63,12 @@ public class Substage1000 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 14: // stopwatch
-              if (b.weapon == NONE) {
+              if (botState.getWeapon() == NONE) {
                 obj.tier = 1;
               }
               break;
             case 46: // holy water
-              if (b.weapon != HOLY_WATER) {
+              if (botState.getWeapon() != HOLY_WATER) {
                 obj.tier = 1;
                 obj.platformX = 45; // strike very close to the candles
               }
@@ -93,28 +93,28 @@ public class Substage1000 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 3; break;
         case AXE_WEAPON:
-          if (b.weapon != BOOMERANG && b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != BOOMERANG && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
           }
           break;
         case BOOMERANG_WEAPON:       
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
           }
           break;           
         case DAGGER_WEAPON:        
-          if (b.weapon == NONE || b.weapon == STOPWATCH) {
+          if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
           }
           break;            
         case STOPWATCH_WEAPON:
-          if (b.weapon == NONE) {
+          if (botState.getWeapon() == NONE) {
             obj.tier = 4;
           } else {
             b.avoid(obj);
@@ -148,7 +148,7 @@ public class Substage1000 extends Substage {
       clearTarget(targetedObject);
       b.getAllStrategies().getBAT_MOVING_PLATFORM().init();
       botState.setCurrentStrategy(b.getAllStrategies().getBAT_MOVING_PLATFORM());
-    } else if (!whippedHolyWaterCandle && b.weapon != HOLY_WATER 
+    } else if (!whippedHolyWaterCandle && botState.getWeapon() != HOLY_WATER
         && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 720 && botState.getPlayerX() <= 740) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
         clearTarget(targetedObject);

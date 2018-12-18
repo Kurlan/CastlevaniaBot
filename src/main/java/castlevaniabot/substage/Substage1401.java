@@ -41,8 +41,9 @@ public class Substage1401 extends Substage {
     super.init();
     blockWhipped1 = blockBroken1 = blockWhipped2 = blockBroken2 
         = treasureTriggered1 = false;
-    treasureTriggered3 = treasureTriggered2 = b.weapon != HOLY_WATER;
+    treasureTriggered3 = treasureTriggered2 = botState.getWeapon() != HOLY_WATER;
     mapRoutes = b.allMapRoutes.get("14-01-00");
+
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {
@@ -73,13 +74,13 @@ public class Substage1401 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 18:
-              if (b.weapon == HOLY_WATER && b.hearts > 0 && !botState.isOnStairs()
+              if (botState.getWeapon() == HOLY_WATER && b.hearts > 0 && !botState.isOnStairs()
                   && botState.getPlayerY() >= 128 && botState.getPlayerX() >= 288 && botState.getPlayerX() < 400) {
                 obj.tier = 1;
               }
               break;
             case 22:
-              if (b.weapon == HOLY_WATER && b.hearts > 0) {
+              if (botState.getWeapon() == HOLY_WATER && b.hearts > 0) {
                 obj.tier = 1;
               }
               break;
@@ -101,28 +102,28 @@ public class Substage1401 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case DAGGER_WEAPON:
-          if (b.weapon == NONE || b.weapon == STOPWATCH) {
+          if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;        
         case BOOMERANG_WEAPON:
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;
         case AXE_WEAPON:
-          if (b.weapon != HOLY_WATER && b.weapon != BOOMERANG) {
+          if (botState.getWeapon() != HOLY_WATER && botState.getWeapon() != BOOMERANG) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;          
         case STOPWATCH_WEAPON:  
-          if (b.weapon == NONE) {
+          if (botState.getWeapon() == NONE) {
             obj.tier = 5;
           } else {
             b.avoid(obj);

@@ -45,7 +45,7 @@ public class Substage1801 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 30: // boomerang
-              if (b.weapon != HOLY_WATER) {
+              if (botState.getWeapon() != HOLY_WATER) {
                 obj.tier = 1;
               }
               break;
@@ -67,28 +67,28 @@ public class Substage1801 extends Substage {
         case TRIPLE_SHOT:
           obj.tier = 4; break;
         case DAGGER_WEAPON:
-          if (b.weapon == NONE || b.weapon == STOPWATCH) {
+          if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;        
         case BOOMERANG_WEAPON:
-          if (b.weapon != HOLY_WATER) {
+          if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;
         case AXE_WEAPON:
-          if (b.weapon != HOLY_WATER && b.weapon != BOOMERANG) {
+          if (botState.getWeapon() != HOLY_WATER && botState.getWeapon() != BOOMERANG) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
           }
           break;          
         case STOPWATCH_WEAPON:  
-          if (b.weapon == NONE) {
+          if (botState.getWeapon() == NONE) {
             obj.tier = 5;
           } else {
             b.avoid(obj);
@@ -99,7 +99,7 @@ public class Substage1801 extends Substage {
         case EXTRA_LIFE:
           obj.tier = 5; break;
         case DRACULA_HEAD:
-          if (holyWaterTimeOut == 0 || b.weapon == HOLY_WATER) {
+          if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
             if (botState.getCurrentStrategy() != b.getAllStrategies().getDRACULA()) {
               clearTarget(b.getTargetedObject());
@@ -111,7 +111,7 @@ public class Substage1801 extends Substage {
           }
           break;
         case COOKIE_MONSTER_HEAD:
-          if (holyWaterTimeOut == 0 || b.weapon == HOLY_WATER) {
+          if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
             if (botState.getCurrentStrategy() != b.getAllStrategies().getCOOKIE_MONSTER()) {
               clearTarget(b.getTargetedObject());
@@ -143,7 +143,7 @@ public class Substage1801 extends Substage {
       }
     } else if (botState.getCurrentStrategy() == b.getAllStrategies().getDRACULA()) {
       b.getAllStrategies().getDRACULA().step();
-    } else if (b.weapon == HOLY_WATER) {
+    } else if (botState.getWeapon() == HOLY_WATER) {
       bossTriggered = true;
       clearTarget(targetedObject);
       b.getAllStrategies().getDRACULA().init();

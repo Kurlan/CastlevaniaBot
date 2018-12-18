@@ -83,7 +83,7 @@ public class MummiesStrategy implements Strategy {
         }
 
         if (botState.getPlayerY() > 164) {
-            if (b.hearts > 0 && b.weapon == BOOMERANG) {
+            if (b.hearts > 0 && botState.getWeapon() == BOOMERANG) {
                 stepBoomerangStrategy();
                 return;
             } else if (b.SUBSTAGE_0900.blockBroken) {
@@ -93,7 +93,7 @@ public class MummiesStrategy implements Strategy {
         }
 
         if (b.hearts > 0) {
-            switch (b.weapon) {
+            switch (botState.getWeapon()) {
                 case BOOMERANG:
                     stepBoomerangStrategy();
                     break;
