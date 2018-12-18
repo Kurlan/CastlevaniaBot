@@ -111,7 +111,7 @@ public class Substage0701 extends Substage {
         b.getAllStrategies().getWAIT().init(528, 208, WaitStrategy.WaitType.KNEEL);
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
-    } else if (botState.getWeapon() == HOLY_WATER && b.hearts > 0
+    } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0
         && botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
             && b.isTypeRight(WHITE_SKELETON, 576)) {      
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {

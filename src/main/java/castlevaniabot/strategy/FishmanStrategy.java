@@ -43,7 +43,7 @@ public class FishmanStrategy implements Strategy {
                 if (usedHolyWater) {
                     playerController.whip(gameState);
                 } else {
-                    usedHolyWater = b.grind();
+                    usedHolyWater = playerController.grind(gameState, botState);
                 }
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {

@@ -87,7 +87,7 @@ public class CandlesStrategy implements Strategy {
 
     private void useWeapon() {
         if (!usedHolyWater && b.getTargetedObject().getTarget().active) { // active indicates grindable
-            usedHolyWater = b.grind();
+            usedHolyWater = playerController.grind(gameState, botState);
         } else {
             playerController.whip(gameState);
         }

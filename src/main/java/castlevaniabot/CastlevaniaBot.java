@@ -57,8 +57,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static castlevaniabot.control.PlayerController.WEAPON_DELAY;
-import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static castlevaniabot.model.creativeelements.Whip.WHIPS;
 import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
@@ -171,9 +169,6 @@ public class CastlevaniaBot {
   public boolean kneeling;
 
   public boolean canJump;
-
-  public int hearts;
-  public int shot;
 
   int entryDelay;
   int pauseDelay;
@@ -332,8 +327,8 @@ public class CastlevaniaBot {
     gameState.setCameraX(api.readCPU16(CAMERA_X));
     botState.setWeapon(api.readCPU(WEAPON));
     botState.setWhipLength(api.readCPU(WHIP_LENGTH));
-    hearts = api.readCPU(HEARTS);
-    shot = api.readCPU(SHOT) + 1;
+    botState.setHearts(api.readCPU(HEARTS));
+    botState.setShot(api.readCPU(SHOT) + 1);
     botState.setOnStairs(api.readCPU(ON_STAIRS) == 0x00);
     gameState.setPaused(api.readCPU(PAUSED) == 0x01);
 
@@ -1272,23 +1267,6 @@ public class CastlevaniaBot {
     }
     
     return false;
-  }  
-  
-  // Use holy water if possible to grind for double and triple shots, else whip.
-  public boolean grind() {
-    if (!gameState.isWeaponing()) {
-      gameState.setWeaponDelay(WEAPON_DELAY);
-      if (!botState.isAtBottomOfStairs() && botState.getWeapon() == HOLY_WATER && hearts > 5 && shot < 3) {
-        gamePad.pressUp();
-        gamePad.pressB();
-        return true;
-      } else {
-        gamePad.pressB();
-        return false;
-      }
-    } else {
-      return false;
-    }
   }
   
   public boolean face(final GameObject obj) {

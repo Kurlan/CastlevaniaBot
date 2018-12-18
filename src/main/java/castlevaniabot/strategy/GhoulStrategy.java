@@ -51,7 +51,7 @@ public class GhoulStrategy implements Strategy {
                 if (usedHolyWater) {
                     playerController.whip(gameState);
                 } else {
-                    usedHolyWater = b.grind();
+                    usedHolyWater = playerController.grind(gameState, botState);
                 }
             }
         } else if (b.getTargetedObject().getTarget().distanceX >= 48) {

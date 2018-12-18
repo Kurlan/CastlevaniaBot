@@ -51,7 +51,7 @@ public class RedSkeletonStrategy implements Strategy {
                     if (usedHolyWater) {
                         playerController.whip(gameState);
                     } else {
-                        usedHolyWater = b.grind();
+                        usedHolyWater = playerController.grind(gameState, botState);
                     }
                     return;
                 }

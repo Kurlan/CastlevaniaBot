@@ -79,7 +79,7 @@ public class Substage0100 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
-    if (botState.getWeapon() == HOLY_WATER && b.hearts > 0 && b.currentTile.getY() == 7
+    if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && b.currentTile.getY() == 7
         && b.currentTile.getX() >= 52 && b.currentTile.getX() <= 56 && isPantherResting()) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);

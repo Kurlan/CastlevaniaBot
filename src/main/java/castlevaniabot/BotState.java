@@ -21,4 +21,7 @@ public class BotState {
     private boolean playerLeft;
     private int weapon;
     private boolean atBottomOfStairs;
+
+    private int hearts;
+    private int shot;
 }

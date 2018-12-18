@@ -74,13 +74,13 @@ public class Substage1401 extends Substage {
         case CANDLES:
           switch(roundTile(obj.x)) {
             case 18:
-              if (botState.getWeapon() == HOLY_WATER && b.hearts > 0 && !botState.isOnStairs()
+              if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && !botState.isOnStairs()
                   && botState.getPlayerY() >= 128 && botState.getPlayerX() >= 288 && botState.getPlayerX() < 400) {
                 obj.tier = 1;
               }
               break;
             case 22:
-              if (botState.getWeapon() == HOLY_WATER && b.hearts > 0) {
+              if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
                 obj.tier = 1;
               }
               break;

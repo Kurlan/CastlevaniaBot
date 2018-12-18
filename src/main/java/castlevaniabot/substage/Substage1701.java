@@ -126,7 +126,7 @@ public class Substage1701 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject) {
     if (!usedStopwatch && botState.getPlayerX() <= 480 && botState.getPlayerY() <= 96
-        && botState.getWeapon() == STOPWATCH && b.hearts >= 5) {
+        && botState.getWeapon() == STOPWATCH && botState.getHearts() >= 5) {
       playerController.useWeapon(gameState);
       usedStopwatch = true;
     } else if (!killedLowerSkeleton && botState.getPlayerX() >= 496 && botState.getPlayerY() > 128) {

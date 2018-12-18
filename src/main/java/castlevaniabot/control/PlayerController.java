@@ -30,6 +30,7 @@ import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_L
 import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_RIGHT_JUMP;
 import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
 import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
+import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
@@ -253,6 +254,23 @@ public class PlayerController {
         }
     }
 
+    // Use holy water if possible to grind for double and triple shots, else whip.
+    public boolean grind(GameState gameState, BotState botState) {
+        if (!gameState.isWeaponing()) {
+            gameState.setWeaponDelay(WEAPON_DELAY);
+            if (!botState.isAtBottomOfStairs() && botState.getWeapon() == HOLY_WATER && botState.getHearts() > 5 && botState.getShot() < 3) {
+                gamePad.pressUp();
+                gamePad.pressB();
+                return true;
+            } else {
+                gamePad.pressB();
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public void goDownStairs(final MapElement[][] map, final int width, BotState botState, Coordinates currentTile) {
         if (botState.isOnStairs()) {
             gamePad.pressDown();
@@ -276,7 +294,6 @@ public class PlayerController {
             }
         }
     }
-
 
     public void goAndJump(final int direction, BotState botState) {
         if (direction == Left) {

@@ -31,7 +31,7 @@ public class BoomerangDeathStrategy implements Strategy {
 
         final GameObject death = b.getTargetedObject().getTarget();
 
-        if (b.hearts > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
+        if (botState.getHearts() > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
                 && death.distanceX < 128) {
             if (b.faceTarget()) {
                 playerController.useWeapon(gameState);

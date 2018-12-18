@@ -62,9 +62,9 @@ public class MedusaStrategy implements Strategy {
             --weaponDelay;
         }
 
-        if (b.hearts >= 5 && botState.getWeapon() == STOPWATCH) {
+        if (botState.getHearts() >= 5 && botState.getWeapon() == STOPWATCH) {
             stepStopwatchStrategy(medusa, offsetX, offsetY);
-        } else if (b.hearts > 0) {
+        } else if (botState.getHearts() > 0) {
             switch (botState.getWeapon()) {
                 case AXE:
                     stepAxeStrategy(medusa, offsetX, offsetY);
