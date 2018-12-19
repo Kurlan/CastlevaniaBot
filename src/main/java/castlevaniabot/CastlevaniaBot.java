@@ -3,7 +3,6 @@ package castlevaniabot;
 import castlevaniabot.control.GamePad;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
-import castlevaniabot.model.creativeelements.Axe;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
@@ -584,36 +583,6 @@ public class CastlevaniaBot {
         && (botState.getAvoidX() < 0 || obj.distanceX < abs(botState.getPlayerX() - botState.getAvoidX()))) {
       botState.setAvoidX(obj.x);
     }
-  }
-  
-  // Can player axe target when standing on specified currentTile?
-  public boolean canHitTargetWithAxe(final int platformX, final int platformY) {
-    return canHitWithAxe(platformX, platformY, botState.getTargetedObject().getTarget());
-  }
-  
-  // Can player axe specified GameObject when standing on specified currentTile?
-  boolean canHitWithAxe(final int platformX, final int platformY, 
-      final GameObject obj) {
-    
-    final int ty = platformY << 4;
-    final int dx = botState.getPlayerX() < obj.x ? 2 : -2;
-    int x = (platformX << 4) + 8;
-    for(int i = Axe.YS.length - 1; i >= 0; --i, x += dx) {
-      final int y = ty - Axe.YS[i];
-      if (x >= obj.x1 && x <= obj.x2 && y >= obj.y1 && y <= obj.y2) {
-        return true;
-      } else if (dx > 0) {
-        if (x > obj.x2) {
-          return false;
-        }         
-      } else {
-        if (x < obj.x1) {
-          return false;
-        }
-      }
-    }
-    
-    return false;
   }
   
   public void renderFinished() {

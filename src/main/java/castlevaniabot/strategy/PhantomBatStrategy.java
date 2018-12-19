@@ -140,7 +140,7 @@ public class PhantomBatStrategy implements Strategy {
             axeScanCounter = 110 + ThreadLocalRandom.current().nextInt(23);
             for (int i = AXE_SCANS.length - 1; i >= 0; --i) {
                 final int platformX = 32 + AXE_SCANS[i];
-                if (b.canHitTargetWithAxe(platformX, 13)) {
+                if (playerController.canHitTargetWithAxe(platformX, 13, botState)) {
                     routeX = platformX << 4;
                     switch (AXE_SCANS[i]) {
                         case 0:

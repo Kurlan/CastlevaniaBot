@@ -125,7 +125,7 @@ public class MedusaStrategy implements Strategy {
             axeScanCounter = ThreadLocalRandom.current().nextInt(61);
             for (int platformX = 1; platformX <= 15; ++platformX) {
                 final int platformY = (platformX <= 13) ? 11 : 10;
-                if (b.canHitTargetWithAxe(platformX, platformY)) {
+                if (playerController.canHitTargetWithAxe(platformX, platformY, botState)) {
                     routeY = platformY << 4;
                     routeX = platformX << 4;
                     switch (platformX) {
