@@ -55,11 +55,11 @@ public class RedBatStrategy implements Strategy {
                 playerController.jump(botState);                         // jump over bat
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (b.faceTarget() && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);                            // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (b.faceTarget()) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
                     playerController.whip(gameState);                          // kneel whip bat

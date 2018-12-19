@@ -1,5 +1,7 @@
 package castlevaniabot.strategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
@@ -7,11 +9,9 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 
-import java.util.concurrent.ThreadLocalRandom;
-
+import static java.lang.Math.abs;
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
-import static java.lang.Math.abs;
 
 public class MummiesStrategy implements Strategy {
 
@@ -143,7 +143,7 @@ public class MummiesStrategy implements Strategy {
         } else {
             targetMummy = null;
         }
-        if (targetMummy != null && b.face(targetMummy) && !gameState.isWeaponing()) {
+        if (targetMummy != null && playerController.face(targetMummy, botState) && !gameState.isWeaponing()) {
             weaponedMummy1 = !weaponedMummy1;
             playerController.whipOrWeapon(gameState, botState);
         }

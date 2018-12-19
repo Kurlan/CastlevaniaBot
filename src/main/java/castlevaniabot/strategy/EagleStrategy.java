@@ -39,11 +39,11 @@ public class EagleStrategy implements Strategy {
         lastY = eagle.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && b.faceFlyingTarget()) {
+            if (!gameState.isWeaponing() && playerController.faceFlyingTarget(botState, b.getTargetedObject())) {
                 playerController.whip(gameState);
             }
         } else if (!botState.isOnStairs() && b.isTargetInKneelingWhipRange(offsetY, offsetY)) {
-            if (b.faceFlyingTarget()) {
+            if (playerController.faceFlyingTarget(botState, b.getTargetedObject())) {
                 playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
                     playerController.whip(gameState);

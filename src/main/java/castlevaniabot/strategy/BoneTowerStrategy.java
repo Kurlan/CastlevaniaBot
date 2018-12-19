@@ -1,12 +1,12 @@
 package castlevaniabot.strategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 
@@ -45,7 +45,7 @@ public class BoneTowerStrategy implements Strategy {
             --moveAway;
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange()) {
-            if (b.faceTarget()) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 if (usedHolyWater || botState.getWeapon() != HOLY_WATER || botState.getHearts() == 0
                         || tower.distanceX > 48) {
                     playerController.whip(gameState);

@@ -34,12 +34,12 @@ public class SickleStrategy implements Strategy {
         if (death != null && !gameState.isWeaponing()) {
             if (botState.getHearts() > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
                     && death.distanceX < 128) {
-                if (b.face(death)) {
+                if (playerController.face(death, botState)) {
                     playerController.useWeapon(gameState);
                 }
                 return;
             } else if (b.isInStandingWhipRange(death)) {
-                if (b.face(death)) {
+                if (playerController.face(death, botState)) {
                     playerController.whip(gameState);
                 }
                 return;
@@ -52,11 +52,11 @@ public class SickleStrategy implements Strategy {
                 && (sickle.y2 <= botState.getPlayerY() - 32 || sickle.y1 >= botState.getPlayerY())) {
             moveAwayFrom(sickle);
         } else if (b.isTargetInStandingWhipRange()) {
-            if (b.faceTarget() && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange()) {
-            if (b.faceTarget()) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 playerController.kneel();
                 if (b.kneeling && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
@@ -64,7 +64,7 @@ public class SickleStrategy implements Strategy {
             }
         } else if (!gameState.isWeaponing() && botState.getHearts() > 0 && sickle.y2 >= botState.getPlayerY() - 32
                 && sickle.y1 <= botState.getPlayerY()) {
-            if (b.faceTarget()) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 playerController.useWeapon(gameState);
             }
         }

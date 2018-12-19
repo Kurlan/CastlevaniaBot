@@ -39,7 +39,7 @@ public class FishmanStrategy implements Strategy {
         lastY = fishman.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && b.faceTarget()) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 if (usedHolyWater) {
                     playerController.whip(gameState);
                 } else {
@@ -47,7 +47,7 @@ public class FishmanStrategy implements Strategy {
                 }
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-            if (b.faceTarget() && b.canJump) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && b.canJump) {
                 playerController.jump(botState);
             }
         } else if (fishman.distanceX < 24) {

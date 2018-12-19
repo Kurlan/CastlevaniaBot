@@ -1,13 +1,13 @@
 package castlevaniabot.strategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.gameelements.GameObject;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.abs;
 
@@ -47,7 +47,7 @@ public class RedSkeletonStrategy implements Strategy {
 
         if (isNotCloseToRedBones()) {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-                if (!gameState.isWeaponing() && b.faceTarget()) {
+                if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                     if (usedHolyWater) {
                         playerController.whip(gameState);
                     } else {
@@ -56,7 +56,7 @@ public class RedSkeletonStrategy implements Strategy {
                     return;
                 }
             } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-                if (b.faceTarget() && b.canJump) {
+                if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && b.canJump) {
                     playerController.jump(botState);
                     return;
                 }

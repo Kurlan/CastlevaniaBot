@@ -1,5 +1,7 @@
 package castlevaniabot.control;
 
+import javax.inject.Inject;
+
 import castlevaniabot.BotState;
 import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.MovingPlatform;
@@ -14,8 +16,7 @@ import castlevaniabot.model.gameelements.TileType;
 import nintaco.api.API;
 import nintaco.api.Colors;
 
-import javax.inject.Inject;
-
+import static java.lang.Math.abs;
 import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
 import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
 import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
@@ -37,7 +38,7 @@ import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.isBack;
 import static castlevaniabot.model.gameelements.TileType.isForward;
-import static java.lang.Math.abs;
+import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
 import static nintaco.api.GamepadButtons.Left;
 import static nintaco.api.GamepadButtons.Right;
 
@@ -405,6 +406,72 @@ public class PlayerController {
         } else {
             goRight(botState);;
         }
+    }
+
+
+    public boolean face(final GameObject obj, BotState botState) {
+        if (obj.playerFacing) {
+            return true;
+        } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
+            gamePad.pressDown();
+        } else if (botState.getPlayerX() < obj.x) {
+            goRight(botState);
+        } else {
+            goLeft(botState);
+        }
+        return false;
+    }
+
+
+    public boolean faceTarget(BotState botState, GameState gameState, TargetedObject targetedObject) {
+        if (targetedObject.getTarget().playerFacing) {
+            return true;
+        } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
+            gamePad.pressDown();
+        } else {
+            gameState.getCurrentSubstage().moveTowardTarget(targetedObject.getTarget());
+        }
+        return false;
+    }
+
+    public boolean faceFlyingTarget(BotState botState, TargetedObject targetedObject) {
+        if (targetedObject.getTarget().playerFacing) {
+            return true;
+        } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
+            gamePad.pressDown();
+        } else if (botState.getPlayerX() < targetedObject.getTarget().x) {
+            goRight(botState);
+        } else {
+            goLeft(botState);
+        }
+        return false;
+    }
+
+    public boolean isAtBottomOfStairs(BotState botState, GameState gameState, Coordinates currentTile) {
+
+        if (botState.isOnStairs() || !botState.isOnPlatform()) {
+            return false;
+        }
+
+        final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
+        final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
+        return (tileType == BACK_STAIRS || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
+                && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS))
+                || (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
+                && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS));
+    }
+
+    public boolean isAtTopOfStairs(BotState botState,GameState gameState, Coordinates currentTile) {
+
+        if (botState.isOnStairs() || !botState.isOnPlatform()) {
+            return false;
+        }
+
+        final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
+        final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
+        return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
+                && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
+                || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
     }
 
     public boolean isOnOrInPlatform(final MapRoutes mapRoutes, int x, int y, Coordinates currentTile) {

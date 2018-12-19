@@ -1,5 +1,9 @@
 package castlevaniabot;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 import castlevaniabot.control.GamePad;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
@@ -53,10 +57,8 @@ import castlevaniabot.substage.Substage1800;
 import castlevaniabot.substage.Substage1801;
 import nintaco.api.API;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-
+import static java.lang.Math.abs;
+import static java.lang.Math.min;
 import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static castlevaniabot.model.creativeelements.Whip.WHIPS;
 import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
@@ -77,13 +79,6 @@ import static castlevaniabot.model.gameelements.Addresses.WEAPON;
 import static castlevaniabot.model.gameelements.Addresses.WEAPONING;
 import static castlevaniabot.model.gameelements.Addresses.WHIP_LENGTH;
 import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
-import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
-import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
-import static castlevaniabot.model.gameelements.TileType.isBack;
-import static castlevaniabot.model.gameelements.TileType.isForward;
-import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
-import static java.lang.Math.abs;
-import static java.lang.Math.min;
 
 public class CastlevaniaBot {
   
@@ -445,8 +440,8 @@ public class CastlevaniaBot {
       botState.setOnPlatform(false);
     }
 
-    botState.setAtBottomOfStairs(isAtBottomOfStairs());
-    atTopOfStairs = isAtTopOfStairs();
+    botState.setAtBottomOfStairs(playerController.isAtBottomOfStairs(botState, gameState, currentTile));
+    atTopOfStairs = playerController.isAtTopOfStairs(botState, gameState, currentTile);
     canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && botState.isOnPlatform()
         && botState.getJumpDelay() == 0;
 
@@ -1269,73 +1264,8 @@ public class CastlevaniaBot {
     return false;
   }
   
-  public boolean face(final GameObject obj) {
-    if (obj.playerFacing) {
-      return true;
-    } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
-      gamePad.pressDown();
-    } else if (botState.getPlayerX() < obj.x) {
-      playerController.goRight(botState);
-    } else {
-      playerController.goLeft(botState);
-    }
-    return false;
-  }
-
-  
-  public boolean faceTarget() {
-    if (targetedObject.getTarget().playerFacing) {
-      return true;
-    } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
-        gamePad.pressDown();
-    } else {
-      gameState.getCurrentSubstage().moveTowardTarget(targetedObject.getTarget());
-    }
-    return false;
-  }
-  
-  public boolean faceFlyingTarget() {
-    if (targetedObject.getTarget().playerFacing) {
-      return true;
-    } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
-        gamePad.pressDown();
-    } else if (botState.getPlayerX() < targetedObject.getTarget().x) {
-      playerController.goRight(botState);
-    } else {
-      playerController.goLeft(botState);
-    }
-    return false;
-  }
-  
   public int getWhipRadius() {
     return WHIPS[botState.getWhipLength()][0].getRadius();
-  }
-  
-  private boolean isAtBottomOfStairs() {
-    
-    if (botState.isOnStairs() || !botState.isOnPlatform()) {
-      return false;
-    }
-    
-    final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
-    final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
-    return (tileType == BACK_STAIRS || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
-        && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS))
-            || (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
-                && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS));
-  }
-  
-  private boolean isAtTopOfStairs() {
-    
-    if (botState.isOnStairs() || !botState.isOnPlatform()) {
-      return false;
-    }
-    
-    final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
-    final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
-    return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
-            && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
-        || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
   }
   
   public void renderFinished() {

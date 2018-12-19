@@ -1,12 +1,12 @@
 package castlevaniabot.strategy;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -57,7 +57,7 @@ public class AxeKnightStrategy implements Strategy {
             }
         } else if (weaponDelay == 0 && b.getTargetedObject().getTarget().distanceX < 64
                 && botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
-            if (!gameState.isWeaponing() && b.faceTarget() && b.canJump) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject()) && b.canJump) {
                 if (b.isUnderLedge()) {
                     weaponDelay = HOLY_WATER_RESET;
                     playerController.useWeapon(gameState);
@@ -72,14 +72,14 @@ public class AxeKnightStrategy implements Strategy {
             }
         } else if (gameState.getCurrentSubstage() == b.SUBSTAGE_1501 && botState.getWeapon() == BOOMERANG
                 && botState.getHearts() > 0) {
-            if (!gameState.isWeaponing() && weaponDelay == 0 && b.faceTarget()) {
+            if (!gameState.isWeaponing() && weaponDelay == 0 && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 if (botState.getShot() > 1) {
                     weaponDelay = 90;
                 }
                 playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && b.faceTarget()) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 playerController.whip(gameState);
             }
         } else if (b.getTargetedObject().getTarget().distanceX > 64) {
