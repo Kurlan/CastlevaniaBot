@@ -58,7 +58,7 @@ public class GhostStrategy implements Strategy {
             moveAwayCounter = 180 + ThreadLocalRandom.current().nextInt(11);
             ;
             gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
-        } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
+        } else if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);                            // stand whip bat
             }

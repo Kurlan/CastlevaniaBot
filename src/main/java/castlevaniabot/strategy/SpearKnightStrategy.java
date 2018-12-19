@@ -38,11 +38,11 @@ public class SpearKnightStrategy implements Strategy {
         lastX = knight.x;
         lastY = knight.y;
 
-        if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
+        if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
             if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 useWeapon();
             }
-        } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
+        } else if (playerController.isTargetInStandingWhipRange(offsetX, offsetY + 32, botState)) {
             if (playerController.faceTarget(botState, gameState) && botState.isCanJump()) {
                 playerController.jump(botState);
             }

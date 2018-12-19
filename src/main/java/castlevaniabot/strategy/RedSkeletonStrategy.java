@@ -46,7 +46,7 @@ public class RedSkeletonStrategy implements Strategy {
         lastY = skeleton.y;
 
         if (isNotCloseToRedBones()) {
-            if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
+            if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
                 if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                     if (usedHolyWater) {
                         playerController.whip(gameState);
@@ -55,7 +55,7 @@ public class RedSkeletonStrategy implements Strategy {
                     }
                     return;
                 }
-            } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
+            } else if (playerController.isTargetInStandingWhipRange(offsetX, offsetY + 32, botState)) {
                 if (playerController.faceTarget(botState, gameState) && botState.isCanJump()) {
                     playerController.jump(botState);
                     return;

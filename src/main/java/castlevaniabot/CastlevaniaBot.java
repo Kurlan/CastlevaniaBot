@@ -492,11 +492,7 @@ public class CastlevaniaBot {
       }
     }
     return -1;
-  }  
-  
-  public boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset) {
-    return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
-  } 
+  }
   
   public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
     return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);

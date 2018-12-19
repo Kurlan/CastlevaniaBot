@@ -54,7 +54,7 @@ public class FleamanStrategy implements Strategy {
             } else {
                 gameState.getCurrentSubstage().routeRight();
             }
-        } else if (b.isTargetInStandingWhipRange(vx, vy)) {
+        } else if (playerController.isTargetInStandingWhipRange(vx, vy, botState)) {
             if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);
             }

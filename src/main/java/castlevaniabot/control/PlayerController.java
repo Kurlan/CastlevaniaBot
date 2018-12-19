@@ -31,6 +31,7 @@ import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_EDGE_R
 import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_LEFT_JUMP;
 import static castlevaniabot.model.creativeelements.Operations.WALK_RIGHT_MIDDLE_RIGHT_JUMP;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static castlevaniabot.model.creativeelements.Whip.WHIPS;
 import static castlevaniabot.model.gameelements.TileType.BACK_PLATFORM;
 import static castlevaniabot.model.gameelements.TileType.BACK_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.FORWARD_PLATFORM;
@@ -604,6 +605,10 @@ public class PlayerController {
             final MovingPlatform p = gameState.getMovingPlatforms()[i];
             api.drawRect(p.x1 - gameState.getCameraX(), p.y, p.x2 - p.x1 + 1, 8);
         }
+    }
+
+    public boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset, BotState botState) {
+        return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
     }
 
     boolean isObjectAbove(final int y, GameState gameState) {

@@ -49,7 +49,7 @@ public class MedusaHeadStrategy implements Strategy {
         final int offsetX = headX - head.x;
         final int offsetY = headY - head.y;
 
-        if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
+        if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);
             }
