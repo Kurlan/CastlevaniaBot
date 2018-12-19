@@ -63,7 +63,7 @@ public class GiantBatStrategy implements Strategy {
         } else if (!whipped
                 && bat.x2 < botState.getPlayerX() - 24
                 && bat.y2 < botState.getPlayerY() - 48
-                && bat.x2 > botState.getPlayerX() - b.getWhipRadius() - 16
+                && bat.x2 > botState.getPlayerX() - playerController.getWhipRadius(botState) - 16
                 && botState.isCanJump()) {
 
             final int landX = botState.getPlayerX() - 37;

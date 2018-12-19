@@ -642,10 +642,6 @@ public class CastlevaniaBot {
     return false;
   }
   
-  public int getWhipRadius() {
-    return WHIPS[botState.getWhipLength()][0].getRadius();
-  }
-  
   public void renderFinished() {
    
     readState();

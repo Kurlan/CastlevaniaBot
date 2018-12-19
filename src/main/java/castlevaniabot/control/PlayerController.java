@@ -611,6 +611,11 @@ public class PlayerController {
         return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
     }
 
+
+    public int getWhipRadius(BotState botState) {
+        return WHIPS[botState.getWhipLength()][0].getRadius();
+    }
+
     boolean isObjectAbove(final int y, GameState gameState) {
 
         for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
