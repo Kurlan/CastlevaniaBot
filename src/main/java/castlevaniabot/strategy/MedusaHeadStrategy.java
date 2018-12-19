@@ -31,7 +31,7 @@ public class MedusaHeadStrategy implements Strategy {
     public void step() {
 
         final GameObject head = b.getTargetedObject().getTarget();
-        final MedusaHead medusaHead = b.getMedusaHead(head);
+        final MedusaHead medusaHead = gameState.getMedusaHead(head);
         if (medusaHead == null) {
             return;
         }

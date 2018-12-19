@@ -4,7 +4,6 @@ import castlevaniabot.control.GamePad;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Axe;
-import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.model.creativeelements.Sickle;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
@@ -113,11 +112,6 @@ public class CastlevaniaBot {
   final Substage1701 SUBSTAGE_1701;
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
-  
-  MedusaHead[] medusaHeads0 = new MedusaHead[64];
-  MedusaHead[] medusaHeads1 = new MedusaHead[64];
-  public int medusaHeadsCount0;
-  public int medusaHeadsCount1;
 
   Sickle[] sickles0 = new Sickle[64];
   Sickle[] sickles1 = new Sickle[64];
@@ -181,10 +175,7 @@ public class CastlevaniaBot {
 
 
     try {
-      for(int i = medusaHeads0.length - 1; i >= 0; --i) {
-        medusaHeads0[i] = new MedusaHead();
-        medusaHeads1[i] = new MedusaHead();
-      }      
+
       for(int i = sickles0.length - 1; i >= 0; --i) {
         sickles0[i] = new Sickle();
         sickles1[i] = new Sickle();
@@ -447,23 +438,6 @@ public class CastlevaniaBot {
     sickleCount0 = sickleCount1;
     sickleCount1 = 0;    
   }
-  
-  public MedusaHead getMedusaHead(final GameObject head) {
-    switch(medusaHeadsCount0) {
-      case 0:
-        return null;
-      case 1:
-        return medusaHeads0[0];
-      default: 
-        for(int i = medusaHeadsCount0 - 1; i >= 0; --i) {
-          final MedusaHead medusaHead = medusaHeads0[i];
-          if (head.x == medusaHead.x && head.y == medusaHead.y) {
-            return medusaHead;
-          }
-        }
-    }
-    return null;
-  }  
 
   public void addDraculaHead(final int x, final int y, final boolean left) {
     draculaHeadX = x;

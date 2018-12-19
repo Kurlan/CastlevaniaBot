@@ -44,8 +44,9 @@ public abstract class Substage {
   }
   
   public void init() {
-    b.medusaHeadsCount0 = b.medusaHeadsCount1 = b.draculaHeadTime 
-        = b.sickleCount0 = b.sickleCount1 = 0;
+    b.draculaHeadTime = b.sickleCount0 = b.sickleCount1 = 0;
+    gameState.setMedusaHeadsCount0(0);
+    gameState.setMedusaHeadsCount1(0);
     gameState.setRedBonesCount0(0);
     gameState.setRedBonesCount1(0);
     botState.setCurrentStrategy(null);

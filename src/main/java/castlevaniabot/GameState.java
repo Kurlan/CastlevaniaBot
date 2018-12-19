@@ -4,6 +4,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.creativeelements.BoneTowerSegment;
+import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.creativeelements.RedBones;
@@ -64,6 +65,11 @@ public class GameState {
     private int redBatsCount0;
     private int redBatsCount1;
 
+    MedusaHead[] medusaHeads0;
+    MedusaHead[] medusaHeads1 = new MedusaHead[64];
+    public int medusaHeadsCount0;
+    public int medusaHeadsCount1;
+
     public GameState() {
         movingPlatforms = new MovingPlatform[16];
         for(int i = movingPlatforms.length - 1; i >= 0; --i) {
@@ -97,6 +103,14 @@ public class GameState {
         for(int i = redBats0.length - 1; i >= 0; --i) {
             redBats0[i] = new RedBat();
             redBats1[i] = new RedBat();
+        }
+
+        medusaHeads0 = new MedusaHead[64];
+        medusaHeads1 = new MedusaHead[64];
+
+        for(int i = medusaHeads0.length - 1; i >= 0; --i) {
+            medusaHeads0[i] = new MedusaHead();
+            medusaHeads1[i] = new MedusaHead();
         }
     }
 
@@ -529,6 +543,23 @@ public class GameState {
                     final RedBat redBat = redBats0[i];
                     if (bat.x == redBat.x && bat.y == redBat.y) {
                         return redBat;
+                    }
+                }
+        }
+        return null;
+    }
+
+    public MedusaHead getMedusaHead(final GameObject head) {
+        switch(medusaHeadsCount0) {
+            case 0:
+                return null;
+            case 1:
+                return medusaHeads0[0];
+            default:
+                for(int i = medusaHeadsCount0 - 1; i >= 0; --i) {
+                    final MedusaHead medusaHead = medusaHeads0[i];
+                    if (head.x == medusaHead.x && head.y == medusaHead.y) {
+                        return medusaHead;
                     }
                 }
         }
