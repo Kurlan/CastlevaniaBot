@@ -5,6 +5,7 @@ import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.creativeelements.BoneTowerSegment;
 import castlevaniabot.model.creativeelements.MovingPlatform;
+import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.creativeelements.Whip;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
@@ -23,6 +24,8 @@ public class GameState {
 
     public static final int MAX_DISTANCE = 0xFFFF;
     public static final int MAX_HEIGHT   = 0xF;
+
+    private static final int RED_BONES_THRESHOLD = 120;
 
     private Level currentLevel;
     private int stageNumber;
@@ -50,6 +53,11 @@ public class GameState {
     private int boneCount0;
     private int boneCount1;
 
+    private RedBones[] redBones0;
+    private RedBones[] redBones1;
+    private int redBonesCount0;
+    private int redBonesCount1;
+
     public GameState() {
         movingPlatforms = new MovingPlatform[16];
         for(int i = movingPlatforms.length - 1; i >= 0; --i) {
@@ -67,6 +75,14 @@ public class GameState {
         for(int i = bones0.length - 1; i >= 0; --i) {
             bones0[i] = new Bone();
             bones1[i] = new Bone();
+        }
+
+        redBones0 = new RedBones[64];
+        redBones1 = new RedBones[64];
+
+        for(int i = redBones0.length - 1; i >= 0; --i) {
+            redBones0[i] = new RedBones();
+            redBones1[i] = new RedBones();
         }
     }
 
@@ -387,6 +403,38 @@ public class GameState {
             }
         }
         return null;
+    }
+
+    public void addRedBones(final int x, final int y, GameState gameState, BotState botState) {
+
+        final RedBones bones = redBones1[redBonesCount1++];
+
+        bones.x = x + 8 + gameState.getCameraX();
+        bones.y = y + 16;
+        bones.time = abs(botState.getPlayerX() - bones.x) > 96 ? RED_BONES_THRESHOLD : 0;
+    }
+
+    public void buildRedBones(GameState gameState, Coordinates currentTile, BotState botState, PlayerController playerController) {
+
+        for(int i = redBonesCount1 - 1; i >= 0; --i) {
+            final RedBones b1 = redBones1[i];
+            for(int j = redBonesCount0 - 1; j >= 0; --j) {
+                final RedBones b0 = redBones0[j];
+                if (abs(b1.x - b0.x) <= 4 && abs(b1.y - b0.y) <= 4) {
+                    b1.time = b0.time + 1;
+                    if (b1.time >= RED_BONES_THRESHOLD) {
+                        gameState.addGameObject(GameObjectType.RED_BONES, b1.x - 8 - gameState.getCameraX(),
+                                b1.y - 16, false, true, botState, currentTile, playerController);
+                    }
+                    break;
+                }
+            }
+        }
+        final RedBones[] temp = redBones0;
+        redBones0 = redBones1;
+        redBones1 = temp;
+        redBonesCount0 = redBonesCount1;
+        redBonesCount1 = 0;
     }
 
 /*  Unused.

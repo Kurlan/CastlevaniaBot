@@ -135,7 +135,7 @@ public class Level5 implements Level {
         case 0x439A: // red skeleton rising (right)
         case 0x039C: // red bones (left)    
         case 0x439E: // red bones (right)
-          b.addRedBones(x, y);
+          gameState.addRedBones(x, y, gameState, botState);
           continue;
           
         case 0x01E0:
@@ -168,7 +168,7 @@ public class Level5 implements Level {
       }
     }
     gameState.buildBoneTowers(botState, currentTile, playerController);
-    b.buildRedBones();
+    gameState.buildRedBones(gameState, currentTile, botState, playerController);
     b.buildSickles();
     b.buildCrystalBall();
 //    b.buildMedusaHeads();

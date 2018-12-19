@@ -6,7 +6,6 @@ import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Axe;
 import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.model.creativeelements.RedBat;
-import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.creativeelements.Sickle;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
@@ -84,7 +83,7 @@ public class CastlevaniaBot {
   };
   
   private static final int AVOID_X_RESET = -512;
-  private static final int RED_BONES_THRESHOLD = 120;
+
 
   final Substage0000 SUBSTAGE_0000;
   final Substage0100 SUBSTAGE_0100;
@@ -116,12 +115,7 @@ public class CastlevaniaBot {
   final Substage1701 SUBSTAGE_1701;
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
-  
-  public RedBones[] redBones0 = new RedBones[64];
-  RedBones[] redBones1 = new RedBones[64];
-  public int redBonesCount0;
-  public int redBonesCount1;
-  
+
   RedBat[] redBats0 = new RedBat[64];
   RedBat[] redBats1 = new RedBat[64];
   public int redBatsCount0;
@@ -194,10 +188,7 @@ public class CastlevaniaBot {
 
 
     try {
-      for(int i = redBones0.length - 1; i >= 0; --i) {
-        redBones0[i] = new RedBones();
-        redBones1[i] = new RedBones();
-      }
+
       for(int i = redBats0.length - 1; i >= 0; --i) {
         redBats0[i] = new RedBat();
         redBats1[i] = new RedBat();
@@ -570,37 +561,7 @@ public class CastlevaniaBot {
     return null;
   }
   
-  public void addRedBones(final int x, final int y) {
-    
-    final RedBones bones = redBones1[redBonesCount1++];
-    
-    bones.x = x + 8 + gameState.getCameraX();
-    bones.y = y + 16;
-    bones.time = abs(botState.getPlayerX() - bones.x) > 96 ? RED_BONES_THRESHOLD : 0;
-  }
-  
-  public void buildRedBones() {
-    
-    for(int i = redBonesCount1 - 1; i >= 0; --i) {
-      final RedBones b1 = redBones1[i];
-      for(int j = redBonesCount0 - 1; j >= 0; --j) {
-        final RedBones b0 = redBones0[j];
-        if (abs(b1.x - b0.x) <= 4 && abs(b1.y - b0.y) <= 4) {
-          b1.time = b0.time + 1;
-          if (b1.time >= RED_BONES_THRESHOLD) {
-            gameState.addGameObject(GameObjectType.RED_BONES, b1.x - 8 - gameState.getCameraX(),
-                b1.y - 16, false, true, botState, currentTile, playerController);
-          }
-          break;
-        }
-      }
-    }
-    final RedBones[] temp = redBones0;
-    redBones0 = redBones1;
-    redBones1 = temp;
-    redBonesCount0 = redBonesCount1;
-    redBonesCount1 = 0;
-  }
+
 
   public void addDraculaHead(final int x, final int y, final boolean left) {
     draculaHeadX = x;

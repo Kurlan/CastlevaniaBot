@@ -1,13 +1,13 @@
 package castlevaniabot.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.gameelements.GameObject;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.abs;
 
@@ -75,8 +75,8 @@ public class RedSkeletonStrategy implements Strategy {
     // Do not whip a red skeleton when it's standing near a pile of red bones;
     // otherwise, it might end up in an infinite loop alternating between them.
     private boolean isNotCloseToRedBones() {
-        final RedBones[] redBones0 = b.redBones0;
-        for (int i = b.redBonesCount0 - 1; i >= 0; --i) {
+        final RedBones[] redBones0 = gameState.getRedBones0();
+        for (int i = gameState.getBoneCount0() - 1; i >= 0; --i) {
             final RedBones redBones = redBones0[i];
             if (abs(b.getTargetedObject().getTarget().x - redBones.x) < 64
                     && abs(b.getTargetedObject().getTarget().y - redBones.y) <= 4) {
