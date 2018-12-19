@@ -117,8 +117,8 @@ public class FrankensteinStrategy implements Strategy {
                 if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
                 }
-            } else if (!gameState.isWeaponing() && b.canHitWithAxe(botState.getPlayerX() >> 4, botState.getPlayerY() >> 4,
-                    offsetX, 0, frank) && playerController.face(frank, botState)) {
+            } else if (!gameState.isWeaponing() && playerController.canHitWithAxe(botState.getPlayerX() >> 4, botState.getPlayerY() >> 4,
+                    offsetX, 0, frank, botState) && playerController.face(frank, botState)) {
                 playerController.useWeapon(gameState);
             } else if (canWalkTowardFrank) {
                 gameState.getCurrentSubstage().moveToward(frank);

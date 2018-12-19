@@ -616,32 +616,6 @@ public class CastlevaniaBot {
     return false;
   }
   
-  // Can player axe specified GameObject when standing on specified currentTile?
-  public boolean canHitWithAxe(final int platformX, final int platformY,
-                               final int offsetX, final int offsetY, final GameObject obj) {
-    
-    final int ty = platformY << 4;
-    final int dx = botState.getPlayerX() < (obj.x + offsetX) ? 2 : -2;
-    int x = (platformX << 4) + 8;
-    for(int i = Axe.YS.length - 1; i >= 0; --i, x += dx) {
-      final int y = ty - Axe.YS[i];
-      if (x >= obj.x1 + offsetX && x <= obj.x2 + offsetX 
-          && y >= obj.y1 + offsetY && y <= obj.y2 + offsetY) {
-        return true;
-      } else if (dx > 0) {
-        if (x > obj.x2 + offsetX) {
-          return false;
-        }         
-      } else {
-        if (x < obj.x1 + offsetX) {
-          return false;
-        }
-      }
-    }
-    
-    return false;
-  }
-  
   public void renderFinished() {
    
     readState();
