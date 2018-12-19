@@ -1,5 +1,6 @@
 package castlevaniabot;
 
+import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 import lombok.Data;
@@ -32,4 +33,6 @@ public class BotState {
     private boolean canJump;
 
     private TargetedObject targetedObject;
+    public Coordinates currentTile;
+
 }

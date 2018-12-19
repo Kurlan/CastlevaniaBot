@@ -117,7 +117,7 @@ public class BatMovingPlatformStrategy implements Strategy {
         }
 
         if (bat == null && fishman == null && (botState.isPlayerLeft() || (botState.getPlayerX() > 400
-                && (botState.getPlayerX() - (b.currentTile.getX() << 4)) < 19))) {
+                && (botState.getPlayerX() - (botState.getCurrentTile().getX() << 4)) < 19))) {
             playerController.goRight(botState);
         }
 

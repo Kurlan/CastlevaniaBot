@@ -90,8 +90,8 @@ public class Substage0401 extends Substage {
         b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(96, 31, 112);
         botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
       }
-    } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && b.currentTile.getY() == 7
-        && b.currentTile.getX() >= 15 && b.currentTile.getX() <= 17 && isKnightInPit()) {
+    } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && botState.getCurrentTile().getY() == 7
+        && botState.getCurrentTile().getX() >= 15 && botState.getCurrentTile().getX() <= 17 && isKnightInPit()) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getUSE_WEAPON().init(264, 112, false, false);

@@ -64,7 +64,7 @@ public class HolyWaterDeathStrategy implements Strategy {
             if (--jumpCounter == 0) {
                 playerController.whip(gameState);
             }
-        } else if (b.currentTile.getX() != 11) {
+        } else if (botState.getCurrentTile().getX() != 11) {
             gameState.getCurrentSubstage().route(191, 160, false);
         } else if (botState.getPlayerX() != 195) {
             playerController.goRight(botState);

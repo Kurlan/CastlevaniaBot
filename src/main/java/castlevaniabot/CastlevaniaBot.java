@@ -112,8 +112,6 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
 
-  public Coordinates currentTile;
-
   private final API api;
   public final Map<String, MapRoutes> allMapRoutes;
 
@@ -128,7 +126,6 @@ public class CastlevaniaBot {
 
   public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects, List<Level> levels,
                         GamePad gamePad, PlayerController playerController) {
-      this.currentTile = Coordinates.builder().x(0).y(0).build();
       this.botState = new BotState();
       this.botState.setWeapon(NONE);
       this.botState.setTargetedObject(
@@ -141,6 +138,7 @@ public class CastlevaniaBot {
                         .y(-512)
                         .build())
               .build());
+      this.botState.setCurrentTile(Coordinates.builder().x(0).y(0).build());
       this.gameState = new GameState();
       gameState.setGameObjects(gameObjects);
       this.allStrategies = new AllStrategies(this,botState, gameState, playerController);
@@ -309,49 +307,49 @@ public class CastlevaniaBot {
       botState.setOverHangingLeft(false);
       botState.setOverHangingRight(false);
       botState.setOnPlatform(false);
-      currentTile.setX(botState.getPlayerX() >> 4);
-      currentTile.setY(botState.getPlayerY() >> 4);
+      botState.getCurrentTile().setX(botState.getPlayerX() >> 4);
+      botState.getCurrentTile().setY(botState.getPlayerY() >> 4);
       final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
       final MapElement[][] map = mapRoutes.map;
-      if (!TileType.isStairs(map[currentTile.getY()][currentTile.getX()].tileType)) {
-        if (currentTile.getX() < mapRoutes.width - 1
-            && TileType.isStairs(map[currentTile.getY()][currentTile.getX() + 1].tileType)) {
-          currentTile.setX(currentTile.getX() + 1);
-        } else if (currentTile.getX() > 0
-            && TileType.isStairs(map[currentTile.getY()][currentTile.getX() - 1].tileType)) {
-          currentTile.setX(currentTile.getX() - 1);
+      if (!TileType.isStairs(map[botState.getCurrentTile().getY()][botState.getCurrentTile().getX()].tileType)) {
+        if (botState.getCurrentTile().getX() < mapRoutes.width - 1
+            && TileType.isStairs(map[botState.getCurrentTile().getY()][botState.getCurrentTile().getX() + 1].tileType)) {
+          botState.getCurrentTile().setX(botState.getCurrentTile().getX() + 1);
+        } else if (botState.getCurrentTile().getX() > 0
+            && TileType.isStairs(map[botState.getCurrentTile().getY()][botState.getCurrentTile().getX() - 1].tileType)) {
+          botState.getCurrentTile().setX(botState.getCurrentTile().getX() - 1);
         }
       }
     } else if (playerController.isOnPlatform(botState.getPlayerX(), botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       botState.setOnPlatform(true);
       botState.setOverHangingLeft(false);
       botState.setOverHangingRight(false);
-      currentTile.setX(botState.getPlayerX() >> 4);
-      currentTile.setY(botState.getPlayerY() >> 4);
+      botState.getCurrentTile().setX(botState.getPlayerX() >> 4);
+      botState.getCurrentTile().setY(botState.getPlayerY() >> 4);
     } else if (playerController.isOnPlatform(botState.getPlayerX() - 4, botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       botState.setOnPlatform(true);
       botState.setOverHangingLeft(false);
       botState.setOverHangingRight(true);
-      currentTile.setX((botState.getPlayerX() - 4) >> 4);
-      currentTile.setY(botState.getPlayerY() >> 4);
+      botState.getCurrentTile().setX((botState.getPlayerX() - 4) >> 4);
+      botState.getCurrentTile().setY(botState.getPlayerY() >> 4);
     } else if (playerController.isOnPlatform(botState.getPlayerX() + 4, botState.getPlayerY(), gameState.getCurrentSubstage().getMapRoutes())) {
       botState.setOnPlatform(true);
       botState.setOverHangingLeft(true);
       botState.setOverHangingRight(false);
-      currentTile.setX((botState.getPlayerX() + 4) >> 4);
-      currentTile.setY(botState.getPlayerY() >> 4);
+      botState.getCurrentTile().setX((botState.getPlayerX() + 4) >> 4);
+      botState.getCurrentTile().setY(botState.getPlayerY() >> 4);
     } else {
       botState.setOverHangingLeft(false);
       botState.setOverHangingRight(false);
       botState.setOnPlatform(false);
     }
 
-    botState.setAtBottomOfStairs(playerController.isAtBottomOfStairs(botState, gameState, currentTile));
-    botState.setAtTopOfStairs(playerController.isAtTopOfStairs(botState, gameState, currentTile));
+    botState.setAtBottomOfStairs(playerController.isAtBottomOfStairs(botState, gameState, botState.getCurrentTile()));
+    botState.setAtTopOfStairs(playerController.isAtTopOfStairs(botState, gameState, botState.getCurrentTile()));
     botState.setCanJump(!gameState.isWeaponing() && !botState.isOnStairs() && !botState.isKneeling() && botState.isOnPlatform()
         && botState.getJumpDelay() == 0);
 
-    gameState.getCurrentLevel().readGameObjects(this, gameState, botState, currentTile, playerController);
+    gameState.getCurrentLevel().readGameObjects(this, gameState, botState, botState.getCurrentTile(), playerController);
     _substage.readGameObjects();
   }
   
@@ -375,7 +373,7 @@ public class CastlevaniaBot {
     obj.left = false;
     obj.active = false;
     obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
-    obj.distance = mapRoutes.getDistance(obj, currentTile);
+    obj.distance = mapRoutes.getDistance(obj, botState.getCurrentTile());
     obj.x1 = x - 8;
     obj.x2 = x + 8;
     obj.y1 = obj.y2 = y;
@@ -421,7 +419,7 @@ public class CastlevaniaBot {
         final int height = map[cy][px].height;          
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
-          final int dist = mapRoutes.getDistance(px, py, currentTile);
+          final int dist = mapRoutes.getDistance(px, py, botState.getCurrentTile());
           if (dist < GameState.MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
@@ -439,7 +437,7 @@ public class CastlevaniaBot {
         final int height = map[cy][px].height;          
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
-          final int dist = mapRoutes.getDistance(px, py, currentTile);
+          final int dist = mapRoutes.getDistance(px, py, botState.getCurrentTile());
           if (dist < GameState.MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
@@ -526,22 +524,22 @@ public class CastlevaniaBot {
   
   public boolean isUnderLedge() {
     
-    if (currentTile.getY() < 4) {
+    if (botState.getCurrentTile().getY() < 4) {
       return false;
     }
     
     final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
-    if (map[currentTile.getY() - 4][currentTile.getX()].height == 0 || map[currentTile.getY() - 3][currentTile.getX()].height == 0){
+    if (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX()].height == 0 || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX()].height == 0){
       return true;
     }
     
     if (botState.isPlayerLeft()) {
-      return (currentTile.getX() > 0) && (map[currentTile.getY() - 4][currentTile.getX() - 1].height == 0
-              || map[currentTile.getY() - 3][currentTile.getX() - 1].height == 0);
+      return (botState.getCurrentTile().getX() > 0) && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() - 1].height == 0
+              || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() - 1].height == 0);
     } else {
-      return (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1)
-          && (map[currentTile.getY() - 4][currentTile.getX() + 1].height == 0
-              || map[currentTile.getY() - 3][currentTile.getX() + 1].height == 0);
+      return (botState.getCurrentTile().getX() < gameState.getCurrentSubstage().mapRoutes.width - 1)
+          && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() + 1].height == 0
+              || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() + 1].height == 0);
     }
   }  
   

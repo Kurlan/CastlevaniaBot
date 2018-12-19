@@ -43,7 +43,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
     public void step() {
         switch (state) {
             case WALK_TO_EDGE:
-                if (b.currentTile.getX() != 7 || b.currentTile.getY() != 12) {
+                if (botState.getCurrentTile().getX() != 7 || botState.getCurrentTile().getY() != 12) {
                     gameState.getCurrentSubstage().route(127, 192);
                 } else if (botState.getPlayerX() < 131) {
                     playerController.goRight(botState);

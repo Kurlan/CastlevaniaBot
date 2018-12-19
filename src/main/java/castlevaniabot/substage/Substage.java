@@ -101,16 +101,16 @@ public abstract class Substage {
       return;
     }
     
-    if (b.currentTile.getX() == tx && b.currentTile.getY() == ty) {
+    if (botState.getCurrentTile().getX() == tx && botState.getCurrentTile().getY() == ty) {
       if (botState.getPlayerX() < targetX) {
         playerController.goRight(botState);
       } else if (botState.getPlayerX() > targetX) {
         playerController.goLeft(botState);
       }      
     } else {  
-      final int route = mapRoutes.routes[b.currentTile.getY()][b.currentTile.getX()][ty][tx];
+      final int route = mapRoutes.routes[botState.getCurrentTile().getY()][botState.getCurrentTile().getX()][ty][tx];
       playerController.executeOperation(mapRoutes.map, mapRoutes.width, getOperation(route),
-          getStepX(route), getStepY(route), checkForEnemies, botState, gameState, b.currentTile);
+          getStepX(route), getStepY(route), checkForEnemies, botState, gameState, botState.getCurrentTile());
     }
   } 
   

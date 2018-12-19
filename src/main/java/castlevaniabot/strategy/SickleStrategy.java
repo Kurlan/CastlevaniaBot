@@ -71,7 +71,7 @@ public class SickleStrategy implements Strategy {
     }
 
     private void moveAwayFrom(final GameObject sickle) {
-        switch (b.currentTile.getX()) {
+        switch (botState.getCurrentTile().getX()) {
             case 0:
             case 1:
             case 12:

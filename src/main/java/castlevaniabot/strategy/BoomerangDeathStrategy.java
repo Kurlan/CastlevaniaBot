@@ -46,7 +46,7 @@ public class BoomerangDeathStrategy implements Strategy {
     }
 
     private void moveAwayFrom(final GameObject death) {
-        switch (b.currentTile.getX()) {
+        switch (botState.getCurrentTile().getX()) {
             case 0:
             case 1:
             case 12:

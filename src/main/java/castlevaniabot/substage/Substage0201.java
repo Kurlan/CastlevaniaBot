@@ -43,7 +43,7 @@ public class Substage0201 extends Substage {
       }
     } else if (obj.type == DESTINATION) {
       obj.tier = 0;
-    } else if (obj.distance < HORIZON && (b.currentTile.getX() < 16 ^ (obj.x >= 272))) {
+    } else if (obj.distance < HORIZON && (botState.getCurrentTile().getX() < 16 ^ (obj.x >= 272))) {
       switch(obj.type) {
         case BLOCK:
          obj.tier = 1; break;
@@ -103,9 +103,9 @@ public class Substage0201 extends Substage {
   
   @Override
   public void readGameObjects() {
-    if (b.currentTile.getX() < 16) {
+    if (botState.getCurrentTile().getX() < 16) {
       b.addDestination(72, 224);
-      if (b.currentTile.getX() >= 8 && b.currentTile.getY() >= 10) {
+      if (botState.getCurrentTile().getX() >= 8 && botState.getCurrentTile().getY() >= 10) {
         if (!blocksBroken && api.readPPU(BLOCK_020100) == 0x00 
             && api.readPPU(BLOCK_020101) == 0x00) {
           blocksWhipped = 2;
