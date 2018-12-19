@@ -1,20 +1,14 @@
 package castlevaniabot;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.control.GamePad;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Axe;
 import castlevaniabot.model.creativeelements.Bone;
-import castlevaniabot.model.creativeelements.BoneTowerSegment;
 import castlevaniabot.model.creativeelements.MedusaHead;
 import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.creativeelements.Sickle;
-import castlevaniabot.model.creativeelements.Whip;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
@@ -57,8 +51,10 @@ import castlevaniabot.substage.Substage1800;
 import castlevaniabot.substage.Substage1801;
 import nintaco.api.API;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.min;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static castlevaniabot.model.creativeelements.Weapon.NONE;
 import static castlevaniabot.model.creativeelements.Whip.WHIPS;
 import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
@@ -79,15 +75,14 @@ import static castlevaniabot.model.gameelements.Addresses.WEAPON;
 import static castlevaniabot.model.gameelements.Addresses.WEAPONING;
 import static castlevaniabot.model.gameelements.Addresses.WHIP_LENGTH;
 import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
+import static java.lang.Math.abs;
+import static java.lang.Math.min;
 
 public class CastlevaniaBot {
   
   private static final int[][] WHIP_HEIGHT_AND_DELAY = {
     { 13, 21 }, { 19, 19 }, { 25, 17 }, { 31, 14 }, { 36, 4 },
   };
-  
-  static final int MAX_DISTANCE = 0xFFFF;
-  static final int MAX_HEIGHT   = 0xF;
   
   private static final int AVOID_X_RESET = -512;
   private static final int RED_BONES_THRESHOLD = 120;
@@ -122,9 +117,6 @@ public class CastlevaniaBot {
   final Substage1701 SUBSTAGE_1701;
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
-  
-  final BoneTowerSegment[] boneTowerSegments = new BoneTowerSegment[16];
-  public int boneTowerSegmentsCount;
   
   Bone[] bones0 = new Bone[64];
   Bone[] bones1 = new Bone[64];
@@ -208,9 +200,7 @@ public class CastlevaniaBot {
 
 
     try {
-      for(int i = boneTowerSegments.length - 1; i >= 0; --i) {
-        boneTowerSegments[i] = new BoneTowerSegment();
-      }
+
       for(int i = bones0.length - 1; i >= 0; --i) {
         bones0[i] = new Bone();
         bones1[i] = new Bone();
@@ -445,32 +435,8 @@ public class CastlevaniaBot {
     canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && botState.isOnPlatform()
         && botState.getJumpDelay() == 0;
 
-    gameState.getCurrentLevel().readGameObjects(this, gameState);
+    gameState.getCurrentLevel().readGameObjects(this, gameState, botState, currentTile, playerController);
     _substage.readGameObjects();
-  }
-  
-  public void addBoneTowerSegment(final int x, final int y) {
-    for(int i = boneTowerSegmentsCount - 1; i >= 0; --i) {
-      final BoneTowerSegment s = boneTowerSegments[i];
-      if (x == s.x) {
-        if (y == s.y + 16) {
-          return;
-        } else if (y == s.y - 16) {
-          s.y -= 16;
-          return;
-        }
-      }
-    }
-    final BoneTowerSegment s = boneTowerSegments[boneTowerSegmentsCount++];
-    s.x = x;
-    s.y = y;
-  }
-  
-  public void buildBoneTowers() {
-    for(int i = boneTowerSegmentsCount - 1; i >= 0; --i) {
-      final BoneTowerSegment s = boneTowerSegments[i];
-      addGameObject(GameObjectType.BONE_TOWER, s.x, s.y, false, true);
-    }
   }
   
   public void addSickle(final int x, final int y) {
@@ -504,7 +470,7 @@ public class CastlevaniaBot {
     
     for(int i = sickleCount1 - 1; i >= 0; --i) {
       final Sickle s = sickles1[i];      
-      addGameObject(GameObjectType.SICKLE, s.x, s.y, false, true);
+      gameState.addGameObject(GameObjectType.SICKLE, s.x, s.y, false, true, botState, currentTile, playerController);
     }
     
     final Sickle[] temp = sickles0;
@@ -633,8 +599,8 @@ public class CastlevaniaBot {
         if (abs(b1.x - b0.x) <= 4 && abs(b1.y - b0.y) <= 4) {
           b1.time = b0.time + 1;
           if (b1.time >= RED_BONES_THRESHOLD) {
-            addGameObject(GameObjectType.RED_BONES, b1.x - 8 - gameState.getCameraX(),
-                b1.y - 16, false, true);
+            gameState.addGameObject(GameObjectType.RED_BONES, b1.x - 8 - gameState.getCameraX(),
+                b1.y - 16, false, true, botState, currentTile, playerController);
           }
           break;
         }
@@ -709,8 +675,8 @@ public class CastlevaniaBot {
   public void buildDraculaHead() {
     if (draculaHeadTime > 0) {
       --draculaHeadTime;
-      addGameObject(GameObjectType.DRACULA_HEAD, draculaHeadX, draculaHeadY, 
-          draculaHeadLeft, true);
+      gameState.addGameObject(GameObjectType.DRACULA_HEAD, draculaHeadX, draculaHeadY,
+          draculaHeadLeft, true, botState, currentTile, playerController);
     }
   }
   
@@ -723,8 +689,8 @@ public class CastlevaniaBot {
   public void buildCrystalBall() {
     if (crystalBallTime > 0) {
       --crystalBallTime;
-      addGameObject(GameObjectType.CRYSTAL_BALL, crystalBallX, crystalBallY, 
-          false, true);
+      gameState.addGameObject(GameObjectType.CRYSTAL_BALL, crystalBallX, crystalBallY,
+          false, true, botState, currentTile, playerController);
     }
   }  
   
@@ -787,7 +753,7 @@ public class CastlevaniaBot {
     obj.onPlatform = false;
     final int cx = x >> 4;
     final int cy = y >> 4;      
-    obj.distance = MAX_DISTANCE;
+    obj.distance = GameState.MAX_DISTANCE;
     for(int i = (botState.getWhipLength() == 2 ? 2 : 1); i > 0; --i) {
       final int px = cx - i;
       if (px >= 0) {
@@ -795,7 +761,7 @@ public class CastlevaniaBot {
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
           final int dist = mapRoutes.getDistance(px, py, currentTile);
-          if (dist < MAX_DISTANCE) {
+          if (dist < GameState.MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
               obj.platformX = px;
@@ -813,7 +779,7 @@ public class CastlevaniaBot {
         if (height >= 1 && height <= 4) {
           final int py = cy + height;
           final int dist = mapRoutes.getDistance(px, py, currentTile);
-          if (dist < MAX_DISTANCE) {
+          if (dist < GameState.MAX_DISTANCE) {
             if (dist < obj.distance) {                
               obj.distance = dist;
               obj.platformX = px;
@@ -830,217 +796,7 @@ public class CastlevaniaBot {
 
     gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
-  
-  public void addGameObject(final GameObjectType type, int x, int y,
-                            final boolean left, final boolean active) {
-    
-    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
-    final MapElement[][] map = mapRoutes.map;
-    
-    x += type.xOffset + gameState.getCameraX();
-    if (x < 0) {
-      return;
-    } else if (x >= mapRoutes.pixelsWidth) {
-      return;
-    }
-    
-    final int Y = y + type.yOffset;
-    y += type.height;
-    if (y < 0) {
-      return;
-    } else if (y >= mapRoutes.pixelsHeight) {
-      return;
-    }
-    
-    final GameObject obj = gameState.getGameObjects()[gameState.getObjsCount()];
-    obj.type = type;
-    obj.x = x;
-    obj.y = y;
-    obj.distanceX = abs(x - botState.getPlayerX());
-    obj.distanceY = abs(y - botState.getPlayerY());
-    obj.left = left;
-    obj.active = active;
-    obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
-    
-    obj.x1 = x - type.xRadius;
-    obj.x2 = x + type.xRadius;
-    obj.y1 = Y - type.yRadius;
-    obj.y2 = Y + type.yRadius;    
-    
-    if (type == GameObjectType.CANDLES) {
-      obj.onPlatform = false;
-      obj.distance = MAX_DISTANCE;      
-      final int cy = (y >> 4) - 1;
-      final int[] whipDistances = Whip.WHIP_DISTANCES[botState.getWhipLength() == 2 ? 1 : 0];
-      
-      for(int i = whipDistances.length - 1; i >= 0; --i) {        
-        final int sx = obj.x - whipDistances[i];
-        final int pxLeft;
-        final int pxRight;
-        if ((sx & 0xF) >= 8) {
-          pxLeft = sx >> 4;
-          pxRight = pxLeft + 1;
-        } else {
-          pxRight = sx >> 4;
-          pxLeft = pxRight - 1;
-        }
-        if (pxLeft < 0 || pxRight < 0) {
-          continue;
-        }
-        final int hLeft = map[cy][pxLeft].height;
-        final int hRight = map[cy][pxRight].height;
-        if (hLeft <= hRight && hLeft >= 1 && hLeft <= 4) {
-          final int py = cy + hLeft;
-          final int dist = mapRoutes.getDistance(pxLeft, py, currentTile);
-          if (dist < MAX_DISTANCE) {
-            if (dist < obj.distance) {
-              obj.distance = dist;
-              obj.platformX = pxLeft;
-              obj.platformY = py;
-              obj.active = whipDistances[i] > 16; // Grind with holy water
-            }
-            break;
-          }
-        }
-      }
-      for(int i = whipDistances.length - 1; i >= 0; --i) {        
-        final int sx = obj.x + whipDistances[i];
-        final int pxLeft;
-        final int pxRight;
-        if ((sx & 0xF) >= 8) {
-          pxLeft = sx >> 4;
-          pxRight = pxLeft + 1;
-        } else {
-          pxRight = sx >> 4;
-          pxLeft = pxRight - 1;
-        }
-        if (pxLeft >= mapRoutes.width || pxRight >= mapRoutes.width) {
-          continue;
-        }
-        final int hLeft = map[cy][pxLeft].height;
-        final int hRight = map[cy][pxRight].height;
-        if (hRight <= hLeft && hRight >= 1 && hRight <= 4) {
-          final int py = cy + hRight;
-          final int dist = mapRoutes.getDistance(pxRight, py, currentTile);
-          if (dist < MAX_DISTANCE) {
-            if (dist < obj.distance) {
-              obj.distance = dist;
-              obj.platformX = pxRight;
-              obj.platformY = py;
-              obj.active = whipDistances[i] > 16; // Grind with holy water
-            }
-            break;
-          }
-        }
-      }
-      if (obj.distance == MAX_DISTANCE) {
-        final int dy = cy + 1;
-        for(int i = whipDistances.length - 1; i >= 0; --i) {        
-          final int sx = obj.x - whipDistances[i];
-          final int pxLeft;
-          final int pxRight;
-          if ((sx & 0xF) >= 8) {
-            pxLeft = sx >> 4;
-            pxRight = pxLeft + 1;
-          } else {
-            pxRight = sx >> 4;
-            pxLeft = pxRight - 1;
-          }
-          if (pxLeft < 0 || pxRight < 0) {
-            continue;
-          }
-          final int hLeft = map[dy][pxLeft].height;
-          final int hRight = map[dy][pxRight].height;
-          if (hLeft <= hRight && hLeft >= 1 && hLeft <= 3) {
-            final int py = dy + hLeft;
-            final int dist = mapRoutes.getDistance(pxLeft, py, currentTile);
-            if (dist < MAX_DISTANCE) {
-              if (dist < obj.distance) {
-                obj.distance = dist;
-                obj.platformX = pxLeft;
-                obj.platformY = py;
-                obj.active = false;        // Whip only
-              }
-              break;
-            }
-          }
-        }
-        for(int i = whipDistances.length - 1; i >= 0; --i) {        
-          final int sx = obj.x + whipDistances[i];
-          final int pxLeft;
-          final int pxRight;
-          if ((sx & 0xF) >= 8) {
-            pxLeft = sx >> 4;
-            pxRight = pxLeft + 1;
-          } else {
-            pxRight = sx >> 4;
-            pxLeft = pxRight - 1;
-          }
-          if (pxLeft >= mapRoutes.width || pxRight >= mapRoutes.width) {
-            continue;
-          }
-          final int hLeft = map[dy][pxLeft].height;
-          final int hRight = map[dy][pxRight].height;
-          if (hRight <= hLeft && hRight >= 1 && hRight <= 3) {
-            final int py = dy + hRight;
-            final int dist = mapRoutes.getDistance(pxRight, py, currentTile);
-            if (dist < MAX_DISTANCE) {
-              if (dist < obj.distance) {
-                obj.distance = dist;
-                obj.platformX = pxRight;
-                obj.platformY = py;
-                obj.active = false;        // Whip only
-              }
-              break;
-            }
-          }
-        }        
-      }
-    } else {     
-      obj.supportX = x;
-      obj.platformX = x >> 4;
-      obj.platformY = y >> 4;      
-      obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x, y, currentTile);
-      if (!obj.onPlatform) {
-        if (obj.onPlatform == playerController.isOnOrInPlatform(mapRoutes, x - 4, y, currentTile)) {
-          obj.supportX = x - 4;
-          obj.platformX = (x - 4) >> 4;
-          obj.platformY = y >> 4;
-        } else if (obj.onPlatform = playerController.isOnOrInPlatform(mapRoutes, x + 4, y, currentTile)) {
-          obj.supportX = x + 4;
-          obj.platformX = (x + 4) >> 4;
-          obj.platformY = y >> 4;
-        } 
-      }
-      if (obj.onPlatform) {
-        obj.distance = mapRoutes.getDistance(obj, currentTile);
-      } else {
-        final int height = map[obj.platformY][obj.platformX].height;
-        if (height == MAX_HEIGHT) {
-          obj.distance = MAX_DISTANCE;        
-        } else {
-          obj.platformY += height;
-          obj.distance = mapRoutes.getDistance(obj, currentTile);
-        }
-      }
-    }
-    
-    obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8) 
-        | (0xFF - min(0xFF, obj.distanceX));
 
-    gameState.setObjsCount(gameState.getObjsCount() + 1);
-  }
-  
-  // Returns the whip delay after jumping or -1 if not in range.
-  int isInJumpingWhipRange(final GameObject obj) {
-    for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (WHIPS[botState.getWhipLength()][0].inRange(obj, 0,
-          WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
-        return WHIP_HEIGHT_AND_DELAY[i][1];
-      }
-    }
-    return -1;
-  }
 
   public boolean isInStandingWhipRange(final GameObject obj, final int xOffset,
                                        final int yOffset) {
@@ -1050,18 +806,6 @@ public class CastlevaniaBot {
   public boolean isInKneelingWhipRange(final GameObject obj, final int xOffset,
                                        final int yOffset) {
     return WHIPS[botState.getWhipLength()][1].inRange( obj, xOffset, yOffset, botState);
-  }  
-  
-  // Returns the whip delay after jumping or -1 if not in range.
-  int isInJumpingWhipRange(final GameObject obj, final int xOffset, 
-      final int yOffset) {
-    for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (WHIPS[botState.getWhipLength()][0].inRange(obj, xOffset,
-          yOffset + WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
-        return WHIP_HEIGHT_AND_DELAY[i][1];
-      }
-    }
-    return -1;
   }
 
   public boolean isInStandingWhipRange(final GameObject obj) {
@@ -1070,17 +814,6 @@ public class CastlevaniaBot {
   
   public boolean isInKneelingWhipRange(final GameObject obj) {
     return WHIPS[botState.getWhipLength()][1].inRange(obj, botState);
-  }  
-  
-  // Returns the whip delay after jumping or -1 if not in range.
-  int isTargetInJumpingWhipRange() {
-    for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (WHIPS[botState.getWhipLength()][0].inRange(targetedObject.getTarget(), 0,
-          WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
-        return WHIP_HEIGHT_AND_DELAY[i][1];
-      }
-    }
-    return -1;
   }
   
   public boolean isTargetInStandingWhipRange() {

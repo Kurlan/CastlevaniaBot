@@ -1,7 +1,5 @@
 package castlevaniabot.control;
 
-import javax.inject.Inject;
-
 import castlevaniabot.BotState;
 import castlevaniabot.GameState;
 import castlevaniabot.model.creativeelements.MovingPlatform;
@@ -16,7 +14,8 @@ import castlevaniabot.model.gameelements.TileType;
 import nintaco.api.API;
 import nintaco.api.Colors;
 
-import static java.lang.Math.abs;
+import javax.inject.Inject;
+
 import static castlevaniabot.model.creativeelements.Operations.GO_DOWN_STAIRS;
 import static castlevaniabot.model.creativeelements.Operations.GO_UP_STAIRS;
 import static castlevaniabot.model.creativeelements.Operations.WALK_CENTER_LEFT_JUMP;
@@ -39,6 +38,7 @@ import static castlevaniabot.model.gameelements.TileType.FORWARD_STAIRS;
 import static castlevaniabot.model.gameelements.TileType.isBack;
 import static castlevaniabot.model.gameelements.TileType.isForward;
 import static castlevaniabot.model.gameelements.TileType.isStairsPlatform;
+import static java.lang.Math.abs;
 import static nintaco.api.GamepadButtons.Left;
 import static nintaco.api.GamepadButtons.Right;
 
@@ -674,8 +674,43 @@ public class PlayerController {
                 return true;
             }
         }
-
         return false;
     }
 
+/*
+    // Returns the whip delay after jumping or -1 if not in range.
+    int isTargetInJumpingWhipRange() {
+        for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {
+            if (WHIPS[botState.getWhipLength()][0].inRange(targetedObject.getTarget(), 0,
+                    WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
+                return WHIP_HEIGHT_AND_DELAY[i][1];
+            }
+        }
+        return -1;
+    }
+
+    // Returns the whip delay after jumping or -1 if not in range.
+    int isInJumpingWhipRange(final GameObject obj, final int xOffset,
+        final int yOffset) {
+        for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {
+          if (WHIPS[botState.getWhipLength()][0].inRange(obj, xOffset,
+              yOffset + WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
+            return WHIP_HEIGHT_AND_DELAY[i][1];
+          }
+        }
+        return -1;
+      }
+
+
+  // Returns the whip delay after jumping or -1 if not in range.
+  int isInJumpingWhipRange(final GameObject obj) {
+    for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {
+      if (WHIPS[botState.getWhipLength()][0].inRange(obj, 0,
+          WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
+        return WHIP_HEIGHT_AND_DELAY[i][1];
+      }
+    }
+    return -1;
+  }
+*/
 }

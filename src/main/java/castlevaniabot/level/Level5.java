@@ -1,14 +1,39 @@
 package castlevaniabot.level;
 
+import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
+import castlevaniabot.control.PlayerController;
+import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObjectType;
-import nintaco.api.*;
+import nintaco.api.API;
 
 import javax.inject.Inject;
 
-import static castlevaniabot.model.gameelements.Addresses.*;
-import static castlevaniabot.model.gameelements.GameObjectType.*;
+import static castlevaniabot.model.gameelements.Addresses.SPRITES;
+import static castlevaniabot.model.gameelements.GameObjectType.AXE;
+import static castlevaniabot.model.gameelements.GameObjectType.AXE_KNIGHT;
+import static castlevaniabot.model.gameelements.GameObjectType.AXE_WEAPON;
+import static castlevaniabot.model.gameelements.GameObjectType.BOOMERANG_WEAPON;
+import static castlevaniabot.model.gameelements.GameObjectType.CANDLES;
+import static castlevaniabot.model.gameelements.GameObjectType.CROSS;
+import static castlevaniabot.model.gameelements.GameObjectType.DAGGER_WEAPON;
+import static castlevaniabot.model.gameelements.GameObjectType.DEATH;
+import static castlevaniabot.model.gameelements.GameObjectType.DOULE_SHOT;
+import static castlevaniabot.model.gameelements.GameObjectType.EXTRA_LIFE;
+import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
+import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
+import static castlevaniabot.model.gameelements.GameObjectType.HOLY_WATER_WEAPON;
+import static castlevaniabot.model.gameelements.GameObjectType.INVISIBLE_POTION;
+import static castlevaniabot.model.gameelements.GameObjectType.LARGE_HEART;
+import static castlevaniabot.model.gameelements.GameObjectType.MONEY_BAG;
+import static castlevaniabot.model.gameelements.GameObjectType.PORK_CHOP;
+import static castlevaniabot.model.gameelements.GameObjectType.RED_SKELETON;
+import static castlevaniabot.model.gameelements.GameObjectType.SMALL_HEART;
+import static castlevaniabot.model.gameelements.GameObjectType.STOPWATCH_WEAPON;
+import static castlevaniabot.model.gameelements.GameObjectType.TRIPLE_SHOT;
+import static castlevaniabot.model.gameelements.GameObjectType.WHIP_UPGRADE;
+import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 
 public class Level5 implements Level {
 
@@ -18,8 +43,9 @@ public class Level5 implements Level {
   public Level5(API api) {
     this.api = api;
   }
-  @Override public void readGameObjects(CastlevaniaBot b, GameState gameState) {
-    b.boneTowerSegmentsCount = 0;
+
+  @Override public void readGameObjects(CastlevaniaBot b, GameState gameState, BotState botState, Coordinates currentTile, PlayerController playerController) {
+    gameState.setBoneTowerSegmentsCount(0);
     gameState.setObjsCount(0);
     gameState.setMovingPlatformsCount(0);
     for(int i = 63; i >= 0; --i) {
@@ -116,7 +142,7 @@ public class Level5 implements Level {
         case 0x03E0:
         case 0x41E2:
         case 0x43E2:
-          b.addBoneTowerSegment(x, y);
+          gameState.addBoneTowerSegment(x, y);
           continue;    
           
         case 0x03F6:
@@ -138,10 +164,10 @@ public class Level5 implements Level {
         default:     type = null;                break;
       }      
       if (type != null) {
-        b.addGameObject(type, x, y, left, active);
+        gameState.addGameObject(type, x, y, left, active, botState, currentTile, playerController);
       }
     }
-    b.buildBoneTowers();
+    gameState.buildBoneTowers(botState, currentTile, playerController);
     b.buildRedBones();
     b.buildSickles();
     b.buildCrystalBall();
