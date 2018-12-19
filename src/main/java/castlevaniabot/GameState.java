@@ -141,6 +141,16 @@ public class GameState {
         }
     }
 
+    public GameObject getType(final GameObjectType type) {
+        for(int i = getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = getGameObjects()[i];
+            if (obj.type == type) {
+                return obj;
+            }
+        }
+        return null;
+    }
+
     public void addGameObject(final GameObjectType type, int x, int y,
                               final boolean left, final boolean active, BotState botState, Coordinates currentTile, PlayerController playerController) {
 

@@ -40,7 +40,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
                 playerController.goLeft(botState);
             }
         } else {
-            final GameObject bat = b.getType(RED_BAT);
+            final GameObject bat = gameState.getType(RED_BAT);
             if (botState.getPlayerX() != 195 || botState.getPlayerY() != 144 || botState.isPlayerLeft()) {
                 if (bat != null) {
                     botState.getTargetedObject().setTarget(bat);

@@ -508,16 +508,6 @@ public class CastlevaniaBot {
     return count;
   }
   
-  public GameObject getType(final GameObjectType type) {
-    for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
-      final GameObject obj = gameState.getGameObjects()[i];
-      if (obj.type == type) {
-        return obj;
-      }
-    }    
-    return null;
-  }
-  
   public boolean isUnderLedge() {
     
     if (botState.getCurrentTile().getY() < 4) {

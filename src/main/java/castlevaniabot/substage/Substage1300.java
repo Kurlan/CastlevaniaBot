@@ -115,13 +115,13 @@ public class Substage1300 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     
     if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
-      final GameObject skeleton = b.getType(WHITE_SKELETON);
+      final GameObject skeleton = gameState.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < botState.getPlayerX() - 48
           || skeleton.y > 132))) {
         super.pickStrategy(targetedObject);
       }
     } else if (botState.getPlayerX() >= 368 && botState.getPlayerY() > 160 && !b.isObjectBelow(132)) {
-      final GameObject skeleton = b.getType(WHITE_SKELETON);
+      final GameObject skeleton = gameState.getType(WHITE_SKELETON);
       if (skeleton != null && skeleton.y <= 132 
           && botState.getPlayerX() < skeleton.x) {
         clearTarget(targetedObject);

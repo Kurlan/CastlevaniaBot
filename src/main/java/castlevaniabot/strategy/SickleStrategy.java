@@ -30,7 +30,7 @@ public class SickleStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject death = b.getType(DEATH);
+        final GameObject death = gameState.getType(DEATH);
         if (death != null && !gameState.isWeaponing()) {
             if (botState.getHearts() > 0 && death.y2 >= botState.getPlayerY() - 32 && death.y1 <= botState.getPlayerY()
                     && death.distanceX < 128) {
