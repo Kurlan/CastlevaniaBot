@@ -69,7 +69,7 @@ public class Substage0100 extends Substage {
           if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;          
         case HOLY_WATER_WEAPON: obj.tier = 5; break;

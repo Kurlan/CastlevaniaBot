@@ -111,7 +111,7 @@ public class Substage1701 extends Substage {
               if (botState.getWeapon() != STOPWATCH) {
                 obj.tier = 5; 
               } else {
-                b.avoid(obj);
+                playerController.avoid(obj, botState);
               }
               break;
             case EXTRA_LIFE:

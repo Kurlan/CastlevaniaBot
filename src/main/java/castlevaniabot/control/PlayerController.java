@@ -165,6 +165,13 @@ public class PlayerController {
         }
     }
 
+    public void avoid(final GameObject obj, BotState botState) {
+        if ((!obj.onPlatform || obj.y >= botState.getPlayerY() - 48)
+                && (botState.getAvoidX() < 0 || obj.distanceX < abs(botState.getPlayerX() - botState.getAvoidX()))) {
+            botState.setAvoidX(obj.x);
+        }
+    }
+
     public void goLeft(BotState botState) {
         if (botState.getPlayerX() < botState.getAvoidX() || botState.getPlayerX() >= botState.getAvoidX() + 16) {
             gamePad.pressLeft();

@@ -578,13 +578,6 @@ public class CastlevaniaBot {
     return false;
   }
   
-  public void avoid(final GameObject obj) {
-    if ((!obj.onPlatform || obj.y >= botState.getPlayerY() - 48)
-        && (botState.getAvoidX() < 0 || obj.distanceX < abs(botState.getPlayerX() - botState.getAvoidX()))) {
-      botState.setAvoidX(obj.x);
-    }
-  }
-  
   public void renderFinished() {
    
     readState();

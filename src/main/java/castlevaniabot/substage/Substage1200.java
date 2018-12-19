@@ -86,28 +86,28 @@ public class Substage1200 extends Substage {
               && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;
         case BOOMERANG_WEAPON:       
           if (botState.getPlayerX() < 768 && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 4;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;           
         case DAGGER_WEAPON:        
           if (botState.getPlayerX() < 768 && (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH)) {
             obj.tier = 4;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;            
         case STOPWATCH_WEAPON:
           if (botState.getPlayerX() < 768 && botState.getWeapon() == NONE) {
             obj.tier = 4;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;            
         case HOLY_WATER_WEAPON:

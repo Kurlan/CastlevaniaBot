@@ -37,7 +37,7 @@ public class Substage1100 extends Substage {
     } else if (obj.distance < HORIZON) {
       switch(obj.type) {
         case FLAMES: // Fleamen flames can spawn axes. Avoid the flames!
-          b.avoid(obj);
+          playerController.avoid(obj, botState);
           break;
         case WHIP_UPGRADE:
           obj.tier = 1; break;
@@ -48,28 +48,28 @@ public class Substage1100 extends Substage {
           if (botState.getWeapon() != BOOMERANG && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 3;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;
         case BOOMERANG_WEAPON:       
           if (botState.getWeapon() != HOLY_WATER) {
             obj.tier = 3;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;           
         case DAGGER_WEAPON:        
           if (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH) {
             obj.tier = 3;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;            
         case STOPWATCH_WEAPON:
           if (botState.getWeapon() == NONE) {
             obj.tier = 3;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;          
         case HOLY_WATER_WEAPON:

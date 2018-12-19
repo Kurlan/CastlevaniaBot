@@ -80,7 +80,7 @@ public class Substage1600 extends Substage {
           if (botState.getWeapon() != STOPWATCH && (obj.x < 128 || obj.x >= 1344)) {
             obj.tier = 5; 
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;
         case PORK_CHOP:

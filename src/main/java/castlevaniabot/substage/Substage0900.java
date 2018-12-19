@@ -105,14 +105,14 @@ public class Substage0900 extends Substage {
           if (!bossTriggered && (botState.getWeapon() == NONE || botState.getWeapon() == STOPWATCH)) {
             obj.tier = 5;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;        
         case BOOMERANG_WEAPON:
           if (!bossTriggered && botState.getWeapon() != HOLY_WATER) {
             obj.tier = 5;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;
         case AXE_WEAPON:
@@ -120,14 +120,14 @@ public class Substage0900 extends Substage {
               && botState.getWeapon() != BOOMERANG) {
             obj.tier = 5;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;          
         case STOPWATCH_WEAPON:  
           if (!bossTriggered && botState.getWeapon() == NONE) {
             obj.tier = 5;
           } else {
-            b.avoid(obj);
+            playerController.avoid(obj, botState);
           }
           break;          
         case HOLY_WATER_WEAPON:
