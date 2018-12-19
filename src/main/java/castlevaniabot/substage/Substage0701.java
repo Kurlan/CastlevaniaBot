@@ -120,7 +120,7 @@ public class Substage0701 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
     } else if (botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
-        && b.boneCount0 > 0) {
+        && gameState.getBoneCount0() > 0) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
         clearTarget(targetedObject);
         b.getAllStrategies().getWAIT().init(560, 128, WaitStrategy.WaitType.STAND, 30);

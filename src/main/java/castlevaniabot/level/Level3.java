@@ -134,10 +134,10 @@ public class Level3 implements Level {
                      
         case 0x4196: 
         case 0x0194:
-          b.addBone(BONE_DIAGONAL, x, y);
+          gameState.addBone(BONE_DIAGONAL, x, y, gameState);
           continue;
         case 0x0192:
-          b.addBone(BONE_VERTICAL, x, y);
+          gameState.addBone(BONE_VERTICAL, x, y, gameState);
           continue;
                  
         case 0x01E0:
@@ -159,7 +159,7 @@ public class Level3 implements Level {
       }
     }
     gameState.buildBoneTowers(botState, currentTile, playerController);
-    b.buildBones();
+    gameState.buildBones();
     b.buildCrystalBall();
   }
 }

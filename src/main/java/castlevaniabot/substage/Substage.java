@@ -46,9 +46,10 @@ public abstract class Substage {
   public void init() {
     b.medusaHeadsCount0 = b.medusaHeadsCount1 = b.draculaHeadTime 
         = b.sickleCount0 = b.sickleCount1 = b.redBatsCount0 = b.redBatsCount1 
-            = b.redBonesCount0 = b.redBonesCount1 = b.boneCount0 
-                = b.boneCount1 = 0;
+            = b.redBonesCount0 = b.redBonesCount1 = 0;
     botState.setCurrentStrategy(null);
+    gameState.setBoneCount0(0);
+    gameState.setBoneCount0(0);
   }
   
   public MapRoutes getMapRoutes() {
@@ -215,7 +216,7 @@ public abstract class Substage {
 
   boolean handleBones(TargetedObject targetedObject) {
     
-    final Bone bone = b.getHarmfulBone();
+    final Bone bone = gameState.getHarmfulBone(botState);
     if (bone == null) {
       return false;
     }

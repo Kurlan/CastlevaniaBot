@@ -2,6 +2,7 @@ package castlevaniabot;
 
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
+import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.creativeelements.BoneTowerSegment;
 import castlevaniabot.model.creativeelements.MovingPlatform;
 import castlevaniabot.model.creativeelements.Whip;
@@ -44,6 +45,11 @@ public class GameState {
     private BoneTowerSegment[] boneTowerSegments;
     private int boneTowerSegmentsCount;
 
+    private Bone[] bones0;
+    private Bone[] bones1;
+    private int boneCount0;
+    private int boneCount1;
+
     public GameState() {
         movingPlatforms = new MovingPlatform[16];
         for(int i = movingPlatforms.length - 1; i >= 0; --i) {
@@ -53,6 +59,14 @@ public class GameState {
         boneTowerSegments = new BoneTowerSegment[16];
         for(int i = boneTowerSegments.length - 1; i >= 0; --i) {
             boneTowerSegments[i] = new BoneTowerSegment();
+        }
+
+        bones0 = new Bone[64];
+        bones1 = new Bone[64];
+
+        for(int i = bones0.length - 1; i >= 0; --i) {
+            bones0[i] = new Bone();
+            bones1[i] = new Bone();
         }
     }
 
@@ -321,6 +335,58 @@ public class GameState {
             final BoneTowerSegment s = boneTowerSegments[i];
             addGameObject(GameObjectType.BONE_TOWER, s.x, s.y, false, true, botState, currentTile, playerController);
         }
+    }
+
+    public void addBone(final GameObjectType type, int x, int y, GameState gameState) {
+
+        final Bone bone = bones1[boneCount1++];
+
+        x += type.xOffset + gameState.getCameraX();
+        y += type.yOffset;
+
+        bone.x1 = x - type.xRadius;
+        bone.x2 = x + type.xRadius;
+        bone.y1 = y - type.yRadius;
+        bone.y2 = y + type.yRadius;
+
+        bone.x = x;
+        bone.y = y;
+    }
+
+    public void buildBones() {
+        for(int i = boneCount1 - 1; i >= 0; --i) {
+            final Bone b1 = bones1[i];
+            b1.vx = b1.vy = 0;
+            for(int j = boneCount0 - 1; j >= 0; --j) {
+                final Bone b0 = bones0[j];
+                if (abs(b1.x1 - b0.x1) <= 8 && abs(b1.y1 - b0.y1) <= 8) {
+                    b1.vx = b1.x1 - b0.x1;
+                    b1.vy = b1.y1 - b0.y1;
+                    if (b1.vx < 0) {
+                        b1.left = true;
+                    } else if (b1.vx > 0) {
+                        b1.left = false;
+                    }
+                    break;
+                }
+            }
+        }
+        final Bone[] temp = bones0;
+        bones0 = bones1;
+        bones1 = temp;
+        boneCount0 = boneCount1;
+        boneCount1 = 0;
+    }
+
+    public Bone getHarmfulBone(BotState botState) {
+        for(int i = boneCount0 - 1; i >= 0; --i) {
+            final Bone bone = bones0[i];
+            if (bone.vy > 0 && bone.y1 <= botState.getPlayerY() && bone.x2 >= botState.getPlayerX() - 32
+                    && bone.x1 <= botState.getPlayerX() + 32) {
+                return bone;
+            }
+        }
+        return null;
     }
 
 /*  Unused.
