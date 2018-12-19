@@ -57,7 +57,7 @@ public class AxeKnightStrategy implements Strategy {
             }
         } else if (weaponDelay == 0 && botState.getTargetedObject().getTarget().distanceX < 64
                 && botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && botState.isCanJump()) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState) && botState.isCanJump()) {
                 if (b.isUnderLedge()) {
                     weaponDelay = HOLY_WATER_RESET;
                     playerController.useWeapon(gameState);
@@ -72,14 +72,14 @@ public class AxeKnightStrategy implements Strategy {
             }
         } else if (gameState.getCurrentSubstage() == b.SUBSTAGE_1501 && botState.getWeapon() == BOOMERANG
                 && botState.getHearts() > 0) {
-            if (!gameState.isWeaponing() && weaponDelay == 0 && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (!gameState.isWeaponing() && weaponDelay == 0 && playerController.faceTarget(botState, gameState)) {
                 if (botState.getShot() > 1) {
                     weaponDelay = 90;
                 }
                 playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);
             }
         } else if (botState.getTargetedObject().getTarget().distanceX > 64) {

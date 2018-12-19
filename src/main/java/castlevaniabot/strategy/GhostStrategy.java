@@ -59,11 +59,11 @@ public class GhostStrategy implements Strategy {
             ;
             gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);                            // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState)) {
                 playerController.kneel();
                 if (botState.isKneeling()) {
                     playerController.whip(gameState);                        // kneel whip bat

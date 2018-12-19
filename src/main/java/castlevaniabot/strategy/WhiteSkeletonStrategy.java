@@ -62,7 +62,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 playerController.useWeapon(gameState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 if (holyWaterDelay > 0) {
                     playerController.whip(gameState);
                 } else if (playerController.grind(gameState, botState)) {
@@ -70,7 +70,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 }
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && botState.isCanJump()) {
+            if (playerController.faceTarget(botState, gameState) && botState.isCanJump()) {
                 playerController.jump(botState);
             }
         } else if (drawingTowardHolyWater) {
@@ -78,7 +78,7 @@ public class WhiteSkeletonStrategy implements Strategy {
         } else if (!botState.isOnStairs() && holyWaterDelay == 0 && botState.getWeapon() == HOLY_WATER
                 && botState.getHearts() > 0 && skeleton.distanceX < 96
                 && skeleton.distanceY <= 36) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && botState.isCanJump()) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState) && botState.isCanJump()) {
                 if (b.isUnderLedge()) {
                     holyWaterDelay = HOLY_WATER_RESET;
                     drawingTowardHolyWater = true;

@@ -55,12 +55,12 @@ public class FleamanStrategy implements Strategy {
                 gameState.getCurrentSubstage().routeRight();
             }
         } else if (b.isTargetInStandingWhipRange(vx, vy)) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(vx, vy)) {
             playerController.kneel();
-            if (botState.isKneeling() && !gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (botState.isKneeling() && !gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);
             }
         } else if ((vy < 0 && fleaman.y < botState.getPlayerY() - 16 && fleaman.distanceX < 56)

@@ -45,7 +45,7 @@ public class BoneTowerStrategy implements Strategy {
             --moveAway;
             gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange()) {
-            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState)) {
                 if (usedHolyWater || botState.getWeapon() != HOLY_WATER || botState.getHearts() == 0
                         || tower.distanceX > 48) {
                     playerController.whip(gameState);

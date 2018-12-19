@@ -423,23 +423,23 @@ public class PlayerController {
     }
 
 
-    public boolean faceTarget(BotState botState, GameState gameState, TargetedObject targetedObject) {
-        if (targetedObject.getTarget().playerFacing) {
+    public boolean faceTarget(BotState botState, GameState gameState) {
+        if (botState.getTargetedObject().getTarget().playerFacing) {
             return true;
         } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
             gamePad.pressDown();
         } else {
-            gameState.getCurrentSubstage().moveTowardTarget(targetedObject.getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         }
         return false;
     }
 
-    public boolean faceFlyingTarget(BotState botState, TargetedObject targetedObject) {
-        if (targetedObject.getTarget().playerFacing) {
+    public boolean faceFlyingTarget(BotState botState) {
+        if (botState.getTargetedObject().getTarget().playerFacing) {
             return true;
         } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
             gamePad.pressDown();
-        } else if (botState.getPlayerX() < targetedObject.getTarget().x) {
+        } else if (botState.getPlayerX() < botState.getTargetedObject().getTarget().x) {
             goRight(botState);
         } else {
             goLeft(botState);
