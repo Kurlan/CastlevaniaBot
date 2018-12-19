@@ -244,9 +244,9 @@ public class Substage1501 extends Substage {
   public void readGameObjects() {
     if (!bossDefeated) {
       if (bossTriggered && botState.getCurrentStrategy() != b.getAllStrategies().getHOLY_WATER_DEATH()) {
-        b.addDestination(80, 160);
+        gameState.addDestination(80, 160, botState);
       } else {
-        b.addDestination(9, 128);
+        gameState.addDestination(9, 128, botState);
       }
     }
   }  

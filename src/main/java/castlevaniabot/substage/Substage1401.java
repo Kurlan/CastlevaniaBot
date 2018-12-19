@@ -192,9 +192,9 @@ public class Substage1401 extends Substage {
       }
     }    
     if (treasureTriggered2) {
-      b.addDestination(32, 192);
+      gameState.addDestination(32, 192, botState);
     } else {
-      b.addDestination(560, 128);
+      gameState.addDestination(560, 128, botState);
       if (botState.getPlayerX() < 208) {
         treasureTriggered2 = true;
       } else if (botState.getPlayerX() == 560 && botState.getPlayerY() == 128) {

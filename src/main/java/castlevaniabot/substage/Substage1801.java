@@ -178,7 +178,7 @@ public class Substage1801 extends Substage {
   @Override
   public void readGameObjects() {
     if (!bossTriggered) {
-      b.addDestination(9, 192);
+      gameState.addDestination(9, 192, botState);
     }
   }  
 

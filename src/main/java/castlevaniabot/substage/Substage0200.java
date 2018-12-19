@@ -99,10 +99,10 @@ public class Substage0200 extends Substage {
           playerController.kneel();
         }
       } else {
-        b.addDestination(464, 192);
+        gameState.addDestination(464, 192, botState);
       }
     } else {
-      b.addDestination(368, 48);  
+      gameState.addDestination(368, 48, botState);
     }  
   }
   

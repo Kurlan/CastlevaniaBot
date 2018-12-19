@@ -131,9 +131,9 @@ public class Substage0401 extends Substage {
       b.addBlock(352, 112);      
     }    
     if (botState.getPlayerX() < 32) {
-      b.addDestination(25, 112);
+      gameState.addDestination(25, 112, botState);
     } else if (botState.getPlayerX() >= 104) {
-      b.addDestination(96, 112);      
+      gameState.addDestination(96, 112, botState);
     }
   }  
 

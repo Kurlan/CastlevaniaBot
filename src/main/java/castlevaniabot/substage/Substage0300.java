@@ -109,7 +109,7 @@ public class Substage0300 extends Substage {
       }
     } 
     if (!blockWhipped) {
-      b.addDestination(751, 208);
+      gameState.addDestination(751, 208, botState);
     }
   }
   

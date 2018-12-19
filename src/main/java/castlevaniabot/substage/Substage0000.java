@@ -117,12 +117,12 @@ public class Substage0000 extends Substage {
   @Override
   public void readGameObjects() {
     if (triggeredTreasure) {
-      b.addDestination(696, 192);
+      gameState.addDestination(696, 192, botState);
     } else {
       if (abs(botState.getPlayerX() - 712) < 2) {
         triggeredTreasure = true;
       } else {
-        b.addDestination(712, 192);
+        gameState.addDestination(712, 192, botState);
       }
     }
   } 

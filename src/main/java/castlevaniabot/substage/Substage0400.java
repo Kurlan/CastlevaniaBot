@@ -108,9 +108,9 @@ public class Substage0400 extends Substage {
       triggedTreasure = true;
     }
     if (blocksBroken && !triggedTreasure) {
-      b.addDestination(476, 144);
+      gameState.addDestination(476, 144, botState);
     } else {
-      b.addDestination(392, 48);
+      gameState.addDestination(392, 48, botState);
     }
   }  
 

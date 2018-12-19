@@ -287,7 +287,7 @@ public class Substage1400 extends Substage {
     
     if ((botState.getPlayerY() == 192 && botState.getPlayerX() < 1080) || (upperKnight == null
         && (botState.getPlayerY() <= 128 || (lowerKnight == null && fleaman == null)))) {
-      b.addDestination(1096, 48);
+      gameState.addDestination(1096, 48, botState);
     }
   }  
 

@@ -125,9 +125,9 @@ public class Substage0600 extends Substage {
     }
     
     if (botState.getPlayerY() >= 96 && botState.getPlayerX() >= 512) {
-      b.addDestination(521, 208);
+      gameState.addDestination(521, 208, botState);
     } else {
-      b.addDestination(680, 48);
+      gameState.addDestination(680, 48, botState);
     }
   }  
 

@@ -223,7 +223,7 @@ public class Substage0900 extends Substage {
       enteredTomb = true;
     }
     if (!bossTriggered) {
-      b.addDestination(1527, 208);
+      gameState.addDestination(1527, 208, botState);
     }
   }  
 

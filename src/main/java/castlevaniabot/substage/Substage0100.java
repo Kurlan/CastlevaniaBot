@@ -114,9 +114,9 @@ public class Substage0100 extends Substage {
       }
     }
     if (botState.getPlayerX() < 768) {
-      b.addDestination(992, 144);  // central platform
+      gameState.addDestination(992, 144, botState);  // central platform
     } else {
-      b.addDestination(1520, 112); // exit door
+      gameState.addDestination(1520, 112, botState); // exit door
     }
   }
   

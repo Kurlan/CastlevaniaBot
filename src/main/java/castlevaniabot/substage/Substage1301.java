@@ -169,7 +169,7 @@ public class Substage1301 extends Substage {
       }
     }        
     
-    b.addDestination(1255, 192);
+    gameState.addDestination(1255, 192, botState);
   }  
 
   @Override

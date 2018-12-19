@@ -123,7 +123,7 @@ public class Substage0801 extends Substage {
 
   @Override
   public void readGameObjects() {
-    b.addDestination(1255, 128);
+    gameState.addDestination(1255, 128, botState);
   }  
 
   @Override

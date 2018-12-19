@@ -68,7 +68,6 @@ import static castlevaniabot.model.gameelements.Addresses.SUBSTAGE;
 import static castlevaniabot.model.gameelements.Addresses.WEAPON;
 import static castlevaniabot.model.gameelements.Addresses.WEAPONING;
 import static castlevaniabot.model.gameelements.Addresses.WHIP_LENGTH;
-import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
@@ -350,36 +349,6 @@ public class CastlevaniaBot {
 
     gameState.getCurrentLevel().readGameObjects(this, gameState, botState, botState.getCurrentTile(), playerController);
     _substage.readGameObjects();
-  }
-  
-  public void addDestination(int x, int y) {
-    final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
-    
-    if (x < 0 || y < 0 || x >= mapRoutes.pixelsWidth 
-        || y >= mapRoutes.pixelsHeight) {
-      return;
-    }
-    
-    final GameObject obj = gameState.getGameObjects()[gameState.getObjsCount()];
-    obj.type = DESTINATION;
-    obj.supportX = obj.x = x;
-    obj.y = y;  
-    obj.platformX = x >> 4;
-    obj.platformY = y >> 4;      
-    obj.onPlatform = true;    
-    obj.distanceX = abs(x - botState.getPlayerX());
-    obj.distanceY = abs(y - botState.getPlayerY());
-    obj.left = false;
-    obj.active = false;
-    obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
-    obj.distance = mapRoutes.getDistance(obj, botState.getCurrentTile());
-    obj.x1 = x - 8;
-    obj.x2 = x + 8;
-    obj.y1 = obj.y2 = y;
-    obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8) 
-        | (0xFF - min(0xFF, obj.distanceX));
-
-    gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
   
   public void addBlock(int x, int y) {

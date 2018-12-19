@@ -178,7 +178,7 @@ public class Substage1500 extends Substage {
       }
     }    
 
-    b.addDestination(936, 48);
+    gameState.addDestination(936, 48, botState);
   }  
 
   @Override

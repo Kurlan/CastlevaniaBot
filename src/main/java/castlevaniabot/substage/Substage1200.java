@@ -192,7 +192,7 @@ public class Substage1200 extends Substage {
     }
     
     if (botState.getCurrentStrategy() != b.getAllStrategies().getFRANKENSTEIN() && !bossDefeated) {
-      b.addDestination(944, 176);
+      gameState.addDestination(944, 176, botState);
     }
   }  
 

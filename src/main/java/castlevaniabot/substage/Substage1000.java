@@ -163,13 +163,13 @@ public class Substage1000 extends Substage {
   @Override
   public void readGameObjects() {
     if (botState.getPlayerX() < 240) {
-      b.addDestination(223, 160);
+      gameState.addDestination(223, 160, botState);
     } else if (botState.getPlayerX() < 784) {
-      b.addDestination(767, 160);
+      gameState.addDestination(767, 160, botState);
     } else if (botState.getPlayerX() < 1008) {
-      b.addDestination(991, 160);
+      gameState.addDestination(991, 160, botState);
     } else {
-      b.addDestination(1512, 48);
+      gameState.addDestination(1512, 48, botState);
     }
   }  
 

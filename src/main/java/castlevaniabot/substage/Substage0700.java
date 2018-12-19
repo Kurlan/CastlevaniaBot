@@ -106,7 +106,7 @@ public class Substage0700 extends Substage {
         b.addBlock(288, 160);
       }
     }    
-    b.addDestination(88, 48);
+    gameState.addDestination(88, 48, botState);
   }  
 
   @Override

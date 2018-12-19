@@ -135,7 +135,7 @@ public class Substage0601 extends Substage {
   @Override
   public void readGameObjects() {
     if (!reachedBoss) {
-      b.addDestination(40, 176);
+      gameState.addDestination(40, 176, botState);
     }
   }  
 
