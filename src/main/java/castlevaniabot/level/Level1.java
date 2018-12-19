@@ -119,7 +119,7 @@ public class Level1 implements Level {
           
         case 0x035C:
         case 0x035A: 
-          b.addCrystalBall(x, y);
+          gameState.addCrystalBall(x, y);
           continue;          
         
         default:     type = null;              break;
@@ -129,6 +129,6 @@ public class Level1 implements Level {
       }
     }
     gameState.buildRedBats();
-    b.buildCrystalBall();
+    gameState.buildCrystalBall(gameState, botState, currentTile, playerController);
   }
 }

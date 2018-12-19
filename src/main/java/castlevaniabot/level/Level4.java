@@ -131,7 +131,7 @@ public class Level4 implements Level {
           
         case 0x035C:
         case 0x035A: 
-          b.addCrystalBall(x, y);
+          gameState.addCrystalBall(x, y);
           continue;          
                      
         default:     type = null;              break;
@@ -142,6 +142,6 @@ public class Level4 implements Level {
     }
     gameState.buildMovingPlatforms();
     gameState.buildRedBats();
-    b.buildCrystalBall();
+    gameState.buildCrystalBall(gameState, botState, currentTile, playerController);
   }
 }

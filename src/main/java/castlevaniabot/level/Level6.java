@@ -109,15 +109,15 @@ public class Level6 implements Level {
                      left = false;               break;
         
         case 0x01FC: 
-          b.addDraculaHead(x, y, true);
+          gameState.addDraculaHead(x, y, true);
           continue;
         case 0x41FC: 
-          b.addDraculaHead(x, y, false);
+          gameState.addDraculaHead(x, y, false);
           continue;
           
         case 0x035C:
         case 0x035A: 
-          b.addCrystalBall(x, y);
+          gameState.addCrystalBall(x, y);
           continue;
                      
         default:     type = null;                break;
@@ -126,7 +126,7 @@ public class Level6 implements Level {
         gameState.addGameObject(type, x,  y, left, active, botState, currentTile, playerController);
       }
     }
-    b.buildDraculaHead();
-    b.buildCrystalBall();
+    gameState.buildDraculaHead(gameState, botState, currentTile, playerController);
+    gameState.buildCrystalBall(gameState, botState, currentTile, playerController);
   }
 }

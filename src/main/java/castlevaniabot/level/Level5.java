@@ -153,12 +153,12 @@ public class Level5 implements Level {
         case 0x83FA:
         case 0x43FC:
         case 0xC3FC: 
-          b.addSickle(x, y);
+          gameState.addSickle(x, y);
           continue;
           
         case 0x035C:
         case 0x035A: 
-          b.addCrystalBall(x, y);
+          gameState.addCrystalBall(x, y);
           continue;          
                      
         default:     type = null;                break;
@@ -169,8 +169,8 @@ public class Level5 implements Level {
     }
     gameState.buildBoneTowers(botState, currentTile, playerController);
     gameState.buildRedBones(gameState, currentTile, botState, playerController);
-    b.buildSickles();
-    b.buildCrystalBall();
+    gameState.buildSickles(gameState, botState, currentTile, playerController);
+    gameState.buildCrystalBall(gameState, botState, currentTile, playerController);
 //    b.buildMedusaHeads();
   }
 }

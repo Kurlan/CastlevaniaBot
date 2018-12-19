@@ -44,7 +44,9 @@ public abstract class Substage {
   }
   
   public void init() {
-    b.draculaHeadTime = b.sickleCount0 = b.sickleCount1 = 0;
+    gameState.setDraculaHeadTime(0);
+    gameState.setSickleCount0(0);
+    gameState.setSickleCount1(0);
     gameState.setMedusaHeadsCount0(0);
     gameState.setMedusaHeadsCount1(0);
     gameState.setRedBonesCount0(0);

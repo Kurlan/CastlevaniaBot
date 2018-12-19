@@ -149,7 +149,7 @@ public class Level3 implements Level {
           
         case 0x035C:
         case 0x035A: 
-          b.addCrystalBall(x, y);
+          gameState.addCrystalBall(x, y);
           continue;          
           
         default:     type = null;              break;
@@ -160,6 +160,6 @@ public class Level3 implements Level {
     }
     gameState.buildBoneTowers(botState, currentTile, playerController);
     gameState.buildBones();
-    b.buildCrystalBall();
+    gameState.buildCrystalBall(gameState, botState, currentTile, playerController);
   }
 }

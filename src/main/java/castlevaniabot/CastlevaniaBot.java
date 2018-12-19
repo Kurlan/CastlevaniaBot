@@ -4,7 +4,6 @@ import castlevaniabot.control.GamePad;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Axe;
-import castlevaniabot.model.creativeelements.Sickle;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
@@ -113,20 +112,6 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
 
-  Sickle[] sickles0 = new Sickle[64];
-  Sickle[] sickles1 = new Sickle[64];
-  public int sickleCount0;
-  public int sickleCount1;
-  
-  int draculaHeadX;
-  int draculaHeadY;
-  public int draculaHeadTime;
-  boolean draculaHeadLeft;
-  
-  int crystalBallX;
-  int crystalBallY;
-  int crystalBallTime;
-
   public boolean atTopOfStairs;
   public boolean kneeling;
 
@@ -173,13 +158,8 @@ public class CastlevaniaBot {
       this.gamePad = gamePad;
       this.playerController = playerController;
 
-
     try {
 
-      for(int i = sickles0.length - 1; i >= 0; --i) {
-        sickles0[i] = new Sickle();
-        sickles1[i] = new Sickle();
-      }
     } catch(final Throwable t) {
       t.printStackTrace(); // Display construction errors to console
     }
@@ -397,76 +377,6 @@ public class CastlevaniaBot {
     gameState.getCurrentLevel().readGameObjects(this, gameState, botState, currentTile, playerController);
     _substage.readGameObjects();
   }
-  
-  public void addSickle(final int x, final int y) {
-    final Sickle sickle = sickles1[sickleCount1++];
-    sickle.x = x;
-    sickle.y = y;
-    sickle.time = 4;
-  }
-  
-  public void buildSickles() {
-    
-    for(int i = sickleCount1 - 1; i >= 0; --i) {
-      final Sickle s1 = sickles1[i];
-      for(int j = sickleCount0 - 1; j >= 0; --j) {
-        final Sickle s0 = sickles0[j];
-        if (abs(s1.x - s0.x) <= 4 && abs(s1.y - s0.y) <= 4) {
-          s0.time = -1;
-        }
-      }
-    }
-    
-    for(int i = sickleCount0 - 1; i >= 0; --i) {
-      final Sickle s0 = sickles0[i];
-      if (--s0.time > 0) {
-        final Sickle s1 = sickles1[sickleCount1++];
-        s1.x = s0.x;
-        s1.y = s0.y;
-        s1.time = s0.time;
-      }
-    }
-    
-    for(int i = sickleCount1 - 1; i >= 0; --i) {
-      final Sickle s = sickles1[i];      
-      gameState.addGameObject(GameObjectType.SICKLE, s.x, s.y, false, true, botState, currentTile, playerController);
-    }
-    
-    final Sickle[] temp = sickles0;
-    sickles0 = sickles1;
-    sickles1 = temp;
-    sickleCount0 = sickleCount1;
-    sickleCount1 = 0;    
-  }
-
-  public void addDraculaHead(final int x, final int y, final boolean left) {
-    draculaHeadX = x;
-    draculaHeadY = y;
-    draculaHeadLeft = left;
-    draculaHeadTime = 3;    
-  }  
-  
-  public void buildDraculaHead() {
-    if (draculaHeadTime > 0) {
-      --draculaHeadTime;
-      gameState.addGameObject(GameObjectType.DRACULA_HEAD, draculaHeadX, draculaHeadY,
-          draculaHeadLeft, true, botState, currentTile, playerController);
-    }
-  }
-  
-  public void addCrystalBall(final int x, final int y) {
-    crystalBallX = x;
-    crystalBallY = y;
-    crystalBallTime = 3;    
-  }  
-  
-  public void buildCrystalBall() {
-    if (crystalBallTime > 0) {
-      --crystalBallTime;
-      gameState.addGameObject(GameObjectType.CRYSTAL_BALL, crystalBallX, crystalBallY,
-          false, true, botState, currentTile, playerController);
-    }
-  }  
   
   public void addDestination(int x, int y) {
     final MapRoutes mapRoutes = gameState.getCurrentSubstage().getMapRoutes();
