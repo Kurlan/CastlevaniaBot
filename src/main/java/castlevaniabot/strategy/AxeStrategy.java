@@ -31,7 +31,7 @@ public class AxeStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject axe = b.getTargetedObject().getTarget();
+        final GameObject axe = botState.getTargetedObject().getTarget();
         final int offsetX = (axe.x - lastX) << 4;
         final int offsetY = (axe.y - lastY) << 4;
         lastX = axe.x;
@@ -45,12 +45,12 @@ public class AxeStrategy implements Strategy {
                 playerController.jump(botState);
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             playerController.kneel();
-            if (botState.isKneeling() && !gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (botState.isKneeling() && !gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.whip(gameState);
             }
         }

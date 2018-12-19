@@ -32,7 +32,7 @@ public class GhoulStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject ghoul = b.getTargetedObject().getTarget();
+        final GameObject ghoul = botState.getTargetedObject().getTarget();
         final int offsetX = (ghoul.x - lastX) << 4;
         final int offsetY = (ghoul.y - lastY) << 4;
         lastX = ghoul.x;
@@ -43,19 +43,19 @@ public class GhoulStrategy implements Strategy {
         }
 
         if (ghoul.y < botState.getPlayerY() - 16 && ghoul.y >= botState.getPlayerY() - 56) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (botState.isCanJump() && ghoul.distanceX < 24 && ghoul.distanceY < 8) {
             playerController.jump(botState);
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 if (usedHolyWater) {
                     playerController.whip(gameState);
                 } else {
                     usedHolyWater = playerController.grind(gameState, botState);
                 }
             }
-        } else if (b.getTargetedObject().getTarget().distanceX >= 48) {
-            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+        } else if (botState.getTargetedObject().getTarget().distanceX >= 48) {
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         }
     }
 }

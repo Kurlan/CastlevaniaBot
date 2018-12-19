@@ -36,7 +36,7 @@ public class GiantBatStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject bat = b.getTargetedObject().getTarget();
+        final GameObject bat = botState.getTargetedObject().getTarget();
         final int offsetX = (bat.x - lastX) << 4;
         final int offsetY = (bat.y - lastY) << 4;
         lastX = bat.x;

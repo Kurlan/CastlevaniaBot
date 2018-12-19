@@ -31,7 +31,7 @@ public class BoneDragonStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject head = b.getTargetedObject().getTarget();
+        final GameObject head = botState.getTargetedObject().getTarget();
         final int offsetX = (head.x - lastX) << 4;
         final int offsetY = (head.y - lastY) << 4;
         lastX = head.x;

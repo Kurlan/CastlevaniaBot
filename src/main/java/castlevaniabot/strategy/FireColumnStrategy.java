@@ -37,16 +37,16 @@ public class FireColumnStrategy implements Strategy {
             return;
         }
 
-        final int targetX = b.getTargetedObject().getTarget().x + ((botState.getPlayerX() < b.getTargetedObject().getTarget().x) ? -32 : 32);
+        final int targetX = botState.getTargetedObject().getTarget().x + ((botState.getPlayerX() < botState.getTargetedObject().getTarget().x) ? -32 : 32);
         if (botState.getPlayerX() == targetX) {
-            if (b.getTargetedObject().getTarget().playerFacing) {
+            if (botState.getTargetedObject().getTarget().playerFacing) {
                 playerController.whip(gameState);
                 done = 64;
             } else {
-                gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget()); // walk past and turn around
+                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget()); // walk past and turn around
             }
         } else {
-            gameState.getCurrentSubstage().route(targetX, b.getTargetedObject().getTarget().y);
+            gameState.getCurrentSubstage().route(targetX, botState.getTargetedObject().getTarget().y);
         }
     }
 }

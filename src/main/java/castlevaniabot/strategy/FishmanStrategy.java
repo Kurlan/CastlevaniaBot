@@ -32,14 +32,14 @@ public class FishmanStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject fishman = b.getTargetedObject().getTarget();
+        final GameObject fishman = botState.getTargetedObject().getTarget();
         final int offsetX = (fishman.x - lastX) << 4;
         final int offsetY = (fishman.y - lastY) << 4;
         lastX = fishman.x;
         lastY = fishman.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 if (usedHolyWater) {
                     playerController.whip(gameState);
                 } else {
@@ -47,11 +47,11 @@ public class FishmanStrategy implements Strategy {
                 }
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && botState.isCanJump()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && botState.isCanJump()) {
                 playerController.jump(botState);
             }
         } else if (fishman.distanceX < 24) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         }
     }
 }

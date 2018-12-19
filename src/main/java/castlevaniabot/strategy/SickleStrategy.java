@@ -46,17 +46,17 @@ public class SickleStrategy implements Strategy {
             }
         }
 
-        final GameObject sickle = b.getTargetedObject().getTarget();
+        final GameObject sickle = botState.getTargetedObject().getTarget();
 
         if (sickle.distanceX < 32
                 && (sickle.y2 <= botState.getPlayerY() - 32 || sickle.y1 >= botState.getPlayerY())) {
             moveAwayFrom(sickle);
         } else if (b.isTargetInStandingWhipRange()) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange()) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
@@ -64,7 +64,7 @@ public class SickleStrategy implements Strategy {
             }
         } else if (!gameState.isWeaponing() && botState.getHearts() > 0 && sickle.y2 >= botState.getPlayerY() - 32
                 && sickle.y1 <= botState.getPlayerY()) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.useWeapon(gameState);
             }
         }

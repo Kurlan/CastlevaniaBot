@@ -31,14 +31,14 @@ public class SnakeStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject snake = b.getTargetedObject().getTarget();
+        final GameObject snake = botState.getTargetedObject().getTarget();
         final int offsetX = (snake.x - lastX) << 4;
         final int offsetY = (snake.y - lastY) << 4;
         lastX = snake.x;
         lastY = snake.y;
 
         if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);

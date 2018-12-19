@@ -32,18 +32,18 @@ public class EagleStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject eagle = b.getTargetedObject().getTarget();
+        final GameObject eagle = botState.getTargetedObject().getTarget();
         final int offsetX = (eagle.x - lastX) << 4;
         final int offsetY = (eagle.y - lastY) << 4;
         lastX = eagle.x;
         lastY = eagle.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && playerController.faceFlyingTarget(botState, b.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceFlyingTarget(botState, botState.getTargetedObject())) {
                 playerController.whip(gameState);
             }
         } else if (!botState.isOnStairs() && b.isTargetInKneelingWhipRange(offsetY, offsetY)) {
-            if (playerController.faceFlyingTarget(botState, b.getTargetedObject())) {
+            if (playerController.faceFlyingTarget(botState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);

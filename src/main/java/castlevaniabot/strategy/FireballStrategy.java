@@ -30,7 +30,7 @@ public class FireballStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject fireball = b.getTargetedObject().getTarget();
+        final GameObject fireball = botState.getTargetedObject().getTarget();
         final int offsetX = (fireball.x - lastX) << 4;
         final int offsetY = (fireball.y - lastY) << 4;
         lastX = fireball.x;
@@ -44,13 +44,13 @@ public class FireballStrategy implements Strategy {
                 playerController.jump(botState);                     // jump over fireball
             }
         } else if (botState.isAtTopOfStairs()) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);                           // stand whip fireball
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);                         // kneel whip fireball

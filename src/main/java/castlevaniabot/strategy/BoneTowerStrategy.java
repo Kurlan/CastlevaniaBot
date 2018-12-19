@@ -1,12 +1,12 @@
 package castlevaniabot.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 
@@ -35,7 +35,7 @@ public class BoneTowerStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject tower = b.getTargetedObject().getTarget();
+        final GameObject tower = botState.getTargetedObject().getTarget();
 
         if (gameState.isWeaponing()) {
             return;
@@ -43,9 +43,9 @@ public class BoneTowerStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange()) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 if (usedHolyWater || botState.getWeapon() != HOLY_WATER || botState.getHearts() == 0
                         || tower.distanceX > 48) {
                     playerController.whip(gameState);
@@ -56,9 +56,9 @@ public class BoneTowerStrategy implements Strategy {
             }
         } else if (tower.distanceX < 24) {
             moveAway = 30 + ThreadLocalRandom.current().nextInt(11);
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else {
-            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         }
     }
 }

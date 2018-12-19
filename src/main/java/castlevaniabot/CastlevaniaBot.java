@@ -120,8 +120,6 @@ public class CastlevaniaBot {
   private BotState botState;
   private GameState gameState;
 
-  private TargetedObject targetedObject;
-
   public final AllStrategies allStrategies;
 
   private final List<Level> levels;
@@ -131,18 +129,18 @@ public class CastlevaniaBot {
   public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects, List<Level> levels,
                         GamePad gamePad, PlayerController playerController) {
       this.currentTile = Coordinates.builder().x(0).y(0).build();
-      this.targetedObject = TargetedObject
-            .builder()
-            .target(null)
-            .targetType(null)
-            .coordinates(Coordinates
-                    .builder()
-                    .x(-512)
-                    .y(-512)
-                    .build())
-            .build();
       this.botState = new BotState();
       this.botState.setWeapon(NONE);
+      this.botState.setTargetedObject(
+              TargetedObject.builder()
+                .target(null)
+                .targetType(null)
+                .coordinates(Coordinates
+                        .builder()
+                        .x(-512)
+                        .y(-512)
+                        .build())
+              .build());
       this.gameState = new GameState();
       gameState.setGameObjects(gameObjects);
       this.allStrategies = new AllStrategies(this,botState, gameState, playerController);
@@ -191,10 +189,6 @@ public class CastlevaniaBot {
     SUBSTAGE_1801 = new Substage1801(this, botState, api, playerController, gameState);
   }
 
-  public TargetedObject getTargetedObject() {
-    return this.targetedObject;
-  }
-
   public AllStrategies getAllStrategies() {
     return this.allStrategies;
   }
@@ -212,16 +206,7 @@ public class CastlevaniaBot {
     gameState.setCurrentLevel(null);
     gameState.setCurrentSubstage(null);
     botState.setCurrentStrategy(null);
-    targetedObject = TargetedObject
-            .builder()
-            .target(null)
-            .targetType(null)
-            .coordinates(Coordinates
-                    .builder()
-                    .x(-512)
-                    .y(-512)
-                    .build())
-            .build();
+    botState.getTargetedObject().reset();
   }
 
   private void readState() {
@@ -493,17 +478,17 @@ public class CastlevaniaBot {
   }
   
   public boolean isTargetInStandingWhipRange() {
-    return WHIPS[botState.getWhipLength()][0].inRange(targetedObject.getTarget(), botState);
+    return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), botState);
   } 
   
   public boolean isTargetInKneelingWhipRange() {
-    return WHIPS[botState.getWhipLength()][1].inRange(targetedObject.getTarget(), botState);
+    return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), botState);
   } 
   
   // Returns the whip delay after jumping or -1 if not in range.
   public int isTargetInJumpingWhipRange(final int xOffset, final int yOffset) {
     for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (WHIPS[botState.getWhipLength()][0].inRange(targetedObject.getTarget(), xOffset,
+      if (WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset,
           yOffset + WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
         return WHIP_HEIGHT_AND_DELAY[i][1];
       }
@@ -512,11 +497,11 @@ public class CastlevaniaBot {
   }  
   
   public boolean isTargetInStandingWhipRange(final int xOffset, final int yOffset) {
-    return WHIPS[botState.getWhipLength()][0].inRange(targetedObject.getTarget(), xOffset, yOffset, botState);
+    return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
   } 
   
   public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
-    return WHIPS[botState.getWhipLength()][1].inRange(targetedObject.getTarget(), xOffset, yOffset, botState);
+    return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
   }
   public int countObjects(final GameObjectType type) {
     int count = 0;
@@ -619,7 +604,7 @@ public class CastlevaniaBot {
   
   // Can player axe target when standing on specified currentTile?
   public boolean canHitTargetWithAxe(final int platformX, final int platformY) {
-    return canHitWithAxe(platformX, platformY, targetedObject.getTarget());
+    return canHitWithAxe(platformX, platformY, botState.getTargetedObject().getTarget());
   }
   
   // Can player axe specified GameObject when standing on specified currentTile?
@@ -709,16 +694,7 @@ public class CastlevaniaBot {
 
     if (!gameState.isPlaying() || gameState.getCurrentLevel() == null || gameState.getCurrentSubstage() == null) {
       botState.setCurrentStrategy(null);
-      targetedObject = TargetedObject
-              .builder()
-              .target(null)
-              .targetType(null)
-              .coordinates(Coordinates
-                      .builder()
-                      .x(-512)
-                      .y(-512)
-                      .build())
-              .build();
+      botState.getTargetedObject().reset();
       return;
     } 
 
@@ -731,7 +707,7 @@ public class CastlevaniaBot {
     }
 
     botState.setAvoidX(AVOID_X_RESET);
-    gameState.getCurrentSubstage().pickStrategy(targetedObject);
+    gameState.getCurrentSubstage().pickStrategy(botState.getTargetedObject());
     if (botState.getCurrentStrategy() != null) {
       if (gameState.getEntryDelay() > 0) {
         gameState.setEntryDelay(gameState.getEntryDelay() - 1);

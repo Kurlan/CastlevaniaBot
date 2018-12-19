@@ -30,7 +30,7 @@ public class MedusaHeadStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject head = b.getTargetedObject().getTarget();
+        final GameObject head = botState.getTargetedObject().getTarget();
         final MedusaHead medusaHead = gameState.getMedusaHead(head);
         if (medusaHead == null) {
             return;
@@ -50,11 +50,11 @@ public class MedusaHeadStrategy implements Strategy {
         final int offsetY = headY - head.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);

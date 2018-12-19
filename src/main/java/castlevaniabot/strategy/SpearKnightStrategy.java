@@ -32,24 +32,24 @@ public class SpearKnightStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject knight = b.getTargetedObject().getTarget();
+        final GameObject knight = botState.getTargetedObject().getTarget();
         final int offsetX = (knight.x - lastX) << 4;
         final int offsetY = (knight.y - lastY) << 4;
         lastX = knight.x;
         lastY = knight.y;
 
         if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 useWeapon();
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && botState.isCanJump()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && botState.isCanJump()) {
                 playerController.jump(botState);
             }
         } else if (knight.distanceX < 24) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (knight.distanceX > 32) {
-            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         }
     }
 

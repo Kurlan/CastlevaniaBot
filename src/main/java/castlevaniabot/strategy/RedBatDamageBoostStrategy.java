@@ -43,7 +43,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
             final GameObject bat = b.getType(RED_BAT);
             if (botState.getPlayerX() != 195 || botState.getPlayerY() != 144 || botState.isPlayerLeft()) {
                 if (bat != null) {
-                    b.getTargetedObject().setTarget(bat);
+                    botState.getTargetedObject().setTarget(bat);
                     b.getAllStrategies().getRED_BAT().step();
                 } else if (botState.getPlayerY() != 144 || botState.getPlayerX() < 191) {
                     gameState.getCurrentSubstage().route(191, 144);
@@ -57,7 +57,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
                         playerController.goLeft(botState);
                     }
                 } else {
-                    b.getTargetedObject().setTarget(bat);
+                    botState.getTargetedObject().setTarget(bat);
                     b.getAllStrategies().getRED_BAT().step();
                 }
             }

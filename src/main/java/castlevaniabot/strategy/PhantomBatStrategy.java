@@ -46,7 +46,7 @@ public class PhantomBatStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject bat = b.getTargetedObject().getTarget();
+        final GameObject bat = botState.getTargetedObject().getTarget();
         final int offsetX = (bat.x - lastX) << 4;
         final int offsetY = (bat.y - lastY) << 4;
         lastX = bat.x;
@@ -98,7 +98,7 @@ public class PhantomBatStrategy implements Strategy {
             if (botState.getPlayerX() < 560 || botState.getPlayerX() >= 696) {
                 playerController.kneel();
             } else if (botState.getPlayerX() > 522 && botState.getPlayerX() < 750) {
-                gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
             }
         } else if (botState.getPlayerX() == 736 && botState.getPlayerY() == 144) {
             if (botState.isPlayerLeft()) {
@@ -165,7 +165,7 @@ public class PhantomBatStrategy implements Strategy {
                     weaponDelay = 17;
                 }
             } else {
-                gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
             }
         } else {
             gameState.getCurrentSubstage().route(routeX, 208);
@@ -198,12 +198,12 @@ public class PhantomBatStrategy implements Strategy {
                         }
                     }
                 } else {
-                    gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+                    gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
                 }
             } else if (bat.distanceX > 48) {
-                gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+                gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
             } else {
-                gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
             }
         } else if (botState.isCanJump() && bat.y >= 160 && bat.distanceX >= 48
                 && bat.distanceX <= 96) {
@@ -244,7 +244,7 @@ public class PhantomBatStrategy implements Strategy {
             if (botState.getPlayerX() < 560 || botState.getPlayerX() >= 696) {
                 playerController.kneel();
             } else if (botState.getPlayerX() > 522 && botState.getPlayerX() < 750) {
-                gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
             }
         } else if (botState.getPlayerY() == 208 && botState.getPlayerX() == 522) {
             if (botState.isPlayerLeft()) {

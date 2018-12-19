@@ -44,17 +44,17 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
             }
         } else if (jumpRequested) {
             if (botState.isCanJump()) {
-                if (jumps == 0 && b.getTargetedObject().getTarget().playerFacing) {
-                    gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
-                } else if (jumps == 1 && !b.getTargetedObject().getTarget().playerFacing) {
-                    gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+                if (jumps == 0 && botState.getTargetedObject().getTarget().playerFacing) {
+                    gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+                } else if (jumps == 1 && !botState.getTargetedObject().getTarget().playerFacing) {
+                    gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
                 } else {
                     jumpRequested = false;
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
                     playerController.jump(botState);
                 }
             }
-        } else if (b.getTargetedObject().getTarget().distanceX < 18) {
+        } else if (botState.getTargetedObject().getTarget().distanceX < 18) {
             if (jumps < 2) {
                 jumpRequested = true;
             } else {

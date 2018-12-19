@@ -34,11 +34,11 @@ public class GhostStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject ghost = b.getTargetedObject().getTarget();
-        final int offsetX = (b.getTargetedObject().getTarget().x - lastX) << 4;
-        final int offsetY = (b.getTargetedObject().getTarget().y - lastY) << 4;
-        lastX = b.getTargetedObject().getTarget().x;
-        lastY = b.getTargetedObject().getTarget().y;
+        final GameObject ghost = botState.getTargetedObject().getTarget();
+        final int offsetX = (botState.getTargetedObject().getTarget().x - lastX) << 4;
+        final int offsetY = (botState.getTargetedObject().getTarget().y - lastY) << 4;
+        lastX = botState.getTargetedObject().getTarget().x;
+        lastY = botState.getTargetedObject().getTarget().y;
 
         if (gameState.isWeaponing()) {
             return;
@@ -50,20 +50,20 @@ public class GhostStrategy implements Strategy {
 
         if (moveAwayCounter > 0) {
             --moveAwayCounter;
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (ghost.y2 < botState.getPlayerY() - 48 || ghost.y1 > botState.getPlayerY() + 16
                 || ghost.distanceX > 48) {
-            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         } else if (ghost.distanceX < 20) {
             moveAwayCounter = 180 + ThreadLocalRandom.current().nextInt(11);
             ;
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.whip(gameState);                            // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling()) {
                     playerController.whip(gameState);                        // kneel whip bat

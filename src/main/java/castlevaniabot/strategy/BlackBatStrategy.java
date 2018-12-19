@@ -30,7 +30,7 @@ public class BlackBatStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject bat = b.getTargetedObject().getTarget();
+        final GameObject bat = botState.getTargetedObject().getTarget();
         final int offsetX = (bat.x - lastX) << 4;
         final int offsetY = (bat.y - lastY) << 4;
         lastX = bat.x;
@@ -44,22 +44,22 @@ public class BlackBatStrategy implements Strategy {
                 playerController.jump(botState);                           // jump over bat
             }
         } else if (botState.isAtTopOfStairs()) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);                   // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);                     // kneel whip bat
                 }
             }
         } else if (bat.distanceX - offsetX < 24 && offsetY != 0) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else {
-            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         }
     }
 }

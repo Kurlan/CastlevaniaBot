@@ -29,7 +29,7 @@ public class RedBatStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject bat = b.getTargetedObject().getTarget();
+        final GameObject bat = botState.getTargetedObject().getTarget();
         final RedBat redBat = gameState.getRedBat(bat);
         if (redBat == null) {
             return;
@@ -55,11 +55,11 @@ public class RedBatStrategy implements Strategy {
                 playerController.jump(botState);                         // jump over bat
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && !gameState.isWeaponing()) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);                            // stand whip bat
             }
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+            if (playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);                          // kneel whip bat
@@ -67,7 +67,7 @@ public class RedBatStrategy implements Strategy {
             }
         } else if ((bat.left && bat.x1 > botState.getPlayerX() + 24)
                 || (!bat.left && bat.x2 < botState.getPlayerX() - 24)) {
-            gameState.getCurrentSubstage().moveTowardTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
         }
     }
 }

@@ -42,17 +42,17 @@ public class BlockStrategy implements Strategy {
             if (--jumpCounter == 0) {
                 playerController.whip(gameState);
             }
-        } else if (botState.isOnPlatform() && b.getTargetedObject().getTarget().playerFacing
-                && b.getTargetedObject().getTarget().y >= botState.getPlayerY() - 24 && b.getTargetedObject().getTarget().y <= botState.getPlayerY()
+        } else if (botState.isOnPlatform() && botState.getTargetedObject().getTarget().playerFacing
+                && botState.getTargetedObject().getTarget().y >= botState.getPlayerY() - 24 && botState.getTargetedObject().getTarget().y <= botState.getPlayerY()
                 && b.isTargetInStandingWhipRange()) {
             whipBlock();
         } else {
-            final int playerX = (b.getTargetedObject().getTarget().platformX << 4) + 8;
-            final int playerY = b.getTargetedObject().getTarget().platformY << 4;
-            final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
+            final int playerX = (botState.getTargetedObject().getTarget().platformX << 4) + 8;
+            final int playerY = botState.getTargetedObject().getTarget().platformY << 4;
+            final boolean playerLeft = playerX > botState.getTargetedObject().getTarget().x;
             if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY
                     && botState.isPlayerLeft() == playerLeft) {
-                if (botState.getPlayerY() - b.getTargetedObject().getTarget().y > 32) {
+                if (botState.getPlayerY() - botState.getTargetedObject().getTarget().y > 32) {
                     if (botState.isCanJump()) {
                         if (delayJump > 0) {
                             --delayJump;

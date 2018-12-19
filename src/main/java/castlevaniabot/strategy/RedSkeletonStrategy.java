@@ -39,7 +39,7 @@ public class RedSkeletonStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject skeleton = b.getTargetedObject().getTarget();
+        final GameObject skeleton = botState.getTargetedObject().getTarget();
         final int offsetX = (skeleton.x - lastX) << 4;
         final int offsetY = (skeleton.y - lastY) << 4;
         lastX = skeleton.x;
@@ -47,7 +47,7 @@ public class RedSkeletonStrategy implements Strategy {
 
         if (isNotCloseToRedBones()) {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
-                if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+                if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
                     if (usedHolyWater) {
                         playerController.whip(gameState);
                     } else {
@@ -56,7 +56,7 @@ public class RedSkeletonStrategy implements Strategy {
                     return;
                 }
             } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-                if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && botState.isCanJump()) {
+                if (playerController.faceTarget(botState, gameState, botState.getTargetedObject()) && botState.isCanJump()) {
                     playerController.jump(botState);
                     return;
                 }
@@ -65,9 +65,9 @@ public class RedSkeletonStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
         } else if (skeleton.distanceX < 32) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
             moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
         }
     }
@@ -78,8 +78,8 @@ public class RedSkeletonStrategy implements Strategy {
         final RedBones[] redBones0 = gameState.getRedBones0();
         for (int i = gameState.getBoneCount0() - 1; i >= 0; --i) {
             final RedBones redBones = redBones0[i];
-            if (abs(b.getTargetedObject().getTarget().x - redBones.x) < 64
-                    && abs(b.getTargetedObject().getTarget().y - redBones.y) <= 4) {
+            if (abs(botState.getTargetedObject().getTarget().x - redBones.x) < 64
+                    && abs(botState.getTargetedObject().getTarget().y - redBones.y) <= 4) {
                 return false;
             }
         }

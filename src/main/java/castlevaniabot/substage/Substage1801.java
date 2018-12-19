@@ -102,7 +102,7 @@ public class Substage1801 extends Substage {
           if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
             if (botState.getCurrentStrategy() != b.getAllStrategies().getDRACULA()) {
-              clearTarget(b.getTargetedObject());
+              clearTarget(botState.getTargetedObject());
               b.getAllStrategies().getDRACULA().init();
               botState.setCurrentStrategy(b.getAllStrategies().getDRACULA());
             }
@@ -114,7 +114,7 @@ public class Substage1801 extends Substage {
           if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
             if (botState.getCurrentStrategy() != b.getAllStrategies().getCOOKIE_MONSTER()) {
-              clearTarget(b.getTargetedObject());
+              clearTarget(botState.getTargetedObject());
               b.getAllStrategies().getCOOKIE_MONSTER().init();
               botState.setCurrentStrategy(b.getAllStrategies().getCOOKIE_MONSTER());
             }

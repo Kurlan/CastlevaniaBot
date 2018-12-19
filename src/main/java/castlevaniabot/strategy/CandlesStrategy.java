@@ -51,13 +51,13 @@ public class CandlesStrategy implements Strategy {
                 useWeapon();
             }
         } else {
-            final int playerY = b.getTargetedObject().getTarget().platformY << 4;
-            int playerX = b.getTargetedObject().getTarget().platformX << 4;
-            final boolean playerLeft = playerX > b.getTargetedObject().getTarget().x;
+            final int playerY = botState.getTargetedObject().getTarget().platformY << 4;
+            int playerX = botState.getTargetedObject().getTarget().platformX << 4;
+            final boolean playerLeft = playerX > botState.getTargetedObject().getTarget().x;
             playerX += playerLeft ? 1 : 14;
             if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY
                     && botState.isPlayerLeft() == playerLeft) {
-                final int height = botState.getPlayerY() - b.getTargetedObject().getTarget().y;
+                final int height = botState.getPlayerY() - botState.getTargetedObject().getTarget().y;
                 if (height < 16) {
                     playerController.kneel();
                     if (botState.isKneeling()) {
@@ -86,12 +86,12 @@ public class CandlesStrategy implements Strategy {
     }
 
     private void useWeapon() {
-        if (!usedHolyWater && b.getTargetedObject().getTarget().active) { // active indicates grindable
+        if (!usedHolyWater && botState.getTargetedObject().getTarget().active) { // active indicates grindable
             usedHolyWater = playerController.grind(gameState, botState);
         } else {
             playerController.whip(gameState);
         }
         done = 64;
-        gameState.getCurrentSubstage().candlesWhipped(b.getTargetedObject().getTarget());
+        gameState.getCurrentSubstage().candlesWhipped(botState.getTargetedObject().getTarget());
     }
 }

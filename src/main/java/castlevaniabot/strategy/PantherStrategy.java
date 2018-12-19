@@ -31,13 +31,13 @@ public class PantherStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject panther = b.getTargetedObject().getTarget();
+        final GameObject panther = botState.getTargetedObject().getTarget();
         final int offsetX = (panther.x - lastX) << 4;
         final int offsetY = (panther.y - lastY) << 4;
         lastX = panther.x;
         lastY = panther.y;
 
-        if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())
+        if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())
                 && b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             playerController.whip(gameState);
         }

@@ -35,7 +35,7 @@ public class RavenStrategy implements Strategy {
     @Override
     public void step() {
 
-        final GameObject raven = b.getTargetedObject().getTarget();
+        final GameObject raven = botState.getTargetedObject().getTarget();
         final int offsetX = (raven.x - lastX) << 4;
         final int offsetY = (raven.y - lastY) << 4;
         lastX = raven.x;
@@ -52,7 +52,7 @@ public class RavenStrategy implements Strategy {
                 && raven.y1 > botState.getPlayerY()) {
             moveAway = 64 + ThreadLocalRandom.current().nextInt(11);
             gameState.getCurrentSubstage().routeLeft();
-        } else if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
+        } else if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, botState.getTargetedObject())) {
             if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
                 playerController.whip(gameState);
             } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {

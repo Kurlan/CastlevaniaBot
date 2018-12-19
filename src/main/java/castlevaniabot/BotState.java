@@ -1,5 +1,6 @@
 package castlevaniabot;
 
+import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
 import lombok.Data;
 
@@ -29,4 +30,6 @@ public class BotState {
     private boolean kneeling;
 
     private boolean canJump;
+
+    private TargetedObject targetedObject;
 }
