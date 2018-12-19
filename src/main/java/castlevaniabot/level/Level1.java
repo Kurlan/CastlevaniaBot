@@ -107,14 +107,14 @@ public class Level1 implements Level {
         case 0x0398:
         case 0x0394: 
           type = RED_BAT;
-          b.addRedBat(x, y);
+          gameState.addRedBat(x, y);
           break;
         case 0x4392:
         case 0x4396:
         case 0x439A: 
           type = RED_BAT;
           left = false;
-          b.addRedBat(x, y);
+          gameState.addRedBat(x, y);
           break;
           
         case 0x035C:
@@ -128,7 +128,7 @@ public class Level1 implements Level {
         gameState.addGameObject(type, x, y, left, active, botState, currentTile, playerController);
       }
     }
-    b.buildRedBats();
+    gameState.buildRedBats();
     b.buildCrystalBall();
   }
 }

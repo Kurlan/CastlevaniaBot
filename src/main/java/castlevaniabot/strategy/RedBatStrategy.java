@@ -30,7 +30,7 @@ public class RedBatStrategy implements Strategy {
     public void step() {
 
         final GameObject bat = b.getTargetedObject().getTarget();
-        final RedBat redBat = b.getRedBat(bat);
+        final RedBat redBat = gameState.getRedBat(bat);
         if (redBat == null) {
             return;
         }

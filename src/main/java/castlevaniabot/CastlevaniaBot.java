@@ -5,7 +5,6 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Axe;
 import castlevaniabot.model.creativeelements.MedusaHead;
-import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.creativeelements.Sickle;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.GameObject;
@@ -84,7 +83,6 @@ public class CastlevaniaBot {
   
   private static final int AVOID_X_RESET = -512;
 
-
   final Substage0000 SUBSTAGE_0000;
   final Substage0100 SUBSTAGE_0100;
   final Substage0200 SUBSTAGE_0200;
@@ -115,11 +113,6 @@ public class CastlevaniaBot {
   final Substage1701 SUBSTAGE_1701;
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
-
-  RedBat[] redBats0 = new RedBat[64];
-  RedBat[] redBats1 = new RedBat[64];
-  public int redBatsCount0;
-  public int redBatsCount1;
   
   MedusaHead[] medusaHeads0 = new MedusaHead[64];
   MedusaHead[] medusaHeads1 = new MedusaHead[64];
@@ -188,11 +181,6 @@ public class CastlevaniaBot {
 
 
     try {
-
-      for(int i = redBats0.length - 1; i >= 0; --i) {
-        redBats0[i] = new RedBat();
-        redBats1[i] = new RedBat();
-      }
       for(int i = medusaHeads0.length - 1; i >= 0; --i) {
         medusaHeads0[i] = new MedusaHead();
         medusaHeads1[i] = new MedusaHead();
@@ -476,92 +464,6 @@ public class CastlevaniaBot {
     }
     return null;
   }  
-  
-  public void addRedBat(final int x, final int y) {
-    
-    final RedBat bat = redBats1[redBatsCount1++];
-    
-    bat.x = x + 8 + gameState.getCameraX();
-    bat.y_32 = bat.y_16 = bat.y0 = bat.y = y + 16;
-    bat.s = bat.t = 0;
-    bat.sameYs = 1;
-    bat.left = true;
-  }  
-  
-  public void buildRedBats() {
-    
-    for(int i = redBatsCount1 - 1; i >= 0; --i) {
-      final RedBat b1 = redBats1[i];
-      for(int j = redBatsCount0 - 1; j >= 0; --j) {
-        final RedBat b0 = redBats0[j];
-        if (abs(b1.x - b0.x) <= 8 && abs(b1.y - b0.y) <= 8) {
-
-          b1.left = b1.x < b0.x;
-          
-          b1.t = b0.t + 1;          
-          if (b1.t >= RedBat.WAVE.length) {
-            b1.t = 0;
-          }
-
-          b1.y_16 = b0.y_16;
-          b1.y_32 = b0.y_32;                    
-          b1.s = b0.s + 1;
-          if ((b1.s & 0xF) == 0) {
-            b1.y_32 = b1.y_16;
-            b1.y_16 = b1.y;
-          }
-                
-          b1.x0 = b0.x0;
-          b1.y0 = b0.y0;              
-          if (b1.y == b0.y) {
-            b1.sameYs = b0.sameYs + 1;
-            if (b1.sameYs >= 5) {
-              if (b1.s > 32) {
-                if (b1.y < b1.y_32) {
-                  b1.t = 11;
-                  b1.x0 = b1.left ? (b1.x + 12) : (b1.x - 12);
-                  b1.y0 = b1.y + 7;
-                } else {
-                  b1.t = 61;
-                  b1.x0 = b1.left ? (b1.x + 69) : (b1.x - 69);
-                  b1.y0 = b1.y - 7;
-                }
-              } else {
-                b1.t = 11;
-                b1.x0 = b1.left ? (b1.x + 12) : (b1.x - 12);
-                b1.y0 = b1.y + 7;
-              }
-            }
-          }
-          break;
-        }
-      }
-    }
-    final RedBat[] temp = redBats0;
-    redBats0 = redBats1;
-    redBats1 = temp;
-    redBatsCount0 = redBatsCount1;
-    redBatsCount1 = 0;
-  }  
-  
-  public RedBat getRedBat(final GameObject bat) {
-    switch(redBatsCount0) {
-      case 0:
-        return null;
-      case 1:
-        return redBats0[0];
-      default: 
-        for(int i = redBatsCount0 - 1; i >= 0; --i) {
-          final RedBat redBat = redBats0[i];
-          if (bat.x == redBat.x && bat.y == redBat.y) {
-            return redBat;
-          }
-        }
-    }
-    return null;
-  }
-  
-
 
   public void addDraculaHead(final int x, final int y, final boolean left) {
     draculaHeadX = x;

@@ -45,12 +45,14 @@ public abstract class Substage {
   
   public void init() {
     b.medusaHeadsCount0 = b.medusaHeadsCount1 = b.draculaHeadTime 
-        = b.sickleCount0 = b.sickleCount1 = b.redBatsCount0 = b.redBatsCount1 = 0;
+        = b.sickleCount0 = b.sickleCount1 = 0;
     gameState.setRedBonesCount0(0);
-    gameState.setRedBonesCount0(1);
+    gameState.setRedBonesCount1(0);
     botState.setCurrentStrategy(null);
     gameState.setBoneCount0(0);
-    gameState.setBoneCount0(0);
+    gameState.setBoneCount1(0);
+    gameState.setRedBatsCount0(0);
+    gameState.setRedBatsCount1(0);
   }
   
   public MapRoutes getMapRoutes() {

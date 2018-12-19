@@ -5,6 +5,7 @@ import castlevaniabot.level.Level;
 import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.creativeelements.BoneTowerSegment;
 import castlevaniabot.model.creativeelements.MovingPlatform;
+import castlevaniabot.model.creativeelements.RedBat;
 import castlevaniabot.model.creativeelements.RedBones;
 import castlevaniabot.model.creativeelements.Whip;
 import castlevaniabot.model.gameelements.Coordinates;
@@ -58,6 +59,11 @@ public class GameState {
     private int redBonesCount0;
     private int redBonesCount1;
 
+    private RedBat[] redBats0;
+    private RedBat[] redBats1;
+    private int redBatsCount0;
+    private int redBatsCount1;
+
     public GameState() {
         movingPlatforms = new MovingPlatform[16];
         for(int i = movingPlatforms.length - 1; i >= 0; --i) {
@@ -83,6 +89,14 @@ public class GameState {
         for(int i = redBones0.length - 1; i >= 0; --i) {
             redBones0[i] = new RedBones();
             redBones1[i] = new RedBones();
+        }
+
+        redBats0 = new RedBat[64];
+        redBats1 = new RedBat[64];
+
+        for(int i = redBats0.length - 1; i >= 0; --i) {
+            redBats0[i] = new RedBat();
+            redBats1[i] = new RedBat();
         }
     }
 
@@ -435,6 +449,90 @@ public class GameState {
         redBones1 = temp;
         redBonesCount0 = redBonesCount1;
         redBonesCount1 = 0;
+    }
+
+    public void addRedBat(final int x, final int y) {
+
+        final RedBat bat = redBats1[redBatsCount1++];
+
+        bat.x = x + 8 + cameraX;
+        bat.y_32 = bat.y_16 = bat.y0 = bat.y = y + 16;
+        bat.s = bat.t = 0;
+        bat.sameYs = 1;
+        bat.left = true;
+    }
+
+    public void buildRedBats() {
+
+        for(int i = redBatsCount1 - 1; i >= 0; --i) {
+            final RedBat b1 = redBats1[i];
+            for(int j = redBatsCount0 - 1; j >= 0; --j) {
+                final RedBat b0 = redBats0[j];
+                if (abs(b1.x - b0.x) <= 8 && abs(b1.y - b0.y) <= 8) {
+
+                    b1.left = b1.x < b0.x;
+
+                    b1.t = b0.t + 1;
+                    if (b1.t >= RedBat.WAVE.length) {
+                        b1.t = 0;
+                    }
+
+                    b1.y_16 = b0.y_16;
+                    b1.y_32 = b0.y_32;
+                    b1.s = b0.s + 1;
+                    if ((b1.s & 0xF) == 0) {
+                        b1.y_32 = b1.y_16;
+                        b1.y_16 = b1.y;
+                    }
+
+                    b1.x0 = b0.x0;
+                    b1.y0 = b0.y0;
+                    if (b1.y == b0.y) {
+                        b1.sameYs = b0.sameYs + 1;
+                        if (b1.sameYs >= 5) {
+                            if (b1.s > 32) {
+                                if (b1.y < b1.y_32) {
+                                    b1.t = 11;
+                                    b1.x0 = b1.left ? (b1.x + 12) : (b1.x - 12);
+                                    b1.y0 = b1.y + 7;
+                                } else {
+                                    b1.t = 61;
+                                    b1.x0 = b1.left ? (b1.x + 69) : (b1.x - 69);
+                                    b1.y0 = b1.y - 7;
+                                }
+                            } else {
+                                b1.t = 11;
+                                b1.x0 = b1.left ? (b1.x + 12) : (b1.x - 12);
+                                b1.y0 = b1.y + 7;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+        final RedBat[] temp = redBats0;
+        redBats0 = redBats1;
+        redBats1 = temp;
+        redBatsCount0 = redBatsCount1;
+        redBatsCount1 = 0;
+    }
+
+    public RedBat getRedBat(final GameObject bat) {
+        switch(redBatsCount0) {
+            case 0:
+                return null;
+            case 1:
+                return redBats0[0];
+            default:
+                for(int i = redBatsCount0 - 1; i >= 0; --i) {
+                    final RedBat redBat = redBats0[i];
+                    if (bat.x == redBat.x && bat.y == redBat.y) {
+                        return redBat;
+                    }
+                }
+        }
+        return null;
     }
 
 /*  Unused.

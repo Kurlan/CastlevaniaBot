@@ -114,14 +114,14 @@ public class Level4 implements Level {
         case 0x0398:
         case 0x0394: 
           type = RED_BAT;
-          b.addRedBat(x, y);
+          gameState.addRedBat(x, y);
           break;
         case 0x4392:
         case 0x4396:
         case 0x439A: 
           type = RED_BAT;
           left = false;
-          b.addRedBat(x, y);
+          gameState.addRedBat(x, y);
           break;        
         
         case 0x0072:
@@ -141,7 +141,7 @@ public class Level4 implements Level {
       }
     }
     gameState.buildMovingPlatforms();
-    b.buildRedBats();
+    gameState.buildRedBats();
     b.buildCrystalBall();
   }
 }
