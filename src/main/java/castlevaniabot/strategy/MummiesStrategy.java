@@ -1,7 +1,5 @@
 package castlevaniabot.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
@@ -9,9 +7,11 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 
-import static java.lang.Math.abs;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static java.lang.Math.abs;
 
 public class MummiesStrategy implements Strategy {
 
@@ -174,7 +174,7 @@ public class MummiesStrategy implements Strategy {
             gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false);
         } else {
             playerController.kneel();
-            if (b.kneeling && !gameState.isWeaponing()) {
+            if (botState.isKneeling() && !gameState.isWeaponing()) {
                 playerController.whip(gameState);
             }
         }

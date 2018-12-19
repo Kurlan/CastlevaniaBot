@@ -75,7 +75,7 @@ public class UseWeaponStrategy implements Strategy {
             } else {
                 gameState.getCurrentSubstage().routeLeft();
             }
-        } else if (jump && b.canJump) {
+        } else if (jump && botState.isCanJump()) {
             jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);
             playerController.jump(botState);
         } else {

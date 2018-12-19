@@ -47,7 +47,7 @@ public class DraculaStrategy implements Strategy {
             }
         }
 
-        if (fireball != null && b.canJump
+        if (fireball != null && botState.isCanJump()
                 && fireball.left == (botState.getPlayerX() < fireball.x)
                 && fireball.distanceX < 48) {
             playerController.jump(botState);

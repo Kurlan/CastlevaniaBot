@@ -84,7 +84,7 @@ public class WhipStrategy implements Strategy {
         } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY
                 || botState.isPlayerLeft() != playerLeft) {
             gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft);
-        } else if (jump && b.canJump) {
+        } else if (jump && botState.isCanJump()) {
             if (delayJump > 0) {
                 --delayJump;
             } else {

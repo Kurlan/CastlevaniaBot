@@ -1,19 +1,19 @@
 package castlevaniabot.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.signum;
+import java.util.concurrent.ThreadLocalRandom;
+
 import static castlevaniabot.model.creativeelements.Weapon.AXE;
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.DAGGER;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
+import static java.lang.Math.abs;
+import static java.lang.Math.signum;
 
 public class FrankensteinStrategy implements Strategy {
 
@@ -114,7 +114,7 @@ public class FrankensteinStrategy implements Strategy {
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 playerController.kneel();
-                if (!gameState.isWeaponing() && b.kneeling && playerController.face(frank, botState)) {
+                if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
                 }
             } else if (!gameState.isWeaponing() && b.canHitWithAxe(botState.getPlayerX() >> 4, botState.getPlayerY() >> 4,
@@ -154,7 +154,7 @@ public class FrankensteinStrategy implements Strategy {
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 playerController.kneel();
-                if (!gameState.isWeaponing() && b.kneeling && playerController.face(frank, botState)) {
+                if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
                 }
             } else {
@@ -196,7 +196,7 @@ public class FrankensteinStrategy implements Strategy {
                 }
             } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
                 playerController.kneel();
-                if (!gameState.isWeaponing() && b.kneeling && playerController.face(frank, botState)) {
+                if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
                 }
             } else if (canWalkTowardFrank) {
@@ -229,7 +229,7 @@ public class FrankensteinStrategy implements Strategy {
             return true;
         } else if (b.isInKneelingWhipRange(igor, vx, vy)) {
             playerController.kneel();
-            if (b.kneeling && !gameState.isWeaponing() && playerController.face(igor, botState)) {
+            if (botState.isKneeling() && !gameState.isWeaponing() && playerController.face(igor, botState)) {
                 playerController.whip(gameState);
             }
             return true;
@@ -270,7 +270,7 @@ public class FrankensteinStrategy implements Strategy {
                 if (flyingHigh) {
                     playerController.kneel();
                     return true;
-                } else if (!flyingHigh && b.canJump) {
+                } else if (!flyingHigh && botState.isCanJump()) {
                     playerController.jump(botState);
                     return true;
                 }
@@ -282,7 +282,7 @@ public class FrankensteinStrategy implements Strategy {
             } else if (b.isInKneelingWhipRange(fireball, offsetX, offsetY)) {
                 if (playerController.face(fireball, botState)) {
                     playerController.kneel();
-                    if (b.kneeling && !gameState.isWeaponing()) {
+                    if (botState.isKneeling() && !gameState.isWeaponing()) {
                         playerController.whip(gameState);
                         return true;
                     }

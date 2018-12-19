@@ -1,12 +1,12 @@
 package castlevaniabot.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RavenStrategy implements Strategy {
 
@@ -57,10 +57,10 @@ public class RavenStrategy implements Strategy {
                 playerController.whip(gameState);
             } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
                 playerController.kneel();
-                if (b.kneeling) {
+                if (botState.isKneeling()) {
                     playerController.whip(gameState);
                 }
-            } else if (b.canJump) {
+            } else if (botState.isCanJump()) {
                 final int whipDelay = b.isTargetInJumpingWhipRange(offsetX, offsetY);
                 if (whipDelay > 0) {
                     jumpCounter = whipDelay;

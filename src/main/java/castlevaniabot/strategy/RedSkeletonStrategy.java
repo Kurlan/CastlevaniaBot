@@ -56,7 +56,7 @@ public class RedSkeletonStrategy implements Strategy {
                     return;
                 }
             } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-                if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && b.canJump) {
+                if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && botState.isCanJump()) {
                     playerController.jump(botState);
                     return;
                 }

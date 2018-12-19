@@ -60,12 +60,12 @@ public class CandlesStrategy implements Strategy {
                 final int height = botState.getPlayerY() - b.getTargetedObject().getTarget().y;
                 if (height < 16) {
                     playerController.kneel();
-                    if (b.kneeling) {
+                    if (botState.isKneeling()) {
                         playerController.whip(gameState);
                         done = 64;
                     }
                 } else if (height > 16) {
-                    if (b.canJump) {
+                    if (botState.isCanJump()) {
                         if (delayJump > 0) {
                             --delayJump;
                         } else {

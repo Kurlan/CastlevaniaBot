@@ -86,6 +86,9 @@ public class GameState {
     private int crystalBallY;
     private int crystalBallTime;
 
+    private int entryDelay;
+    private int pauseDelay;
+
     public GameState() {
         movingPlatforms = new MovingPlatform[16];
         for(int i = movingPlatforms.length - 1; i >= 0; --i) {

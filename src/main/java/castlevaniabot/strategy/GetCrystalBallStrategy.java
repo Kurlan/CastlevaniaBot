@@ -43,7 +43,7 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
                 ++jumps;
             }
         } else if (jumpRequested) {
-            if (b.canJump) {
+            if (botState.isCanJump()) {
                 if (jumps == 0 && b.getTargetedObject().getTarget().playerFacing) {
                     gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
                 } else if (jumps == 1 && !b.getTargetedObject().getTarget().playerFacing) {

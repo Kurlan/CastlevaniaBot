@@ -215,7 +215,7 @@ public class Substage1400 extends Substage {
             kneelDelay = 16; // remain kneeling even after the axe vanishes
                              // just in case another axe is thrown
             playerController.kneel();
-          } else if (b.canJump) {
+          } else if (botState.isCanJump()) {
             playerController.jump(botState);
           }
         } else {

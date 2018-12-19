@@ -97,7 +97,7 @@ public class BatDualPlatformsStrategy implements Strategy {
             } else if (b.isInKneelingWhipRange(bat, offsetX, offsetY)) {
                 if (playerController.face(bat, botState)) {
                     playerController.kneel();
-                    if (b.kneeling && !gameState.isWeaponing()) {
+                    if (botState.isKneeling() && !gameState.isWeaponing()) {
                         playerController.whip(gameState);
                         justWhipped = 4;
                     }

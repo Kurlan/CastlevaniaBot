@@ -51,7 +51,7 @@ public class RedBatStrategy implements Strategy {
             final boolean flyingHigh = batY < botState.getPlayerY() - 16;
             if (flyingHigh) {
                 playerController.kneel();                           // duck under bat
-            } else if (!flyingHigh && b.canJump) {
+            } else if (!flyingHigh && botState.isCanJump()) {
                 playerController.jump(botState);                         // jump over bat
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
@@ -61,7 +61,7 @@ public class RedBatStrategy implements Strategy {
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 playerController.kneel();
-                if (b.kneeling && !gameState.isWeaponing()) {
+                if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);                          // kneel whip bat
                 }
             }

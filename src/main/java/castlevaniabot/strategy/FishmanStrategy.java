@@ -47,7 +47,7 @@ public class FishmanStrategy implements Strategy {
                 }
             }
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY + 32)) {
-            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && b.canJump) {
+            if (playerController.faceTarget(botState, gameState, b.getTargetedObject()) && botState.isCanJump()) {
                 playerController.jump(botState);
             }
         } else if (fishman.distanceX < 24) {

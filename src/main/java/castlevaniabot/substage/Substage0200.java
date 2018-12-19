@@ -93,7 +93,7 @@ public class Substage0200 extends Substage {
     }   
     if (blockBroken && !triggeredTreasure) {
       if (botState.getPlayerX() == 464 && botState.getPlayerY() == 192) {
-        if (b.kneeling) {
+        if (botState.isKneeling()) {
           triggeredTreasure = true;
         } else {
           playerController.kneel();

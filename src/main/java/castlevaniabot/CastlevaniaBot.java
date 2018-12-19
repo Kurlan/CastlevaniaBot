@@ -112,14 +112,6 @@ public class CastlevaniaBot {
   final Substage1800 SUBSTAGE_1800;
   final Substage1801 SUBSTAGE_1801;
 
-  public boolean atTopOfStairs;
-  public boolean kneeling;
-
-  public boolean canJump;
-
-  int entryDelay;
-  int pauseDelay;
-
   public Coordinates currentTile;
 
   private final API api;
@@ -244,8 +236,8 @@ public class CastlevaniaBot {
     }
     gameState.setStageNumber(api.readCPU(STAGE));
     gameState.setSubstageNumber(api.readCPU(SUBSTAGE));
-    kneeling = api.readCPU(KNEELING) == 0x0A;
-    botState.setPlayerY(api.readCPU(PLAYER_Y) + (kneeling ? 12 : 16));
+    botState.setKneeling(api.readCPU(KNEELING) == 0x0A);
+    botState.setPlayerY(api.readCPU(PLAYER_Y) + (botState.isKneeling() ? 12 : 16));
     botState.setPlayerX(api.readCPU16(PLAYER_X));
     botState.setPlayerLeft(api.readCPU(PLAYER_FACING) == 0x01);
     gameState.setCameraX(api.readCPU16(CAMERA_X));
@@ -319,7 +311,7 @@ public class CastlevaniaBot {
       case 0x1201: _substage = SUBSTAGE_1801; break;
     }
     if (_substage != null && _substage != gameState.getCurrentSubstage()) {
-      entryDelay = ThreadLocalRandom.current().nextInt(17);
+      gameState.setEntryDelay(ThreadLocalRandom.current().nextInt(17));
       _substage.init();
     }
     gameState.setCurrentSubstage(_substage);
@@ -370,9 +362,9 @@ public class CastlevaniaBot {
     }
 
     botState.setAtBottomOfStairs(playerController.isAtBottomOfStairs(botState, gameState, currentTile));
-    atTopOfStairs = playerController.isAtTopOfStairs(botState, gameState, currentTile);
-    canJump = !gameState.isWeaponing() && !botState.isOnStairs() && !kneeling && botState.isOnPlatform()
-        && botState.getJumpDelay() == 0;
+    botState.setAtTopOfStairs(playerController.isAtTopOfStairs(botState, gameState, currentTile));
+    botState.setCanJump(!gameState.isWeaponing() && !botState.isOnStairs() && !botState.isKneeling() && botState.isOnPlatform()
+        && botState.getJumpDelay() == 0);
 
     gameState.getCurrentLevel().readGameObjects(this, gameState, botState, currentTile, playerController);
     _substage.readGameObjects();
@@ -704,15 +696,15 @@ public class CastlevaniaBot {
         break;
     }
     if (halted) {
-      if (pauseDelay > 0) {
-        --pauseDelay;
+      if (gameState.getPauseDelay() > 0) {
+        gameState.setPauseDelay(gameState.getPauseDelay() - 1);
       } else {
-        pauseDelay = 60;
+        gameState.setPauseDelay(60);
         gamePad.pressStart();
       }
       return;
     } else {
-      pauseDelay = 0;
+      gameState.setPauseDelay(0);
     }
 
     if (!gameState.isPlaying() || gameState.getCurrentLevel() == null || gameState.getCurrentSubstage() == null) {
@@ -741,8 +733,8 @@ public class CastlevaniaBot {
     botState.setAvoidX(AVOID_X_RESET);
     gameState.getCurrentSubstage().pickStrategy(targetedObject);
     if (botState.getCurrentStrategy() != null) {
-      if (entryDelay > 0) {
-        --entryDelay;
+      if (gameState.getEntryDelay() > 0) {
+        gameState.setPauseDelay(gameState.getEntryDelay());
       } else {
         botState.getCurrentStrategy().step();
       }

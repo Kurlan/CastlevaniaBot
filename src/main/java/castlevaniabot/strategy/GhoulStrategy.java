@@ -44,7 +44,7 @@ public class GhoulStrategy implements Strategy {
 
         if (ghoul.y < botState.getPlayerY() - 16 && ghoul.y >= botState.getPlayerY() - 56) {
             gameState.getCurrentSubstage().moveAwayFromTarget(b.getTargetedObject().getTarget());
-        } else if (b.canJump && ghoul.distanceX < 24 && ghoul.distanceY < 8) {
+        } else if (botState.isCanJump() && ghoul.distanceX < 24 && ghoul.distanceY < 8) {
             playerController.jump(botState);
         } else if (b.isTargetInStandingWhipRange(offsetX, offsetY)) {
             if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {

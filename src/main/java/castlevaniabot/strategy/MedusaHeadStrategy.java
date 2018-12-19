@@ -56,7 +56,7 @@ public class MedusaHeadStrategy implements Strategy {
         } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
             if (playerController.faceTarget(botState, gameState, b.getTargetedObject())) {
                 playerController.kneel();
-                if (b.kneeling && !gameState.isWeaponing()) {
+                if (botState.isKneeling() && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
                 }
             }

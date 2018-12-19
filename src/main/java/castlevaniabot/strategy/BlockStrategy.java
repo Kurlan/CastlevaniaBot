@@ -53,7 +53,7 @@ public class BlockStrategy implements Strategy {
             if (botState.getPlayerX() == playerX && botState.getPlayerY() == playerY
                     && botState.isPlayerLeft() == playerLeft) {
                 if (botState.getPlayerY() - b.getTargetedObject().getTarget().y > 32) {
-                    if (b.canJump) {
+                    if (botState.isCanJump()) {
                         if (delayJump > 0) {
                             --delayJump;
                         } else {

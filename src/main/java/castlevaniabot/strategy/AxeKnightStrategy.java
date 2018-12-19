@@ -1,12 +1,12 @@
 package castlevaniabot.strategy;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import castlevaniabot.BotState;
 import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -57,7 +57,7 @@ public class AxeKnightStrategy implements Strategy {
             }
         } else if (weaponDelay == 0 && b.getTargetedObject().getTarget().distanceX < 64
                 && botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
-            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject()) && b.canJump) {
+            if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState, b.getTargetedObject()) && botState.isCanJump()) {
                 if (b.isUnderLedge()) {
                     weaponDelay = HOLY_WATER_RESET;
                     playerController.useWeapon(gameState);

@@ -87,12 +87,12 @@ public class SkeletonWallStrategy implements Strategy {
             }
         } else if (skeleton.y < botState.getPlayerY()
                 && b.isInStandingWhipRange(skeleton, offsetX, offsetY + 32)) {
-            if (playerController.face(skeleton, botState) && b.canJump) {
+            if (playerController.face(skeleton, botState) && botState.isCanJump()) {
                 playerController.jump(botState);
             }
         } else if (skeleton.y < botState.getPlayerY()
                 && b.isInStandingWhipRange(skeleton, offsetX + 16, offsetY + 32)) {
-            if (b.canJump) {
+            if (botState.isCanJump()) {
                 playerController.goLeftAndJump(botState);
             }
         }

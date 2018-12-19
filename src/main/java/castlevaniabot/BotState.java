@@ -24,4 +24,9 @@ public class BotState {
 
     private int hearts;
     private int shot;
+
+    private boolean atTopOfStairs;
+    private boolean kneeling;
+
+    private boolean canJump;
 }

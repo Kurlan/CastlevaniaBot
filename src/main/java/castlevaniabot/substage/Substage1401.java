@@ -198,7 +198,7 @@ public class Substage1401 extends Substage {
       if (botState.getPlayerX() < 208) {
         treasureTriggered2 = true;
       } else if (botState.getPlayerX() == 560 && botState.getPlayerY() == 128) {
-        if (b.kneeling) {
+        if (botState.isKneeling()) {
           treasureTriggered2 = true;
         } else {
           playerController.kneel();
