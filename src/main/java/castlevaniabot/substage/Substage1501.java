@@ -45,7 +45,7 @@ public class Substage1501 extends Substage {
           obj.tier = 7;
           if (playerController.isInStandingWhipRange(obj, botState)) {
             obj.subTier = 4;
-          } else if (b.isInKneelingWhipRange(obj)) {
+          } else if (playerController.isInKneelingWhipRange(obj, botState)) {
             obj.subTier = 3;
           } else if (obj.y2 <= botState.getPlayerY() && obj.y1 >= botState.getPlayerY() - 32) {
             obj.subTier = 2;
@@ -172,7 +172,7 @@ public class Substage1501 extends Substage {
   public void pickStrategy(TargetedObject targetedObject) {
     
     if (botState.getPlayerX() == 800 && botState.getWeapon() == BOOMERANG && botState.getHearts() > 0
-        && !b.getGameState().isWeaponing()) {
+        && !gameState.isWeaponing()) {
       playerController.useWeapon(gameState); // hit candles with boomerang
     } 
     
