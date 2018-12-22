@@ -112,7 +112,7 @@ public class FrankensteinStrategy implements Strategy {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
                 }
-            } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
+            } else if (playerController.isInKneelingWhipRange(frank, offsetX, 0, botState)) {
                 playerController.kneel();
                 if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
@@ -152,7 +152,7 @@ public class FrankensteinStrategy implements Strategy {
                         playerController.whip(gameState);
                     }
                 }
-            } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
+            } else if (playerController.isInKneelingWhipRange(frank, offsetX, 0, botState)) {
                 playerController.kneel();
                 if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
@@ -194,7 +194,7 @@ public class FrankensteinStrategy implements Strategy {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     playerController.whipOrWeapon(gameState, botState);
                 }
-            } else if (b.isInKneelingWhipRange(frank, offsetX, 0)) {
+            } else if (playerController.isInKneelingWhipRange(frank, offsetX, 0, botState)) {
                 playerController.kneel();
                 if (!gameState.isWeaponing() && botState.isKneeling() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
@@ -227,7 +227,7 @@ public class FrankensteinStrategy implements Strategy {
                 playerController.whip(gameState);
             }
             return true;
-        } else if (b.isInKneelingWhipRange(igor, vx, vy)) {
+        } else if (playerController.isInKneelingWhipRange(igor, vx, vy, botState)) {
             playerController.kneel();
             if (botState.isKneeling() && !gameState.isWeaponing() && playerController.face(igor, botState)) {
                 playerController.whip(gameState);
@@ -279,7 +279,7 @@ public class FrankensteinStrategy implements Strategy {
                     playerController.whip(gameState);
                     return true;
                 }
-            } else if (b.isInKneelingWhipRange(fireball, offsetX, offsetY)) {
+            } else if (playerController.isInKneelingWhipRange(fireball, offsetX, offsetY, botState)) {
                 if (playerController.face(fireball, botState)) {
                     playerController.kneel();
                     if (botState.isKneeling() && !gameState.isWeaponing()) {

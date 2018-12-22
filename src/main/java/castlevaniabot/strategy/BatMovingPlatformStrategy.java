@@ -78,7 +78,7 @@ public class BatMovingPlatformStrategy implements Strategy {
                 if (playerController.face(bat, botState) && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
                 }
-            } else if (b.isInKneelingWhipRange(bat, offsetX, offsetY)) {
+            } else if (playerController.isInKneelingWhipRange(bat, offsetX, offsetY, botState)) {
                 if (playerController.face(bat, botState)) {
                     playerController.kneel();
                     if (botState.isKneeling() && !gameState.isWeaponing()) {
