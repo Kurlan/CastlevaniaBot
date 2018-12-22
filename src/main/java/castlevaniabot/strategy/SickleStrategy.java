@@ -38,7 +38,7 @@ public class SickleStrategy implements Strategy {
                     playerController.useWeapon(gameState);
                 }
                 return;
-            } else if (b.isInStandingWhipRange(death)) {
+            } else if (playerController.isInStandingWhipRange(death, botState)) {
                 if (playerController.face(death, botState)) {
                     playerController.whip(gameState);
                 }

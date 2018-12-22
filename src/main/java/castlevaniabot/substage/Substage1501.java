@@ -43,7 +43,7 @@ public class Substage1501 extends Substage {
       case SICKLE:
         if (obj.distanceX < 80) {          
           obj.tier = 7;
-          if (b.isInStandingWhipRange(obj)) {
+          if (playerController.isInStandingWhipRange(obj, botState)) {
             obj.subTier = 4;
           } else if (b.isInKneelingWhipRange(obj)) {
             obj.subTier = 3;

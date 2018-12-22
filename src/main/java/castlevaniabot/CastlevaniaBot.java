@@ -423,10 +423,6 @@ public class CastlevaniaBot {
 
     gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
-
-  public boolean isInStandingWhipRange(final GameObject obj) {
-    return WHIPS[botState.getWhipLength()][0].inRange(obj, botState);
-  } 
   
   public boolean isInKneelingWhipRange(final GameObject obj) {
     return WHIPS[botState.getWhipLength()][1].inRange(obj, botState);
