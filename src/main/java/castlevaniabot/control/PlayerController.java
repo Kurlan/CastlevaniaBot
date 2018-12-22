@@ -322,6 +322,28 @@ public class PlayerController {
         return -1;
     }
 
+
+    public boolean isUnderLedge(BotState botState, GameState gameState) {
+
+        if (botState.getCurrentTile().getY() < 4) {
+            return false;
+        }
+
+        final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
+        if (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX()].height == 0 || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX()].height == 0){
+            return true;
+        }
+
+        if (botState.isPlayerLeft()) {
+            return (botState.getCurrentTile().getX() > 0) && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() - 1].height == 0
+                    || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() - 1].height == 0);
+        } else {
+            return (botState.getCurrentTile().getX() < gameState.getCurrentSubstage().mapRoutes.width - 1)
+                    && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() + 1].height == 0
+                    || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() + 1].height == 0);
+        }
+    }
+
     public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset, BotState botState) {
         return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
     }

@@ -71,7 +71,6 @@ import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
 public class CastlevaniaBot {
-
   
   private static final int AVOID_X_RESET = -512;
 
@@ -430,27 +429,6 @@ public class CastlevaniaBot {
     }    
     return count;
   }
-  
-  public boolean isUnderLedge() {
-    
-    if (botState.getCurrentTile().getY() < 4) {
-      return false;
-    }
-    
-    final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
-    if (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX()].height == 0 || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX()].height == 0){
-      return true;
-    }
-    
-    if (botState.isPlayerLeft()) {
-      return (botState.getCurrentTile().getX() > 0) && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() - 1].height == 0
-              || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() - 1].height == 0);
-    } else {
-      return (botState.getCurrentTile().getX() < gameState.getCurrentSubstage().mapRoutes.width - 1)
-          && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() + 1].height == 0
-              || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() + 1].height == 0);
-    }
-  }  
   
   public boolean isTypePresent(final GameObjectType type) {
     

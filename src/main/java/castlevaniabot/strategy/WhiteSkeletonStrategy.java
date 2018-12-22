@@ -79,7 +79,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 && botState.getHearts() > 0 && skeleton.distanceX < 96
                 && skeleton.distanceY <= 36) {
             if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState) && botState.isCanJump()) {
-                if (b.isUnderLedge()) {
+                if (playerController.isUnderLedge(botState, gameState)) {
                     holyWaterDelay = HOLY_WATER_RESET;
                     drawingTowardHolyWater = true;
                     playerController.useWeapon(gameState);

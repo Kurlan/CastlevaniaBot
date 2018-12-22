@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MovingPlatform;
@@ -32,13 +31,11 @@ public class BatDualPlatformsStrategy implements Strategy {
     private boolean hangRequested;
     private boolean walkRequested;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public BatDualPlatformsStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public BatDualPlatformsStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
@@ -161,8 +158,8 @@ public class BatDualPlatformsStrategy implements Strategy {
         }
 
         platform = null;
-        final MovingPlatform[] movingPlatforms = b.getGameState().getMovingPlatforms();
-        for (int i = b.getGameState().getMovingPlatformsCount() - 1; i >= 0; --i) {
+        final MovingPlatform[] movingPlatforms = gameState.getMovingPlatforms();
+        for (int i = gameState.getMovingPlatformsCount() - 1; i >= 0; --i) {
             final MovingPlatform p = movingPlatforms[i];
             if (p.x2 >= botState.getPlayerX() && (platform == null
                     || (p.x2 - botState.getPlayerX() < platform.x2 - botState.getPlayerX()))) {

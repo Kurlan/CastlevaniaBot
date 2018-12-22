@@ -60,10 +60,10 @@ public class AllStrategies {
     private final WhipStrategy WHIP;
 
     public AllStrategies(CastlevaniaBot castlevaniaBot, BotState botState, GameState gameState, PlayerController playerController) {
-        AXE = new AxeStrategy(castlevaniaBot, botState, gameState, playerController);
+        AXE = new AxeStrategy(botState, gameState, playerController);
         AXE_KNIGHT = new AxeKnightStrategy(castlevaniaBot, botState, gameState, playerController);
         BAT_MOVING_PLATFORM = new BatMovingPlatformStrategy(castlevaniaBot, botState, gameState, playerController);
-        BAT_DUAL_PLATFORMS = new BatDualPlatformsStrategy(castlevaniaBot, botState, gameState, playerController);
+        BAT_DUAL_PLATFORMS = new BatDualPlatformsStrategy(botState, gameState, playerController);
         BONE_DRAGON = new BoneDragonStrategy(castlevaniaBot, botState, gameState, playerController);
         BLACK_BAT = new BlackBatStrategy(castlevaniaBot, botState, gameState, playerController);
         BLOCK = new BlockStrategy(castlevaniaBot, botState, gameState, playerController);
