@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
@@ -112,13 +113,13 @@ public class Substage1300 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
       final GameObject skeleton = gameState.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < botState.getPlayerX() - 48
           || skeleton.y > 132))) {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (botState.getPlayerX() >= 368 && botState.getPlayerY() > 160 && !b.isObjectBelow(132)) {
       final GameObject skeleton = gameState.getType(WHITE_SKELETON);
@@ -129,10 +130,10 @@ public class Substage1300 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
         waited = false;
       } else {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
 

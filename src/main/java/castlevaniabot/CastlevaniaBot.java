@@ -525,7 +525,7 @@ public class CastlevaniaBot {
     }
 
     botState.setAvoidX(AVOID_X_RESET);
-    gameState.getCurrentSubstage().pickStrategy(botState.getTargetedObject());
+    gameState.getCurrentSubstage().pickStrategy(botState.getTargetedObject(), allStrategies);
     if (botState.getCurrentStrategy() != null) {
       if (gameState.getEntryDelay() > 0) {
         gameState.setEntryDelay(gameState.getEntryDelay() - 1);

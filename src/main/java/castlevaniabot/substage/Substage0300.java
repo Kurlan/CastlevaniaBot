@@ -5,6 +5,7 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -89,11 +90,11 @@ public class Substage0300 extends Substage {
   }  
   
   @Override
-  Strategy selectStrategy(final GameObject target) {
+  Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
+      return allStrategies.getGOT_CRYSTAL_BALL();
     } else {
-      return super.selectStrategy(target);
+      return super.selectStrategy(target, allStrategies);
     }
   }
   

@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -131,13 +132,13 @@ public class Substage1801 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (bossDefeated) {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     } else if (botState.getCurrentStrategy() == b.getAllStrategies().getCOOKIE_MONSTER()) {
       if (b.getAllStrategies().getCOOKIE_MONSTER().done) {
         bossTriggered = bossDefeated = true;
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       } else {
         b.getAllStrategies().getCOOKIE_MONSTER().step();
       }
@@ -158,20 +159,20 @@ public class Substage1801 extends Substage {
       if (botState.getPlayerX() < 128) {
         bossTriggered = true;
       }
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
   
   @Override
-  Strategy selectStrategy(final GameObject target) {
+  Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null) {
       if (aboutToGetCrystalBall) {
         return b.getAllStrategies().getGOT_CRYSTAL_BALL();
       } else {
-        return super.selectStrategy(target);
+        return super.selectStrategy(target, allStrategies);
       }
     } else {
-      return super.selectStrategy(target);
+      return super.selectStrategy(target, allStrategies);
     }    
   }  
 

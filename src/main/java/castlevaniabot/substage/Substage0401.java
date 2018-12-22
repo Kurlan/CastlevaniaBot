@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -83,7 +84,7 @@ public class Substage0401 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getPlayerX() >= 32 && botState.getPlayerX() <= 104) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
@@ -98,7 +99,7 @@ public class Substage0401 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
   

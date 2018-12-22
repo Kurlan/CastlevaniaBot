@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -169,7 +170,7 @@ public class Substage1501 extends Substage {
   }  
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     if (botState.getPlayerX() == 800 && botState.getWeapon() == BOOMERANG && botState.getHearts() > 0
         && !gameState.isWeaponing()) {
@@ -178,7 +179,7 @@ public class Substage1501 extends Substage {
     
     if (botState.getCurrentStrategy() == b.getAllStrategies().getWHIP()) {
       if (whippedCandles) {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (bossDefeated) {
       if (!whippedCandles && botState.getPlayerX() >= 224) {
@@ -188,16 +189,16 @@ public class Substage1501 extends Substage {
           botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
         }
       } else {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (botState.getCurrentStrategy() == b.getAllStrategies().getHOLY_WATER_DEATH() && b.getAllStrategies().getHOLY_WATER_DEATH().done) {
       bossDefeated = true;
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     } else if (bossTriggered) {
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
         b.getAllStrategies().getHOLY_WATER_DEATH().step();
       } else {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (botState.getPlayerX() < 128) {
       bossTriggered = true;
@@ -210,7 +211,7 @@ public class Substage1501 extends Substage {
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
         botState.getCurrentStrategy().step();
       } else {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }      
     } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
@@ -218,25 +219,25 @@ public class Substage1501 extends Substage {
         b.getAllStrategies().getDEATH_HALL_HOLY_WATER().init();
         botState.setCurrentStrategy(b.getAllStrategies().getDEATH_HALL_HOLY_WATER());
       } else {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
   
   @Override
-  Strategy selectStrategy(final GameObject target) {
+  Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null) {
       if (aboutToGetCrystalBall) {
         return b.getAllStrategies().getGOT_CRYSTAL_BALL();
       } else {
-        return super.selectStrategy(target);
+        return super.selectStrategy(target, allStrategies);
       }
     } else if (target.type == MEDUSA_HEAD) {
       return b.getAllStrategies().getMEDUSA_HEAD();
     } else {
-      return super.selectStrategy(target);
+      return super.selectStrategy(target, allStrategies);
     }    
   }  
 

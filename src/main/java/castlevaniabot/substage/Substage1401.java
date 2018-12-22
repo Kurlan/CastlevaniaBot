@@ -7,6 +7,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
@@ -138,15 +139,15 @@ public class Substage1401 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
       if (botState.getPlayerX() >= 832) {
         if (treasureTriggered1) {
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
       } else {
         if (treasureTriggered3) {
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
       }
     } else if (!treasureTriggered3 && !botState.isOnStairs()&& botState.getPlayerX() >= 288
@@ -163,7 +164,7 @@ public class Substage1401 extends Substage {
     } else if (botState.getPlayerY() == 192 && botState.getPlayerX() <= 33) {
       playerController.goLeft(botState);
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
 

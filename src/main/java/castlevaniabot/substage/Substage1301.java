@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.WaitStrategy;
 import nintaco.api.API;
 
@@ -136,7 +137,7 @@ public class Substage1301 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (!treasureTriggered && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 336
         && botState.getPlayerX() < 416) {
       if (botState.getCurrentStrategy()!= b.getAllStrategies().getWAIT()) {
@@ -145,7 +146,7 @@ public class Substage1301 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
 

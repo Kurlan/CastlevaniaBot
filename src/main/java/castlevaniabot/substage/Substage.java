@@ -8,6 +8,7 @@ import castlevaniabot.model.creativeelements.Bone;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -183,60 +184,60 @@ public abstract class Substage {
     playerDelay = delay;
   }
   
-  Strategy selectStrategy(final GameObject target) {
+  Strategy selectStrategy(final GameObject target, final AllStrategies allStrategies) {
     if (target == null) {
       return null;
     }
     switch(target.type) {
-      case AXE:                 return b.getAllStrategies().getAXE();
-      case AXE_KNIGHT:          return b.getAllStrategies().getAXE_KNIGHT();
-      case BLACK_BAT:           return b.getAllStrategies().getBLACK_BAT();
-      case BLOCK:               return b.getAllStrategies().getBLOCK();
-      case BONE_DRAGON_HEAD:    return b.getAllStrategies().getBONE_DRAGON();
-      case BONE_TOWER:          return b.getAllStrategies().getBONE_TOWER();
-      case CANDLES:             return b.getAllStrategies().getCANDLES();
-      case CRYSTAL_BALL:        return b.getAllStrategies().getGET_CRYSTAL_BALL();
-      case DEATH:               return b.getAllStrategies().getBOOMERANG_DEATH();
-      case EAGLE:               return b.getAllStrategies().getEAGLE();
-      case FIREBALL:            return b.getAllStrategies().getFIREBALL();
-      case FIRE_COLUMN:         return b.getAllStrategies().getFIRE_COLUMN();
-      case FISHMAN:             return b.getAllStrategies().getFISHMAN();
-      case FLEAMAN:             return b.getAllStrategies().getFLEAMAN();
-      case GHOST:               return b.getAllStrategies().getGHOST();
-      case GHOUL:               return b.getAllStrategies().getGHOUL();
-      case MEDUSA:              return b.getAllStrategies().getMEDUSA();
-      case PANTHER:             return b.getAllStrategies().getPANTHER();
-      case PHANTOM_BAT:         return b.getAllStrategies().getPHANTOM_BAT();
-      case RAVEN:               return b.getAllStrategies().getRAVEN();
-      case RED_BAT:             return b.getAllStrategies().getRED_BAT();
-      case RED_BONES:           return b.getAllStrategies().getRED_BONES();
-      case RED_SKELETON:        return b.getAllStrategies().getRED_SKELETON();
-      case RED_SKELETON_RISING: return b.getAllStrategies().getRED_BONES();
-      case SICKLE:              return b.getAllStrategies().getSICKLE();
-      case SNAKE:               return b.getAllStrategies().getSNAKE();
-      case SPEAR_KNIGHT:        return b.getAllStrategies().getSPEAR_KNIGHT();
-      case WHITE_SKELETON:      return b.getAllStrategies().getWHITE_SKELETON();
-      default:                  return b.getAllStrategies().getGET_ITEM();
+      case AXE:                 return allStrategies.getAXE();
+      case AXE_KNIGHT:          return allStrategies.getAXE_KNIGHT();
+      case BLACK_BAT:           return allStrategies.getBLACK_BAT();
+      case BLOCK:               return allStrategies.getBLOCK();
+      case BONE_DRAGON_HEAD:    return allStrategies.getBONE_DRAGON();
+      case BONE_TOWER:          return allStrategies.getBONE_TOWER();
+      case CANDLES:             return allStrategies.getCANDLES();
+      case CRYSTAL_BALL:        return allStrategies.getGET_CRYSTAL_BALL();
+      case DEATH:               return allStrategies.getBOOMERANG_DEATH();
+      case EAGLE:               return allStrategies.getEAGLE();
+      case FIREBALL:            return allStrategies.getFIREBALL();
+      case FIRE_COLUMN:         return allStrategies.getFIRE_COLUMN();
+      case FISHMAN:             return allStrategies.getFISHMAN();
+      case FLEAMAN:             return allStrategies.getFLEAMAN();
+      case GHOST:               return allStrategies.getGHOST();
+      case GHOUL:               return allStrategies.getGHOUL();
+      case MEDUSA:              return allStrategies.getMEDUSA();
+      case PANTHER:             return allStrategies.getPANTHER();
+      case PHANTOM_BAT:         return allStrategies.getPHANTOM_BAT();
+      case RAVEN:               return allStrategies.getRAVEN();
+      case RED_BAT:             return allStrategies.getRED_BAT();
+      case RED_BONES:           return allStrategies.getRED_BONES();
+      case RED_SKELETON:        return allStrategies.getRED_SKELETON();
+      case RED_SKELETON_RISING: return allStrategies.getRED_BONES();
+      case SICKLE:              return allStrategies.getSICKLE();
+      case SNAKE:               return allStrategies.getSNAKE();
+      case SPEAR_KNIGHT:        return allStrategies.getSPEAR_KNIGHT();
+      case WHITE_SKELETON:      return allStrategies.getWHITE_SKELETON();
+      default:                  return allStrategies.getGET_ITEM();
     }
   }
 
-  boolean handleBones(TargetedObject targetedObject) {
+  boolean handleBones(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     final Bone bone = gameState.getHarmfulBone(botState);
     if (bone == null) {
       return false;
     }
     
-    if (botState.getCurrentStrategy() != b.getAllStrategies().getBONE()) {
+    if (botState.getCurrentStrategy() != allStrategies.getBONE()) {
       clearTarget(targetedObject);
-      b.getAllStrategies().getBONE().init(bone);
-      botState.setCurrentStrategy(b.getAllStrategies().getBONE());
+      allStrategies.getBONE().init(bone);
+      botState.setCurrentStrategy(allStrategies.getBONE());
     }
     
     return true;
   }  
   
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     if (playerDelay > 0) {
       --playerDelay;
@@ -247,7 +248,7 @@ public abstract class Substage {
       return;
     }
     
-    if (handleBones(targetedObject)) {
+    if (handleBones(targetedObject, allStrategies)) {
       return;
     }
     
@@ -279,12 +280,12 @@ public abstract class Substage {
     if (newTarget == null) { // currentTarget must also be null
       if (targetedObject.getTargetType() != null) {
         clearTarget(targetedObject);
-        setStrategy(selectStrategy(null));
+        setStrategy(selectStrategy(null, allStrategies));
       }
     } else if (currentTarget == null
         || newTarget.rank - currentTarget.rank > MARGINAL_RANK) {
       setTarget(newTarget, targetedObject);
-      setStrategy(selectStrategy(newTarget));    
+      setStrategy(selectStrategy(newTarget, allStrategies));
     } else {
       setTarget(currentTarget, targetedObject);
     }   

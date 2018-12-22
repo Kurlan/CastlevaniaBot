@@ -7,6 +7,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
@@ -139,7 +140,7 @@ public class Substage1400 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     switch(state) {
       case KILL_FLEAMAN:
@@ -149,13 +150,13 @@ public class Substage1400 extends Substage {
           if (fleaman == null || fleaman.y <= botState.getPlayerY() + 8) {
             setState(State.WHIP_CANDLES, targetedObject);
           } else {
-            super.pickStrategy(targetedObject);
+            super.pickStrategy(targetedObject, allStrategies);
           }
         } else if (fleaman == null 
             && (lastFleamanExists || lowerKnight != null)) {
           setState(State.WHIP_LOWER_AXE, targetedObject);
         } else {
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
         break;
       case WHIP_LOWER_AXE:
@@ -163,14 +164,14 @@ public class Substage1400 extends Substage {
             && botState.getPlayerX() < 1168) || (lowerAxe == null && botState.isOnStairs())) {
           setState(State.DESPAWN_LOWER_KNIGHT, targetedObject);
         } else {
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
         break;
       case DESPAWN_LOWER_KNIGHT:
         if (lowerAxe != null && lowerAxe.y2 >= botState.getPlayerY() - 32
             && lowerAxe.y1 <= botState.getPlayerY() - 8) {
           setState(State.WHIP_LOWER_AXE, targetedObject);
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         } else if (lowerKnight == null) {
           setState(State.WHIP_CANDLES, targetedObject);
         } else if (lowerKnight.distanceX > 32) {
@@ -184,7 +185,7 @@ public class Substage1400 extends Substage {
           setState(State.WALK_TO_STAIRS, targetedObject);
         } else if (upperAxe == null 
             || (upperAxeLeft && upperAxe.x2 < botState.getPlayerX() - 8)) {
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
         break;
       case WALK_TO_STAIRS:          

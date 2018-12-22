@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
@@ -138,7 +139,7 @@ public class Substage1500 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.isOnStairs() && botState.getPlayerY() <= 160 && botState.getPlayerX() < 672
         && b.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
       if (botState.getCurrentStrategy() != null) {
@@ -149,7 +150,7 @@ public class Substage1500 extends Substage {
         b.getGamepad().pressDown();
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
 

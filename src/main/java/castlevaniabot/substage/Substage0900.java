@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import castlevaniabot.strategy.WaitStrategy;
 import nintaco.api.API;
@@ -160,7 +161,7 @@ public class Substage0900 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     if (bossTriggered && !bossDefeated) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getMUMMIES()) {
@@ -182,7 +183,7 @@ public class Substage0900 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
   
@@ -198,11 +199,11 @@ public class Substage0900 extends Substage {
   }
 
   @Override
-  Strategy selectStrategy(final GameObject target) {
+  Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null && aboutToGetCrystalBall) {
       return b.getAllStrategies().getGOT_CRYSTAL_BALL();
     } else {
-      return super.selectStrategy(target);
+      return super.selectStrategy(target, allStrategies);
     }
   }  
 

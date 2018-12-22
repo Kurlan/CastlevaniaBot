@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
@@ -129,14 +130,14 @@ public class Substage1000 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_MOVING_PLATFORM() && botState.getPlayerY() > 112) {
       if (b.getAllStrategies().getBAT_MOVING_PLATFORM().done) {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_DUAL_PLATFORMS()) {
       if (b.getAllStrategies().getBAT_DUAL_PLATFORMS().done) {
-        super.pickStrategy(targetedObject);
+        super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (botState.getPlayerX() == 991 && botState.getPlayerY() == 160
         && !b.isTypePresent(RED_BAT)) {
@@ -156,7 +157,7 @@ public class Substage1000 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }  
 

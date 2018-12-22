@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -78,7 +79,7 @@ public class Substage0100 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && botState.getCurrentTile().getY() == 7
         && botState.getCurrentTile().getX() >= 52 && botState.getCurrentTile().getX() <= 56 && isPantherResting()) {
       if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
@@ -87,7 +88,7 @@ public class Substage0100 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
       }
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
   

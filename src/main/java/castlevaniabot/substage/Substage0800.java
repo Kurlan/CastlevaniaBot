@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
@@ -102,7 +103,7 @@ public class Substage0800 extends Substage {
     route(727, 160);
   } 
   
-  @Override boolean handleBones(TargetedObject targetedObject) {
+  @Override boolean handleBones(TargetedObject targetedObject, AllStrategies allStrategies) {
     return false; // Walk right through falling bones
   }
 }

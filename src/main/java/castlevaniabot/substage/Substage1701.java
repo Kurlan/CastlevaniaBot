@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
@@ -124,7 +125,7 @@ public class Substage1701 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (!usedStopwatch && botState.getPlayerX() <= 480 && botState.getPlayerY() <= 96
         && botState.getWeapon() == STOPWATCH && botState.getHearts() >= 5) {
       playerController.useWeapon(gameState);
@@ -133,7 +134,7 @@ public class Substage1701 extends Substage {
       if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedLowerSkeleton = true;
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
       } else {
         clearTarget(targetedObject);
@@ -144,7 +145,7 @@ public class Substage1701 extends Substage {
       if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
         if (b.getAllStrategies().getSKELETON_WALL().done) {
           killedUpperSkeleton = true;
-          super.pickStrategy(targetedObject);
+          super.pickStrategy(targetedObject, allStrategies);
         }
       } else {
         clearTarget(targetedObject);
@@ -152,7 +153,7 @@ public class Substage1701 extends Substage {
         botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
       } 
     } else {
-      super.pickStrategy(targetedObject);
+      super.pickStrategy(targetedObject, allStrategies);
     }
   }
 

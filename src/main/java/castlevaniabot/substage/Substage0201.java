@@ -6,6 +6,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -86,7 +87,7 @@ public class Substage0201 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     if (useRedBatDamageBoost && botState.getPlayerY() == 144 && botState.getPlayerX() >= 128
         && botState.getPlayerX() < 208 && botState.getPlayerY() < 200) {
@@ -98,7 +99,7 @@ public class Substage0201 extends Substage {
       return;
     }
     
-    super.pickStrategy(targetedObject);
+    super.pickStrategy(targetedObject, allStrategies);
   }  
   
   @Override

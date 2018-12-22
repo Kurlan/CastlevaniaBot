@@ -5,6 +5,7 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -92,9 +93,9 @@ public class Substage1600 extends Substage {
   }
 
   @Override
-  Strategy selectStrategy(final GameObject target) {
+  Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null || target.type != PHANTOM_BAT) {
-      return super.selectStrategy(target);
+      return super.selectStrategy(target, allStrategies);
     } else {
       return b.getAllStrategies().getGIANT_BAT();
     }
