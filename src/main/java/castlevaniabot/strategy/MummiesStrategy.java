@@ -31,7 +31,7 @@ public class MummiesStrategy implements Strategy {
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public MummiesStrategy( final BotState botState, final GameState gameState, final PlayerController playerController) {
+    public MummiesStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;

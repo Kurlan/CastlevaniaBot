@@ -1,7 +1,6 @@
 package castlevaniabot.level;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.Coordinates;
@@ -43,7 +42,7 @@ public class Level4 implements Level {
   public Level4(API api) {
     this.api = api;
   }
-  @Override public void readGameObjects(CastlevaniaBot b, GameState gameState, BotState botState, Coordinates currentTile, PlayerController playerController) {
+  @Override public void readGameObjects(GameState gameState, BotState botState, Coordinates currentTile, PlayerController playerController) {
     gameState.setBoneTowerSegmentsCount(0);
     gameState.setObjsCount(0);
     gameState.setMovingPlatformsCount(0);
@@ -126,7 +125,7 @@ public class Level4 implements Level {
         
         case 0x0072:
         case 0x4072:
-          b.getGameState().addMovingPlatformSegment(x, y);
+          gameState.addMovingPlatformSegment(x, y);
           continue;
           
         case 0x035C:

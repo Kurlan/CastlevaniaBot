@@ -1,7 +1,6 @@
 package castlevaniabot.level;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.Coordinates;
@@ -44,7 +43,7 @@ public class Level5 implements Level {
     this.api = api;
   }
 
-  @Override public void readGameObjects(CastlevaniaBot b, GameState gameState, BotState botState, Coordinates currentTile, PlayerController playerController) {
+  @Override public void readGameObjects(GameState gameState, BotState botState, Coordinates currentTile, PlayerController playerController) {
     gameState.setBoneTowerSegmentsCount(0);
     gameState.setObjsCount(0);
     gameState.setMovingPlatformsCount(0);
@@ -110,7 +109,7 @@ public class Level5 implements Level {
 //          break;        
                      
         case 0x01B7: 
-          if (b.getGameState().getStageNumber() >= 14) {
+          if (gameState.getStageNumber() >= 14) {
             type = AXE;
           } else {
             type = AXE_WEAPON;

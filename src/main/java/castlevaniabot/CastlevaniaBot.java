@@ -335,7 +335,7 @@ public class CastlevaniaBot {
     botState.setCanJump(!gameState.isWeaponing() && !botState.isOnStairs() && !botState.isKneeling() && botState.isOnPlatform()
         && botState.getJumpDelay() == 0);
 
-    gameState.getCurrentLevel().readGameObjects(this, gameState, botState, botState.getCurrentTile(), playerController);
+    gameState.getCurrentLevel().readGameObjects(gameState, botState, botState.getCurrentTile(), playerController);
     _substage.readGameObjects();
   }
   
