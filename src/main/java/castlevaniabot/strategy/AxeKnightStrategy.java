@@ -1,10 +1,10 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.substage.Substage1501;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -20,13 +20,11 @@ public class AxeKnightStrategy implements Strategy {
     private int lastX;
     private int lastY;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public AxeKnightStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public AxeKnightStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
@@ -70,7 +68,7 @@ public class AxeKnightStrategy implements Strategy {
                     }
                 }
             }
-        } else if (gameState.getCurrentSubstage() == b.SUBSTAGE_1501 && botState.getWeapon() == BOOMERANG
+        } else if ((gameState.getCurrentSubstage() instanceof Substage1501) && botState.getWeapon() == BOOMERANG
                 && botState.getHearts() > 0) {
             if (!gameState.isWeaponing() && weaponDelay == 0 && playerController.faceTarget(botState, gameState)) {
                 if (botState.getShot() > 1) {

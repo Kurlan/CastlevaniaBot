@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MovingPlatform;
@@ -29,13 +28,11 @@ public class JumpMovingPlatformStrategy implements Strategy {
     private int lastX;
     private boolean approaching;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public JumpMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public JumpMovingPlatformStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
@@ -66,7 +63,7 @@ public class JumpMovingPlatformStrategy implements Strategy {
     @Override
     public void step() {
 
-        final MovingPlatform platform = b.getGameState().getMovingPlatform(minX, maxX);
+        final MovingPlatform platform = gameState.getMovingPlatform(minX, maxX);
         if (platform == null) {
             approaching = false;
             lastX = -512;

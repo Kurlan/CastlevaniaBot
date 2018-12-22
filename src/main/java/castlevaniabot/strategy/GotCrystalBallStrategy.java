@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 
@@ -11,13 +10,11 @@ public class GotCrystalBallStrategy implements Strategy {
 
     private int jumpDelay;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public GotCrystalBallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public GotCrystalBallStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;

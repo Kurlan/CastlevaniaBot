@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.MovingPlatform;
@@ -28,14 +27,12 @@ public class BatMovingPlatformStrategy implements Strategy {
     private boolean left;
     private GameObject lastBat;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public BatMovingPlatformStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState,
+    public BatMovingPlatformStrategy(final BotState botState, final GameState gameState,
                                      final PlayerController playerController) {
-        this.b = b;
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
@@ -172,7 +169,7 @@ public class BatMovingPlatformStrategy implements Strategy {
     }
 
     private MovingPlatform getMovingPlatform() {
-        return (b.getGameState().getMovingPlatformsCount() > 0) ? b.getGameState().getMovingPlatforms()[0] : null;
+        return (gameState.getMovingPlatformsCount() > 0) ? gameState.getMovingPlatforms()[0] : null;
     }
 
     private GameObject getRedBat() {

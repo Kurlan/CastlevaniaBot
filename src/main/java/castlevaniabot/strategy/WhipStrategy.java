@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 
@@ -23,13 +22,11 @@ public class WhipStrategy implements Strategy {
     private boolean playerLeft;
     private boolean jumpToward;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public WhipStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public WhipStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;

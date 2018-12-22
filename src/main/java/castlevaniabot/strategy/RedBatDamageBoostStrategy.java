@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -12,16 +11,16 @@ public class RedBatDamageBoostStrategy implements Strategy {
 
     private boolean batSpawned;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
+    private final RedBatStrategy redBatStrategy;
 
-    public RedBatDamageBoostStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public RedBatDamageBoostStrategy(final BotState botState, final GameState gameState, final PlayerController playerController, final RedBatStrategy redBatStrategy) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
+        this.redBatStrategy = redBatStrategy;
     }
 
     @Override
@@ -35,7 +34,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
         if (batSpawned) {
             if (botState.isPlayerLeft()) {
                 playerController.goRightAndJump(botState);
-                b.SUBSTAGE_0201.redBatDamageBoostDone();
+                botState.getDamageBoostSublevel().redBatDamageBoostDone();
             } else {
                 playerController.goLeft(botState);
             }
@@ -44,7 +43,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
             if (botState.getPlayerX() != 195 || botState.getPlayerY() != 144 || botState.isPlayerLeft()) {
                 if (bat != null) {
                     botState.getTargetedObject().setTarget(bat);
-                    b.getAllStrategies().getRED_BAT().step();
+                    redBatStrategy.step();
                 } else if (botState.getPlayerY() != 144 || botState.getPlayerX() < 191) {
                     gameState.getCurrentSubstage().route(191, 144);
                 } else if (botState.getPlayerX() < 195) {
@@ -58,7 +57,7 @@ public class RedBatDamageBoostStrategy implements Strategy {
                     }
                 } else {
                     botState.getTargetedObject().setTarget(bat);
-                    b.getAllStrategies().getRED_BAT().step();
+                    redBatStrategy.step();
                 }
             }
         }

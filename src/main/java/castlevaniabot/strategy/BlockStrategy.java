@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 
@@ -13,13 +12,11 @@ public class BlockStrategy implements Strategy {
     private int delayJump;
     private int delayWhip;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public BlockStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public BlockStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;

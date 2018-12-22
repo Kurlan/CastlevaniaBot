@@ -131,50 +131,46 @@ public class CastlevaniaBot {
       this.botState.setCurrentTile(Coordinates.builder().x(0).y(0).build());
       this.gameState = new GameState();
       gameState.setGameObjects(gameObjects);
-      this.allStrategies = new AllStrategies(this,botState, gameState, playerController);
+      this.allStrategies = new AllStrategies(botState, gameState, playerController);
       this.levels = levels;
       this.gamePad = gamePad;
       this.playerController = playerController;
+      this.api = api;
+      this.allMapRoutes = allMapRoutes;
 
-    try {
+      SUBSTAGE_0000 = new Substage0000(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0100 = new Substage0100(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0200 = new Substage0200(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0201 = new Substage0201(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0300 = new Substage0300(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0400 = new Substage0400(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0401 = new Substage0401(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0500 = new Substage0500(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0501 = new Substage0501(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0600 = new Substage0600(botState, api, playerController, gameState, allMapRoutes, allStrategies.getCRUSHER());
+      SUBSTAGE_0601 = new Substage0601(botState, api, playerController, gameState, allMapRoutes, allStrategies.getMEDUSA());
+      SUBSTAGE_0700 = new Substage0700(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0701 = new Substage0701(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0800 = new Substage0800(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0801 = new Substage0801(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_0900 = new Substage0900(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1000 = new Substage1000(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1100 = new Substage1100(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1200 = new Substage1200(botState, api, playerController, gameState, allMapRoutes, allStrategies.getFRANKENSTEIN());
+      SUBSTAGE_1300 = new Substage1300(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1301 = new Substage1301(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1400 = new Substage1400(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1401 = new Substage1401(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1500 = new Substage1500(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1501 = new Substage1501(botState, api, playerController, gameState, allMapRoutes, allStrategies.getHOLY_WATER_DEATH());
+      SUBSTAGE_1600 = new Substage1600(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1700 = new Substage1700(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1701 = new Substage1701(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1800 = new Substage1800(botState, api, playerController, gameState, allMapRoutes);
+      SUBSTAGE_1801 = new Substage1801(botState, api, playerController, gameState, allMapRoutes, allStrategies.getDRACULA(), allStrategies.getCOOKIE_MONSTER());
 
-    } catch(final Throwable t) {
-      t.printStackTrace(); // Display construction errors to console
-    }
-
-    this.api = api;
-    this.allMapRoutes = allMapRoutes;
-
-    SUBSTAGE_0000 = new Substage0000(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0100 = new Substage0100(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0200 = new Substage0200(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0201 = new Substage0201(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0300 = new Substage0300(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0400 = new Substage0400(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0401 = new Substage0401(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0500 = new Substage0500(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0501 = new Substage0501(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0600 = new Substage0600(botState, api, playerController, gameState, allMapRoutes, allStrategies.getCRUSHER());
-    SUBSTAGE_0601 = new Substage0601(botState, api, playerController, gameState, allMapRoutes, allStrategies.getMEDUSA());
-    SUBSTAGE_0700 = new Substage0700(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0701 = new Substage0701(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0800 = new Substage0800(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0801 = new Substage0801(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_0900 = new Substage0900(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1000 = new Substage1000(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1100 = new Substage1100(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1200 = new Substage1200(botState, api, playerController, gameState, allMapRoutes, allStrategies.getFRANKENSTEIN());
-    SUBSTAGE_1300 = new Substage1300(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1301 = new Substage1301(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1400 = new Substage1400(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1401 = new Substage1401(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1500 = new Substage1500(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1501 = new Substage1501(botState, api, playerController, gameState, allMapRoutes, allStrategies.getHOLY_WATER_DEATH());
-    SUBSTAGE_1600 = new Substage1600(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1700 = new Substage1700(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1701 = new Substage1701(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1800 = new Substage1800(botState, api, playerController, gameState, allMapRoutes);
-    SUBSTAGE_1801 = new Substage1801(botState, api, playerController, gameState, allMapRoutes, allStrategies.getDRACULA(), allStrategies.getCOOKIE_MONSTER());
+      this.botState.setDamageBoostSublevel(SUBSTAGE_0201);
+      this.botState.setBrokenBlockStage(SUBSTAGE_0900);
   }
 
   public AllStrategies getAllStrategies() {

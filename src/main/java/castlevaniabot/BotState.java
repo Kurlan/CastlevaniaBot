@@ -3,6 +3,8 @@ package castlevaniabot;
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.Strategy;
+import castlevaniabot.substage.Substage0201;
+import castlevaniabot.substage.Substage0900;
 import lombok.Data;
 
 @Data
@@ -34,5 +36,6 @@ public class BotState {
 
     private TargetedObject targetedObject;
     public Coordinates currentTile;
-
+    private Substage0201 damageBoostSublevel;
+    private Substage0900 brokenBlockStage;
 }

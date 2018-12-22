@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -11,13 +10,11 @@ public class SnakeStrategy implements Strategy {
     private int lastX;
     private int lastY;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public SnakeStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, PlayerController playerController) {
-        this.b = b;
+    public SnakeStrategy(final BotState botState, final GameState gameState, PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;

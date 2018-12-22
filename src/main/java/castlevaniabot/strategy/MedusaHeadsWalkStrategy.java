@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.model.gameelements.GameObject;
 
@@ -17,12 +16,10 @@ public class MedusaHeadsWalkStrategy implements Strategy {
     private int lastX;
     private int lastY;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
 
-    public MedusaHeadsWalkStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState) {
-        this.b = b;
+    public MedusaHeadsWalkStrategy(final BotState botState, final GameState gameState) {
         this.botState = botState;
         this.gameState = gameState;
     }

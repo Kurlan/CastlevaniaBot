@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -28,13 +27,11 @@ public class MummiesStrategy implements Strategy {
     private int moveAwayFromX;
     private boolean weaponedMummy1;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
 
-    public MummiesStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public MummiesStrategy( final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
@@ -86,7 +83,7 @@ public class MummiesStrategy implements Strategy {
             if (botState.getHearts() > 0 && botState.getWeapon() == BOOMERANG) {
                 stepBoomerangStrategy();
                 return;
-            } else if (b.SUBSTAGE_0900.blockBroken) {
+            } else if (botState.getBrokenBlockStage().blockBroken) {
                 stepGroundAssault();
                 return;
             }

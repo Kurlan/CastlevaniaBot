@@ -16,8 +16,8 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
     private int jumps;
     private boolean jumpRequested;
 
-    public GetCrystalBallStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        super(b, botState, gameState, playerController);
+    public GetCrystalBallStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
+        super(botState, gameState, playerController);
     }
 
     @Override

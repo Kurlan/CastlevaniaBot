@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 
@@ -13,13 +12,11 @@ public class GetItemStrategy implements Strategy {
 
     private int error;
 
-    protected final CastlevaniaBot b;
     protected final BotState botState;
     protected final GameState gameState;
     protected final PlayerController playerController;
 
-    public GetItemStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public GetItemStrategy(final BotState botState, final GameState gameState, final PlayerController playerController) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;

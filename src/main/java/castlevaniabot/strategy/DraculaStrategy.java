@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -17,16 +16,16 @@ public class DraculaStrategy implements Strategy {
     private int playerX;
     private boolean playerLeft;
 
-    private final CastlevaniaBot b;
     private final BotState botState;
     private final GameState gameState;
     private final PlayerController playerController;
+    private final CookieMonsterStrategy cookieMonsterStrategy;
 
-    public DraculaStrategy(final CastlevaniaBot b, final BotState botState, final GameState gameState, final PlayerController playerController) {
-        this.b = b;
+    public DraculaStrategy(final BotState botState, final GameState gameState, final PlayerController playerController, final CookieMonsterStrategy cookieMonsterStrategy) {
         this.botState = botState;
         this.gameState = gameState;
         this.playerController = playerController;
+        this.cookieMonsterStrategy = cookieMonsterStrategy;
     }
 
     @Override
@@ -95,12 +94,12 @@ public class DraculaStrategy implements Strategy {
                     fireball = obj;
                     break;
                 case COOKIE_MONSTER_HEAD:
-                    b.getAllStrategies().getCOOKIE_MONSTER().init();
-                    botState.setCurrentStrategy(b.getAllStrategies().getCOOKIE_MONSTER());
+                    cookieMonsterStrategy.init();
+                    botState.setCurrentStrategy(cookieMonsterStrategy);
                     break;
                 case CRYSTAL_BALL:
-                    b.getAllStrategies().getCOOKIE_MONSTER().done = true;
-                    botState.setCurrentStrategy(b.getAllStrategies().getCOOKIE_MONSTER());
+                    cookieMonsterStrategy.done = true;
+                    botState.setCurrentStrategy(cookieMonsterStrategy);
                     break;
             }
         }
