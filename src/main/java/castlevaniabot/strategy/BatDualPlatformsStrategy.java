@@ -67,7 +67,7 @@ public class BatDualPlatformsStrategy implements Strategy {
             lastFishmanX = fishman.x;
             lastFishmanY = fishman.y;
 
-            if (b.isInStandingWhipRange(fishman, offsetX, offsetY)) {
+            if (playerController.isInStandingWhipRange(fishman, offsetX, offsetY, botState)) {
                 if (playerController.face(fishman, botState) && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
                 }
@@ -89,7 +89,7 @@ public class BatDualPlatformsStrategy implements Strategy {
             lastY1 = lastY0;
             lastY0 = bat.y;
 
-            if (b.isInStandingWhipRange(bat, offsetX, offsetY)) {
+            if (playerController.isInStandingWhipRange(bat, offsetX, offsetY, botState)) {
                 if (playerController.face(bat, botState) && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
                     justWhipped = 4;

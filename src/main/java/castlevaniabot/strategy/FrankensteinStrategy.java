@@ -108,7 +108,7 @@ public class FrankensteinStrategy implements Strategy {
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
-            } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
+            } else if (playerController.isInStandingWhipRange(frank, offsetX, 0, botState)) {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
                 }
@@ -144,7 +144,7 @@ public class FrankensteinStrategy implements Strategy {
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
-            } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
+            } else if (playerController.isInStandingWhipRange(frank, offsetX, 0, botState)) {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     if (botState.getPlayerY() == frank.y) {
                         playerController.whipOrWeapon(gameState, botState);
@@ -190,7 +190,7 @@ public class FrankensteinStrategy implements Strategy {
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
                 gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
-            } else if (b.isInStandingWhipRange(frank, offsetX, 0)) {
+            } else if (playerController.isInStandingWhipRange(frank, offsetX, 0, botState)) {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     playerController.whipOrWeapon(gameState, botState);
                 }
@@ -222,7 +222,7 @@ public class FrankensteinStrategy implements Strategy {
                 gameState.getCurrentSubstage().routeRight();
             }
             return true;
-        } else if (b.isInStandingWhipRange(igor, vx, vy)) {
+        } else if (playerController.isInStandingWhipRange(igor, vx, vy, botState)) {
             if (!gameState.isWeaponing() && playerController.face(igor, botState)) {
                 playerController.whip(gameState);
             }
@@ -274,7 +274,7 @@ public class FrankensteinStrategy implements Strategy {
                     playerController.jump(botState);
                     return true;
                 }
-            } else if (b.isInStandingWhipRange(fireball, offsetX, offsetY)) {
+            } else if (playerController.isInStandingWhipRange(fireball, offsetX, offsetY, botState)) {
                 if (playerController.face(fireball, botState) && !gameState.isWeaponing()) {
                     playerController.whip(gameState);
                     return true;

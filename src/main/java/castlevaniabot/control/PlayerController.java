@@ -281,6 +281,11 @@ public class PlayerController {
         }
     }
 
+    public boolean isInStandingWhipRange(final GameObject obj, final int xOffset,
+                                         final int yOffset, BotState botState) {
+        return WHIPS[botState.getWhipLength()][0].inRange(obj, xOffset, yOffset, botState);
+    }
+
     public void goDownStairs(final MapElement[][] map, final int width, BotState botState, Coordinates currentTile) {
         if (botState.isOnStairs()) {
             gamePad.pressDown();

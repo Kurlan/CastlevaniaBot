@@ -129,10 +129,10 @@ public class MummiesStrategy implements Strategy {
             return;
         }
 
-        final boolean inRange1 = b.isInStandingWhipRange(mummy1,
-                mummyOffsetX1, 0);
-        final boolean inRange2 = mummy2 != null && b.isInStandingWhipRange(mummy2,
-                mummyOffsetX2, 0);
+        final boolean inRange1 = playerController.isInStandingWhipRange(mummy1,
+                mummyOffsetX1, 0, botState);
+        final boolean inRange2 = mummy2 != null && playerController.isInStandingWhipRange(mummy2,
+                mummyOffsetX2, 0, botState);
         final GameObject targetMummy;
         if (inRange1 && inRange2) {
             targetMummy = weaponedMummy1 ? mummy2 : mummy1;
