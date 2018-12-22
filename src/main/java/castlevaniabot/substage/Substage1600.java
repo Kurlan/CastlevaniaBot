@@ -5,9 +5,12 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
 import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
@@ -16,14 +19,13 @@ import static castlevaniabot.model.gameelements.GameObjectType.PHANTOM_BAT;
 
 public class Substage1600 extends Substage {
   
-  public Substage1600(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage1600(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("16-00-00"));
   }
 
   @Override
   public void init() {
     super.init();
-    mapRoutes = b.allMapRoutes.get("16-00-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

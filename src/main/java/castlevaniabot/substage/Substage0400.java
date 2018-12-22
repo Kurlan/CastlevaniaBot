@@ -5,8 +5,10 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import nintaco.api.API;
 
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -23,8 +25,8 @@ public class Substage0400 extends Substage {
   private boolean triggedTreasure;
   private boolean collectTreasure;
   
-  public Substage0400(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage0400(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState,  Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("04-00-00"));
   }
 
   @Override
@@ -33,7 +35,6 @@ public class Substage0400 extends Substage {
     blocksWhipped = 0;
     triggedTreasure = blocksBroken = false;
     collectTreasure = ThreadLocalRandom.current().nextBoolean();
-    mapRoutes = b.allMapRoutes.get("04-00-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

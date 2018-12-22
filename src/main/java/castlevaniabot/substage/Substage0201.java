@@ -5,10 +5,12 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -23,8 +25,8 @@ public class Substage0201 extends Substage {
   private boolean blocksBroken;
   private boolean useRedBatDamageBoost;
   
-  public Substage0201(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage0201(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("02-01-00"));
   }
   
   @Override public void init() {
@@ -32,7 +34,6 @@ public class Substage0201 extends Substage {
     blocksWhipped = 0;
     blocksBroken = false;
     useRedBatDamageBoost = ThreadLocalRandom.current().nextBoolean();
-    mapRoutes = b.allMapRoutes.get("02-01-00");
   }  
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

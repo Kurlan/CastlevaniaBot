@@ -5,9 +5,12 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
@@ -17,15 +20,14 @@ public class Substage0500 extends Substage {
   
   private boolean treasureTriggered;
   
-  public Substage0500(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage0500(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("05-00-00"));
   }
 
   @Override
   public void init() {
     super.init();
     treasureTriggered = false;
-    mapRoutes = b.allMapRoutes.get("05-00-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

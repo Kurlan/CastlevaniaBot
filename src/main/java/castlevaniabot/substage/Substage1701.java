@@ -5,9 +5,12 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.STOPWATCH;
 import static castlevaniabot.model.gameelements.Addresses.BLOCK_170100;
@@ -26,8 +29,8 @@ public class Substage1701 extends Substage {
   private boolean killedLowerSkeleton;
   private boolean killedUpperSkeleton;
   
-  public Substage1701(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage1701(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("17-01-00"));
   }
 
   @Override
@@ -35,7 +38,6 @@ public class Substage1701 extends Substage {
     super.init();
     killedUpperSkeleton = killedLowerSkeleton = usedStopwatch = blockWhipped1 
         = blockBroken1 = blockWhipped2 = blockBroken2 = false;
-    mapRoutes = b.allMapRoutes.get("17-01-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

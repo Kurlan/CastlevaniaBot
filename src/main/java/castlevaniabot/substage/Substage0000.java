@@ -5,7 +5,10 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -19,14 +22,13 @@ public class Substage0000 extends Substage {
   
   private boolean triggeredTreasure;
   
-  public Substage0000(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage0000(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("00-00-00"));
   }
 
   @Override
   public void init() {
-    super.init();    
-    mapRoutes = b.allMapRoutes.get("00-00-00");
+    super.init();
     triggeredTreasure = false;
     
     // The bot cannot handle Difficult Mode (gameelements loop 2 or above).

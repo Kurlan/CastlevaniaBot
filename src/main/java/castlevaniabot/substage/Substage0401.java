@@ -5,9 +5,12 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
 import static castlevaniabot.model.gameelements.Addresses.BLOCK_040100;
@@ -20,15 +23,14 @@ public class Substage0401 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;
   
-  public Substage0401(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage0401(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("04-01-00"));
   }
 
   @Override
   public void init() {
     super.init();
     blockWhipped = blockBroken = false;
-    mapRoutes = b.allMapRoutes.get("04-01-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

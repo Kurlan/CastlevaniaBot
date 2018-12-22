@@ -36,12 +36,13 @@ public abstract class Substage {
   public MapRoutes mapRoutes;
   int playerDelay;
   
-  Substage(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
+  Substage(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, MapRoutes mapRoutes) {
     this.b = b;
     this.botState = botState;
     this.api = api;
     this.playerController = playerController;
     this.gameState = gameState;
+    this.mapRoutes = mapRoutes;
   }
   
   public void init() {

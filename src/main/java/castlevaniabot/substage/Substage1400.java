@@ -6,9 +6,12 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -46,8 +49,8 @@ public class Substage1400 extends Substage {
   private boolean upperAxeLeft;
   private State state;
   
-  public Substage1400(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage1400(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("14-00-00"));
   }
 
   @Override
@@ -57,8 +60,7 @@ public class Substage1400 extends Substage {
     candles = fleaman = lowerAxe = upperAxe = lowerKnight = upperKnight = null;
     lastFleamanExists = lastLowerAxeExists = lastUpperAxeExists = upperAxeLeft 
         = false;
-    lastUpperAxeX = 0;    
-    mapRoutes = b.allMapRoutes.get("14-00-00");
+    lastUpperAxeX = 0;
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) { 

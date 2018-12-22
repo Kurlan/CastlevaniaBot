@@ -5,10 +5,13 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -33,8 +36,8 @@ public class Substage1200 extends Substage {
   private boolean gotHighCandle;
   private boolean aboutToGetCrystalBall;  
   
-  public Substage1200(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage1200(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("12-00-00"));
   }
 
   @Override
@@ -42,7 +45,6 @@ public class Substage1200 extends Substage {
     super.init();    
     gotHighCandle = bossDefeated = aboutToGetCrystalBall = blockWhipped1 
         = blockBroken1 = blockWhipped2 = blockBroken2 = false;
-    mapRoutes = b.allMapRoutes.get("12-00-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

@@ -5,18 +5,20 @@ import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
+import castlevaniabot.model.gameelements.MapRoutes;
 import nintaco.api.API;
+
+import java.util.Map;
 
 public class Substage1800 extends Substage {
   
-  public Substage1800(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage1800(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("18-00-00"));
   }
 
   @Override
   public void init() {
     super.init();
-    mapRoutes = b.allMapRoutes.get("18-00-00");
   }
   
   @Override void evaluteTierAndSubTier(final GameObject obj) {

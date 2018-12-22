@@ -6,9 +6,12 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
+import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
+
+import java.util.Map;
 
 import static castlevaniabot.model.creativeelements.Weapon.BOOMERANG;
 import static castlevaniabot.model.creativeelements.Weapon.HOLY_WATER;
@@ -33,8 +36,8 @@ public class Substage1401 extends Substage {
   private boolean blockWhipped2;
   private boolean blockBroken2;   
   
-  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, final GameState gameState) {
-    super(b, botState, api, playerController, gameState);
+  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, final GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(b, botState, api, playerController, gameState, allMapRoutes.get("14-01-00"));
   }
 
   @Override
@@ -43,7 +46,6 @@ public class Substage1401 extends Substage {
     blockWhipped1 = blockBroken1 = blockWhipped2 = blockBroken2 
         = treasureTriggered1 = false;
     treasureTriggered3 = treasureTriggered2 = botState.getWeapon() != HOLY_WATER;
-    mapRoutes = b.allMapRoutes.get("14-01-00");
 
   }
   
