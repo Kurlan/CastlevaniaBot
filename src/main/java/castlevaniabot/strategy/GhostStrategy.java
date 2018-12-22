@@ -47,14 +47,14 @@ public class GhostStrategy implements Strategy {
 
         if (moveAwayCounter > 0) {
             --moveAwayCounter;
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (ghost.y2 < botState.getPlayerY() - 48 || ghost.y1 > botState.getPlayerY() + 16
                 || ghost.distanceX > 48) {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (ghost.distanceX < 20) {
             moveAwayCounter = 180 + ThreadLocalRandom.current().nextInt(11);
             ;
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);                            // stand whip bat

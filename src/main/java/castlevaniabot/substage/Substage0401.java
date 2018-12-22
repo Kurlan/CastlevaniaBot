@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -22,19 +23,21 @@ public class Substage0401 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;
   private MapRoutes next;
+  private GameStateRestarter gameStateRestarter;
 
-  public Substage0401(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("04-01-00"));
+  public Substage0401(final API api, PlayerController playerController,Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("04-01-00"));
+    this.gameStateRestarter = gameStateRestarter;
     next = allMapRoutes.get("04-01-01");
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     blockWhipped = blockBroken = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     if (obj.type == BLACK_BAT) {
       if (obj.active && obj.distanceX < 96 && obj.y + 88 >= botState.getPlayerY()
           && obj.y - 40 <= botState.getPlayerY() && ((obj.left && obj.x >= botState.getPlayerX() - 40)
@@ -49,10 +52,10 @@ public class Substage0401 extends Substage {
     } else if (obj.type == DESTINATION) {
       obj.tier = 0;
     } else if (obj.distance < HORIZON && !((isInKnightPit(obj) 
-        && isKnightInPit()) || isInPlatformPit(obj))) {
+        && isKnightInPit(gameState)) || isInPlatformPit(obj))) {
       switch(obj.type) {
         case BLOCK: 
-          if (botState.getPlayerX() >= 248 && !isKnightInPit()) {
+          if (botState.getPlayerX() >= 248 && !isKnightInPit(gameState)) {
             obj.tier = 1;
           }
           break;
@@ -87,7 +90,7 @@ public class Substage0401 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 32 && botState.getPlayerX() <= 104) {
       if (botState.getCurrentStrategy() != allStrategies.getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
@@ -95,14 +98,14 @@ public class Substage0401 extends Substage {
         botState.setCurrentStrategy(allStrategies.getNO_JUMP_MOVING_PLATFORM());
       }
     } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && botState.getCurrentTile().getY() == 7
-        && botState.getCurrentTile().getX() >= 15 && botState.getCurrentTile().getX() <= 17 && isKnightInPit()) {
+        && botState.getCurrentTile().getX() >= 15 && botState.getCurrentTile().getX() <= 17 && isKnightInPit(gameState)) {
       if (botState.getCurrentStrategy() != allStrategies.getUSE_WEAPON()) {
         clearTarget(targetedObject);
         allStrategies.getUSE_WEAPON().init(264, 112, false, false);
         botState.setCurrentStrategy(allStrategies.getUSE_WEAPON());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
   
@@ -114,7 +117,7 @@ public class Substage0401 extends Substage {
     return obj.y >= 144 && obj.x >= 320 && obj.x <= 352;
   }
   
-  private boolean isKnightInPit() {
+  private boolean isKnightInPit(GameState gameState) {
     final GameObject[] objs = gameState.getGameObjects();
     for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
@@ -126,7 +129,7 @@ public class Substage0401 extends Substage {
   }
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (!blockBroken && botState.getPlayerX() >= 256 && api.readPPU(BLOCK_040100) == 0x00) {
       blockWhipped = blockBroken = true;
       mapRoutes = next;
@@ -142,21 +145,21 @@ public class Substage0401 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 32) {
-      route(25, 112);
+      route(25, 112, botState, gameState);
     } else {
-      route(64, 144);
+      route(64, 144, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
-    route(471, 144);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(471, 144, botState, gameState);
   }
 
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     blockWhipped = true;
   }
 }

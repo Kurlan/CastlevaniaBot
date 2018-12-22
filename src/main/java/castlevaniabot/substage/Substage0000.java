@@ -5,6 +5,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.operation.GameStateRestarter;
 import nintaco.api.API;
 
 import java.util.Map;
@@ -20,14 +21,16 @@ import static java.lang.Math.abs;
 public class Substage0000 extends Substage {
   
   private boolean triggeredTreasure;
+  private final GameStateRestarter gameStateRestarter;
   
-  public Substage0000(final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("00-00-00"));
+  public Substage0000(final API api, final PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("00-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     triggeredTreasure = false;
     
     // The bot cannot handle Difficult Mode (gameelements loop 2 or above).
@@ -37,7 +40,7 @@ public class Substage0000 extends Substage {
     }
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     switch(obj.type) {
       case DESTINATION:   
         obj.tier = 0; break;
@@ -89,7 +92,7 @@ public class Substage0000 extends Substage {
   }
 
   @Override
-  public void route(final int targetX, final int targetY) {
+  public void route(final int targetX, final int targetY, BotState botState, GameState gameState) {
     if (targetX > botState.getPlayerX()) {
       if (targetX > 696 && botState.getPlayerX() >= 676 && botState.getPlayerX() < 696) {
         playerController.goRightAndJump(botState);
@@ -106,17 +109,17 @@ public class Substage0000 extends Substage {
   }
   
   @Override
-  public void routeLeft() {
-    route(9, 192);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 192, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(760, 192);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(760, 192, botState, gameState);
   }  
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (triggeredTreasure) {
       gameState.addDestination(696, 192, botState);
     } else {

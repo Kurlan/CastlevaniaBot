@@ -64,7 +64,7 @@ public class RedBatStrategy implements Strategy {
             }
         } else if ((bat.left && bat.x1 > botState.getPlayerX() + 24)
                 || (!bat.left && bat.x2 < botState.getPlayerX() - 24)) {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
     }
 }

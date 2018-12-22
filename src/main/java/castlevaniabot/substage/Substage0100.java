@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -22,19 +23,22 @@ public class Substage0100 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;
   private MapRoutes next;
-  
-  public Substage0100( final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("01-00-00"));
+  private GameStateRestarter gameStateRestarter;
+
+  public Substage0100( final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("01-00-00"));
     this.next = allMapRoutes.get("01-00-01");
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
+    botState.setCurrentStrategy(null);
     blockWhipped = blockBroken = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     if (obj.type == DESTINATION) {
       obj.tier = 0;
     } else if (obj.type == GHOUL) {
@@ -82,20 +86,20 @@ public class Substage0100 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && botState.getCurrentTile().getY() == 7
-        && botState.getCurrentTile().getX() >= 52 && botState.getCurrentTile().getX() <= 56 && isPantherResting()) {
+        && botState.getCurrentTile().getX() >= 52 && botState.getCurrentTile().getX() <= 56 && isPantherResting(gameState)) {
       if (botState.getCurrentStrategy() != allStrategies.getUSE_WEAPON()) {
         clearTarget(targetedObject);
         allStrategies.getUSE_WEAPON().init(879, 112, true, false);
         botState.setCurrentStrategy(allStrategies.getUSE_WEAPON());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState, gameState);
     }
   }
   
-  private boolean isPantherResting() {
+  private boolean isPantherResting(GameState gameState) {
     final GameObject[] objs = gameState.getGameObjects();
     for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
@@ -107,7 +111,7 @@ public class Substage0100 extends Substage {
   }
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerY() >= 160 && botState.getPlayerX() >= 944 && botState.getPlayerX()< 1136) {
       if (!blockBroken && api.readPPU(BLOCK_010000) == 0x00) {
         blockWhipped = blockBroken = true;
@@ -125,21 +129,21 @@ public class Substage0100 extends Substage {
   }
   
   @Override
-  public void routeLeft() {
-    route(9, 208);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 208, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 1392 && botState.getPlayerY() <= 112) {
-      route(1511, 112);
+      route(1511, 112, botState, gameState);
     } else {
-      route(1511, 208);
+      route(1511, 208, botState, gameState);
     }
   }  
   
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     blockWhipped = true;
   }  
 }

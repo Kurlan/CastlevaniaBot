@@ -101,10 +101,10 @@ public class FrankensteinStrategy implements Strategy {
             final int offsetX = frankVx << 4;
             if (avoidFrank > 0) {
                 --avoidFrank;
-                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x, botState, gameState);
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
-                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x, botState, gameState);
             } else if (playerController.isInStandingWhipRange(frank, offsetX, 0, botState)) {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     playerController.whip(gameState);
@@ -118,7 +118,7 @@ public class FrankensteinStrategy implements Strategy {
                     offsetX, 0, frank, botState) && playerController.face(frank, botState)) {
                 playerController.useWeapon(gameState);
             } else if (canWalkTowardFrank) {
-                gameState.getCurrentSubstage().moveToward(frank);
+                gameState.getCurrentSubstage().moveToward(frank, botState, gameState);
             }
         }
     }
@@ -137,10 +137,10 @@ public class FrankensteinStrategy implements Strategy {
             final int offsetX = frankVx << 4;
             if (avoidFrank > 0) {
                 --avoidFrank;
-                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x, botState, gameState);
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
-                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x, botState, gameState);
             } else if (playerController.isInStandingWhipRange(frank, offsetX, 0, botState)) {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     if (botState.getPlayerY() == frank.y) {
@@ -159,7 +159,7 @@ public class FrankensteinStrategy implements Strategy {
                         && botState.getPlayerY() == frank.y) {
                     playerController.whipOrWeapon(gameState, botState);
                 } else {
-                    gameState.getCurrentSubstage().moveToward(frank);
+                    gameState.getCurrentSubstage().moveToward(frank, botState, gameState);
                 }
             }
         }
@@ -183,10 +183,10 @@ public class FrankensteinStrategy implements Strategy {
             final int offsetX = frankVx << 4;
             if (avoidFrank > 0) {
                 --avoidFrank;
-                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x, botState, gameState);
             } else if (frank.distanceX < 24) {
                 avoidFrank = 30 + ThreadLocalRandom.current().nextInt(31);
-                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x);
+                gameState.getCurrentSubstage().moveAwayFromTarget(frank.x, botState, gameState);
             } else if (playerController.isInStandingWhipRange(frank, offsetX, 0, botState)) {
                 if (!gameState.isWeaponing() && playerController.face(frank, botState)) {
                     playerController.whipOrWeapon(gameState, botState);
@@ -197,7 +197,7 @@ public class FrankensteinStrategy implements Strategy {
                     playerController.whip(gameState);
                 }
             } else if (canWalkTowardFrank) {
-                gameState.getCurrentSubstage().moveToward(frank);
+                gameState.getCurrentSubstage().moveToward(frank, botState, gameState);
             }
         }
     }
@@ -214,9 +214,9 @@ public class FrankensteinStrategy implements Strategy {
         if (avoidIgor > 0) {
             --avoidIgor;
             if (igorLeft) {
-                gameState.getCurrentSubstage().routeLeft();
+                gameState.getCurrentSubstage().routeLeft(botState, gameState);
             } else {
-                gameState.getCurrentSubstage().routeRight();
+                gameState.getCurrentSubstage().routeRight(botState, gameState);
             }
             return true;
         } else if (playerController.isInStandingWhipRange(igor, vx, vy, botState)) {

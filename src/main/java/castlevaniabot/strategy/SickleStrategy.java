@@ -76,13 +76,13 @@ public class SickleStrategy implements Strategy {
                 break;
             case 2:
             case 13:
-                gameState.getCurrentSubstage().route(128, 160, false);
+                gameState.getCurrentSubstage().route(128, 160, false, botState, gameState);
                 break;
             case 4:
-                gameState.getCurrentSubstage().route(9, 128, false);
+                gameState.getCurrentSubstage().route(9, 128, false, botState, gameState);
                 break;
             case 11:
-                gameState.getCurrentSubstage().route(238, 128, false);
+                gameState.getCurrentSubstage().route(238, 128, false, botState, gameState);
                 break;
             case 3:
             case 14:

@@ -29,9 +29,9 @@ public class BoneStrategy implements Strategy {
     public void step() {
         if (!botState.isOnStairs()) {
             if (bone.left) {
-                gameState.getCurrentSubstage().routeLeft();
+                gameState.getCurrentSubstage().routeLeft(botState, gameState);
             } else {
-                gameState.getCurrentSubstage().routeRight();
+                gameState.getCurrentSubstage().routeRight(botState, gameState);
             }
         }
     }

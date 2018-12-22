@@ -43,11 +43,11 @@ public class RavenStrategy implements Strategy {
             }
         } else if (moveAway > 0) {
             --moveAway;
-            gameState.getCurrentSubstage().routeLeft();
+            gameState.getCurrentSubstage().routeLeft(botState, gameState);
         } else if (!botState.isOnStairs() && botState.isOnPlatform() && raven.active
                 && raven.y1 > botState.getPlayerY()) {
             moveAway = 64 + ThreadLocalRandom.current().nextInt(11);
-            gameState.getCurrentSubstage().routeLeft();
+            gameState.getCurrentSubstage().routeLeft(botState, gameState);
         } else if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
             if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
                 playerController.whip(gameState);

@@ -58,7 +58,7 @@ public class CrusherStrategy implements Strategy {
         switch (state) {
             case WALK_TO_LEFT_WALL:
                 if (botState.getPlayerX() != 521 || botState.getPlayerY() != 208) {
-                    gameState.getCurrentSubstage().route(521, 208);
+                    gameState.getCurrentSubstage().route(521, 208, botState, gameState);
                 } else {
                     state = State.WAIT_FOR_CRUSHER_2;
                 }
@@ -73,7 +73,7 @@ public class CrusherStrategy implements Strategy {
                 if (botState.getPlayerX() == 456 && botState.getPlayerY() == 176) {
                     state = State.WHIP_CANDLE_1_2;
                 } else {
-                    gameState.getCurrentSubstage().route(456, 176);
+                    gameState.getCurrentSubstage().route(456, 176, botState, gameState);
                 }
                 break;
             case WHIP_CANDLE_1_2:
@@ -97,7 +97,7 @@ public class CrusherStrategy implements Strategy {
                 if (botState.getPlayerX() == 392 && botState.getPlayerY() == 176) {
                     state = State.WHIP_CANDLE_0_1;
                 } else {
-                    gameState.getCurrentSubstage().route(392, 176);
+                    gameState.getCurrentSubstage().route(392, 176, botState, gameState);
                 }
                 break;
             case WHIP_CANDLE_0_1:
@@ -121,7 +121,7 @@ public class CrusherStrategy implements Strategy {
                 if (botState.getPlayerX() == 328 && botState.getPlayerY() == 176) {
                     state = State.WHIP_CANDLE_0;
                 } else {
-                    gameState.getCurrentSubstage().route(328, 176);
+                    gameState.getCurrentSubstage().route(328, 176, botState, gameState);
                 }
                 break;
             case WHIP_CANDLE_0:

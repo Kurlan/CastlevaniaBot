@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
@@ -25,20 +26,22 @@ public class Substage1501 extends Substage {
   private boolean bossDefeated;
   private boolean whippedCandles;
   private Strategy holyWaterDeath;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage1501(BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, Strategy holyWaterDeath) {
-    super( botState, api, playerController, gameState, allMapRoutes.get("15-01-00"));
+  public Substage1501(final API api, PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, Strategy holyWaterDeath, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("15-01-00"));
     this.holyWaterDeath = holyWaterDeath;
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     whippedCandles = bossDefeated = aboutToGetCrystalBall = bossTriggered 
         = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     switch(obj.type) {
       case DEATH:
@@ -156,7 +159,7 @@ public class Substage1501 extends Substage {
   
   @Override
   public void route(final int targetX, final int targetY,
-                    final boolean checkForEnemies) {
+                    final boolean checkForEnemies, BotState botState, GameState gameState) {
 
     if (bossDefeated) {
       // crystal ball X +/- 20
@@ -165,15 +168,15 @@ public class Substage1501 extends Substage {
       } else if (botState.getPlayerX() == 148 && targetX <= 112 && botState.isPlayerLeft()) {
         playerController.goLeftAndJump(botState);
       } else {
-        super.route(targetX, targetY, checkForEnemies);
+        super.route(targetX, targetY, checkForEnemies, botState ,gameState);
       }
     } else {      
-      super.route(targetX, targetY, checkForEnemies);
+      super.route(targetX, targetY, checkForEnemies, botState ,gameState);
     }
   }  
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     if (botState.getPlayerX() == 800 && botState.getWeapon() == BOOMERANG && botState.getHearts() > 0
         && !gameState.isWeaponing()) {
@@ -182,7 +185,7 @@ public class Substage1501 extends Substage {
     
     if (botState.getCurrentStrategy() == allStrategies.getWHIP()) {
       if (whippedCandles) {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else if (bossDefeated) {
       if (!whippedCandles && botState.getPlayerX() >= 224) {
@@ -192,16 +195,16 @@ public class Substage1501 extends Substage {
           botState.setCurrentStrategy(allStrategies.getWHIP());
         }
       } else {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else if (botState.getCurrentStrategy() == allStrategies.getHOLY_WATER_DEATH() && allStrategies.getHOLY_WATER_DEATH().done) {
       bossDefeated = true;
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     } else if (bossTriggered) {
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
         allStrategies.getHOLY_WATER_DEATH().step();
       } else {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else if (botState.getPlayerX() < 128) {
       bossTriggered = true;
@@ -214,7 +217,7 @@ public class Substage1501 extends Substage {
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
         botState.getCurrentStrategy().step();
       } else {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }      
     } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
       if (botState.getCurrentStrategy() != allStrategies.getDEATH_HALL_HOLY_WATER()) {
@@ -222,10 +225,10 @@ public class Substage1501 extends Substage {
         allStrategies.getDEATH_HALL_HOLY_WATER().init();
         botState.setCurrentStrategy(allStrategies.getDEATH_HALL_HOLY_WATER());
       } else {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
   
@@ -245,7 +248,7 @@ public class Substage1501 extends Substage {
   }  
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (!bossDefeated) {
       if (bossTriggered && botState.getCurrentStrategy() != holyWaterDeath) {
         gameState.addDestination(80, 160, botState);
@@ -256,13 +259,13 @@ public class Substage1501 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
-    route(9, 128);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 128, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(1006, 192);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(1006, 192, botState, gameState);
   }
   
   @Override

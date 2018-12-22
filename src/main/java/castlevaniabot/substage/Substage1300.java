@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -22,18 +23,20 @@ import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 public class Substage1300 extends Substage {
   
   private boolean waited;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage1300(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("13-00-00"));
+  public Substage1300(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("13-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     waited = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == FLEAMAN) {
       if (obj.distanceX < 128 && obj.y1 <= botState.getPlayerY()
@@ -114,13 +117,13 @@ public class Substage1300 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     if (botState.getCurrentStrategy() == allStrategies.getWAIT()) {
       final GameObject skeleton = gameState.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < botState.getPlayerX() - 48
           || skeleton.y > 132))) {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else if (botState.getPlayerX() >= 368 && botState.getPlayerY() > 160 && !gameState.isObjectBelow(132)) {
       final GameObject skeleton = gameState.getType(WHITE_SKELETON);
@@ -131,38 +134,38 @@ public class Substage1300 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWAIT());
         waited = false;
       } else {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(88, 48, botState);
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerY() < 144) {
-      route(9, 96);
+      route(9, 96, botState, gameState);
     } else {
-      route(9, 192);
+      route(9, 192, botState, gameState);
     }    
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerY() < 144) {
-      route(503, 128);
+      route(503, 128, botState, gameState);
     } else {
-      route(503, 192);
+      route(503, 192, botState, gameState);
     }
   }
   
   @Override
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
     waited = true;
   }
 }

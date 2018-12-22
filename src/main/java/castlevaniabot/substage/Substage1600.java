@@ -5,6 +5,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
@@ -17,17 +18,19 @@ import static castlevaniabot.model.gameelements.GameObjectType.FIREBALL;
 import static castlevaniabot.model.gameelements.GameObjectType.PHANTOM_BAT;
 
 public class Substage1600 extends Substage {
-  
-  public Substage1600(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("16-00-00"));
+  private GameStateRestarter gameStateRestarter;
+
+  public Substage1600(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("16-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
@@ -103,21 +106,21 @@ public class Substage1600 extends Substage {
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(41, 128, botState);
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() > 1328 && botState.getPlayerY() > 144) {
-      route(1344, 192);
+      route(1344, 192, botState, gameState);
     } else {
-      route(41, 128);
+      route(41, 128, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
-    route(1527, 192);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(1527, 192, botState, gameState);
   }  
 }

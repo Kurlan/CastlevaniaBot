@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -28,20 +29,22 @@ public class Substage1701 extends Substage {
   private boolean killedLowerSkeleton;
   private boolean killedUpperSkeleton;
   private MapRoutes next;
+  private GameStateRestarter gameStateRestarter;
 
-  public Substage1701(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("17-01-00"));
+  public Substage1701(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("17-01-00"));
     this.next = allMapRoutes.get("17-01-01");
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     killedUpperSkeleton = killedLowerSkeleton = usedStopwatch = blockWhipped1 
         = blockBroken1 = blockWhipped2 = blockBroken2 = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (usedStopwatch) {
       if (obj.type == DESTINATION) {
@@ -128,7 +131,7 @@ public class Substage1701 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (!usedStopwatch && botState.getPlayerX() <= 480 && botState.getPlayerY() <= 96
         && botState.getWeapon() == STOPWATCH && botState.getHearts() >= 5) {
       playerController.useWeapon(gameState);
@@ -137,7 +140,7 @@ public class Substage1701 extends Substage {
       if (botState.getCurrentStrategy() == allStrategies.getSKELETON_WALL()) {
         if (allStrategies.getSKELETON_WALL().done) {
           killedLowerSkeleton = true;
-          super.pickStrategy(targetedObject, allStrategies);
+          super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
         }
       } else {
         clearTarget(targetedObject);
@@ -148,7 +151,7 @@ public class Substage1701 extends Substage {
       if (botState.getCurrentStrategy() == allStrategies.getSKELETON_WALL()) {
         if (allStrategies.getSKELETON_WALL().done) {
           killedUpperSkeleton = true;
-          super.pickStrategy(targetedObject, allStrategies);
+          super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
         }
       } else {
         clearTarget(targetedObject);
@@ -156,12 +159,12 @@ public class Substage1701 extends Substage {
         botState.setCurrentStrategy(allStrategies.getSKELETON_WALL());
       } 
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 368 && botState.getPlayerX() < 512) {
       final boolean block1 = api.readPPU(BLOCK_170100) == 0x00;
       final boolean block2 = api.readPPU(BLOCK_170101) == 0x00;
@@ -193,57 +196,57 @@ public class Substage1701 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 496) {
       if (botState.getPlayerY() <= 128 || (botState.isOnStairs() && botState.getPlayerY() < 192)) {
-        route(448, 96);
+        route(448, 96, botState, gameState);
       } else {
-        route(521, 192);
+        route(521, 192, botState, gameState);
       }
     } else if (botState.getPlayerX() >= 176) {
       if (botState.getPlayerY() <= 96) {
-        route(336, 96);
+        route(336, 96, botState, gameState);
       } else if (botState.getPlayerX() < 368 && botState.getPlayerY() < 192) {
-        route(256, 160);
+        route(256, 160, botState, gameState);
       } else if (botState.getPlayerX() >= 368) {
-        route(336, 192);
+        route(336, 192, botState, gameState);
       } else {
-        route(320, 223);
+        route(320, 223, botState, gameState);
       }
     } else {
-      route(0, 128);
+      route(0, 128, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 496) {
       if (botState.getPlayerY() <= 128 || (botState.isOnStairs() && botState.getPlayerY() < 192)) {
-        route(727, 128);
+        route(727, 128, botState, gameState);
       } else {
-        route(727, 192);
+        route(727, 192, botState, gameState);
       }
     } else if (botState.getPlayerX() >= 176) {
       if (botState.getPlayerY() <= 96) {
-        route(727, 128);
+        route(727, 128, botState, gameState);
       } else if (botState.getPlayerX() < 368 && botState.getPlayerY() < 192) {
-        route(359, 192);
+        route(359, 192, botState, gameState);
       } else if (botState.getPlayerX() >= 368) {
         if (blockBroken1 && blockBroken2) {
-          route(487, 192);
+          route(487, 192, botState, gameState);
         } else {
-          route(471, 192);
+          route(471, 192, botState, gameState);
         }
       } else {
-        route(359, 192);
+        route(359, 192, botState, gameState);
       }
     } else {
-      route(151, 192);
+      route(151, 192, botState, gameState);
     }
   }
   
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     if (blockWhipped1) {
       blockWhipped2 = true;
     } else {

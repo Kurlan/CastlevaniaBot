@@ -5,6 +5,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.operation.GameStateRestarter;
 import nintaco.api.API;
 
 import java.util.Map;
@@ -21,19 +22,21 @@ public class Substage0200 extends Substage {
   private boolean blockBroken;  
   private boolean triggeredTreasure;
   private MapRoutes next;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage0200(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("02-00-00"));
+  public Substage0200(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("02-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
     next = allMapRoutes.get("02-00-01");
   }
   
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     blockWhipped = blockBroken = triggeredTreasure = false;
   }  
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
           && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
@@ -84,7 +87,17 @@ public class Substage0200 extends Substage {
   }
 
   @Override
-  public void readGameObjects() {
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 128, botState, gameState);
+  }
+
+  @Override
+  public void routeRight(BotState botState, GameState gameState) {
+    route(495, 160, botState, gameState);
+  }
+
+  @Override
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 384) {
       if (!blockBroken && api.readPPU(BLOCK_020000) == 0x00) {
         blockWhipped = blockBroken = true;
@@ -110,17 +123,7 @@ public class Substage0200 extends Substage {
   }
   
   @Override
-  public void routeLeft() {
-    route(9, 128);
-  }
-  
-  @Override
-  public void routeRight() {
-    route(495, 160);
-  }  
-  
-  @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     blockWhipped = true;
   }
 }

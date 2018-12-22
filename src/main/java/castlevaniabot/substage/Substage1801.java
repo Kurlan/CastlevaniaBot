@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.CookieMonsterStrategy;
 import castlevaniabot.strategy.Strategy;
@@ -28,22 +29,24 @@ public class Substage1801 extends Substage {
   private int holyWaterTimeOut;
   private Strategy dracula;
   private CookieMonsterStrategy cookieMonster;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage1801(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, Strategy dracula, CookieMonsterStrategy cookieMonster) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("18-01-00"));
+  public Substage1801(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, Strategy dracula, CookieMonsterStrategy cookieMonster, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("18-01-00"));
     this.dracula = dracula;
     this.cookieMonster = cookieMonster;
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     bossTriggered = bossDefeated = aboutToGetCrystalBall = walkDownStairs 
         = false;
     holyWaterTimeOut = 180;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
 
     if (obj.type == DESTINATION) {
       obj.tier = 0;
@@ -138,13 +141,13 @@ public class Substage1801 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (bossDefeated) {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     } else if (botState.getCurrentStrategy() == cookieMonster) {
       if (cookieMonster.isDone()) {
         bossTriggered = bossDefeated = true;
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       } else {
         cookieMonster.step();
       }
@@ -156,16 +159,16 @@ public class Substage1801 extends Substage {
       dracula.init();
       botState.setCurrentStrategy(dracula);
     } else if (walkDownStairs) {
-      route(607, 223);
+      route(607, 223, botState ,gameState);
     } else if (botState.getPlayerX() <= 144 && (botState.getHearts() < 20 || botState.getWhipLength() != 2)) {
       walkDownStairs = true;
       clearTarget(targetedObject);
-      setStrategy(null);
+      setStrategy(null, botState);
     } else {
       if (botState.getPlayerX() < 128) {
         bossTriggered = true;
       }
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
   
@@ -183,20 +186,20 @@ public class Substage1801 extends Substage {
   }  
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (!bossTriggered) {
       gameState.addDestination(9, 192, botState);
     }
   }  
 
   @Override
-  public void routeLeft() {
-    route(9, 192);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 192, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(607, 223);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(607, 223, botState, gameState);
   }
   
   @Override

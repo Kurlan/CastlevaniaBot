@@ -81,7 +81,7 @@ public class AxeKnightStrategy implements Strategy {
                 playerController.whip(gameState);
             }
         } else if (botState.getTargetedObject().getTarget().distanceX > 64) {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
     }
 }

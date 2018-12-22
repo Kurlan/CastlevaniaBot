@@ -65,7 +65,7 @@ public class WaitStrategy implements Strategy {
             inPosition = true;
         }
         if (!inPosition) {
-            gameState.getCurrentSubstage().route(playerX, playerY);
+            gameState.getCurrentSubstage().route(playerX, playerY, botState, gameState);
         } else if (delay > 0) {
             switch (waitType) {
                 case KNEEL:
@@ -79,7 +79,7 @@ public class WaitStrategy implements Strategy {
                     break; // walk against wall
             }
             if (--delay == 0) {
-                gameState.getCurrentSubstage().treasureTriggered();
+                gameState.getCurrentSubstage().treasureTriggered(botState);
             }
         }
     }

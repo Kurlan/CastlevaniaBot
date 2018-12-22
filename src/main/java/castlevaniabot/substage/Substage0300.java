@@ -5,6 +5,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
@@ -25,19 +26,21 @@ public class Substage0300 extends Substage {
   private boolean blockBroken;
   private boolean aboutToGetCrystalBall;
   private MapRoutes next;
+  private final GameStateRestarter gameStateRestarter;
  
-  public Substage0300(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("03-00-00"));
+  public Substage0300(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, final GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("03-00-00"));
     next = allMapRoutes.get("03-00-01");
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     aboutToGetCrystalBall = blockWhipped = blockBroken = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     if (obj.type == FIREBALL) {
       if (obj.distanceX < 80 
           && (obj.y2 >= botState.getPlayerY() - 32 && obj.y1 <= botState.getPlayerY())
@@ -102,7 +105,7 @@ public class Substage0300 extends Substage {
   }
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 640) {
       if (!blockBroken && api.readPPU(BLOCK_030000) == 0x00) {
         blockWhipped = blockBroken = true;
@@ -118,25 +121,25 @@ public class Substage0300 extends Substage {
   }
   
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerY() <= 160 && botState.getPlayerX() < 320) {
-      route(9, 112);
+      route(9, 112, botState, gameState);
     } else {
-      route(9, 208);
+      route(9, 208, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerY() <= 160 && botState.getPlayerX() > 704) {
-      route(751, 144);
+      route(751, 144, botState, gameState);
     } else {
-      route(751, 208);
+      route(751, 208, botState, gameState);
     }
   }  
   
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     blockWhipped = true;
   }  
   

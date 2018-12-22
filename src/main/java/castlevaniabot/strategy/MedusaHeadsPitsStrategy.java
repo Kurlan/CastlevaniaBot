@@ -41,7 +41,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
         switch (state) {
             case WALK_TO_EDGE:
                 if (botState.getCurrentTile().getX() != 7 || botState.getCurrentTile().getY() != 12) {
-                    gameState.getCurrentSubstage().route(127, 192);
+                    gameState.getCurrentSubstage().route(127, 192, botState, gameState);
                 } else if (botState.getPlayerX() < 131) {
                     playerController.goRight(botState);
                 } else {
@@ -55,7 +55,7 @@ public class MedusaHeadsPitsStrategy implements Strategy {
                 } else if (botState.getPlayerX() == 328 && botState.getPlayerY() == 176) {
                     state = State.DONE;
                 } else {
-                    gameState.getCurrentSubstage().route(328, 176);
+                    gameState.getCurrentSubstage().route(328, 176, botState, gameState);
                 }
                 break;
             case WAIT_FOR_HEAD:

@@ -47,7 +47,7 @@ public class GetItemStrategy implements Strategy {
                 playerController.jump(botState);
             }
         } else {
-            gameState.getCurrentSubstage().route(x, y);
+            gameState.getCurrentSubstage().route(x, y, botState, gameState);
         }
     }
 }

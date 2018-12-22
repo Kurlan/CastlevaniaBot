@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -24,20 +25,22 @@ public class Substage0201 extends Substage {
   private boolean blocksBroken;
   private boolean useRedBatDamageBoost;
   private MapRoutes next;
-  
-  public Substage0201(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("02-01-00"));
+  private GameStateRestarter gameStateRetarter;
+
+  public Substage0201(final API api, PlayerController playerController,Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("02-01-00"));
     next = allMapRoutes.get("02-01-01");
+    this.gameStateRetarter = gameStateRestarter;
   }
   
-  @Override public void init() {
-    super.init();
+  @Override public void init(BotState botState, GameState gameState) {
+    gameStateRetarter.restartSubstage(gameState, botState);
     blocksWhipped = 0;
     blocksBroken = false;
     useRedBatDamageBoost = ThreadLocalRandom.current().nextBoolean();
   }  
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     if (obj.type == RED_BAT) {
       if (obj.distanceX < 104 && obj.y + 88 >= botState.getPlayerY()
           && obj.y - 40 <= botState.getPlayerY() && ((obj.left && obj.x >= botState.getPlayerX() - 40)
@@ -89,7 +92,7 @@ public class Substage0201 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     if (useRedBatDamageBoost && botState.getPlayerY() == 144 && botState.getPlayerX() >= 128
         && botState.getPlayerX() < 208 && botState.getPlayerY() < 200) {
@@ -101,11 +104,11 @@ public class Substage0201 extends Substage {
       return;
     }
     
-    super.pickStrategy(targetedObject, allStrategies);
+    super.pickStrategy(targetedObject, allStrategies, botState, gameState);
   }  
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getCurrentTile().getX() < 16) {
       gameState.addDestination(72, 224, botState);
       if (botState.getCurrentTile().getX() >= 8 && botState.getCurrentTile().getY() >= 10) {
@@ -126,37 +129,37 @@ public class Substage0201 extends Substage {
   }
   
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 256) {
       if (botState.getPlayerY() < 160) {
-        route(8, 112);
+        route(8, 112, botState, gameState);
       } else {
-        route(24, 208);
+        route(24, 208, botState, gameState);
       }
     } else {
       if (botState.getPlayerY() < 160) {
-        route(264, 128);
+        route(264, 128, botState, gameState);
       } else {
-        route(328, 208);
+        route(328, 208, botState, gameState);
       }      
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 256) {
-      route(248, 208);
+      route(248, 208, botState, gameState);
     } else {
       if (botState.getPlayerY() < 160) {
-        route(504, 112);
+        route(504, 112, botState, gameState);
       } else {
-        route(488, 208);
+        route(488, 208, botState, gameState);
       }      
     }
   }  
   
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     ++blocksWhipped;
   }
   

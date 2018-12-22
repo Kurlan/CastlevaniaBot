@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.WaitStrategy;
 import nintaco.api.API;
@@ -26,18 +27,20 @@ import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 public class Substage0701 extends Substage {
   
   private boolean treasureTriggered;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage0701(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("07-01-00"));
+  public Substage0701(final API api, PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("07-01-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     treasureTriggered = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == GHOST) {
       obj.tier = 8;
@@ -104,7 +107,7 @@ public class Substage0701 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (!treasureTriggered && botState.getPlayerX() >= 480 && botState.getPlayerX() < 544
         && !gameState.isTypeInBounds(CANDLES, 528, 176, 560, 208)
             && !gameState.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
@@ -129,37 +132,37 @@ public class Substage0701 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(743, 160, botState);
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 160) {
-      route(41, 192);
+      route(41, 192, botState, gameState);
     } else {
-      route(169, 192);
+      route(169, 192, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 160) {
-      route(159, 128);
+      route(159, 128, botState, gameState);
     } else if (botState.getPlayerX() < 544) {
-      route(543, 208);
+      route(543, 208, botState, gameState);
     } else {
-      route(743, 160);
+      route(743, 160, botState, gameState);
     }
   }
   
   @Override
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
     treasureTriggered = true;
   }  
 }

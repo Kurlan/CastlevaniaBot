@@ -72,6 +72,6 @@ public class GiantBatStrategy implements Strategy {
             }
         }
 
-        gameState.getCurrentSubstage().route(41, 128, false);
+        gameState.getCurrentSubstage().route(41, 128, false, botState, gameState);
     }
 }

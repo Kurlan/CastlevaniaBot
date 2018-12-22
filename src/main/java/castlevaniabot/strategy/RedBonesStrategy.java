@@ -38,7 +38,7 @@ public class RedBonesStrategy implements Strategy {
                 playerController.goRight(botState);
             }
         } else if (distanceX < 32) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(targetX);
+            gameState.getCurrentSubstage().moveAwayFromTarget(targetX, botState, gameState);
         }
     }
 

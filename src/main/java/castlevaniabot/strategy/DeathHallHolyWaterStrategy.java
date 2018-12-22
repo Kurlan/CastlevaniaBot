@@ -54,6 +54,6 @@ public class DeathHallHolyWaterStrategy implements Strategy {
             }
         }
 
-        gameState.getCurrentSubstage().route(9, 128, false);
+        gameState.getCurrentSubstage().route(9, 128, false, botState, gameState);
     }
 }

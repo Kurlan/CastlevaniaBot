@@ -64,13 +64,13 @@ public class UseWeaponStrategy implements Strategy {
                 useWeapon();
             }
         } else if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY) {
-            gameState.getCurrentSubstage().route(playerX, playerY);
+            gameState.getCurrentSubstage().route(playerX, playerY, botState, gameState);
         } else if (faceLeft != botState.isPlayerLeft()) {
             // walk past and turn around
             if (faceLeft) {
-                gameState.getCurrentSubstage().routeRight();
+                gameState.getCurrentSubstage().routeRight(botState, gameState);
             } else {
-                gameState.getCurrentSubstage().routeLeft();
+                gameState.getCurrentSubstage().routeLeft(botState, gameState);
             }
         } else if (jump && botState.isCanJump()) {
             jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);

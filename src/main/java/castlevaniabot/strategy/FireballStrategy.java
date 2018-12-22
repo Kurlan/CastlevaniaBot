@@ -41,7 +41,7 @@ public class FireballStrategy implements Strategy {
                 playerController.jump(botState);                     // jump over fireball
             }
         } else if (botState.isAtTopOfStairs()) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);                           // stand whip fireball

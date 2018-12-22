@@ -1,7 +1,6 @@
 package castlevaniabot.strategy;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 
@@ -45,9 +44,9 @@ public class GetCrystalBallStrategy extends GetItemStrategy {
         } else if (jumpRequested) {
             if (botState.isCanJump()) {
                 if (jumps == 0 && botState.getTargetedObject().getTarget().playerFacing) {
-                    gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+                    gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
                 } else if (jumps == 1 && !botState.getTargetedObject().getTarget().playerFacing) {
-                    gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+                    gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
                 } else {
                     jumpRequested = false;
                     jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);

@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -19,17 +20,20 @@ import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
 import static castlevaniabot.model.gameelements.GameObjectType.WHITE_SKELETON;
 
 public class Substage0800 extends Substage {
+
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage0800(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("08-00-00"));
+  public Substage0800(final API api, PlayerController playerController,Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController,allMapRoutes.get("08-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == WHITE_SKELETON) {
       if (!botState.isOnStairs() && botState.getPlayerY() >= 112 && obj.y >= 112) {
@@ -90,21 +94,21 @@ public class Substage0800 extends Substage {
   }
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(600, 48, botState);
   }  
 
   @Override
-  public void routeLeft() {
-    route(9, 160);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 160, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(727, 160);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(727, 160, botState, gameState);
   } 
   
-  @Override boolean handleBones(TargetedObject targetedObject, AllStrategies allStrategies) {
+  @Override boolean handleBones(TargetedObject targetedObject, AllStrategies allStrategie, BotState botState, GameState gameState) {
     return false; // Walk right through falling bones
   }
 }

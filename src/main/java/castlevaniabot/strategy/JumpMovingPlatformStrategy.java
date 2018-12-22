@@ -79,7 +79,7 @@ public class JumpMovingPlatformStrategy implements Strategy {
         switch (state) {
             case WALK_TO_POINT_1:
                 if (botState.getPlayerX() != playerX1 || botState.getPlayerY() != playerY) {
-                    gameState.getCurrentSubstage().route(playerX1, playerY);
+                    gameState.getCurrentSubstage().route(playerX1, playerY, botState, gameState);
                 } else {
                     state = State.WAIT_FOR_PLATFORM;
                 }

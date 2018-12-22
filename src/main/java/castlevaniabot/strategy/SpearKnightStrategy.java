@@ -44,9 +44,9 @@ public class SpearKnightStrategy implements Strategy {
                 playerController.jump(botState);
             }
         } else if (knight.distanceX < 24) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (knight.distanceX > 32) {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
     }
 

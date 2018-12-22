@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -18,18 +19,20 @@ import static castlevaniabot.model.gameelements.GameObjectType.SPEAR_KNIGHT;
 public class Substage0500 extends Substage {
   
   private boolean treasureTriggered;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage0500(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("05-00-00"));
+  public Substage0500(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("05-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     treasureTriggered = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.x >= 512) {
       return;
@@ -78,7 +81,7 @@ public class Substage0500 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 544) {
       if (botState.getCurrentStrategy() != allStrategies.getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
@@ -92,27 +95,27 @@ public class Substage0500 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(72, 48, botState);
   }  
 
   @Override
-  public void routeLeft() {
-    route(41, 80);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(41, 80, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(759, 112);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(759, 112, botState, gameState);
   }
 
   @Override
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
     treasureTriggered = true;
   }
 }

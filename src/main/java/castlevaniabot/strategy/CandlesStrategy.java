@@ -77,7 +77,7 @@ public class CandlesStrategy implements Strategy {
                     useWeapon();
                 }
             } else {
-                gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft);
+                gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft, botState, gameState);
             }
         }
     }
@@ -89,6 +89,6 @@ public class CandlesStrategy implements Strategy {
             playerController.whip(gameState);
         }
         done = 64;
-        gameState.getCurrentSubstage().candlesWhipped(botState.getTargetedObject().getTarget());
+        gameState.getCurrentSubstage().candlesWhipped(botState.getTargetedObject().getTarget(), botState);
     }
 }

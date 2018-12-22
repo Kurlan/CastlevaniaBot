@@ -62,7 +62,7 @@ public class BlockStrategy implements Strategy {
                     whipBlock();
                 }
             } else {
-                gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft);
+                gameState.getCurrentSubstage().routeAndFace(playerX, playerY, playerLeft, botState, gameState);
             }
         }
     }
@@ -72,7 +72,7 @@ public class BlockStrategy implements Strategy {
             --delayWhip;
         } else {
             playerController.whip(gameState);
-            gameState.getCurrentSubstage().blockWhipped();
+            gameState.getCurrentSubstage().blockWhipped(botState);
         }
     }
 }

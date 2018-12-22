@@ -40,7 +40,7 @@ public class BoneTowerStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (playerController.isTargetInStandingWhipRange(botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 if (usedHolyWater || botState.getWeapon() != HOLY_WATER || botState.getHearts() == 0
@@ -53,9 +53,9 @@ public class BoneTowerStrategy implements Strategy {
             }
         } else if (tower.distanceX < 24) {
             moveAway = 30 + ThreadLocalRandom.current().nextInt(11);
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
     }
 }

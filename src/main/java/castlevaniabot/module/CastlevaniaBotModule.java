@@ -13,6 +13,7 @@ import castlevaniabot.level.Level6;
 import castlevaniabot.maps.MapLoader;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.operation.GameStateRestarter;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -45,8 +46,8 @@ public class CastlevaniaBotModule extends AbstractModule {
     @Provides
     @Singleton
     public CastlevaniaBot getCastlevaniaBot(API api, Map<String, MapRoutes> allRoutes, GameObject[] gameObjects, List<Level> levels,
-                                            GamePad gamePad, PlayerController playerController) {
-        return new CastlevaniaBot(api, allRoutes, gameObjects, levels, gamePad, playerController);
+                                            GamePad gamePad, PlayerController playerController, GameStateRestarter gameStateRestarter) {
+        return new CastlevaniaBot(api, allRoutes, gameObjects, levels, gamePad, playerController, gameStateRestarter);
     }
 
     @Provides

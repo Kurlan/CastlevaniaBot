@@ -75,7 +75,7 @@ public class DraculaStrategy implements Strategy {
             }
 
             if (botState.getPlayerX() != playerX || botState.isPlayerLeft() != playerLeft) {
-                gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false);
+                gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false, botState, gameState);
             }
         }
         lastHead = head;

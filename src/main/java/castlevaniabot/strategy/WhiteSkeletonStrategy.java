@@ -71,7 +71,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 playerController.jump(botState);
             }
         } else if (drawingTowardHolyWater) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (!botState.isOnStairs() && holyWaterDelay == 0 && botState.getWeapon() == HOLY_WATER
                 && botState.getHearts() > 0 && skeleton.distanceX < 96
                 && skeleton.distanceY <= 36) {
@@ -86,7 +86,7 @@ public class WhiteSkeletonStrategy implements Strategy {
                 }
             }
         } else {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
     }
 }

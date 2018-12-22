@@ -505,7 +505,7 @@ public class PlayerController {
         } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
             gamePad.pressDown();
         } else {
-            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveTowardTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
         return false;
     }
@@ -621,7 +621,7 @@ public class PlayerController {
         } else if (botState.isOnStairs() && botState.getPlayerY() >= 56 && botState.getPlayerY() <= 200) {
             gamePad.pressDown();
         } else {
-            gameState.getCurrentSubstage().moveToward(obj);
+            gameState.getCurrentSubstage().moveToward(obj,botState, gameState);
         }
         return false;
     }

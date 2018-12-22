@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.WaitStrategy;
 import nintaco.api.API;
@@ -23,19 +24,21 @@ import static castlevaniabot.model.gameelements.GameObjectType.RAVEN;
 
 public class Substage0801 extends Substage {
   
-  private boolean treasureTriggered;  
+  private boolean treasureTriggered;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage0801(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("08-01-00"));
+  public Substage0801(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("08-01-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     treasureTriggered = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == RAVEN) {
       obj.tier = 7;
@@ -111,7 +114,7 @@ public class Substage0801 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (!treasureTriggered && botState.getPlayerX() >= 627 && botState.getPlayerX() < 659) {
       if (botState.getCurrentStrategy() != allStrategies.getWAIT()) {
         clearTarget(targetedObject);
@@ -119,32 +122,32 @@ public class Substage0801 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(1255, 128, botState);
   }  
 
   @Override
-  public void routeLeft() {
-    route(512, 160);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(512, 160, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(1255, 128);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(1255, 128, botState, gameState);
   }
   
   @Override
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
     treasureTriggered = true;
   }  
 
   @Override
-  public void candlesWhipped(final GameObject candle) {
+  public void candlesWhipped(final GameObject candle, BotState botState) {
     if (botState.getWeapon() != NONE && roundTile(candle.x) == 42) { // stopwatch
       delayPlayer();
     }

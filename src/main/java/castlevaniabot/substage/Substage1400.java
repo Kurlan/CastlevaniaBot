@@ -7,6 +7,7 @@ import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.GameObjectType;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -47,14 +48,16 @@ public class Substage1400 extends Substage {
   private boolean lastUpperAxeExists;
   private boolean upperAxeLeft;
   private State state;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage1400(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("14-00-00"));
+  public Substage1400(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("14-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     state = State.KILL_FLEAMAN;
     candles = fleaman = lowerAxe = upperAxe = lowerKnight = upperKnight = null;
     lastFleamanExists = lastLowerAxeExists = lastUpperAxeExists = upperAxeLeft 
@@ -62,7 +65,7 @@ public class Substage1400 extends Substage {
     lastUpperAxeX = 0;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) { 
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == GameObjectType.AXE) {
       if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY()
@@ -141,70 +144,70 @@ public class Substage1400 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     switch(state) {
       case KILL_FLEAMAN:
         if (fleaman == null && lowerKnight == null && upperKnight != null) {
-          setState(State.WHIP_CANDLES, targetedObject);
+          setState(State.WHIP_CANDLES, targetedObject, botState);
         } else if (botState.getPlayerY() <= 128) {
           if (fleaman == null || fleaman.y <= botState.getPlayerY() + 8) {
-            setState(State.WHIP_CANDLES, targetedObject);
+            setState(State.WHIP_CANDLES, targetedObject, botState);
           } else {
-            super.pickStrategy(targetedObject, allStrategies);
+            super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
           }
         } else if (fleaman == null 
             && (lastFleamanExists || lowerKnight != null)) {
-          setState(State.WHIP_LOWER_AXE, targetedObject);
+          setState(State.WHIP_LOWER_AXE, targetedObject, botState);
         } else {
-          super.pickStrategy(targetedObject, allStrategies);
+          super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
         }
         break;
       case WHIP_LOWER_AXE:
         if ((lastLowerAxeExists && lowerAxe == null && botState.getPlayerX() >= 1072
             && botState.getPlayerX() < 1168) || (lowerAxe == null && botState.isOnStairs())) {
-          setState(State.DESPAWN_LOWER_KNIGHT, targetedObject);
+          setState(State.DESPAWN_LOWER_KNIGHT, targetedObject, botState);
         } else {
-          super.pickStrategy(targetedObject, allStrategies);
+          super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
         }
         break;
       case DESPAWN_LOWER_KNIGHT:
         if (lowerAxe != null && lowerAxe.y2 >= botState.getPlayerY() - 32
             && lowerAxe.y1 <= botState.getPlayerY() - 8) {
-          setState(State.WHIP_LOWER_AXE, targetedObject);
-          super.pickStrategy(targetedObject, allStrategies);
+          setState(State.WHIP_LOWER_AXE, targetedObject, botState);
+          super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
         } else if (lowerKnight == null) {
-          setState(State.WHIP_CANDLES, targetedObject);
+          setState(State.WHIP_CANDLES, targetedObject, botState);
         } else if (lowerKnight.distanceX > 32) {
-          route(1247, 128);
+          route(1247, 128, botState ,gameState);
         }
         break;
       case WHIP_CANDLES:
         if (botState.getPlayerY() > 128) {
-          route(1247, 128);
+          route(1247, 128, botState ,gameState);
         } else if (candles == null) {
-          setState(State.WALK_TO_STAIRS, targetedObject);
+          setState(State.WALK_TO_STAIRS, targetedObject, botState);
         } else if (upperAxe == null 
             || (upperAxeLeft && upperAxe.x2 < botState.getPlayerX() - 8)) {
-          super.pickStrategy(targetedObject, allStrategies);
+          super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
         }
         break;
       case WALK_TO_STAIRS:          
         if (botState.getPlayerX() == 1152 && botState.getPlayerY() == 128) {
-          setState(State.WAIT_FOR_NO_UPPER_AXE, targetedObject);
+          setState(State.WAIT_FOR_NO_UPPER_AXE, targetedObject, botState);
         } else {
-          route(1152, 128);
+          route(1152, 128, botState ,gameState);
         }
         break;
       case WAIT_FOR_NO_UPPER_AXE:
         if (!lastUpperAxeExists && upperAxe == null) {
-          setState(State.WAIT_FOR_UPPER_AXE, targetedObject);
+          setState(State.WAIT_FOR_UPPER_AXE, targetedObject, botState);
         }
         break;
       case WAIT_FOR_UPPER_AXE:
         if (upperAxe != null && !upperAxeLeft && upperAxe.x >= 1128 
             && upperAxe.y <= 80) {
-          setState(State.RUN_FOR_IT, targetedObject);
+          setState(State.RUN_FOR_IT, targetedObject, botState);
         }
         break;
       case RUN_FOR_IT:
@@ -222,30 +225,30 @@ public class Substage1400 extends Substage {
           }
         } else {
           if (botState.getPlayerY() == 128) {
-            route(1144, 112);
+            route(1144, 112, botState ,gameState);
           } else if (botState.getPlayerX() == 1056 && botState.getPlayerY() == 96 && (upperAxe == null
               || (!upperAxeLeft && upperAxe.x > botState.getPlayerX() + 12))) {
-            setState(State.GO_UP_STAIRS, targetedObject);
-            route(1096, 48);
+            setState(State.GO_UP_STAIRS, targetedObject, botState);
+            route(1096, 48, botState ,gameState);
           } else {
-            route(1056, 96);
+            route(1056, 96, botState ,gameState);
           }
         }
         break;
       case GO_UP_STAIRS:
-        route(1096, 48);
+        route(1096, 48, botState ,gameState);
         break;
     }
   }
   
-  private void setState(final State state, TargetedObject targetedObject) {
+  private void setState(final State state, TargetedObject targetedObject, BotState botState) {
     this.state = state;
     clearTarget(targetedObject);
-    setStrategy(null);
+    setStrategy(null, botState);
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     lastFleamanExists = fleaman != null;
     lastLowerAxeExists = lowerAxe != null;
     lastUpperAxeExists = upperAxe != null;
@@ -294,20 +297,20 @@ public class Substage1400 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerY() < 136) {
-      route(1033, 96);
+      route(1033, 96, botState, gameState);
     } else {
-      route(1033, 192);
+      route(1033, 192, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerY() < 136) {
-      route(1247, 128);
+      route(1247, 128, botState, gameState);
     } else {
-      route(1263, 192);
+      route(1263, 192, botState, gameState);
     }
   }
 }

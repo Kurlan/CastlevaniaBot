@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.MedusaStrategy;
 import castlevaniabot.strategy.Strategy;
@@ -25,21 +26,23 @@ public class Substage0601 extends Substage {
   private final MedusaStrategy medusaStrategy;
   private int walkDelay;
   private boolean reachedBoss;
-  private boolean aboutToGetCrystalBall;  
+  private boolean aboutToGetCrystalBall;
+  private GameStateRestarter gameStateRestarter;
    
-  public Substage0601(final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, MedusaStrategy medusaStrategy) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("06-01-00"));
+  public Substage0601(final API api, final PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, MedusaStrategy medusaStrategy, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("06-01-00"));
     this.medusaStrategy = medusaStrategy;
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     walkDelay = 0;
     aboutToGetCrystalBall = reachedBoss = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.x >= 256 && obj.x < 592) {
       return;
@@ -102,7 +105,7 @@ public class Substage0601 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
 
     if (!reachedBoss && botState.getPlayerX() <= 40) {
       reachedBoss = true;
@@ -123,7 +126,7 @@ public class Substage0601 extends Substage {
         botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_WALK());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
   
@@ -137,20 +140,20 @@ public class Substage0601 extends Substage {
   }  
   
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (!reachedBoss) {
       gameState.addDestination(40, 176, botState);
     }
   }  
 
   @Override
-  public void routeLeft() {
-    route(25, 176);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(25, 176, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(727, 176);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(727, 176, botState, gameState);
   }
   
   @Override

@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.Strategy;
 import castlevaniabot.strategy.WaitStrategy;
@@ -37,20 +38,22 @@ public class Substage0900 extends Substage {
   
   public boolean blockBroken;
   private MapRoutes next;
+  private GameStateRestarter gameStateRestarter;
 
-  public Substage0900(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("09-00-00"));
+  public Substage0900(final API api, PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("09-00-00"));
     next = allMapRoutes.get("09-00-01");
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     blockWhipped = blockBroken = aboutToGetCrystalBall = bossDefeated 
         = bossTriggered = enteredTomb = treasureTriggered = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
         
     if (obj.type == MUMMY) {
       if (obj.x > 1312 && obj.x < 1502) {
@@ -148,7 +151,7 @@ public class Substage0900 extends Substage {
 
   @Override
   public void route(final int targetX, final int targetY,
-                    final boolean checkForEnemies) {
+                    final boolean checkForEnemies, BotState botState, GameState gameState) {
     
     if (bossDefeated) {
       if (botState.getPlayerX() == 1388 && targetX >= 1424 && !botState.isPlayerLeft()) {
@@ -156,15 +159,15 @@ public class Substage0900 extends Substage {
       } else if (botState.getPlayerX() == 1428 && targetX <= 1376 && botState.isPlayerLeft()) {
         playerController.goLeftAndJump(botState);
       } else {
-        super.route(targetX, targetY, checkForEnemies);
+        super.route(targetX, targetY, checkForEnemies, botState ,gameState);
       }
     } else {
-      super.route(targetX, targetY, checkForEnemies);
+      super.route(targetX, targetY, checkForEnemies, botState ,gameState);
     }
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     if (bossTriggered && !bossDefeated) {
       if (botState.getCurrentStrategy() != allStrategies.getMUMMIES()) {
@@ -179,18 +182,18 @@ public class Substage0900 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else if (!enteredTomb && botState.getPlayerX() >= 992 && botState.getPlayerX()< 1327
-        && areFireballsOrBoneTowersNotPresent()) {
+        && areFireballsOrBoneTowersNotPresent(gameState)) {
       if (botState.getCurrentStrategy() != allStrategies.getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
         allStrategies.getMEDUSA_HEADS_WALK().init(false);
         botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_WALK());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
   
-  private boolean areFireballsOrBoneTowersNotPresent() {
+  private boolean areFireballsOrBoneTowersNotPresent(GameState gameState) {
     final GameObject[] objs = gameState.getGameObjects();
     for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {
       final GameObject obj = objs[i];
@@ -211,7 +214,7 @@ public class Substage0900 extends Substage {
   }  
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 1280) {
       if (!blockBroken && api.readPPU(BLOCK_090000) == 0x00) {
         enteredTomb = treasureTriggered = blockWhipped = blockBroken = true;
@@ -232,26 +235,26 @@ public class Substage0900 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerY() > 164 && (blockBroken || botState.getPlayerX() < 1336)) {
-      route(1289, 208);
+      route(1289, 208, botState, gameState);
     } else {
-      route(9, 128);
+      route(9, 128, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
-    route(1527, 208);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(1527, 208, botState, gameState);
   }
   
   @Override
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
     treasureTriggered = true;
   }  
 
   @Override
-  public void candlesWhipped(final GameObject candle) {
+  public void candlesWhipped(final GameObject candle, BotState botState) {
     if (botState.getWeapon() != NONE && botState.getWeapon() != STOPWATCH
         && roundTile(candle.x) == 82) { // dagger
       delayPlayer();
@@ -264,7 +267,7 @@ public class Substage0900 extends Substage {
   }
   
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     blockWhipped = true;
   }  
   

@@ -10,6 +10,7 @@ import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.Modes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.model.gameelements.TileType;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.substage.Substage;
 import castlevaniabot.substage.Substage0000;
@@ -115,7 +116,7 @@ public class CastlevaniaBot {
   private final PlayerController playerController;
 
   public CastlevaniaBot(API api, Map<String, MapRoutes> allMapRoutes, GameObject[] gameObjects, List<Level> levels,
-                        GamePad gamePad, PlayerController playerController) {
+                        GamePad gamePad, PlayerController playerController, GameStateRestarter gameStateRestarter) {
       this.botState = new BotState();
       this.botState.setWeapon(NONE);
       this.botState.setTargetedObject(
@@ -138,36 +139,36 @@ public class CastlevaniaBot {
       this.api = api;
       this.allMapRoutes = allMapRoutes;
 
-      SUBSTAGE_0000 = new Substage0000(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0100 = new Substage0100(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0200 = new Substage0200(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0201 = new Substage0201(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0300 = new Substage0300(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0400 = new Substage0400(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0401 = new Substage0401(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0500 = new Substage0500(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0501 = new Substage0501(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0600 = new Substage0600(botState, api, playerController, gameState, allMapRoutes, allStrategies.getCRUSHER());
-      SUBSTAGE_0601 = new Substage0601(botState, api, playerController, gameState, allMapRoutes, allStrategies.getMEDUSA());
-      SUBSTAGE_0700 = new Substage0700(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0701 = new Substage0701(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0800 = new Substage0800(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0801 = new Substage0801(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_0900 = new Substage0900(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1000 = new Substage1000(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1100 = new Substage1100(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1200 = new Substage1200(botState, api, playerController, gameState, allMapRoutes, allStrategies.getFRANKENSTEIN());
-      SUBSTAGE_1300 = new Substage1300(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1301 = new Substage1301(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1400 = new Substage1400(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1401 = new Substage1401(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1500 = new Substage1500(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1501 = new Substage1501(botState, api, playerController, gameState, allMapRoutes, allStrategies.getHOLY_WATER_DEATH());
-      SUBSTAGE_1600 = new Substage1600(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1700 = new Substage1700(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1701 = new Substage1701(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1800 = new Substage1800(botState, api, playerController, gameState, allMapRoutes);
-      SUBSTAGE_1801 = new Substage1801(botState, api, playerController, gameState, allMapRoutes, allStrategies.getDRACULA(), allStrategies.getCOOKIE_MONSTER());
+      SUBSTAGE_0000 = new Substage0000(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0100 = new Substage0100(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0200 = new Substage0200(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0201 = new Substage0201(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0300 = new Substage0300(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0400 = new Substage0400(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0401 = new Substage0401(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0500 = new Substage0500(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0501 = new Substage0501(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0600 = new Substage0600(api, playerController, allMapRoutes, allStrategies.getCRUSHER(), gameStateRestarter);
+      SUBSTAGE_0601 = new Substage0601(api, playerController, allMapRoutes, allStrategies.getMEDUSA(), gameStateRestarter);
+      SUBSTAGE_0700 = new Substage0700(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0701 = new Substage0701(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0800 = new Substage0800(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0801 = new Substage0801(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_0900 = new Substage0900(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1000 = new Substage1000(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1100 = new Substage1100(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1200 = new Substage1200(api, playerController, allMapRoutes, allStrategies.getFRANKENSTEIN(), gameStateRestarter);
+      SUBSTAGE_1300 = new Substage1300(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1301 = new Substage1301(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1400 = new Substage1400(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1401 = new Substage1401(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1500 = new Substage1500(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1501 = new Substage1501(api, playerController, allMapRoutes, allStrategies.getHOLY_WATER_DEATH(), gameStateRestarter);
+      SUBSTAGE_1600 = new Substage1600(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1700 = new Substage1700(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1701 = new Substage1701(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1800 = new Substage1800(api, playerController, allMapRoutes, gameStateRestarter);
+      SUBSTAGE_1801 = new Substage1801(api, playerController, allMapRoutes, allStrategies.getDRACULA(), allStrategies.getCOOKIE_MONSTER(), gameStateRestarter);
 
       this.botState.setDamageBoostSublevel(SUBSTAGE_0201);
       this.botState.setBrokenBlockStage(SUBSTAGE_0900);
@@ -281,7 +282,8 @@ public class CastlevaniaBot {
     }
     if (_substage != null && _substage != gameState.getCurrentSubstage()) {
       gameState.setEntryDelay(ThreadLocalRandom.current().nextInt(17));
-      _substage.init();
+      botState.setCurrentStrategy(null);
+      _substage.init(botState, gameState);
     }
     gameState.setCurrentSubstage(_substage);
 
@@ -336,7 +338,7 @@ public class CastlevaniaBot {
         && botState.getJumpDelay() == 0);
 
     gameState.getCurrentLevel().readGameObjects(gameState, botState, botState.getCurrentTile(), playerController);
-    _substage.readGameObjects();
+    _substage.readGameObjects(botState, gameState);
   }
   
   public void renderFinished() {
@@ -384,7 +386,7 @@ public class CastlevaniaBot {
     }
 
     botState.setAvoidX(AVOID_X_RESET);
-    gameState.getCurrentSubstage().pickStrategy(botState.getTargetedObject(), allStrategies);
+    gameState.getCurrentSubstage().pickStrategy(botState.getTargetedObject(), allStrategies, botState, gameState);
     if (botState.getCurrentStrategy() != null) {
       if (gameState.getEntryDelay() > 0) {
         gameState.setEntryDelay(gameState.getEntryDelay() - 1);

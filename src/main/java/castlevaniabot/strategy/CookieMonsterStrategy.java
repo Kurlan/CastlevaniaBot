@@ -86,7 +86,7 @@ public class CookieMonsterStrategy implements Strategy {
             }
 
             if (botState.getPlayerX() != playerX || botState.isPlayerLeft() != playerLeft) {
-                gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false);
+                gameState.getCurrentSubstage().routeAndFace(playerX, 192, playerLeft, false, botState, gameState);
             } else if (botState.isCanJump()) {
                 playerController.jump(botState);
                 jumpCounter = 2 + ThreadLocalRandom.current().nextInt(7);

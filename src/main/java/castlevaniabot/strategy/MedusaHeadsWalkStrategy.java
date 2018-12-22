@@ -40,9 +40,9 @@ public class MedusaHeadsWalkStrategy implements Strategy {
 
         if (head == null) {
             if (left) {
-                gameState.getCurrentSubstage().routeLeft();
+                gameState.getCurrentSubstage().routeLeft(botState, gameState);
             } else {
-                gameState.getCurrentSubstage().routeRight();
+                gameState.getCurrentSubstage().routeRight(botState, gameState);
             }
             return;
         }
@@ -91,9 +91,9 @@ public class MedusaHeadsWalkStrategy implements Strategy {
         }
 
         if (left) {
-            gameState.getCurrentSubstage().routeLeft();
+            gameState.getCurrentSubstage().routeLeft(botState, gameState);
         } else {
-            gameState.getCurrentSubstage().routeRight();
+            gameState.getCurrentSubstage().routeRight(botState, gameState);
         }
     }
 

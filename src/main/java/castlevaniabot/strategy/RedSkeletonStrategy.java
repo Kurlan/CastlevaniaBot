@@ -62,9 +62,9 @@ public class RedSkeletonStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         } else if (skeleton.distanceX < 32) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
             moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
         }
     }

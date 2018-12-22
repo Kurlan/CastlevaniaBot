@@ -27,49 +27,34 @@ public abstract class Substage {
   }
   
   final API api;
-  final BotState botState;
   final PlayerController playerController;
-  final GameState gameState;
   
   public MapRoutes mapRoutes;
   int playerDelay;
   
-  Substage(final BotState botState, final API api, PlayerController playerController, GameState gameState, MapRoutes mapRoutes) {
-    this.botState = botState;
+  Substage(final API api, PlayerController playerController, MapRoutes mapRoutes) {
     this.api = api;
     this.playerController = playerController;
-    this.gameState = gameState;
     this.mapRoutes = mapRoutes;
   }
   
-  public void init() {
-    gameState.setDraculaHeadTime(0);
-    gameState.setSickleCount0(0);
-    gameState.setSickleCount1(0);
-    gameState.setMedusaHeadsCount0(0);
-    gameState.setMedusaHeadsCount1(0);
-    gameState.setRedBonesCount0(0);
-    gameState.setRedBonesCount1(0);
-    botState.setCurrentStrategy(null);
-    gameState.setBoneCount0(0);
-    gameState.setBoneCount1(0);
-    gameState.setRedBatsCount0(0);
-    gameState.setRedBatsCount1(0);
+  public void init(BotState botState, GameState gameState) {
+
   }
   
   public MapRoutes getMapRoutes() {
     return mapRoutes;
   }  
   
-  public void routeAndFace(final int targetX, final int targetY, final boolean left) {
-    routeAndFace(targetX, targetY, left, true);
+  public void routeAndFace(final int targetX, final int targetY, final boolean left, BotState botState, GameState gameState) {
+    routeAndFace(targetX, targetY, left, true, botState, gameState);
   }
   
   // Must provide at least a 1 pixel cushion to potentially turn around.
   // In other words, do not route to the edge of a block or the middle of a 
   // box against a wall.
   public void routeAndFace(final int targetX, final int targetY, final boolean left,
-                           final boolean checkForEnemies) {
+                           final boolean checkForEnemies, BotState botState, GameState gameState) {
     
     if (botState.getPlayerX() == targetX && botState.getPlayerY() == targetY) {
       if (botState.isPlayerLeft() != left) {
@@ -80,16 +65,16 @@ public abstract class Substage {
         }
       }
     } else {
-      route(targetX, targetY, true);
+      route(targetX, targetY, true, botState, gameState);
     }
   }  
   
-  public void route(final int targetX, final int targetY) {
-    route(targetX, targetY, true);
+  public void route(final int targetX, final int targetY, BotState botState, GameState gameState) {
+    route(targetX, targetY, true, botState, gameState);
   }
   
   public void route(final int targetX, final int targetY,
-                    final boolean checkForEnemies) {
+                    final boolean checkForEnemies, BotState botState, GameState gameState) {
     
     if (targetX < 0 || targetY < 0) {
       return;
@@ -116,13 +101,13 @@ public abstract class Substage {
   public void crystalBallAlmostAquired() {
   }
   
-  public void candlesWhipped(final GameObject candle) {
+  public void candlesWhipped(final GameObject candle, BotState botState) {
   }
 
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
   }
   
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
   }
   
   public void weaponUsed() {
@@ -134,43 +119,43 @@ public abstract class Substage {
   public void bossDefeated() {
   }
   
-  public void moveToward(final GameObject obj) {
+  public void moveToward(final GameObject obj, BotState botState, GameState gameState) {
     if (obj.onPlatform) {
-      route(obj.supportX, obj.y, false);
+      route(obj.supportX, obj.y, false, botState, gameState);
     } else {
-      route(obj.supportX, obj.platformY << 4, false);
+      route(obj.supportX, obj.platformY << 4, false, botState, gameState);
     }
   } 
   
-  void moveTowardTarget(final boolean checkForEnemies, GameObject target) {
+  void moveTowardTarget(final boolean checkForEnemies, GameObject target, BotState botState, GameState gameState) {
     if (target.onPlatform) {
-      route(target.supportX, target.y, checkForEnemies);
+      route(target.supportX, target.y, checkForEnemies, botState, gameState);
     } else {
-      route(target.supportX, target.platformY << 4, checkForEnemies);
+      route(target.supportX, target.platformY << 4, checkForEnemies, botState, gameState);
     }
   }  
   
-  public void moveTowardTarget(GameObject target) {
+  public void moveTowardTarget(GameObject target, BotState botState, GameState gameState) {
     if (target.onPlatform) {
-      route(target.supportX, target.y, false);
+      route(target.supportX, target.y, false, botState, gameState);
     } else {
-      route(target.supportX, target.platformY << 4, false);
+      route(target.supportX, target.platformY << 4, false, botState, gameState);
     }
   } 
   
-  public void moveAwayFromTarget(final int targetX) {
+  public void moveAwayFromTarget(final int targetX, BotState botState, GameState gameState) {
     if (botState.getPlayerX() < targetX) {
-      routeLeft();
+      routeLeft(botState, gameState);
     } else {
-      routeRight();
+      routeRight(botState, gameState);
     }
   }  
   
-  public void moveAwayFromTarget(GameObject target) {
+  public void moveAwayFromTarget(GameObject target, BotState botState, GameState gameState) {
     if (botState.getPlayerX() < target.x) {
-      routeLeft();
+      routeLeft(botState, gameState);
     } else {
-      routeRight();
+      routeRight(botState, gameState);
     }
   }
   
@@ -219,7 +204,7 @@ public abstract class Substage {
     }
   }
 
-  boolean handleBones(TargetedObject targetedObject, AllStrategies allStrategies) {
+  boolean handleBones(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     final Bone bone = gameState.getHarmfulBone(botState);
     if (bone == null) {
@@ -235,18 +220,18 @@ public abstract class Substage {
     return true;
   }  
   
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     
     if (playerDelay > 0) {
       --playerDelay;
       if (targetedObject.getTargetType() != null) {
         clearTarget(targetedObject);
-        setStrategy(null);
+        setStrategy(null, botState);
       }
       return;
     }
     
-    if (handleBones(targetedObject, allStrategies)) {
+    if (handleBones(targetedObject, allStrategies, botState, gameState)) {
       return;
     }
     
@@ -257,7 +242,7 @@ public abstract class Substage {
       
       obj.tier = -1;
       obj.subTier = 0;
-      evaluteTierAndSubTier(obj);
+      evaluteTierAndSubTier(obj, botState, gameState);
       
       if (obj.tier >= 0) {
         obj.rank = (obj.tier << 24) | (obj.subTier << 20) | obj.distTier;
@@ -278,12 +263,12 @@ public abstract class Substage {
     if (newTarget == null) { // currentTarget must also be null
       if (targetedObject.getTargetType() != null) {
         clearTarget(targetedObject);
-        setStrategy(selectStrategy(null, allStrategies));
+        setStrategy(selectStrategy(null, allStrategies), botState);
       }
     } else if (currentTarget == null
         || newTarget.rank - currentTarget.rank > MARGINAL_RANK) {
       setTarget(newTarget, targetedObject);
-      setStrategy(selectStrategy(newTarget, allStrategies));
+      setStrategy(selectStrategy(newTarget, allStrategies), botState);
     } else {
       setTarget(currentTarget, targetedObject);
     }   
@@ -307,15 +292,15 @@ public abstract class Substage {
     }
   }
   
-  void setStrategy(final Strategy strategy) {
+  void setStrategy(final Strategy strategy, BotState botState) {
     if (strategy != null) {
       strategy.init();
     }
     botState.setCurrentStrategy(strategy);
   }
   
-  abstract void evaluteTierAndSubTier(GameObject obj);
-  public abstract void routeLeft();
-  public abstract void routeRight();
-  public abstract void readGameObjects();
+  abstract void evaluteTierAndSubTier(GameObject obj, BotState botState, GameState gameState);
+  public abstract void routeLeft(BotState botState, GameState gameState);
+  public abstract void routeRight(BotState botState, GameState gameState);
+  public abstract void readGameObjects(BotState botState, GameState gameState);
 }

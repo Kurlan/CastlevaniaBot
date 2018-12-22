@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import castlevaniabot.strategy.WaitStrategy;
 import nintaco.api.API;
@@ -36,21 +37,23 @@ public class Substage1301 extends Substage {
   private boolean blockBroken2;
   private MapRoutes next1;
   private MapRoutes next2;
+  private GameStateRestarter gameStateRestarter;
 
-  public Substage1301(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("13-01-00"));
+  public Substage1301(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("13-01-00"));
     next1 = allMapRoutes.get("13-01-01");
     next2 = allMapRoutes.get("13-01-02");
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     treasureTriggered = blockWhipped1 = blockBroken1 = blockWhipped2 
         = blockBroken2 = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == FLEAMAN) {
       if (obj.distanceX < 64 && obj.y1 <= botState.getPlayerY()
@@ -142,7 +145,7 @@ public class Substage1301 extends Substage {
   }
 
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (!treasureTriggered && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 336
         && botState.getPlayerX() < 416) {
       if (botState.getCurrentStrategy()!= allStrategies.getWAIT()) {
@@ -151,12 +154,12 @@ public class Substage1301 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerX() >= 416 && botState.getPlayerX() < 480) {
       if (!blockBroken1 && api.readPPU(BLOCK_130100) == 0x00) {
         blockWhipped1 = blockBroken1 = true;
@@ -179,29 +182,29 @@ public class Substage1301 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 320 && botState.getPlayerY() > 104) {
-      route(9, 192);
+      route(9, 192, botState, gameState);
     } else if (botState.getPlayerX() < 416 && botState.getPlayerY() <= 104) {
-      route(9, 96);
+      route(9, 96, botState, gameState);
     } else {
-      route(361, 192);
+      route(361, 192, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 320 && botState.getPlayerY() > 104) {
-      route(311, 192);
+      route(311, 192, botState, gameState);
     } else if (botState.getPlayerX() < 416 && botState.getPlayerY() <= 104) {
-      route(407, 96);
+      route(407, 96, botState, gameState);
     } else {
-      route(1255, 192);
+      route(1255, 192, botState, gameState);
     }
   }
   
   @Override
-  public void blockWhipped() {
+  public void blockWhipped(BotState botState) {
     if (botState.getPlayerX() > 448) {
       blockWhipped2 = true;
     } else {
@@ -210,7 +213,7 @@ public class Substage1301 extends Substage {
   }  
 
   @Override
-  public void treasureTriggered() {
+  public void treasureTriggered(BotState botState) {
     treasureTriggered = true;
   }
 }

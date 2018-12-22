@@ -115,14 +115,14 @@ public class MummiesStrategy implements Strategy {
 
         if (moveAway > 0) {
             --moveAway;
-            gameState.getCurrentSubstage().moveAwayFromTarget(moveAwayFromX);
+            gameState.getCurrentSubstage().moveAwayFromTarget(moveAwayFromX, botState, gameState);
             return;
         }
 
         if (closestMummy.distanceX < 30 && botState.getPlayerX() > 1312 && botState.getPlayerX() < 1488) {
             moveAway = 17 + ThreadLocalRandom.current().nextInt(17);
             moveAwayFromX = closestMummy.x;
-            gameState.getCurrentSubstage().moveAwayFromTarget(closestMummy.x);
+            gameState.getCurrentSubstage().moveAwayFromTarget(closestMummy.x, botState, gameState);
             return;
         }
 
@@ -149,7 +149,7 @@ public class MummiesStrategy implements Strategy {
     private void stepBoomerangStrategy() {
 
         if (botState.getPlayerX() != 1512 || botState.getPlayerY() != 208 || !botState.isPlayerLeft()) {
-            gameState.getCurrentSubstage().routeAndFace(1512, 208, true, false);
+            gameState.getCurrentSubstage().routeAndFace(1512, 208, true, false, botState, gameState);
         } else if (!gameState.isWeaponing()) {
             playerController.whipOrWeapon(gameState, botState);
         }
@@ -168,7 +168,7 @@ public class MummiesStrategy implements Strategy {
         }
 
         if (botState.getPlayerX() != routeX || botState.getPlayerY() != routeY || botState.isPlayerLeft()) {
-            gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false);
+            gameState.getCurrentSubstage().routeAndFace(routeX, routeY, false, botState, gameState);
         } else {
             playerController.kneel();
             if (botState.isKneeling() && !gameState.isWeaponing()) {
@@ -180,7 +180,7 @@ public class MummiesStrategy implements Strategy {
     private void stepHolyWaterStrategy() {
 
         if (botState.getPlayerX() != 1290 || botState.getPlayerY() != 144 || botState.isPlayerLeft()) {
-            gameState.getCurrentSubstage().routeAndFace(1290, 144, false);
+            gameState.getCurrentSubstage().routeAndFace(1290, 144, false, botState, gameState);
         } else if (weaponDelay > 0) {
             --weaponDelay;
         } else if (!gameState.isWeaponing() && ((mummy1 != null && abs(mummy1.x - 1360) < 16)

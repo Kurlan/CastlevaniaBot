@@ -40,10 +40,10 @@ public class FireColumnStrategy implements Strategy {
                 playerController.whip(gameState);
                 done = 64;
             } else {
-                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget()); // walk past and turn around
+                gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState); // walk past and turn around
             }
         } else {
-            gameState.getCurrentSubstage().route(targetX, botState.getTargetedObject().getTarget().y);
+            gameState.getCurrentSubstage().route(targetX, botState.getTargetedObject().getTarget().y, botState, gameState);
         }
     }
 }

@@ -69,7 +69,7 @@ public class SkeletonWallStrategy implements Strategy {
 
         if ((botState.isOnStairs() || botState.isOnPlatform())
                 && (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY || !botState.isPlayerLeft())) {
-            gameState.getCurrentSubstage().routeAndFace(playerX, playerY, true);
+            gameState.getCurrentSubstage().routeAndFace(playerX, playerY, true, botState, gameState);
             return;
         }
 

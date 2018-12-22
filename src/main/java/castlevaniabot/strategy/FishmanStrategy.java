@@ -48,7 +48,7 @@ public class FishmanStrategy implements Strategy {
                 playerController.jump(botState);
             }
         } else if (fishman.distanceX < 24) {
-            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget());
+            gameState.getCurrentSubstage().moveAwayFromTarget(botState.getTargetedObject().getTarget(), botState, gameState);
         }
     }
 }

@@ -5,6 +5,7 @@ import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
+import castlevaniabot.operation.GameStateRestarter;
 import nintaco.api.API;
 
 import java.util.Map;
@@ -17,17 +18,20 @@ import static castlevaniabot.model.gameelements.GameObjectType.DESTINATION;
 import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
 
 public class Substage1100 extends Substage {
+
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage1100(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("11-00-00"));
+  public Substage1100(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("11-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == FLEAMAN) {
       if (obj.y2 >= botState.getPlayerY() - 56 && obj.y1 <= botState.getPlayerY()) {
@@ -82,17 +86,17 @@ public class Substage1100 extends Substage {
   }
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     gameState.addDestination(1519, 192, botState);
   }  
 
   @Override
-  public void routeLeft() {
-    route(9, 192);
+  public void routeLeft(BotState botState, GameState gameState) {
+    route(9, 192, botState, gameState);
   }
   
   @Override
-  public void routeRight() {
-    route(1519, 192);
+  public void routeRight(BotState botState, GameState gameState) {
+    route(1519, 192, botState, gameState);
   }
 }

@@ -6,6 +6,7 @@ import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
 import nintaco.api.API;
 
@@ -23,19 +24,20 @@ import static castlevaniabot.model.gameelements.GameObjectType.RED_BAT;
 public class Substage1000 extends Substage {
   
   private boolean whippedHolyWaterCandle;
+  private GameStateRestarter gameStateRestarter;
   
-  public Substage1000(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(botState, api, playerController, gameState, allMapRoutes.get("10-00-00"));
+  public Substage1000(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
+    super(api, playerController, allMapRoutes.get("10-00-00"));
+    this.gameStateRestarter = gameStateRestarter;
   }
 
   @Override
-  public void init() {
-    super.init();
-    botState.setCurrentStrategy(null);
+  public void init(BotState botState, GameState gameState) {
+    gameStateRestarter.restartSubstage(gameState, botState);
     whippedHolyWaterCandle = false;
   }
   
-  @Override void evaluteTierAndSubTier(final GameObject obj) {
+  @Override void evaluteTierAndSubTier(final GameObject obj, BotState botState, GameState gameState) {
     
     if (obj.type == RED_BAT) {
       if (obj.distanceX < 96 && obj.y + 88 >= botState.getPlayerY()
@@ -131,14 +133,14 @@ public class Substage1000 extends Substage {
   }
   
   @Override
-  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
+  public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (botState.getCurrentStrategy() == allStrategies.getBAT_MOVING_PLATFORM() && botState.getPlayerY() > 112) {
       if (allStrategies.getBAT_MOVING_PLATFORM().done) {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else if (botState.getCurrentStrategy() == allStrategies.getBAT_DUAL_PLATFORMS()) {
       if (allStrategies.getBAT_DUAL_PLATFORMS().done) {
-        super.pickStrategy(targetedObject, allStrategies);
+        super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       }
     } else if (botState.getPlayerX() == 991 && botState.getPlayerY() == 160
         && !gameState.isTypePresent(RED_BAT)) {
@@ -158,12 +160,12 @@ public class Substage1000 extends Substage {
         botState.setCurrentStrategy(allStrategies.getWHIP());
       }
     } else {
-      super.pickStrategy(targetedObject, allStrategies);
+      super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
     }
   }  
 
   @Override
-  public void readGameObjects() {
+  public void readGameObjects(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 240) {
       gameState.addDestination(223, 160, botState);
     } else if (botState.getPlayerX() < 784) {
@@ -176,28 +178,28 @@ public class Substage1000 extends Substage {
   }  
 
   @Override
-  public void routeLeft() {
+  public void routeLeft(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 240) {
-      route(9, 160);
+      route(9, 160, botState, gameState);
     } else if (botState.getPlayerX() < 784) {
-      route(384, 160);
+      route(384, 160, botState, gameState);
     } else if (botState.getPlayerX() < 1008) {
-      route(960, 160);
+      route(960, 160, botState, gameState);
     } else {
-      route(1280, 160);
+      route(1280, 160, botState, gameState);
     }
   }
   
   @Override
-  public void routeRight() {
+  public void routeRight(BotState botState, GameState gameState) {
     if (botState.getPlayerX() < 240) {
-      route(223, 160);
+      route(223, 160, botState, gameState);
     } else if (botState.getPlayerX() < 784) {
-      route(767, 160);
+      route(767, 160, botState, gameState);
     } else if (botState.getPlayerX() < 1008) {
-      route(991, 160);
+      route(991, 160, botState, gameState);
     } else {
-      route(1527, 112);
+      route(1527, 112, botState, gameState);
     }
   }
 
