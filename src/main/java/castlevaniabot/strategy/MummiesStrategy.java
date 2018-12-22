@@ -83,9 +83,6 @@ public class MummiesStrategy implements Strategy {
             if (botState.getHearts() > 0 && botState.getWeapon() == BOOMERANG) {
                 stepBoomerangStrategy();
                 return;
-            } else if (botState.getBrokenBlockStage().blockBroken) {
-                stepGroundAssault();
-                return;
             }
         }
 

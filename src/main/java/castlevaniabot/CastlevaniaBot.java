@@ -171,7 +171,6 @@ public class CastlevaniaBot {
       SUBSTAGE_1801 = new Substage1801(api, playerController, allMapRoutes, allStrategies.getDRACULA(), allStrategies.getCOOKIE_MONSTER(), gameStateRestarter);
 
       this.botState.setDamageBoostSublevel(SUBSTAGE_0201);
-      this.botState.setBrokenBlockStage(SUBSTAGE_0900);
   }
 
   public AllStrategies getAllStrategies() {
