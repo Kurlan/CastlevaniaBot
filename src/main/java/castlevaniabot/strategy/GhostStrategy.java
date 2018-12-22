@@ -62,7 +62,7 @@ public class GhostStrategy implements Strategy {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);                            // stand whip bat
             }
-        } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
+        } else if (playerController.isTargetInKneelingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.kneel();
                 if (botState.isKneeling()) {

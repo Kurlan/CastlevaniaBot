@@ -58,7 +58,7 @@ public class FleamanStrategy implements Strategy {
             if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);
             }
-        } else if (b.isTargetInKneelingWhipRange(vx, vy)) {
+        } else if (playerController.isTargetInKneelingWhipRange(vx, vy, botState)) {
             playerController.kneel();
             if (botState.isKneeling() && !gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);

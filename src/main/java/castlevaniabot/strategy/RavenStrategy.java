@@ -55,13 +55,13 @@ public class RavenStrategy implements Strategy {
         } else if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
             if (playerController.isTargetInStandingWhipRange(offsetX, offsetY, botState)) {
                 playerController.whip(gameState);
-            } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
+            } else if (playerController.isTargetInKneelingWhipRange(offsetX, offsetY, botState)) {
                 playerController.kneel();
                 if (botState.isKneeling()) {
                     playerController.whip(gameState);
                 }
             } else if (botState.isCanJump()) {
-                final int whipDelay = b.isTargetInJumpingWhipRange(offsetX, offsetY);
+                final int whipDelay = playerController.isTargetInJumpingWhipRange(offsetX, offsetY, botState);
                 if (whipDelay > 0) {
                     jumpCounter = whipDelay;
                     playerController.jump(botState);

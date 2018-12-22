@@ -70,7 +70,7 @@ public class BoneDragonStrategy implements Strategy {
         if (botState.getPlayerX() != playerX || botState.getPlayerY() != playerY || botState.isPlayerLeft()) {
             gameState.getCurrentSubstage().routeAndFace(playerX, playerY, false);
         }
-        if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
+        if (playerController.isTargetInKneelingWhipRange(offsetX, offsetY, botState)) {
             playerController.kneel();
             if (botState.isKneeling() && !gameState.isWeaponing()) {
                 playerController.whip(gameState);

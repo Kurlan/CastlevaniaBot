@@ -48,7 +48,7 @@ public class AxeStrategy implements Strategy {
             if (!gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);
             }
-        } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
+        } else if (playerController.isTargetInKneelingWhipRange(offsetX, offsetY, botState)) {
             playerController.kneel();
             if (botState.isKneeling() && !gameState.isWeaponing() && playerController.faceTarget(botState, gameState)) {
                 playerController.whip(gameState);

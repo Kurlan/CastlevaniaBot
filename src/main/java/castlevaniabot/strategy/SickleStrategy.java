@@ -51,11 +51,11 @@ public class SickleStrategy implements Strategy {
         if (sickle.distanceX < 32
                 && (sickle.y2 <= botState.getPlayerY() - 32 || sickle.y1 >= botState.getPlayerY())) {
             moveAwayFrom(sickle);
-        } else if (b.isTargetInStandingWhipRange()) {
+        } else if (playerController.isTargetInStandingWhipRange(botState)) {
             if (playerController.faceTarget(botState, gameState) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);
             }
-        } else if (b.isTargetInKneelingWhipRange()) {
+        } else if (playerController.isTargetInKneelingWhipRange(botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {

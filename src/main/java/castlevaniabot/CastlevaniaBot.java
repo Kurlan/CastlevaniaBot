@@ -50,7 +50,6 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static castlevaniabot.model.creativeelements.Weapon.NONE;
-import static castlevaniabot.model.creativeelements.Whip.WHIPS;
 import static castlevaniabot.model.gameelements.Addresses.CAMERA_X;
 import static castlevaniabot.model.gameelements.Addresses.HEARTS;
 import static castlevaniabot.model.gameelements.Addresses.KNEELING;
@@ -72,10 +71,7 @@ import static java.lang.Math.abs;
 import static java.lang.Math.min;
 
 public class CastlevaniaBot {
-  
-  private static final int[][] WHIP_HEIGHT_AND_DELAY = {
-    { 13, 21 }, { 19, 19 }, { 25, 17 }, { 31, 14 }, { 36, 4 },
-  };
+
   
   private static final int AVOID_X_RESET = -512;
 
@@ -423,29 +419,7 @@ public class CastlevaniaBot {
 
     gameState.setObjsCount(gameState.getObjsCount() + 1);
   }
-  
-  public boolean isTargetInStandingWhipRange() {
-    return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), botState);
-  } 
-  
-  public boolean isTargetInKneelingWhipRange() {
-    return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), botState);
-  } 
-  
-  // Returns the whip delay after jumping or -1 if not in range.
-  public int isTargetInJumpingWhipRange(final int xOffset, final int yOffset) {
-    for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {      
-      if (WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset,
-          yOffset + WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
-        return WHIP_HEIGHT_AND_DELAY[i][1];
-      }
-    }
-    return -1;
-  }
-  
-  public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset) {
-    return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
-  }
+
   public int countObjects(final GameObjectType type) {
     int count = 0;
     for(int i = gameState.getObjsCount() - 1; i >= 0; --i) {

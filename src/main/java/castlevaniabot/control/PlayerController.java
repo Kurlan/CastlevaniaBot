@@ -79,6 +79,10 @@ public class PlayerController {
         }
     }
 
+    private static final int[][] WHIP_HEIGHT_AND_DELAY = {
+            { 13, 21 }, { 19, 19 }, { 25, 17 }, { 31, 14 }, { 36, 4 },
+    };
+
     // For a given height, this is how long to delay whipping after a jump.
     public static final int[] JUMP_WHIP_DELAYS = new int[37];
     static {
@@ -297,6 +301,29 @@ public class PlayerController {
 
     public boolean isInKneelingWhipRange(final GameObject obj, BotState botState) {
         return WHIPS[botState.getWhipLength()][1].inRange(obj, botState);
+    }
+
+    public boolean isTargetInStandingWhipRange(BotState botState) {
+        return WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), botState);
+    }
+
+    public boolean isTargetInKneelingWhipRange(BotState botState) {
+        return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), botState);
+    }
+
+    // Returns the whip delay after jumping or -1 if not in range.
+    public int isTargetInJumpingWhipRange(final int xOffset, final int yOffset, BotState botState) {
+        for(int i = WHIP_HEIGHT_AND_DELAY.length - 1; i >= 0; --i) {
+            if (WHIPS[botState.getWhipLength()][0].inRange(botState.getTargetedObject().getTarget(), xOffset,
+                    yOffset + WHIP_HEIGHT_AND_DELAY[i][0], botState)) {
+                return WHIP_HEIGHT_AND_DELAY[i][1];
+            }
+        }
+        return -1;
+    }
+
+    public boolean isTargetInKneelingWhipRange(final int xOffset, final int yOffset, BotState botState) {
+        return WHIPS[botState.getWhipLength()][1].inRange(botState.getTargetedObject().getTarget(), xOffset, yOffset, botState);
     }
 
     public void goDownStairs(final MapElement[][] map, final int width, BotState botState, Coordinates currentTile) {

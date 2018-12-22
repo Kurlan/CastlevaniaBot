@@ -37,7 +37,7 @@ public class SnakeStrategy implements Strategy {
         lastX = snake.x;
         lastY = snake.y;
 
-        if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
+        if (playerController.isTargetInKneelingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {

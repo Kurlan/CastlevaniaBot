@@ -49,7 +49,7 @@ public class FireballStrategy implements Strategy {
             if (playerController.faceTarget(botState, gameState) && !gameState.isWeaponing()) {
                 playerController.whip(gameState);                           // stand whip fireball
             }
-        } else if (b.isTargetInKneelingWhipRange(offsetX, offsetY)) {
+        } else if (playerController.isTargetInKneelingWhipRange(offsetX, offsetY, botState)) {
             if (playerController.faceTarget(botState, gameState)) {
                 playerController.kneel();
                 if (botState.isKneeling() && !gameState.isWeaponing()) {

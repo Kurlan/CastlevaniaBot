@@ -44,7 +44,7 @@ public class BlockStrategy implements Strategy {
             }
         } else if (botState.isOnPlatform() && botState.getTargetedObject().getTarget().playerFacing
                 && botState.getTargetedObject().getTarget().y >= botState.getPlayerY() - 24 && botState.getTargetedObject().getTarget().y <= botState.getPlayerY()
-                && b.isTargetInStandingWhipRange()) {
+                && playerController.isTargetInStandingWhipRange(botState)) {
             whipBlock();
         } else {
             final int playerX = (botState.getTargetedObject().getTarget().platformX << 4) + 8;
