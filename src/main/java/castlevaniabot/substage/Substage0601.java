@@ -1,13 +1,13 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
+import castlevaniabot.strategy.MedusaStrategy;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -21,13 +21,15 @@ import static castlevaniabot.model.gameelements.GameObjectType.MEDUSA;
 import static castlevaniabot.model.gameelements.GameObjectType.SNAKE;
 
 public class Substage0601 extends Substage {
-  
+
+  private final MedusaStrategy medusaStrategy;
   private int walkDelay;
   private boolean reachedBoss;
   private boolean aboutToGetCrystalBall;  
    
-  public Substage0601(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("06-01-00"));
+  public Substage0601(final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, MedusaStrategy medusaStrategy) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("06-01-00"));
+    this.medusaStrategy = medusaStrategy;
   }
 
   @Override
@@ -44,7 +46,7 @@ public class Substage0601 extends Substage {
     }
       
     if (obj.type == SNAKE) {
-      if (!b.getAllStrategies().getMEDUSA().isTimeFrozen()) {
+      if (!medusaStrategy.isTimeFrozen()) {
         if (obj.distanceX < 64) {
           if (obj.left) {
             if (obj.x2 > botState.getPlayerX() - 16) {
@@ -115,10 +117,10 @@ public class Substage0601 extends Substage {
       botState.setCurrentStrategy(null);
       walkDelay = 150 + ThreadLocalRandom.current().nextInt(11);
     } else if (botState.getPlayerX() >= 256 && botState.getPlayerX() < 608) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != allStrategies.getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
-        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
+        allStrategies.getMEDUSA_HEADS_WALK().init(true);
+        botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_WALK());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -128,7 +130,7 @@ public class Substage0601 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
+      return allStrategies.getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target, allStrategies);
     }

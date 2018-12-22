@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -22,8 +21,8 @@ public class Substage0000 extends Substage {
   
   private boolean triggeredTreasure;
   
-  public Substage0000(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("00-00-00"));
+  public Substage0000(final BotState botState, final API api, final PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("00-00-00"));
   }
 
   @Override

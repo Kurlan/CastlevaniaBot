@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -37,9 +36,11 @@ public class Substage0900 extends Substage {
   private boolean aboutToGetCrystalBall;
   
   public boolean blockBroken;
-  
-  public Substage0900(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("09-00-00"));
+  private MapRoutes next;
+
+  public Substage0900(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("09-00-00"));
+    next = allMapRoutes.get("09-00-01");
   }
 
   @Override
@@ -166,23 +167,23 @@ public class Substage0900 extends Substage {
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
     if (bossTriggered && !bossDefeated) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getMUMMIES()) {
+      if (botState.getCurrentStrategy() != allStrategies.getMUMMIES()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getMUMMIES().init();
-        botState.setCurrentStrategy(b.getAllStrategies().getMUMMIES());
+        allStrategies.getMUMMIES().init();
+        botState.setCurrentStrategy(allStrategies.getMUMMIES());
       }
     } else if (enteredTomb && !treasureTriggered) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != allStrategies.getWAIT()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(1320, 160, WaitStrategy.WaitType.WALK_LEFT, 200);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(1320, 160, WaitStrategy.WaitType.WALK_LEFT, 200);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else if (!enteredTomb && botState.getPlayerX() >= 992 && botState.getPlayerX()< 1327
         && areFireballsOrBoneTowersNotPresent()) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != allStrategies.getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(false);
-        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
+        allStrategies.getMEDUSA_HEADS_WALK().init(false);
+        botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_WALK());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -203,7 +204,7 @@ public class Substage0900 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
+      return allStrategies.getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target, allStrategies);
     }
@@ -214,10 +215,10 @@ public class Substage0900 extends Substage {
     if (botState.getPlayerX() >= 1280) {
       if (!blockBroken && api.readPPU(BLOCK_090000) == 0x00) {
         enteredTomb = treasureTriggered = blockWhipped = blockBroken = true;
-        mapRoutes = b.allMapRoutes.get("09-00-01");
+        mapRoutes = next;
       }
       if (!blockWhipped && bossDefeated) {
-        b.addBlock(1328, 176);
+        gameState.addBlock(1328, 176, botState);
       }
     } 
     if (botState.getPlayerX() > 1408) {

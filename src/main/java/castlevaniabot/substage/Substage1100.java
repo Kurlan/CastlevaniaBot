@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -19,8 +18,8 @@ import static castlevaniabot.model.gameelements.GameObjectType.FLEAMAN;
 
 public class Substage1100 extends Substage {
   
-  public Substage1100(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("11-00-00"));
+  public Substage1100(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("11-00-00"));
   }
 
   @Override

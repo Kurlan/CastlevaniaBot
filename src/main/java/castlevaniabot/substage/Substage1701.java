@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -28,9 +27,11 @@ public class Substage1701 extends Substage {
   private boolean usedStopwatch;
   private boolean killedLowerSkeleton;
   private boolean killedUpperSkeleton;
-  
-  public Substage1701(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("17-01-00"));
+  private MapRoutes next;
+
+  public Substage1701(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("17-01-00"));
+    this.next = allMapRoutes.get("17-01-01");
   }
 
   @Override
@@ -133,26 +134,26 @@ public class Substage1701 extends Substage {
       playerController.useWeapon(gameState);
       usedStopwatch = true;
     } else if (!killedLowerSkeleton && botState.getPlayerX() >= 496 && botState.getPlayerY() > 128) {
-      if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
-        if (b.getAllStrategies().getSKELETON_WALL().done) {
+      if (botState.getCurrentStrategy() == allStrategies.getSKELETON_WALL()) {
+        if (allStrategies.getSKELETON_WALL().done) {
           killedLowerSkeleton = true;
           super.pickStrategy(targetedObject, allStrategies);
         }
       } else {
         clearTarget(targetedObject);
-        b.getAllStrategies().getSKELETON_WALL().init(726, 192, 136);
-        botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
+        allStrategies.getSKELETON_WALL().init(726, 192, 136);
+        botState.setCurrentStrategy(allStrategies.getSKELETON_WALL());
       }
     } else if (!killedUpperSkeleton && botState.getPlayerX() >= 496 && botState.getPlayerY() <= 128) {
-      if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
-        if (b.getAllStrategies().getSKELETON_WALL().done) {
+      if (botState.getCurrentStrategy() == allStrategies.getSKELETON_WALL()) {
+        if (allStrategies.getSKELETON_WALL().done) {
           killedUpperSkeleton = true;
           super.pickStrategy(targetedObject, allStrategies);
         }
       } else {
         clearTarget(targetedObject);
-        b.getAllStrategies().getSKELETON_WALL().init(704, 128);
-        botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
+        allStrategies.getSKELETON_WALL().init(704, 128);
+        botState.setCurrentStrategy(allStrategies.getSKELETON_WALL());
       } 
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -167,20 +168,20 @@ public class Substage1701 extends Substage {
       if (!blockBroken1 && block1) {
         blockWhipped1 = blockBroken1 = true;
         if (block1 && block2) {
-          mapRoutes = b.allMapRoutes.get("17-01-01");
+          mapRoutes = next;
         }
       }
       if (!blockBroken2 && block2) {
         blockWhipped2 = blockBroken2 = true;
         if (block1 && block2) {
-          mapRoutes = b.allMapRoutes.get("17-01-01");
+          mapRoutes = next;
         }
       }
       if (!blockWhipped1) {
-        b.addBlock(480, 160);
+        gameState.addBlock(480, 160, botState);
       }
       if (!blockWhipped2) {
-        b.addBlock(480, 176);
+        gameState.addBlock(480, 176, botState);
       }
     }    
 

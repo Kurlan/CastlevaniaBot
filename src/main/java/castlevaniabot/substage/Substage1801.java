@@ -1,13 +1,13 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
+import castlevaniabot.strategy.CookieMonsterStrategy;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -26,9 +26,13 @@ public class Substage1801 extends Substage {
   private boolean bossTriggered;
   private boolean bossDefeated;
   private int holyWaterTimeOut;
+  private Strategy dracula;
+  private CookieMonsterStrategy cookieMonster;
   
-  public Substage1801(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("18-01-00"));
+  public Substage1801(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, Strategy dracula, CookieMonsterStrategy cookieMonster) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("18-01-00"));
+    this.dracula = dracula;
+    this.cookieMonster = cookieMonster;
   }
 
   @Override
@@ -104,10 +108,10 @@ public class Substage1801 extends Substage {
         case DRACULA_HEAD:
           if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
-            if (botState.getCurrentStrategy() != b.getAllStrategies().getDRACULA()) {
+            if (botState.getCurrentStrategy() != dracula) {
               clearTarget(botState.getTargetedObject());
-              b.getAllStrategies().getDRACULA().init();
-              botState.setCurrentStrategy(b.getAllStrategies().getDRACULA());
+              dracula.init();
+              botState.setCurrentStrategy(dracula);
             }
           } else if (holyWaterTimeOut > 0) {
             --holyWaterTimeOut;
@@ -116,10 +120,10 @@ public class Substage1801 extends Substage {
         case COOKIE_MONSTER_HEAD:
           if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
-            if (botState.getCurrentStrategy() != b.getAllStrategies().getCOOKIE_MONSTER()) {
+            if (botState.getCurrentStrategy() != cookieMonster) {
               clearTarget(botState.getTargetedObject());
-              b.getAllStrategies().getCOOKIE_MONSTER().init();
-              botState.setCurrentStrategy(b.getAllStrategies().getCOOKIE_MONSTER());
+              cookieMonster.init();
+              botState.setCurrentStrategy(cookieMonster);
             }
           } else if (holyWaterTimeOut > 0) {
             --holyWaterTimeOut;
@@ -137,20 +141,20 @@ public class Substage1801 extends Substage {
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (bossDefeated) {
       super.pickStrategy(targetedObject, allStrategies);
-    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getCOOKIE_MONSTER()) {
-      if (b.getAllStrategies().getCOOKIE_MONSTER().done) {
+    } else if (botState.getCurrentStrategy() == cookieMonster) {
+      if (cookieMonster.isDone()) {
         bossTriggered = bossDefeated = true;
         super.pickStrategy(targetedObject, allStrategies);
       } else {
-        b.getAllStrategies().getCOOKIE_MONSTER().step();
+        cookieMonster.step();
       }
-    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getDRACULA()) {
-      b.getAllStrategies().getDRACULA().step();
+    } else if (botState.getCurrentStrategy() == dracula) {
+      dracula.step();
     } else if (botState.getWeapon() == HOLY_WATER) {
       bossTriggered = true;
       clearTarget(targetedObject);
-      b.getAllStrategies().getDRACULA().init();
-      botState.setCurrentStrategy(b.getAllStrategies().getDRACULA());
+      dracula.init();
+      botState.setCurrentStrategy(dracula);
     } else if (walkDownStairs) {
       route(607, 223);
     } else if (botState.getPlayerX() <= 144 && (botState.getHearts() < 20 || botState.getWhipLength() != 2)) {
@@ -169,7 +173,7 @@ public class Substage1801 extends Substage {
   Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null) {
       if (aboutToGetCrystalBall) {
-        return b.getAllStrategies().getGOT_CRYSTAL_BALL();
+        return allStrategies.getGOT_CRYSTAL_BALL();
       } else {
         return super.selectStrategy(target, allStrategies);
       }

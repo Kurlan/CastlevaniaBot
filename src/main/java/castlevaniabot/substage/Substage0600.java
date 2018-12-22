@@ -1,13 +1,13 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
 import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.strategy.AllStrategies;
+import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
 import java.util.Map;
@@ -26,15 +26,21 @@ public class Substage0600 extends Substage {
   private boolean blockBroken0;
   private boolean blockWhipped1;
   private boolean blockBroken1;
-   
-  public Substage0600(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("06-00-00"));
+  private MapRoutes next2;
+  private MapRoutes next1;
+  private Strategy crusher;
+
+  public Substage0600(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, Strategy crusher) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("06-00-00"));
+    next1 = allMapRoutes.get("06-00-01");
+    next2 = allMapRoutes.get("06-00-02");
+    this.crusher = crusher;
   }
 
   @Override
   public void init() {
     super.init();
-    b.getAllStrategies().getCRUSHER().init();
+    crusher.init();
     blockWhipped1 = blockBroken1 = blockWhipped0 = blockBroken0 = false;
   }
   
@@ -97,10 +103,10 @@ public class Substage0600 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
-    if (b.getAllStrategies().getCRUSHER().isActive()) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getCRUSHER()) {
+    if (allStrategies.getCRUSHER().isActive()) {
+      if (botState.getCurrentStrategy() != allStrategies.getCRUSHER()) {
         clearTarget(targetedObject);
-        botState.setCurrentStrategy(b.getAllStrategies().getCRUSHER());
+        botState.setCurrentStrategy(allStrategies.getCRUSHER());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -112,18 +118,18 @@ public class Substage0600 extends Substage {
     if (botState.getPlayerX() >= 512) {
       if (!blockBroken0 && api.readPPU(BLOCK_060000) == 0x00) {
         blockWhipped0 = blockBroken0 = true;
-        mapRoutes = b.allMapRoutes.get("06-00-01");
+        mapRoutes = next1;
       }
       if (!blockWhipped0) {
-        b.addBlock(704, 144);
+        gameState.addBlock(704, 144, botState);
       }
     } else if (botState.getPlayerX() < 256) {
       if (!blockBroken1 && api.readPPU(BLOCK_060001) == 0x00) {
         blockWhipped1 = blockBroken1 = true;
-        mapRoutes = b.allMapRoutes.get("06-00-02");
+        mapRoutes = next2;
       }
       if (!blockWhipped1) {
-        b.addBlock(128, 160);
+        gameState.addBlock(128, 160, botState);
       }
     }
     

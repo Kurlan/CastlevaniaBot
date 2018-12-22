@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -34,10 +33,14 @@ public class Substage1301 extends Substage {
   private boolean blockBroken1;
 
   private boolean blockWhipped2;
-  private boolean blockBroken2;  
-   
-  public Substage1301(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("13-01-00"));
+  private boolean blockBroken2;
+  private MapRoutes next1;
+  private MapRoutes next2;
+
+  public Substage1301(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("13-01-00"));
+    next1 = allMapRoutes.get("13-01-01");
+    next2 = allMapRoutes.get("13-01-02");
   }
 
   @Override
@@ -142,10 +145,10 @@ public class Substage1301 extends Substage {
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (!treasureTriggered && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 336
         && botState.getPlayerX() < 416) {
-      if (botState.getCurrentStrategy()!= b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy()!= allStrategies.getWAIT()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(407, 96, WaitStrategy.WaitType.WALK_RIGHT);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -157,18 +160,18 @@ public class Substage1301 extends Substage {
     if (botState.getPlayerX() >= 416 && botState.getPlayerX() < 480) {
       if (!blockBroken1 && api.readPPU(BLOCK_130100) == 0x00) {
         blockWhipped1 = blockBroken1 = true;
-        mapRoutes = b.allMapRoutes.get("13-01-01");
+        mapRoutes = next1;
       }
       if (!blockWhipped1) {
-        b.addBlock(432, 96);
+        gameState.addBlock(432, 96, botState);
       }
     } else if (botState.getPlayerX() >= 1024) {
       if (!blockBroken2 && api.readPPU(BLOCK_130101) == 0x00) {
         blockWhipped2 = blockBroken2 = true;
-        mapRoutes = b.allMapRoutes.get("13-01-02");
+        mapRoutes = next2;
       }
       if (!blockWhipped2) {
-        b.addBlock(1088, 160);
+        gameState.addBlock(1088, 160, botState);
       }
     }        
     

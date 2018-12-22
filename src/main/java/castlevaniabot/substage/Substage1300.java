@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -24,8 +23,8 @@ public class Substage1300 extends Substage {
   
   private boolean waited;
   
-  public Substage1300(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("13-00-00"));
+  public Substage1300(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("13-00-00"));
   }
 
   @Override
@@ -117,19 +116,19 @@ public class Substage1300 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     
-    if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
+    if (botState.getCurrentStrategy() == allStrategies.getWAIT()) {
       final GameObject skeleton = gameState.getType(WHITE_SKELETON);
       if (waited || (skeleton != null && (skeleton.x < botState.getPlayerX() - 48
           || skeleton.y > 132))) {
         super.pickStrategy(targetedObject, allStrategies);
       }
-    } else if (botState.getPlayerX() >= 368 && botState.getPlayerY() > 160 && !b.isObjectBelow(132)) {
+    } else if (botState.getPlayerX() >= 368 && botState.getPlayerY() > 160 && !gameState.isObjectBelow(132)) {
       final GameObject skeleton = gameState.getType(WHITE_SKELETON);
       if (skeleton != null && skeleton.y <= 132 
           && botState.getPlayerX() < skeleton.x) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(493, 192);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(493, 192);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
         waited = false;
       } else {
         super.pickStrategy(targetedObject, allStrategies);

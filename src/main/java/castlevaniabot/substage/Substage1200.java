@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -34,10 +33,16 @@ public class Substage1200 extends Substage {
 
   private boolean bossDefeated;
   private boolean gotHighCandle;
-  private boolean aboutToGetCrystalBall;  
-  
-  public Substage1200(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("12-00-00"));
+  private boolean aboutToGetCrystalBall;
+  private MapRoutes next;
+  private MapRoutes next2;
+  private Strategy frankenstein;
+
+  public Substage1200(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, Strategy frankenstein) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("12-00-00"));
+    next = allMapRoutes.get("12-00-01");
+    next2 = allMapRoutes.get("12-00-02");
+    this.frankenstein = frankenstein;
   }
 
   @Override
@@ -145,20 +150,20 @@ public class Substage1200 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
-    if (botState.getCurrentStrategy() == b.getAllStrategies().getFRANKENSTEIN()) {
-      if (b.getAllStrategies().getFRANKENSTEIN().done) {
+    if (botState.getCurrentStrategy() == allStrategies.getFRANKENSTEIN()) {
+      if (allStrategies.getFRANKENSTEIN().done) {
         bossDefeated = true;
         super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (!bossDefeated && botState.getPlayerX() > 896) {
       clearTarget(targetedObject);
-      b.getAllStrategies().getFRANKENSTEIN().init();
-      botState.setCurrentStrategy(b.getAllStrategies().getFRANKENSTEIN());
-    } else if (bossDefeated && !gotHighCandle && b.countObjects(CANDLES) == 1) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
+      allStrategies.getFRANKENSTEIN().init();
+      botState.setCurrentStrategy(allStrategies.getFRANKENSTEIN());
+    } else if (bossDefeated && !gotHighCandle && gameState.countObjects(CANDLES) == 1) {
+      if (botState.getCurrentStrategy() != allStrategies.getWHIP()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWHIP().init(992, 144, true, 0, true, true, 24);
-        botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
+        allStrategies.getWHIP().init(992, 144, true, 0, true, true, 24);
+        botState.setCurrentStrategy(allStrategies.getWHIP());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -168,7 +173,7 @@ public class Substage1200 extends Substage {
   @Override
   Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null && aboutToGetCrystalBall) {
-      return b.getAllStrategies().getGOT_CRYSTAL_BALL();
+      return allStrategies.getGOT_CRYSTAL_BALL();
     } else {
       return super.selectStrategy(target, allStrategies);
     }
@@ -179,22 +184,22 @@ public class Substage1200 extends Substage {
     if (botState.getPlayerX() > 176 && botState.getPlayerX() < 336) {
       if (!blockBroken1 && api.readPPU(BLOCK_120000) == 0x00) {
         blockWhipped1 = blockBroken1 = true;
-        mapRoutes = b.allMapRoutes.get("12-00-01");
+        mapRoutes = next;
       }
       if (!blockWhipped1) {
-        b.addBlock(304, 160);
+        gameState.addBlock(304, 160, botState);
       }
     } else if (botState.getPlayerX() > 640 && botState.getPlayerX() < 768) {
       if (!blockBroken2 && api.readPPU(BLOCK_120001) == 0x00) {
         blockWhipped2 = blockBroken2 = true;
-        mapRoutes = b.allMapRoutes.get("12-00-02");
+        mapRoutes = next2;
       }
       if (!blockWhipped2) {
-        b.addBlock(736, 160);
+        gameState.addBlock(736, 160, botState);
       }
     }
     
-    if (botState.getCurrentStrategy() != b.getAllStrategies().getFRANKENSTEIN() && !bossDefeated) {
+    if (botState.getCurrentStrategy() != frankenstein && !bossDefeated) {
       gameState.addDestination(944, 176, botState);
     }
   }  

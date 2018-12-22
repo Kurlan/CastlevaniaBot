@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -22,9 +21,11 @@ public class Substage0100 extends Substage {
 
   private boolean blockWhipped;
   private boolean blockBroken;
+  private MapRoutes next;
   
-  public Substage0100(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("01-00-00"));
+  public Substage0100( final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("01-00-00"));
+    this.next = allMapRoutes.get("01-00-01");
   }
 
   @Override
@@ -84,10 +85,10 @@ public class Substage0100 extends Substage {
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && botState.getCurrentTile().getY() == 7
         && botState.getCurrentTile().getX() >= 52 && botState.getCurrentTile().getX() <= 56 && isPantherResting()) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
+      if (botState.getCurrentStrategy() != allStrategies.getUSE_WEAPON()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getUSE_WEAPON().init(879, 112, true, false);
-        botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
+        allStrategies.getUSE_WEAPON().init(879, 112, true, false);
+        botState.setCurrentStrategy(allStrategies.getUSE_WEAPON());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -110,10 +111,10 @@ public class Substage0100 extends Substage {
     if (botState.getPlayerY() >= 160 && botState.getPlayerX() >= 944 && botState.getPlayerX()< 1136) {
       if (!blockBroken && api.readPPU(BLOCK_010000) == 0x00) {
         blockWhipped = blockBroken = true;
-        mapRoutes = b.allMapRoutes.get("01-00-01");
+        mapRoutes = next;
       }
       if (!blockWhipped) {
-        b.addBlock(1008, 144);
+        gameState.addBlock(1008, 144, botState);
       }
     }
     if (botState.getPlayerX() < 768) {

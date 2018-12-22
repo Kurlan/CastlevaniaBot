@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -26,9 +25,11 @@ public class Substage1700 extends Substage {
   
   private int stopWatchDelay;
   private boolean killedSkeleton;
-  
-  public Substage1700(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("17-00-00"));
+  private MapRoutes next;
+
+  public Substage1700(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("17-00-00"));
+    this.next = allMapRoutes.get("17-00-01");
   }
 
   @Override
@@ -135,15 +136,15 @@ public class Substage1700 extends Substage {
         route(104, 48, false);
       }
     } else if (!killedSkeleton) {
-      if (botState.getCurrentStrategy() == b.getAllStrategies().getSKELETON_WALL()) {
-        if (b.getAllStrategies().getSKELETON_WALL().done) {
+      if (botState.getCurrentStrategy() == allStrategies.getSKELETON_WALL()) {
+        if (allStrategies.getSKELETON_WALL().done) {
           killedSkeleton = true;
           super.pickStrategy(targetedObject, allStrategies);
         }
       } else {
         clearTarget(targetedObject);
-        b.getAllStrategies().getSKELETON_WALL().init(736, 128);
-        botState.setCurrentStrategy(b.getAllStrategies().getSKELETON_WALL());
+        allStrategies.getSKELETON_WALL().init(736, 128);
+        botState.setCurrentStrategy(allStrategies.getSKELETON_WALL());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -155,10 +156,10 @@ public class Substage1700 extends Substage {
     if (botState.getPlayerX() < 224) {
       if (!blockBroken && api.readPPU(BLOCK_170000) == 0x00) {
         blockWhipped = blockBroken = true;
-        mapRoutes = b.allMapRoutes.get("17-00-01");
+        mapRoutes = next;
       }
       if (!blockWhipped) {
-        b.addBlock(160, 80);
+        gameState.addBlock(160, 80, botState);
       }
     }    
 

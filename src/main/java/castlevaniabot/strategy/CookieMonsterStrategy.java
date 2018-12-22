@@ -30,6 +30,10 @@ public class CookieMonsterStrategy implements Strategy {
         this.playerController = playerController;
     }
 
+    public boolean isDone() {
+        return this.done;
+    }
+
     @Override
     public void init() {
         item = head = null;

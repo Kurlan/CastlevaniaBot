@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -24,9 +23,11 @@ public class Substage0201 extends Substage {
   private int blocksWhipped;
   private boolean blocksBroken;
   private boolean useRedBatDamageBoost;
+  private MapRoutes next;
   
-  public Substage0201(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("02-01-00"));
+  public Substage0201(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("02-01-00"));
+    next = allMapRoutes.get("02-01-01");
   }
   
   @Override public void init() {
@@ -92,9 +93,9 @@ public class Substage0201 extends Substage {
     
     if (useRedBatDamageBoost && botState.getPlayerY() == 144 && botState.getPlayerX() >= 128
         && botState.getPlayerX() < 208 && botState.getPlayerY() < 200) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getRED_BAT_DAMAGE_BOOST()) {
+      if (botState.getCurrentStrategy() != allStrategies.getRED_BAT_DAMAGE_BOOST()) {
         clearTarget(targetedObject);
-        botState.setCurrentStrategy(b.getAllStrategies().getRED_BAT_DAMAGE_BOOST());
+        botState.setCurrentStrategy(allStrategies.getRED_BAT_DAMAGE_BOOST());
         botState.getCurrentStrategy().init();
       }
       return;
@@ -112,11 +113,11 @@ public class Substage0201 extends Substage {
             && api.readPPU(BLOCK_020101) == 0x00) {
           blocksWhipped = 2;
           blocksBroken = true;
-          mapRoutes = b.allMapRoutes.get("02-01-01");
+          mapRoutes = next;
         } 
         if (blocksWhipped < 2) {
-          b.addBlock(256, 176);
-          b.addBlock(256, 192);
+          gameState.addBlock(256, 176, botState);
+          gameState.addBlock(256, 192, botState);
         }
       }
     } else {

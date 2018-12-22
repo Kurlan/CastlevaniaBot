@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -20,8 +19,8 @@ public class Substage0500 extends Substage {
   
   private boolean treasureTriggered;
   
-  public Substage0500(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("05-00-00"));
+  public Substage0500(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("05-00-00"));
   }
 
   @Override
@@ -81,16 +80,16 @@ public class Substage0500 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getPlayerX() >= 544) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != allStrategies.getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
-        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
+        allStrategies.getMEDUSA_HEADS_WALK().init(true);
+        botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_WALK());
       }
     } else if (!treasureTriggered && botState.getPlayerX() >= 288 && botState.getPlayerX() < 320) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != allStrategies.getWAIT()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(304, 80);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(304, 80);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);

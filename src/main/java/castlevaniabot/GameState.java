@@ -382,6 +382,140 @@ public class GameState {
         objsCount++;
     }
 
+    public void addBlock(int x, int y, BotState botState) {
+        final MapRoutes mapRoutes = currentSubstage.getMapRoutes();
+        final MapElement[][] map = mapRoutes.map;
+
+        x += 8;
+        y += 15;
+
+        if (x < 0 || y < 0 || x >= mapRoutes.pixelsWidth
+                || y >= mapRoutes.pixelsHeight) {
+            return;
+        }
+
+        final GameObject obj = gameObjects[objsCount];
+        obj.type = GameObjectType.BLOCK;
+        obj.supportX = obj.x = x;
+        obj.y = y;
+        obj.distanceX = abs(x - botState.getPlayerX());
+        obj.distanceY = abs(y - botState.getPlayerY());
+        obj.left = false;
+        obj.active = false;
+        obj.playerFacing = botState.isPlayerLeft() ^ (botState.getPlayerX() < x);
+        obj.x1 = x - 8;
+        obj.x2 = x + 8;
+        obj.y1 = y - 15;
+        obj.y2 = y;
+
+        obj.onPlatform = false;
+        final int cx = x >> 4;
+        final int cy = y >> 4;
+        obj.distance = GameState.MAX_DISTANCE;
+        for(int i = (botState.getWhipLength() == 2 ? 2 : 1); i > 0; --i) {
+            final int px = cx - i;
+            if (px >= 0) {
+                final int height = map[cy][px].height;
+                if (height >= 1 && height <= 4) {
+                    final int py = cy + height;
+                    final int dist = mapRoutes.getDistance(px, py, botState.getCurrentTile());
+                    if (dist < GameState.MAX_DISTANCE) {
+                        if (dist < obj.distance) {
+                            obj.distance = dist;
+                            obj.platformX = px;
+                            obj.platformY = py;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        for(int i = (botState.getWhipLength() == 2 ? 2 : 1); i > 0; --i) {
+            final int px = cx + i;
+            if (px < mapRoutes.width) {
+                final int height = map[cy][px].height;
+                if (height >= 1 && height <= 4) {
+                    final int py = cy + height;
+                    final int dist = mapRoutes.getDistance(px, py, botState.getCurrentTile());
+                    if (dist < GameState.MAX_DISTANCE) {
+                        if (dist < obj.distance) {
+                            obj.distance = dist;
+                            obj.platformX = px;
+                            obj.platformY = py;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        obj.distTier = ((0xFFF - min(0xFFF, obj.distance)) << 8)
+                | (0xFF - min(0xFF, obj.distanceX));
+
+        objsCount++;
+    }
+
+
+    public int countObjects(final GameObjectType type) {
+        int count = 0;
+        for(int i = getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = getGameObjects()[i];
+            if (obj.type == type) {
+                ++count;
+            }
+        }
+        return count;
+    }
+
+    public boolean isObjectBelow(final int y) {
+
+        for(int i = getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = getGameObjects()[i];
+            if (obj.y2 >= y) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    public boolean isTypeInBounds(final GameObjectType type, final int x1, final int y1,
+                                  final int x2, final int y2) {
+
+        for(int i = objsCount - 1; i >= 0; --i) {
+            final GameObject obj = gameObjects[i];
+            if (obj.type == type && obj.x1 <= x2 && obj.x2 >= x1 && obj.y2 >= y1
+                    && obj.y1 <= y2) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isTypePresent(final GameObjectType type) {
+
+        for(int i = getObjsCount() - 1; i >= 0; --i) {
+            final GameObject obj = getGameObjects()[i];
+            if (obj.type == type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isTypeRight(final GameObjectType type, final int x) {
+
+        for(int i = objsCount - 1; i >= 0; --i) {
+            final GameObject obj = gameObjects[i];
+            if (obj.type == type && obj.x2 >= x) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void addMovingPlatformSegment(final int x, final int y) {
         for(int i = movingPlatformsCount - 1; i >= 0; --i) {
             final MovingPlatform m = movingPlatforms[i];

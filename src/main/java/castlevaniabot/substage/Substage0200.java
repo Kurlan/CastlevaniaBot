@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -21,9 +20,11 @@ public class Substage0200 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;  
   private boolean triggeredTreasure;
+  private MapRoutes next;
   
-  public Substage0200(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("02-00-00"));
+  public Substage0200(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("02-00-00"));
+    next = allMapRoutes.get("02-00-01");
   }
   
   @Override
@@ -87,10 +88,10 @@ public class Substage0200 extends Substage {
     if (botState.getPlayerX() >= 384) {
       if (!blockBroken && api.readPPU(BLOCK_020000) == 0x00) {
         blockWhipped = blockBroken = true;
-        mapRoutes = b.allMapRoutes.get("02-00-01");
+        mapRoutes = next;
       }
       if (!blockWhipped) {
-        b.addBlock(464, 128);
+        gameState.addBlock(464, 128, botState);
       }
     }   
     if (blockBroken && !triggeredTreasure) {

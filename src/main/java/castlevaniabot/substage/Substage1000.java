@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -25,8 +24,8 @@ public class Substage1000 extends Substage {
   
   private boolean whippedHolyWaterCandle;
   
-  public Substage1000(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("10-00-00"));
+  public Substage1000(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("10-00-00"));
   }
 
   @Override
@@ -133,30 +132,30 @@ public class Substage1000 extends Substage {
   
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
-    if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_MOVING_PLATFORM() && botState.getPlayerY() > 112) {
-      if (b.getAllStrategies().getBAT_MOVING_PLATFORM().done) {
+    if (botState.getCurrentStrategy() == allStrategies.getBAT_MOVING_PLATFORM() && botState.getPlayerY() > 112) {
+      if (allStrategies.getBAT_MOVING_PLATFORM().done) {
         super.pickStrategy(targetedObject, allStrategies);
       }
-    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getBAT_DUAL_PLATFORMS()) {
-      if (b.getAllStrategies().getBAT_DUAL_PLATFORMS().done) {
+    } else if (botState.getCurrentStrategy() == allStrategies.getBAT_DUAL_PLATFORMS()) {
+      if (allStrategies.getBAT_DUAL_PLATFORMS().done) {
         super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (botState.getPlayerX() == 991 && botState.getPlayerY() == 160
-        && !b.isTypePresent(RED_BAT)) {
+        && !gameState.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
-      b.getAllStrategies().getBAT_DUAL_PLATFORMS().init();
-      botState.setCurrentStrategy(b.getAllStrategies().getBAT_DUAL_PLATFORMS());
+      allStrategies.getBAT_DUAL_PLATFORMS().init();
+      botState.setCurrentStrategy(allStrategies.getBAT_DUAL_PLATFORMS());
     } else if ((botState.getPlayerX() == 223 || botState.getPlayerX() == 767) && botState.getPlayerY() == 160
-        && !b.isTypePresent(RED_BAT)) {
+        && !gameState.isTypePresent(RED_BAT)) {
       clearTarget(targetedObject);
-      b.getAllStrategies().getBAT_MOVING_PLATFORM().init();
-      botState.setCurrentStrategy(b.getAllStrategies().getBAT_MOVING_PLATFORM());
+      allStrategies.getBAT_MOVING_PLATFORM().init();
+      botState.setCurrentStrategy(allStrategies.getBAT_MOVING_PLATFORM());
     } else if (!whippedHolyWaterCandle && botState.getWeapon() != HOLY_WATER
         && botState.getPlayerY() <= 96 && botState.getPlayerX() >= 720 && botState.getPlayerX() <= 740) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
+      if (botState.getCurrentStrategy() != allStrategies.getWHIP()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWHIP().init(732, 96, false, 40);
-        botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
+        allStrategies.getWHIP().init(732, 96, false, 40);
+        botState.setCurrentStrategy(allStrategies.getWHIP());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);

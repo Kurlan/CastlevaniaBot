@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -22,9 +21,11 @@ public class Substage0401 extends Substage {
   
   private boolean blockWhipped;
   private boolean blockBroken;
-  
-  public Substage0401(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("04-01-00"));
+  private MapRoutes next;
+
+  public Substage0401(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("04-01-00"));
+    next = allMapRoutes.get("04-01-01");
   }
 
   @Override
@@ -88,17 +89,17 @@ public class Substage0401 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getPlayerX() >= 32 && botState.getPlayerX() <= 104) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
+      if (botState.getCurrentStrategy() != allStrategies.getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(96, 31, 112);
-        botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
+        allStrategies.getNO_JUMP_MOVING_PLATFORM().init(96, 31, 112);
+        botState.setCurrentStrategy(allStrategies.getNO_JUMP_MOVING_PLATFORM());
       }
     } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0 && botState.getCurrentTile().getY() == 7
         && botState.getCurrentTile().getX() >= 15 && botState.getCurrentTile().getX() <= 17 && isKnightInPit()) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
+      if (botState.getCurrentStrategy() != allStrategies.getUSE_WEAPON()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getUSE_WEAPON().init(264, 112, false, false);
-        botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
+        allStrategies.getUSE_WEAPON().init(264, 112, false, false);
+        botState.setCurrentStrategy(allStrategies.getUSE_WEAPON());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -128,10 +129,10 @@ public class Substage0401 extends Substage {
   public void readGameObjects() {
     if (!blockBroken && botState.getPlayerX() >= 256 && api.readPPU(BLOCK_040100) == 0x00) {
       blockWhipped = blockBroken = true;
-      mapRoutes = b.allMapRoutes.get("04-01-01");
+      mapRoutes = next;
     } 
     if (!blockWhipped) {      
-      b.addBlock(352, 112);      
+      gameState.addBlock(352, 112, botState);
     }    
     if (botState.getPlayerX() < 32) {
       gameState.addDestination(25, 112, botState);

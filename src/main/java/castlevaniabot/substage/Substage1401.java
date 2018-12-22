@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -34,10 +33,14 @@ public class Substage1401 extends Substage {
   private boolean blockBroken1;
 
   private boolean blockWhipped2;
-  private boolean blockBroken2;   
-  
-  public Substage1401(final CastlevaniaBot b, final BotState botState, final API api, final PlayerController playerController, final GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("14-01-00"));
+  private boolean blockBroken2;
+  private MapRoutes next1;
+  private MapRoutes next2;
+
+  public Substage1401(final BotState botState, final API api, final PlayerController playerController, final GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("14-01-00"));
+    this.next1 = allMapRoutes.get("14-01-01");
+    this.next2 = allMapRoutes.get("14-01-01");
   }
 
   @Override
@@ -142,7 +145,7 @@ public class Substage1401 extends Substage {
 
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
-    if (botState.getCurrentStrategy() == b.getAllStrategies().getWAIT()) {
+    if (botState.getCurrentStrategy() == allStrategies.getWAIT()) {
       if (botState.getPlayerX() >= 832) {
         if (treasureTriggered1) {
           super.pickStrategy(targetedObject, allStrategies);
@@ -156,13 +159,13 @@ public class Substage1401 extends Substage {
         && botState.getPlayerX() < 480 && botState.getPlayerY() > 128
             && !playerController.isEnemyInBounds(288, 128, 480, 208, gameState)) {
       clearTarget(targetedObject);
-      b.getAllStrategies().getWAIT().init(297, 192);
-      botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+      allStrategies.getWAIT().init(297, 192);
+      botState.setCurrentStrategy(allStrategies.getWAIT());
     } else if (!treasureTriggered1 && botState.getPlayerX() >= 928 && botState.getPlayerX() < 1024
         && botState.getPlayerY() > 112 && !playerController.isEnemyInBounds(816, 112, 1024, 208, gameState)) {
       clearTarget(targetedObject);
-      b.getAllStrategies().getWAIT().init(984, 192);
-      botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+      allStrategies.getWAIT().init(984, 192);
+      botState.setCurrentStrategy(allStrategies.getWAIT());
     } else if (botState.getPlayerY() == 192 && botState.getPlayerX() <= 33) {
       playerController.goLeft(botState);
     } else {
@@ -178,20 +181,20 @@ public class Substage1401 extends Substage {
       if (!blockBroken1 && block1) {
         blockWhipped1 = blockBroken1 = true;
         if (block1 && block2) {
-          mapRoutes = b.allMapRoutes.get("14-01-01");
+          mapRoutes = next1;
         }
       }
       if (!blockBroken2 && block2) {
         blockWhipped2 = blockBroken2 = true;
         if (block1 && block2) {
-          mapRoutes = b.allMapRoutes.get("14-01-01");
+          mapRoutes = next2;
         }
       }
       if (!blockWhipped1) {
-        b.addBlock(768, 64);
+        gameState.addBlock(768, 64, botState);
       }
       if (!blockWhipped2) {
-        b.addBlock(768, 80);
+        gameState.addBlock(768, 80, botState);
       }
     }    
     if (treasureTriggered2) {

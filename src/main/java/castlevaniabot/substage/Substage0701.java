@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -28,8 +27,8 @@ public class Substage0701 extends Substage {
   
   private boolean treasureTriggered;
   
-  public Substage0701(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("07-01-00"));
+  public Substage0701(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("07-01-00"));
   }
 
   @Override
@@ -107,27 +106,27 @@ public class Substage0701 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (!treasureTriggered && botState.getPlayerX() >= 480 && botState.getPlayerX() < 544
-        && !b.isTypeInBounds(CANDLES, 528, 176, 560, 208)
-            && !b.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
+        && !gameState.isTypeInBounds(CANDLES, 528, 176, 560, 208)
+            && !gameState.isTypeInBounds(SMALL_HEART, 528, 176, 560, 208)) {
+      if (botState.getCurrentStrategy() != allStrategies.getWAIT()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(528, 208, WaitStrategy.WaitType.KNEEL);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(528, 208, WaitStrategy.WaitType.KNEEL);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0
         && botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
-            && b.isTypeRight(WHITE_SKELETON, 576)) {      
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getUSE_WEAPON()) {
+            && gameState.isTypeRight(WHITE_SKELETON, 576)) {
+      if (botState.getCurrentStrategy() != allStrategies.getUSE_WEAPON()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getUSE_WEAPON().init(560, 128, false, false);
-        botState.setCurrentStrategy(b.getAllStrategies().getUSE_WEAPON());
+        allStrategies.getUSE_WEAPON().init(560, 128, false, false);
+        botState.setCurrentStrategy(allStrategies.getUSE_WEAPON());
       }
     } else if (botState.getPlayerY() == 128 && botState.getPlayerX() >= 544 && botState.getPlayerX() < 576
         && gameState.getBoneCount0() > 0) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != allStrategies.getWAIT()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(560, 128, WaitStrategy.WaitType.STAND, 30);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(560, 128, WaitStrategy.WaitType.STAND, 30);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);

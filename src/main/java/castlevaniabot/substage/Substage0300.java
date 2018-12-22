@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -25,9 +24,11 @@ public class Substage0300 extends Substage {
   private boolean blockWhipped;
   private boolean blockBroken;
   private boolean aboutToGetCrystalBall;
+  private MapRoutes next;
  
-  public Substage0300(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("03-00-00"));
+  public Substage0300(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("03-00-00"));
+    next = allMapRoutes.get("03-00-01");
   }
 
   @Override
@@ -105,10 +106,10 @@ public class Substage0300 extends Substage {
     if (botState.getPlayerX() >= 640) {
       if (!blockBroken && api.readPPU(BLOCK_030000) == 0x00) {
         blockWhipped = blockBroken = true;
-        mapRoutes = b.allMapRoutes.get("03-00-01");
+        mapRoutes = next;
       }
       if (!blockWhipped) {
-        b.addBlock(688, 176);
+        gameState.addBlock(688, 176, botState);
       }
     } 
     if (!blockWhipped) {

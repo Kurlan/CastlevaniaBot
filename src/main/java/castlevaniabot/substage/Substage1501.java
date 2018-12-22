@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -25,9 +24,11 @@ public class Substage1501 extends Substage {
   private boolean aboutToGetCrystalBall; 
   private boolean bossDefeated;
   private boolean whippedCandles;
+  private Strategy holyWaterDeath;
   
-  public Substage1501(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("15-01-00"));
+  public Substage1501(BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes, Strategy holyWaterDeath) {
+    super( botState, api, playerController, gameState, allMapRoutes.get("15-01-00"));
+    this.holyWaterDeath = holyWaterDeath;
   }
 
   @Override
@@ -179,26 +180,26 @@ public class Substage1501 extends Substage {
       playerController.useWeapon(gameState); // hit candles with boomerang
     } 
     
-    if (botState.getCurrentStrategy() == b.getAllStrategies().getWHIP()) {
+    if (botState.getCurrentStrategy() == allStrategies.getWHIP()) {
       if (whippedCandles) {
         super.pickStrategy(targetedObject, allStrategies);
       }
     } else if (bossDefeated) {
       if (!whippedCandles && botState.getPlayerX() >= 224) {
-        if (botState.getCurrentStrategy() != b.getAllStrategies().getWHIP()) {
+        if (botState.getCurrentStrategy() != allStrategies.getWHIP()) {
           clearTarget(targetedObject);
-          b.getAllStrategies().getWHIP().init(238, 128, true, 0, true, false, 36);
-          botState.setCurrentStrategy(b.getAllStrategies().getWHIP());
+          allStrategies.getWHIP().init(238, 128, true, 0, true, false, 36);
+          botState.setCurrentStrategy(allStrategies.getWHIP());
         }
       } else {
         super.pickStrategy(targetedObject, allStrategies);
       }
-    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getHOLY_WATER_DEATH() && b.getAllStrategies().getHOLY_WATER_DEATH().done) {
+    } else if (botState.getCurrentStrategy() == allStrategies.getHOLY_WATER_DEATH() && allStrategies.getHOLY_WATER_DEATH().done) {
       bossDefeated = true;
       super.pickStrategy(targetedObject, allStrategies);
     } else if (bossTriggered) {
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
-        b.getAllStrategies().getHOLY_WATER_DEATH().step();
+        allStrategies.getHOLY_WATER_DEATH().step();
       } else {
         super.pickStrategy(targetedObject, allStrategies);
       }
@@ -206,20 +207,20 @@ public class Substage1501 extends Substage {
       bossTriggered = true;
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getHOLY_WATER_DEATH().init();
-        botState.setCurrentStrategy(b.getAllStrategies().getHOLY_WATER_DEATH());
+        allStrategies.getHOLY_WATER_DEATH().init();
+        botState.setCurrentStrategy(allStrategies.getHOLY_WATER_DEATH());
       }
-    } else if (botState.getCurrentStrategy() == b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
+    } else if (botState.getCurrentStrategy() == allStrategies.getDEATH_HALL_HOLY_WATER()) {
       if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
         botState.getCurrentStrategy().step();
       } else {
         super.pickStrategy(targetedObject, allStrategies);
       }      
     } else if (botState.getWeapon() == HOLY_WATER && botState.getHearts() > 0) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getDEATH_HALL_HOLY_WATER()) {
+      if (botState.getCurrentStrategy() != allStrategies.getDEATH_HALL_HOLY_WATER()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getDEATH_HALL_HOLY_WATER().init();
-        botState.setCurrentStrategy(b.getAllStrategies().getDEATH_HALL_HOLY_WATER());
+        allStrategies.getDEATH_HALL_HOLY_WATER().init();
+        botState.setCurrentStrategy(allStrategies.getDEATH_HALL_HOLY_WATER());
       } else {
         super.pickStrategy(targetedObject, allStrategies);
       }
@@ -232,12 +233,12 @@ public class Substage1501 extends Substage {
   Strategy selectStrategy(final GameObject target, AllStrategies allStrategies) {
     if (target == null) {
       if (aboutToGetCrystalBall) {
-        return b.getAllStrategies().getGOT_CRYSTAL_BALL();
+        return allStrategies.getGOT_CRYSTAL_BALL();
       } else {
         return super.selectStrategy(target, allStrategies);
       }
     } else if (target.type == MEDUSA_HEAD) {
-      return b.getAllStrategies().getMEDUSA_HEAD();
+      return allStrategies.getMEDUSA_HEAD();
     } else {
       return super.selectStrategy(target, allStrategies);
     }    
@@ -246,7 +247,7 @@ public class Substage1501 extends Substage {
   @Override
   public void readGameObjects() {
     if (!bossDefeated) {
-      if (bossTriggered && botState.getCurrentStrategy() != b.getAllStrategies().getHOLY_WATER_DEATH()) {
+      if (bossTriggered && botState.getCurrentStrategy() != holyWaterDeath) {
         gameState.addDestination(80, 160, botState);
       } else {
         gameState.addDestination(9, 128, botState);

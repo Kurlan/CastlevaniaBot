@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -19,8 +18,8 @@ import static castlevaniabot.model.gameelements.GameObjectType.PHANTOM_BAT;
 
 public class Substage1600 extends Substage {
   
-  public Substage1600(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("16-00-00"));
+  public Substage1600(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("16-00-00"));
   }
 
   @Override
@@ -99,7 +98,7 @@ public class Substage1600 extends Substage {
     if (target == null || target.type != PHANTOM_BAT) {
       return super.selectStrategy(target, allStrategies);
     } else {
-      return b.getAllStrategies().getGIANT_BAT();
+      return allStrategies.getGIANT_BAT();
     }
   }
 

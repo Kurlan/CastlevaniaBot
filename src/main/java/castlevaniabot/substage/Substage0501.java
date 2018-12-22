@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -20,10 +19,12 @@ import static castlevaniabot.model.gameelements.GameObjectType.SPEAR_KNIGHT;
 public class Substage0501 extends Substage {
   
   private boolean blockWhipped;
-  private boolean blockBroken;  
-   
-  public Substage0501(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("05-01-00"));
+  private boolean blockBroken;
+  private MapRoutes next;
+
+  public Substage0501(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("05-01-00"));
+    next = allMapRoutes.get("05-01-01");
   }
 
   @Override
@@ -83,28 +84,28 @@ public class Substage0501 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.getPlayerY() > 144 && botState.getPlayerX() < 287 && botState.getPlayerY() > 32) {
-      if (botState.getCurrentStrategy()!= b.getAllStrategies().getMEDUSA_HEADS_PITS()) {
+      if (botState.getCurrentStrategy()!= allStrategies.getMEDUSA_HEADS_PITS()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getMEDUSA_HEADS_PITS().init();
-        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_PITS());
+        allStrategies.getMEDUSA_HEADS_PITS().init();
+        botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_PITS());
       }
     } else if (botState.getPlayerY() <= 144 && botState.getPlayerX() <= 255 && botState.getPlayerY() > 32) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getMEDUSA_HEADS_WALK()) {
+      if (botState.getCurrentStrategy() != allStrategies.getMEDUSA_HEADS_WALK()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getMEDUSA_HEADS_WALK().init(true);
-        botState.setCurrentStrategy(b.getAllStrategies().getMEDUSA_HEADS_WALK());
+        allStrategies.getMEDUSA_HEADS_WALK().init(true);
+        botState.setCurrentStrategy(allStrategies.getMEDUSA_HEADS_WALK());
       }
     } else if (botState.getPlayerY() <= 112 && botState.getPlayerX() >= 240 && botState.getPlayerX() <= 387) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM()) {
+      if (botState.getCurrentStrategy() != allStrategies.getNO_JUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM().init(352, 255, 112);
-        botState.setCurrentStrategy(b.getAllStrategies().getNO_JUMP_MOVING_PLATFORM());
+        allStrategies.getNO_JUMP_MOVING_PLATFORM().init(352, 255, 112);
+        botState.setCurrentStrategy(allStrategies.getNO_JUMP_MOVING_PLATFORM());
       }
     } else if (botState.getPlayerY() <= 112 && botState.getPlayerX() >= 384 && botState.getPlayerX() <= 496) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getJUMP_MOVING_PLATFORM()) {
+      if (botState.getCurrentStrategy() != allStrategies.getJUMP_MOVING_PLATFORM()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getJUMP_MOVING_PLATFORM().init(496, 368, 112);
-        botState.setCurrentStrategy(b.getAllStrategies().getJUMP_MOVING_PLATFORM());
+        allStrategies.getJUMP_MOVING_PLATFORM().init(496, 368, 112);
+        botState.setCurrentStrategy(allStrategies.getJUMP_MOVING_PLATFORM());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -116,10 +117,10 @@ public class Substage0501 extends Substage {
     if (botState.getPlayerX() >= 512) {
       if (!blockBroken && api.readPPU(BLOCK_050100) == 0x00) {
         blockWhipped = blockBroken = true;
-        mapRoutes = b.allMapRoutes.get("05-01-01");
+        mapRoutes = next;
       }
       if (!blockWhipped) {
-        b.addBlock(624, 80);
+        gameState.addBlock(624, 80, botState);
       }
     }
     if (botState.getPlayerX() >= 480 || botState.getPlayerY() >= 144) {

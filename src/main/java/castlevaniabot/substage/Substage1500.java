@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -31,10 +30,12 @@ public class Substage1500 extends Substage {
   private boolean blockBroken1;
 
   private boolean blockWhipped2;
-  private boolean blockBroken2;   
-  
-  public Substage1500(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("15-00-00"));
+  private boolean blockBroken2;
+  private MapRoutes next;
+
+  public Substage1500(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("15-00-00"));
+    this.next = allMapRoutes.get("15-00-01");
   }
 
   @Override
@@ -143,13 +144,13 @@ public class Substage1500 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (botState.isOnStairs() && botState.getPlayerY() <= 160 && botState.getPlayerX() < 672
-        && b.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
+        && gameState.isTypeInBounds(RED_SKELETON, 584, 0, 624, 112)) {
       if (botState.getCurrentStrategy() != null) {
         clearTarget(targetedObject);
         setStrategy(null);
       }
       if (botState.getPlayerY() < 128) {
-        b.getGamepad().pressDown();
+        playerController.kneel();
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
@@ -164,20 +165,20 @@ public class Substage1500 extends Substage {
       if (!blockBroken1 && block1) {
         blockWhipped1 = blockBroken1 = true;
         if (block1 && block2) {
-          mapRoutes = b.allMapRoutes.get("15-00-01");
+          mapRoutes = next;
         }
       }
       if (!blockBroken2 && block2) {
         blockWhipped2 = blockBroken2 = true;
         if (block1 && block2) {
-          mapRoutes = b.allMapRoutes.get("15-00-01");
+          mapRoutes = next;
         }
       }
       if (!blockWhipped1) {
-        b.addBlock(992, 64);
+        gameState.addBlock(992, 64, botState);
       }
       if (!blockWhipped2) {
-        b.addBlock(992, 80);
+        gameState.addBlock(992, 80, botState);
       }
     }    
 

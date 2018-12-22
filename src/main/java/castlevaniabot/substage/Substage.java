@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.creativeelements.Bone;
@@ -28,7 +27,6 @@ public abstract class Substage {
   }
   
   final API api;
-  final CastlevaniaBot b;
   final BotState botState;
   final PlayerController playerController;
   final GameState gameState;
@@ -36,8 +34,7 @@ public abstract class Substage {
   public MapRoutes mapRoutes;
   int playerDelay;
   
-  Substage(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, MapRoutes mapRoutes) {
-    this.b = b;
+  Substage(final BotState botState, final API api, PlayerController playerController, GameState gameState, MapRoutes mapRoutes) {
     this.botState = botState;
     this.api = api;
     this.playerController = playerController;

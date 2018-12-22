@@ -1,7 +1,6 @@
 package castlevaniabot.substage;
 
 import castlevaniabot.BotState;
-import castlevaniabot.CastlevaniaBot;
 import castlevaniabot.GameState;
 import castlevaniabot.control.PlayerController;
 import castlevaniabot.model.gameelements.GameObject;
@@ -26,8 +25,8 @@ public class Substage0801 extends Substage {
   
   private boolean treasureTriggered;  
   
-  public Substage0801(final CastlevaniaBot b, final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
-    super(b, botState, api, playerController, gameState, allMapRoutes.get("08-01-00"));
+  public Substage0801(final BotState botState, final API api, PlayerController playerController, GameState gameState, Map<String, MapRoutes> allMapRoutes) {
+    super(botState, api, playerController, gameState, allMapRoutes.get("08-01-00"));
   }
 
   @Override
@@ -114,10 +113,10 @@ public class Substage0801 extends Substage {
   @Override
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies) {
     if (!treasureTriggered && botState.getPlayerX() >= 627 && botState.getPlayerX() < 659) {
-      if (botState.getCurrentStrategy() != b.getAllStrategies().getWAIT()) {
+      if (botState.getCurrentStrategy() != allStrategies.getWAIT()) {
         clearTarget(targetedObject);
-        b.getAllStrategies().getWAIT().init(643, 160, WaitStrategy.WaitType.KNEEL);
-        botState.setCurrentStrategy(b.getAllStrategies().getWAIT());
+        allStrategies.getWAIT().init(643, 160, WaitStrategy.WaitType.KNEEL);
+        botState.setCurrentStrategy(allStrategies.getWAIT());
       }
     } else {
       super.pickStrategy(targetedObject, allStrategies);
