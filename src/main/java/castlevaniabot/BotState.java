@@ -2,6 +2,12 @@ package castlevaniabot;
 
 import castlevaniabot.model.gameelements.Coordinates;
 import castlevaniabot.model.gameelements.TargetedObject;
+import castlevaniabot.strategy.CookieMonsterStrategy;
+import castlevaniabot.strategy.CrusherStrategy;
+import castlevaniabot.strategy.DraculaStrategy;
+import castlevaniabot.strategy.FrankensteinStrategy;
+import castlevaniabot.strategy.HolyWaterDeathStrategy;
+import castlevaniabot.strategy.MedusaStrategy;
 import castlevaniabot.strategy.Strategy;
 import castlevaniabot.substage.Substage0201;
 import lombok.Data;
@@ -34,6 +40,12 @@ public class BotState {
     private boolean canJump;
 
     private TargetedObject targetedObject;
-    public Coordinates currentTile;
+    private Coordinates currentTile;
     private Substage0201 damageBoostSublevel;
+    private CrusherStrategy crusherStrategy;
+    private MedusaStrategy medusaStrategy;
+    private FrankensteinStrategy frankensteinStrategy;
+    private HolyWaterDeathStrategy holyWaterDeathStrategy;
+    private DraculaStrategy draculaStrategy;
+    private CookieMonsterStrategy cookieMonsterStrategy;
 }

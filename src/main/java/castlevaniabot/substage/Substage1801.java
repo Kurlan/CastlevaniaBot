@@ -8,7 +8,6 @@ import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
-import castlevaniabot.strategy.CookieMonsterStrategy;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -27,14 +26,10 @@ public class Substage1801 extends Substage {
   private boolean bossTriggered;
   private boolean bossDefeated;
   private int holyWaterTimeOut;
-  private Strategy dracula;
-  private CookieMonsterStrategy cookieMonster;
   private GameStateRestarter gameStateRestarter;
   
-  public Substage1801(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, Strategy dracula, CookieMonsterStrategy cookieMonster, GameStateRestarter gameStateRestarter) {
+  public Substage1801(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
     super(api, playerController, allMapRoutes.get("18-01-00"));
-    this.dracula = dracula;
-    this.cookieMonster = cookieMonster;
     this.gameStateRestarter = gameStateRestarter;
   }
 
@@ -111,10 +106,10 @@ public class Substage1801 extends Substage {
         case DRACULA_HEAD:
           if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
-            if (botState.getCurrentStrategy() != dracula) {
+            if (botState.getCurrentStrategy() != botState.getDraculaStrategy()) {
               clearTarget(botState.getTargetedObject());
-              dracula.init();
-              botState.setCurrentStrategy(dracula);
+              botState.getDraculaStrategy().init();
+              botState.setCurrentStrategy(botState.getDraculaStrategy());
             }
           } else if (holyWaterTimeOut > 0) {
             --holyWaterTimeOut;
@@ -123,10 +118,10 @@ public class Substage1801 extends Substage {
         case COOKIE_MONSTER_HEAD:
           if (holyWaterTimeOut == 0 || botState.getWeapon() == HOLY_WATER) {
             bossTriggered = true;
-            if (botState.getCurrentStrategy() != cookieMonster) {
+            if (botState.getCurrentStrategy() != botState.getCookieMonsterStrategy()) {
               clearTarget(botState.getTargetedObject());
-              cookieMonster.init();
-              botState.setCurrentStrategy(cookieMonster);
+              botState.getCookieMonsterStrategy().init();
+              botState.setCurrentStrategy(botState.getCookieMonsterStrategy());
             }
           } else if (holyWaterTimeOut > 0) {
             --holyWaterTimeOut;
@@ -144,20 +139,20 @@ public class Substage1801 extends Substage {
   public void pickStrategy(TargetedObject targetedObject, AllStrategies allStrategies, BotState botState, GameState gameState) {
     if (bossDefeated) {
       super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
-    } else if (botState.getCurrentStrategy() == cookieMonster) {
-      if (cookieMonster.isDone()) {
+    } else if (botState.getCurrentStrategy() == botState.getCookieMonsterStrategy()) {
+      if (botState.getCookieMonsterStrategy().isDone()) {
         bossTriggered = bossDefeated = true;
         super.pickStrategy(targetedObject, allStrategies, botState ,gameState);
       } else {
-        cookieMonster.step();
+        botState.getCookieMonsterStrategy().step();
       }
-    } else if (botState.getCurrentStrategy() == dracula) {
-      dracula.step();
+    } else if (botState.getCurrentStrategy() == botState.getDraculaStrategy()) {
+      botState.getDraculaStrategy().step();
     } else if (botState.getWeapon() == HOLY_WATER) {
       bossTriggered = true;
       clearTarget(targetedObject);
-      dracula.init();
-      botState.setCurrentStrategy(dracula);
+      botState.getDraculaStrategy().init();
+      botState.setCurrentStrategy(botState.getDraculaStrategy());
     } else if (walkDownStairs) {
       route(607, 223, botState ,gameState);
     } else if (botState.getPlayerX() <= 144 && (botState.getHearts() < 20 || botState.getWhipLength() != 2)) {

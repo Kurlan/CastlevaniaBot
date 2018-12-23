@@ -329,7 +329,7 @@ public class PlayerController {
             return false;
         }
 
-        final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
+        final MapElement[][] map = gameState.getCurrentSubstage().getMapRoutes().map;
         if (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX()].height == 0 || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX()].height == 0){
             return true;
         }
@@ -338,7 +338,7 @@ public class PlayerController {
             return (botState.getCurrentTile().getX() > 0) && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() - 1].height == 0
                     || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() - 1].height == 0);
         } else {
-            return (botState.getCurrentTile().getX() < gameState.getCurrentSubstage().mapRoutes.width - 1)
+            return (botState.getCurrentTile().getX() < gameState.getCurrentSubstage().getMapRoutes().width - 1)
                     && (map[botState.getCurrentTile().getY() - 4][botState.getCurrentTile().getX() + 1].height == 0
                     || map[botState.getCurrentTile().getY() - 3][botState.getCurrentTile().getX() + 1].height == 0);
         }
@@ -529,9 +529,9 @@ public class PlayerController {
             return false;
         }
 
-        final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
+        final MapElement[][] map = gameState.getCurrentSubstage().getMapRoutes().map;
         final int tileType = map[currentTile.getY() - 1][currentTile.getX()].tileType;
-        return (tileType == BACK_STAIRS || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
+        return (tileType == BACK_STAIRS || (currentTile.getX() < gameState.getCurrentSubstage().getMapRoutes().width - 1
                 && map[currentTile.getY() - 1][currentTile.getX() + 1].tileType == FORWARD_STAIRS))
                 || (tileType == FORWARD_STAIRS || (currentTile.getX() > 0
                 && map[currentTile.getY() - 1][currentTile.getX() - 1].tileType == BACK_STAIRS));
@@ -543,9 +543,9 @@ public class PlayerController {
             return false;
         }
 
-        final MapElement[][] map = gameState.getCurrentSubstage().mapRoutes.map;
+        final MapElement[][] map = gameState.getCurrentSubstage().getMapRoutes().map;
         final int tileType = map[currentTile.getY()][currentTile.getX()].tileType;
-        return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().mapRoutes.width - 1
+        return isStairsPlatform(tileType) || (currentTile.getX() < gameState.getCurrentSubstage().getMapRoutes().width - 1
                 && isBack(map[currentTile.getY()][currentTile.getX() + 1].tileType))
                 || (currentTile.getX() > 0 && isForward(map[currentTile.getY()][currentTile.getX() - 1].tileType));
     }

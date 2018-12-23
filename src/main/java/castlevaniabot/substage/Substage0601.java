@@ -8,7 +8,6 @@ import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
-import castlevaniabot.strategy.MedusaStrategy;
 import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
@@ -23,15 +22,13 @@ import static castlevaniabot.model.gameelements.GameObjectType.SNAKE;
 
 public class Substage0601 extends Substage {
 
-  private final MedusaStrategy medusaStrategy;
   private int walkDelay;
   private boolean reachedBoss;
   private boolean aboutToGetCrystalBall;
   private GameStateRestarter gameStateRestarter;
    
-  public Substage0601(final API api, final PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, MedusaStrategy medusaStrategy, GameStateRestarter gameStateRestarter) {
+  public Substage0601(final API api, final PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
     super(api, playerController, allMapRoutes.get("06-01-00"));
-    this.medusaStrategy = medusaStrategy;
     this.gameStateRestarter = gameStateRestarter;
   }
 
@@ -49,7 +46,7 @@ public class Substage0601 extends Substage {
     }
       
     if (obj.type == SNAKE) {
-      if (!medusaStrategy.isTimeFrozen()) {
+      if (!botState.getMedusaStrategy().isTimeFrozen()) {
         if (obj.distanceX < 64) {
           if (obj.left) {
             if (obj.x2 > botState.getPlayerX() - 16) {

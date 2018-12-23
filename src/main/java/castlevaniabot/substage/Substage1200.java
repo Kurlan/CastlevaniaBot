@@ -37,14 +37,12 @@ public class Substage1200 extends Substage {
   private boolean aboutToGetCrystalBall;
   private MapRoutes next;
   private MapRoutes next2;
-  private Strategy frankenstein;
   private GameStateRestarter gameStateRestarter;
 
-  public Substage1200(final API api, PlayerController playerController,Map<String, MapRoutes> allMapRoutes, Strategy frankenstein, GameStateRestarter gameStateRestarter) {
+  public Substage1200(final API api, PlayerController playerController,Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
     super(api, playerController, allMapRoutes.get("12-00-00"));
     next = allMapRoutes.get("12-00-01");
     next2 = allMapRoutes.get("12-00-02");
-    this.frankenstein = frankenstein;
     this.gameStateRestarter = gameStateRestarter;
   }
 
@@ -202,7 +200,7 @@ public class Substage1200 extends Substage {
       }
     }
     
-    if (botState.getCurrentStrategy() != frankenstein && !bossDefeated) {
+    if (botState.getCurrentStrategy() != botState.getFrankensteinStrategy() && !bossDefeated) {
       gameState.addDestination(944, 176, botState);
     }
   }  

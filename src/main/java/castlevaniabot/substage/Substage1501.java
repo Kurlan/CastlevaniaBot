@@ -25,12 +25,10 @@ public class Substage1501 extends Substage {
   private boolean aboutToGetCrystalBall; 
   private boolean bossDefeated;
   private boolean whippedCandles;
-  private Strategy holyWaterDeath;
   private GameStateRestarter gameStateRestarter;
   
-  public Substage1501(final API api, PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, Strategy holyWaterDeath, GameStateRestarter gameStateRestarter) {
+  public Substage1501(final API api, PlayerController playerController,  Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
     super(api, playerController, allMapRoutes.get("15-01-00"));
-    this.holyWaterDeath = holyWaterDeath;
     this.gameStateRestarter = gameStateRestarter;
   }
 
@@ -250,7 +248,7 @@ public class Substage1501 extends Substage {
   @Override
   public void readGameObjects(BotState botState, GameState gameState) {
     if (!bossDefeated) {
-      if (bossTriggered && botState.getCurrentStrategy() != holyWaterDeath) {
+      if (bossTriggered && botState.getCurrentStrategy() != botState.getHolyWaterDeathStrategy()) {
         gameState.addDestination(80, 160, botState);
       } else {
         gameState.addDestination(9, 128, botState);

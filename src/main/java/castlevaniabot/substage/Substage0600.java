@@ -8,7 +8,6 @@ import castlevaniabot.model.gameelements.MapRoutes;
 import castlevaniabot.model.gameelements.TargetedObject;
 import castlevaniabot.operation.GameStateRestarter;
 import castlevaniabot.strategy.AllStrategies;
-import castlevaniabot.strategy.Strategy;
 import nintaco.api.API;
 
 import java.util.Map;
@@ -29,21 +28,19 @@ public class Substage0600 extends Substage {
   private boolean blockBroken1;
   private MapRoutes next2;
   private MapRoutes next1;
-  private Strategy crusher;
   private GameStateRestarter gameStateRestarter;
 
-  public Substage0600(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, Strategy crusher, GameStateRestarter gameStateRestarter) {
+  public Substage0600(final API api, PlayerController playerController, Map<String, MapRoutes> allMapRoutes, GameStateRestarter gameStateRestarter) {
     super(api, playerController, allMapRoutes.get("06-00-00"));
     next1 = allMapRoutes.get("06-00-01");
     next2 = allMapRoutes.get("06-00-02");
     this.gameStateRestarter = gameStateRestarter;
-    this.crusher = crusher;
   }
 
   @Override
   public void init(BotState botState, GameState gameState) {
     gameStateRestarter.restartSubstage(gameState, botState);
-    crusher.init();
+    botState.getCrusherStrategy().init();
     blockWhipped1 = blockBroken1 = blockWhipped0 = blockBroken0 = false;
   }
   

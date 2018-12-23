@@ -25,13 +25,12 @@ public abstract class Substage {
   public static int roundTile(final int value) {
     return (value >> 4) + ((value >> 3) & 1);
   }
-  
-  final API api;
-  final PlayerController playerController;
-  
-  public MapRoutes mapRoutes;
+
+  protected final API api;
+  protected final PlayerController playerController;
+  protected MapRoutes mapRoutes;
   int playerDelay;
-  
+
   Substage(final API api, PlayerController playerController, MapRoutes mapRoutes) {
     this.api = api;
     this.playerController = playerController;
@@ -41,11 +40,11 @@ public abstract class Substage {
   public void init(BotState botState, GameState gameState) {
 
   }
-  
+
   public MapRoutes getMapRoutes() {
     return mapRoutes;
-  }  
-  
+  }
+
   public void routeAndFace(final int targetX, final int targetY, final boolean left, BotState botState, GameState gameState) {
     routeAndFace(targetX, targetY, left, true, botState, gameState);
   }
